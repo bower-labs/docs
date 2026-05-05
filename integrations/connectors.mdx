@@ -1,0 +1,118 @@
+---
+title: "Connectors"
+description: "Let Bird search the tools your lab already uses — Drive, Notion, Slack, GitHub, and more — without copying anything into your knowledge base until you ask."
+---
+
+Connectors let Bird read from the tools where your lab's work already lives. Ask a question and Bird can search across your connected Drive, Notion, Slack, GitHub, and others — alongside the notes already in Bower — and ground its answer with citations from each.
+
+Items only land in your knowledge base when you explicitly ask Bird to save them. Federated search by default; ingestion only on request.
+
+## What you can connect
+
+You can connect any of the tools below. Each one is connected per user, per workspace — your colleague's Drive isn't visible from your account, and your home workspace's Slack isn't pulled into your work workspace.
+
+<AccordionGroup>
+  <Accordion title="Storage and documents">
+    - **Google Drive** — search files and folders
+    - **Google Docs** — read documents
+    - **Google Sheets** — read spreadsheets
+    - **Dropbox** — search files and folders
+    - **OneDrive** — search files and folders
+    - **Box** — search files and folders
+  </Accordion>
+  <Accordion title="Communication">
+    - **Gmail** — search and read mail threads
+    - **Slack** — search messages and channels you have access to
+    - **Microsoft Teams** — search messages and channels
+  </Accordion>
+  <Accordion title="Calendar">
+    - **Google Calendar** — read events and invites
+  </Accordion>
+  <Accordion title="Notes, wikis, and project tracking">
+    - **Notion** — search pages and databases
+    - **Confluence** — search spaces and pages
+    - **Linear** — search issues and projects
+    - **Airtable** — read bases and tables
+  </Accordion>
+  <Accordion title="Code">
+    - **GitHub** — search repositories, issues, and pull requests you have access to
+  </Accordion>
+</AccordionGroup>
+
+If a tool you rely on isn't here, [send us feedback](/workspaces-and-account/feedback) — we add connectors based on what researchers actually ask for.
+
+## How to connect a tool
+
+<Steps>
+  <Step title="Open Account Settings → Connectors">
+    Click your avatar in the top right, choose **Account Settings**, then open the **Connectors** tab.
+  </Step>
+  <Step title="Click Connect on the tool you want">
+    Each tool has a **Connect** button on its card. Bird needs to be told which tools to use, so connecting one doesn't expose any others.
+  </Step>
+  <Step title="Authorise in the provider's window">
+    You'll be sent to the provider's normal sign-in screen — Google, Microsoft, GitHub, and so on. Sign in, review the permissions, and approve.
+  </Step>
+  <Step title="You're back in Bower">
+    The card flips to **Connected** when authorisation completes. If something goes wrong on the provider's side, you'll see a toast explaining what happened — try again from the same card.
+  </Step>
+</Steps>
+
+<Note>
+  Bower never sees your password. Authorisation runs through the provider's standard OAuth flow, and the access token is held by our managed gateway, not stored in Bower.
+</Note>
+
+## Picking which connectors are active in a chat
+
+Connecting a tool makes it *available* to Bird. To actually use it in a conversation, open the **connector picker** in the composer (next to the chat input) and tick which connectors should be active for that chat.
+
+This means you can have, say, ten tools connected but only ask Bird to search Slack and GitHub for the question you're working on. It also keeps Bird focused — the more sources it has to consider, the slower and less precise it gets.
+
+The picker remembers your selection per chat, so you can keep separate threads scoped to different sources.
+
+## What Bird does with your data
+
+Connectors are **read-only by default**. Bird searches your connected tools to ground answers; it doesn't write back to them. The only way data from a connected tool ends up in your knowledge base is when **you** ask Bird to save a specific result — for example, "save this Google Doc as a note." Until then, Bird just reads.
+
+A few specifics worth knowing:
+
+- **Tokens never live in Bower.** Our managed gateway (Composio) holds the OAuth tokens; Bower stores only an opaque connection identifier.
+- **Searches respect provider permissions.** Bird sees only what your account has access to in the provider — same files, same channels, same repos.
+- **Saved items keep their provenance.** Anything you save from a connected tool records the source URL and the connection it came from, so you can always trace back.
+- **HIPAA workspaces** can't use connectors yet. Our gateway provider's BAA isn't signed, so connectors are blocked in PHI-enabled workspaces. We'll enable them once that lands.
+
+## Tier limits
+
+Connectors are capped per user, per workspace.
+
+| Plan | Connected tools |
+| --- | --- |
+| Starter | 2 |
+| Pro | 10 |
+| Team | Unlimited |
+
+If you hit the cap, you'll see an upgrade prompt on the **Connect** button. The cap is on the number of *connected* tools, not the number you can browse.
+
+## Reconnecting and disconnecting
+
+<AccordionGroup>
+  <Accordion title="Re-auth — when a tool stops working">
+    OAuth tokens expire. When that happens the card shows a **Re-auth** badge and Bird stops using that connector until you reconnect. Click **Connect** again on the card; the provider walks you through a short re-authorisation, usually without re-entering your password.
+  </Accordion>
+  <Accordion title="Disconnecting a tool">
+    Open the connector card and click **Disconnect**. The connection is revoked at the gateway and the card returns to its unconnected state. Anything you previously saved into your knowledge base from that tool stays put — disconnecting only stops *future* searches.
+  </Accordion>
+  <Accordion title="Switching the underlying account">
+    To switch from one Drive account to another (for example), disconnect the existing one and click Connect again. The next OAuth flow lets you sign in with the new account.
+  </Accordion>
+</AccordionGroup>
+
+## What if I don't see a tool I expect?
+
+A few things to check:
+
+- **Is it listed above?** We curate the connector list to tools researchers actually use. If it isn't there, it isn't supported yet.
+- **Did you reach the tier cap?** Connected tools count against your plan's cap; uninstall an unused one and try again.
+- **Are you in a HIPAA workspace?** Connectors are disabled in PHI-enabled workspaces until our gateway provider's BAA is signed.
+
+For anything else, [reach out](/workspaces-and-account/feedback) and tell us what you were trying to do.
