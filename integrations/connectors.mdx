@@ -7,6 +7,18 @@ Connectors let Bird read from the tools where your lab's work already lives. Ask
 
 Items only land in your knowledge base when you explicitly ask Bird to save them. Federated search by default; ingestion only on request.
 
+## What Bird already searches — without any setup
+
+Before you connect anything, Bird already grounds answers in several sources that are always on:
+
+- **Your Bower workspace** — every note, protocol, collection, and attachment you've captured. Searched with semantic relevance and full citations.
+- **The open scientific record** via two integrations that need no login:
+  - **ORCID** — public publication histories. Bird can list a researcher's works by their ORCID iD.
+  - **OpenAlex** — the open catalogue of ~250M scholarly works. Bird searches it for related literature and fetches full records by DOI.
+- **The live web** — when a question reaches beyond your workspace and the open scientific record, Bird searches the web (including indexed scholarly sources like Google Scholar, PubMed Central, and journal sites). Results are returned with links so you can verify.
+
+These four sources cover most research questions on their own. **Connectors below extend Bird into the tools you've licensed or own** — your Drive, your Notion, your team's Slack — where the rest of your work already lives.
+
 ## Per-user, per-workspace by design
 
 Connectors are **personal**. Every member of a workspace connects their own tools, and Bird searches each user's connections separately when answering their questions. Your colleague's Drive isn't visible from your account, and your home workspace's Slack isn't pulled into your work workspace.
@@ -32,21 +44,17 @@ You can connect any of the tools below. Each is connected per user, per workspac
     - **Box** — search files and folders
   </Accordion>
   <Accordion title="Communication">
-    - **Gmail** — search and read mail threads
     - **Slack** — search messages and channels you have access to
     - **Microsoft Teams** — search messages and channels
   </Accordion>
-  <Accordion title="Calendar">
-    - **Google Calendar** — read events and invites
-  </Accordion>
-  <Accordion title="Notes, wikis, and project tracking">
+  <Accordion title="Notes and wikis">
     - **Notion** — search pages and databases
-    - **Confluence** — search spaces and pages
-    - **Linear** — search issues and projects
     - **Airtable** — read bases and tables
   </Accordion>
-  <Accordion title="Code">
-    - **GitHub** — search repositories, issues, and pull requests you have access to
+  <Accordion title="Project management">
+    - **Linear** — search issues and projects
+    - **Asana** — search tasks, list projects, read assignments
+    - **Monday** — read boards, items, and statuses
   </Accordion>
 </AccordionGroup>
 
