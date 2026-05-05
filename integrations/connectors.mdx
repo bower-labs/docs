@@ -7,9 +7,20 @@ Connectors let Bird read from the tools where your lab's work already lives. Ask
 
 Items only land in your knowledge base when you explicitly ask Bird to save them. Federated search by default; ingestion only on request.
 
+## Per-user, per-workspace by design
+
+Connectors are **personal**. Every member of a workspace connects their own tools, and Bird searches each user's connections separately when answering their questions. Your colleague's Drive isn't visible from your account, and your home workspace's Slack isn't pulled into your work workspace.
+
+This is the safest model for two reasons:
+
+- **OAuth tokens are bound to the person who authorised them.** When Bird searches your Drive on your behalf, it sees only what your Google account has access to. The provider does the access control — Bower can't accidentally surface a file you weren't allowed to see.
+- **Different identities per workspace.** If you have separate "Personal" and "Work" workspaces, you can connect a personal Google account to one and your work Google account to the other. They stay cleanly separated.
+
+When a new colleague joins the workspace, they'll see an empty Connectors tab and connect their own tools. There's no shared workspace-level connection at the moment — that's a feature on our roadmap, not a current capability.
+
 ## What you can connect
 
-You can connect any of the tools below. Each one is connected per user, per workspace — your colleague's Drive isn't visible from your account, and your home workspace's Slack isn't pulled into your work workspace.
+You can connect any of the tools below. Each is connected per user, per workspace.
 
 <AccordionGroup>
   <Accordion title="Storage and documents">
@@ -48,38 +59,51 @@ If a tool you rely on isn't here, [send us feedback](/workspaces-and-account/fee
     Click your avatar in the top right, choose **Account Settings**, then open the **Connectors** tab.
   </Step>
   <Step title="Click Connect on the tool you want">
-    Each tool has a **Connect** button on its card. Bird needs to be told which tools to use, so connecting one doesn't expose any others.
+    Each tool has a **Connect** button on its card. Connecting one tool doesn't expose any others — Bird only searches what you've explicitly enabled.
   </Step>
   <Step title="Authorise in the provider's window">
-    You'll be sent to the provider's normal sign-in screen — Google, Microsoft, GitHub, and so on. Sign in, review the permissions, and approve.
+    You'll be sent to the provider's normal sign-in screen — Google, Microsoft, GitHub, and so on. Sign in with the account whose data you want Bird to access, review the permissions, and approve.
   </Step>
   <Step title="You're back in Bower">
     The card flips to **Connected** when authorisation completes. If something goes wrong on the provider's side, you'll see a toast explaining what happened — try again from the same card.
   </Step>
 </Steps>
 
-<Note>
-  Bower never sees your password. Authorisation runs through the provider's standard OAuth flow, and the access token is held by our managed gateway, not stored in Bower.
-</Note>
+## How your data and credentials are handled
+
+We've built connectors so the sensitive parts stay where they should: at the provider, at the gateway, and out of Bower's database.
+
+<AccordionGroup>
+  <Accordion title="Bower never sees your password">
+    Authorisation runs through the provider's standard OAuth flow. You sign in with the provider directly; Bower never touches your credentials.
+  </Accordion>
+  <Accordion title="OAuth tokens never live in Bower">
+    The access token your provider issues is held by our managed gateway (Composio) — not by Bower. Bower stores only an opaque connection identifier so we know which token to ask the gateway to use when you run a query.
+  </Accordion>
+  <Accordion title="Searches respect provider permissions">
+    Bird sees only what your account has access to in the provider — same files, same channels, same repositories. If your admin removes your access to a Drive folder, Bird loses access to it the next time you search.
+  </Accordion>
+  <Accordion title="Read-only by default">
+    Connectors are configured for read-only federated search. Bird doesn't write back to your connected tools. The only path for connector data to enter your knowledge base is when you explicitly ask Bird to save a specific result — for example, *"save this Google Doc as a note."* Until then, Bird just reads.
+  </Accordion>
+  <Accordion title="Saved items keep their provenance">
+    Anything you save from a connected tool records the source URL and which connection it came from. You can always trace a saved note back to its origin.
+  </Accordion>
+  <Accordion title="Disconnecting actually disconnects">
+    When you click Disconnect, the connection is revoked at the gateway and the token is destroyed. Anything previously saved into your knowledge base stays put — disconnecting only stops *future* searches.
+  </Accordion>
+  <Accordion title="HIPAA workspaces can't use connectors yet">
+    Our gateway provider's BAA isn't signed, so connectors are blocked in PHI-enabled workspaces. This is enforced server-side: even if the UI showed the option, the API would refuse the connection. We'll enable connectors in PHI workspaces once the BAA is in place.
+  </Accordion>
+</AccordionGroup>
 
 ## Picking which connectors are active in a chat
 
 Connecting a tool makes it *available* to Bird. To actually use it in a conversation, open the **connector picker** in the composer (next to the chat input) and tick which connectors should be active for that chat.
 
-This means you can have, say, ten tools connected but only ask Bird to search Slack and GitHub for the question you're working on. It also keeps Bird focused — the more sources it has to consider, the slower and less precise it gets.
+This is more than a convenience — it's a precision control. The more sources Bird can search, the slower and less focused it gets. Scoping a chat to "just Slack and GitHub" makes Bird's answer faster and more accurate when that's what you actually want it to look at.
 
 The picker remembers your selection per chat, so you can keep separate threads scoped to different sources.
-
-## What Bird does with your data
-
-Connectors are **read-only by default**. Bird searches your connected tools to ground answers; it doesn't write back to them. The only way data from a connected tool ends up in your knowledge base is when **you** ask Bird to save a specific result — for example, "save this Google Doc as a note." Until then, Bird just reads.
-
-A few specifics worth knowing:
-
-- **Tokens never live in Bower.** Our managed gateway (Composio) holds the OAuth tokens; Bower stores only an opaque connection identifier.
-- **Searches respect provider permissions.** Bird sees only what your account has access to in the provider — same files, same channels, same repos.
-- **Saved items keep their provenance.** Anything you save from a connected tool records the source URL and the connection it came from, so you can always trace back.
-- **HIPAA workspaces** can't use connectors yet. Our gateway provider's BAA isn't signed, so connectors are blocked in PHI-enabled workspaces. We'll enable them once that lands.
 
 ## Tier limits
 
@@ -91,19 +115,24 @@ Connectors are capped per user, per workspace.
 | Pro | 10 |
 | Team | Unlimited |
 
-If you hit the cap, you'll see an upgrade prompt on the **Connect** button. The cap is on the number of *connected* tools, not the number you can browse.
+If you hit the cap, you'll see an upgrade prompt on the **Connect** button. The cap is on the number of *connected* tools, not the number you can browse. Disconnecting one frees up a slot.
 
 ## Reconnecting and disconnecting
 
 <AccordionGroup>
   <Accordion title="Re-auth — when a tool stops working">
-    OAuth tokens expire. When that happens the card shows a **Re-auth** badge and Bird stops using that connector until you reconnect. Click **Connect** again on the card; the provider walks you through a short re-authorisation, usually without re-entering your password.
+    OAuth tokens expire. When that happens the card shows a **Re-auth** badge and Bird stops using that connector until you reconnect. Click **Reconnect**; the provider walks you through a short re-authorisation, usually without re-entering your password.
+
+    If you'd rather walk away from the connection entirely, the **Disconnect** button on the same card revokes it without re-authorising.
   </Accordion>
   <Accordion title="Disconnecting a tool">
     Open the connector card and click **Disconnect**. The connection is revoked at the gateway and the card returns to its unconnected state. Anything you previously saved into your knowledge base from that tool stays put — disconnecting only stops *future* searches.
   </Accordion>
   <Accordion title="Switching the underlying account">
     To switch from one Drive account to another (for example), disconnect the existing one and click Connect again. The next OAuth flow lets you sign in with the new account.
+  </Accordion>
+  <Accordion title="Cancelling a stuck connection attempt">
+    If an OAuth dance was interrupted (you closed the browser tab, the provider timed out, you cancelled), the card stays in a **Connecting…** state and counts toward your cap. Click **Disconnect** on the card to discard the stuck attempt and free the slot.
   </Accordion>
 </AccordionGroup>
 
@@ -112,7 +141,8 @@ If you hit the cap, you'll see an upgrade prompt on the **Connect** button. The 
 A few things to check:
 
 - **Is it listed above?** We curate the connector list to tools researchers actually use. If it isn't there, it isn't supported yet.
-- **Did you reach the tier cap?** Connected tools count against your plan's cap; uninstall an unused one and try again.
+- **Did you reach the tier cap?** Connected tools count against your plan's cap; disconnect an unused one and try again.
 - **Are you in a HIPAA workspace?** Connectors are disabled in PHI-enabled workspaces until our gateway provider's BAA is signed.
+- **Did your colleague connect it instead?** Connectors are per-user — your teammate's connections aren't visible from your account. Open the tool's card and click Connect to set up your own.
 
 For anything else, [reach out](/workspaces-and-account/feedback) and tell us what you were trying to do.
