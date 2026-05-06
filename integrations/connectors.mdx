@@ -70,6 +70,19 @@ You can connect any of the tools below. Each is connected per user, per workspac
 
 If a tool you rely on isn't here, [send us feedback](/workspaces-and-account/feedback) — we add connectors based on what researchers actually ask for.
 
+### Discovery vs content — why you may want two connectors
+
+Some of the tools above are best paired:
+
+- **Google Drive** finds files; **Google Sheets** reads spreadsheet rows; **Google Docs** reads document text. If you only connect Drive, Bird can locate a sheet or doc and link to it but can't analyse the contents — connect Sheets and Docs alongside Drive for the full reading experience.
+- **Dropbox / OneDrive / Box / Slack files** are discovery-only — Bird locates files and shares clickable links. Pulling content into Bird from these tools is on the roadmap; for now download the file and upload it to your Bower workspace to use the spreadsheet or PDF tools.
+
+This split is deliberate: each provider has different APIs for "where is the file?" versus "what's inside the file?", and we lean on whichever is most reliable rather than papering over the gap.
+
+### Working with binary files (XLSX, PDF, images)
+
+For binary files in any of the storage tools, Bird returns a clickable link so you can find and download the file. To analyse the contents — totals in a spreadsheet, text in a PDF, the result captured in an image — upload the file to your Bower workspace and Bird will use the workspace tools (`analyze_spreadsheet`, OCR) to read it.
+
 ## How to connect a tool
 
 <Steps>
@@ -122,6 +135,18 @@ Connecting a tool makes it *available* to Bird. To actually use it in a conversa
 This is more than a convenience — it's a precision control. The more sources Bird can search, the slower and less focused it gets. Scoping a chat to "just Slack and GitHub" makes Bird's answer faster and more accurate when that's what you actually want it to look at.
 
 The picker remembers your selection per chat, so you can keep separate threads scoped to different sources.
+
+### The "Public sources" toggle
+
+The picker also has a master switch labelled **Public sources**. When on (the default), Bird can search the open web, ORCID, and OpenAlex during the conversation. When off, all three are blocked at the framework level — not just discouraged in the prompt — for that chat.
+
+Turn it off when you want Bird to stay strictly inside your workspace and your connected tools. Common reasons:
+
+- You're working on confidential or pre-publication content and don't want any public-internet calls in this thread.
+- You're reproducing a result from your own data and want to rule out accidental contamination from external sources.
+- You're in a HIPAA-enabled workspace and prefer the extra layer of "no public sources" on top of the existing PHI gates.
+
+Connectors (Drive, Notion, Slack, etc.) are unaffected by this toggle — they each have their own per-toolkit on/off in the same picker.
 
 ## Tier limits
 
