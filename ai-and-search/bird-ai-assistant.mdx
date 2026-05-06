@@ -13,8 +13,16 @@ Every answer Bird gives includes **inline citations** — numbered references ba
   <Accordion title="Search and retrieve">
     Ask Bird in plain language: "Show me pH readings from last month" or "Find my notes on sample batch 14." Bird searches across everything in your workspace — voice transcripts, photo extractions, imported files — and returns relevant results with links to the source notes.
   </Accordion>
-  <Accordion title="Search the web">
-    Bird can search the web for scientific literature and external sources. Ask "What's the latest research on coral alkalinity tolerance?" and Bird will find relevant sources and cite them alongside your workspace data.
+  <Accordion title="Search the open web and scholarly sources">
+    Bird can search the web — and the open scholarly record — for external sources. Ask *"What's the latest research on coral alkalinity tolerance?"* or *"What did Jane Smith publish in 2025?"* and Bird will find relevant sources and cite them alongside your workspace data.
+
+    Out of the box, Bird searches three open sources for you, with no setup:
+
+    - **The open web** via Google, including Google Scholar, journal sites, and institutional repositories.
+    - **[OpenAlex](https://openalex.org)** — the open catalogue of ~250M scholarly works. Bird searches it for related literature and fetches full records by DOI.
+    - **[ORCID](https://orcid.org)** — public publication histories. Bird can list a researcher's works by their ORCID iD.
+
+    **Save your ORCID iD on your profile** (Settings → Profile → *Research identity*) and Bird will automatically pull from your publication list when you ask things like *"what have I published recently on coral alkalinity?"* — no need to share the iD each turn. We only ever read your **public** ORCID profile. [Add yours now](/workspaces-and-account/manage-account#add-your-orcid-id).
   </Accordion>
   <Accordion title="Summarise">
     Select one or more notes and ask Bird to summarise. Useful when you've captured a week of observations and want the key points before a meeting or write-up.
@@ -39,6 +47,9 @@ Every answer Bird gives includes **inline citations** — numbered references ba
   </Accordion>
   <Accordion title="Invite team members">
     Workspace owners and admins can ask Bird to generate an invitation link: "Create an invite link for the lab" — Bird generates a shareable link you can send to colleagues.
+  </Accordion>
+  <Accordion title="Edit your profile">
+    Ask Bird to update your display name or save your ORCID iD without leaving the chat. *"Save my ORCID 0000-0001-2345-6789"* or *"Set my display name to Dr Jane Smith"* both work. Bird verifies the ORCID iD against ORCID's public API before saving — exactly the same check the [Profile tab](/workspaces-and-account/manage-account#add-your-orcid-id) runs — and replies with the canonical name it found, so you know the iD belongs to the right person. To remove a saved iD, ask *"clear my ORCID iD"*.
   </Accordion>
 </AccordionGroup>
 
