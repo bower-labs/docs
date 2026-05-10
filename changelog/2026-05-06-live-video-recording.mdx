@@ -1,0 +1,64 @@
+---
+title: "Live video recording in live mode"
+description: "Ask Bird to record a video clip during a live session — say 'record this' and Bird captures a 2-minute audio + video clip straight to your workspace attachments."
+sidebarTitle: "Live video recording"
+---
+
+{/* TODO(design): hero image at /images/changelog/live-video-recording-hero.png */}
+
+**Shipped 2026-05-06 · Live Mode**
+
+Live mode is for working alongside Bird at the bench. The next step is
+hands-free capture: now you can ask Bird to record what's happening,
+without touching your phone, glasses, or laptop.
+
+## What's new
+
+In any active live session, you can say:
+
+- *"Record this"*
+- *"Start recording"*
+- *"Capture a clip of this"*
+- *"Film this for me"*
+
+Bird confirms (*"Recording now."*) and a red **REC** indicator appears
+on screen. To stop, say *"Stop recording"*, *"That's enough, you can
+stop"*, or *"End the recording"*. The clip is saved to your workspace's
+attachments as MP4 and plays back inline.
+
+| Setting               | Value                                                     |
+| --------------------- | --------------------------------------------------------- |
+| Maximum length        | **2 minutes** — Bird stops automatically if you don't     |
+| Concurrent recordings | One per session                                           |
+| If your network drops | The clip is lost (no partial recordings)                  |
+| Where it's saved      | Workspace attachments, MIME type `video/mp4`              |
+
+## Designed for observation, not cinematography
+
+Recordings are intentionally slideshow-quality (1–2 fps for the video
+track, full-quality audio). That keeps file sizes small for everyday
+lab observation — you can run lots of them without filling your storage
+quota. It is not the right tool for high-motion footage.
+
+## Privacy
+
+While a recording is active, the **REC indicator is always visible**.
+This is intentional — both for your awareness and so colleagues nearby
+know they may be on camera. There is no way to record silently.
+
+## Conservative intent detection
+
+Bird is tuned to only start a recording when you're clearly asking for
+one. Phrases that mention "record" but mean something else don't
+trigger anything:
+
+- *"Recall the protocol"* — Bird searches your workspace
+- *"Let me record my thoughts in my notebook"* — Bird just acknowledges
+- *"What's the record temperature for this reaction?"* — Bird answers
+
+If Bird mishears and starts a recording you didn't want, just say
+*"stop recording"* and delete the clip from attachments afterwards.
+
+## Related docs
+
+- [Live agent mode](/ai-and-search/live-agent-mode)

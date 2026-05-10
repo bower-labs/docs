@@ -1,0 +1,81 @@
+---
+title: "Connectors: let Bird search the tools your lab already uses"
+description: "A connectors framework so Bird can do federated search across Drive, Notion, Slack, Linear, GitHub, and more — without copying anything into your knowledge base until you ask."
+sidebarTitle: "Connectors"
+---
+
+{/* TODO(design): hero image at /images/changelog/connectors-platform-hero.png */}
+
+**Shipped 2026-05-04 · Integrations**
+
+Most of what your lab knows doesn't live in your notebook. It's spread
+across Drive folders, Notion pages, Slack threads, Linear tickets,
+GitHub repos, and a handful of other places. Bird is now allowed to
+read all of them, on your behalf, while you ask questions.
+
+## What's new
+
+A new **Connectors** tab in Account Settings lets you OAuth-connect the
+tools you already use. Once a tool is connected, Bird can search it
+during a chat and ground its answer with citations — alongside the
+notes already in your Bower workspace.
+
+You can connect any of:
+
+- **Storage** — Google Drive, Google Docs, Google Sheets, Dropbox,
+  OneDrive, Box
+- **Communication** — Slack, Microsoft Teams
+- **Notes and wikis** — Notion, Airtable
+- **Project management** — Linear, Asana, Monday
+
+Each connection is **per user, per workspace**. Your colleague's Drive
+isn't visible from your account; your home workspace's Slack isn't
+pulled into your work workspace. OAuth tokens are bound to the person
+who authorised them — the provider does the access control, so Bower
+can't accidentally surface a file you weren't allowed to see.
+
+## Federated search by default, ingestion only on request
+
+Connecting a tool doesn't copy anything into Bower. Bird searches the
+provider live, returns results with clickable links, and only writes a
+result into your knowledge base when you explicitly ask — *"save this
+Google Doc as a note."* Until then, Bird just reads.
+
+Saved items keep their provenance, so you can always trace a note back
+to the connector and source URL it came from.
+
+## How credentials are kept safe
+
+- **Bower never sees your password.** OAuth runs through the provider's
+  standard sign-in screen.
+- **Tokens never live in Bower.** A managed gateway holds the OAuth
+  token; Bower stores only an opaque connection id so it knows which
+  token to ask the gateway to use.
+- **Read-only by default.** The gateway is filtered to read tools only.
+  Bird can't write back to your connected tools.
+- **Disconnecting actually disconnects** — the connection is revoked at
+  the gateway and the token is destroyed. Anything previously saved into
+  your knowledge base stays put.
+
+## Picking which connectors are active in a chat
+
+Connecting a tool makes it *available*. To use it in a particular chat,
+open the **connector picker** in the composer and tick the connectors
+you want active for that thread. Scoping a chat to "just Slack and
+GitHub" makes Bird's answer faster and more focused. The picker
+remembers your selection per chat.
+
+## Tier limits
+
+| Plan | Connected tools |
+| --- | --- |
+| Starter | 2 |
+| Pro | 10 |
+| Team | Unlimited |
+
+Connectors aren't yet available in HIPAA-enabled workspaces — our
+gateway provider's BAA isn't signed yet. Server-side enforced.
+
+## Related docs
+
+- [Connectors](/integrations/connectors)

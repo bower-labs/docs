@@ -1,11 +1,11 @@
 ---
 title: "Live agent mode"
-description: "A real-time voice and video conversation with Bird on your phone."
+description: "A real-time voice and video conversation with Bird, on mobile or desktop."
 ---
 
-Live agent mode is a continuous, low-latency audio and video session with Bird on your mobile device. Unlike the standard chat interface — where you type a question and wait for a response — live mode is conversational. You can talk through an experiment, describe what's on an instrument display, or ask follow-up questions without stopping to type.
+Live agent mode is a continuous, low-latency audio and video session with Bird. Unlike the standard chat interface — where you type a question and wait for a response — live mode is conversational. You can talk through an experiment, describe what's on an instrument display, or ask follow-up questions without stopping to type.
 
-With video enabled, Bird can see what your camera sees and respond to visual context: "What's the reading on that display?" or "Does this sample look contaminated to you?" are reasonable things to ask.
+Live mode is available on both mobile and desktop. With video enabled, Bird can see what your camera sees (or your screen) and respond to visual context: "What's the reading on that display?" or "Does this sample look contaminated to you?" are reasonable things to ask.
 
 ## When to use it
 
@@ -13,17 +13,16 @@ With video enabled, Bird can see what your camera sees and respond to visual con
 - You need to describe something visual that would be difficult to type
 - You want Bird to track key observations while you work
 - You want a real-time second opinion before moving to the next step
-- You need longer than the 30-minute voice capture limit
+- You want hands-free audio + video clips of a procedure as it happens
 
 ## How to start a live session
 
 <Steps>
-  <Step title="Open Bower on your phone">
-    Go to [app.bowerlabs.ai](https://app.bowerlabs.ai) in your mobile browser, or open from your [home screen](/getting-started/install-pwa).
+  <Step title="Open Bird chat">
+    On mobile or desktop, open Bird chat as you normally would.
   </Step>
-  <Step title="Tap Live in the bottom navigation" />
-  <Step title="Choose your mode">
-    Select **Audio only** or **Audio + Video**.
+  <Step title="Tap the sparkle button">
+    Before you type anything into the chat input, tap the **sparkle** button. This launches a live session.
   </Step>
   <Step title="Allow access">
     Allow microphone (and camera, if video) access when prompted.
@@ -32,6 +31,10 @@ With video enabled, Bird can see what your camera sees and respond to visual con
     Bird is listening and can respond in real time.
   </Step>
 </Steps>
+
+<Note>
+The sparkle button only appears in an empty Bird chat — once you've started typing or sent a message, start a new chat to launch a live session.
+</Note>
 
 ## Video awareness
 
@@ -51,21 +54,60 @@ You can ask Bird to capture what it sees or hears at any point during a live ses
 - **"Create a note from what we just discussed"** — Bird creates a note with the key points from your conversation.
 - You can also capture a photo manually during the session.
 
+## Recording video clips
+
+You can ask Bird to record short audio + video clips of your bench work hands-free. While you're in a live session, just say what you want and Bird records it.
+
+**To start recording**, say something like:
+
+- *"Record this"*
+- *"Start recording"*
+- *"Capture a clip of this"*
+- *"Film this for me"*
+
+Bird confirms ("Recording now.") and a red **REC** indicator appears on screen for as long as the recording is active.
+
+**To stop**, say:
+
+- *"Stop recording"*
+- *"That's enough, you can stop"*
+- *"End the recording"*
+
+Bird confirms and the clip is saved to your workspace's attachments as MP4, where it plays back inline.
+
+| Setting               | Value                                                              |
+| --------------------- | ------------------------------------------------------------------ |
+| Maximum length        | **2 minutes** — Bird stops automatically if you don't              |
+| Concurrent recordings | One per session                                                    |
+| If your network drops | The clip is lost (no partial recordings)                           |
+| Where it's saved      | Workspace attachments, MIME type `video/mp4`                       |
+| Storage cost          | Counts against your standard workspace storage quota               |
+
+<Note>
+**Recordings are intentionally slideshow-quality** (1–2 fps for the video track, full-quality audio). This keeps file sizes small for everyday lab observation — it's not for high-motion footage.
+</Note>
+
+<Info>
+**Privacy:** while a recording is active the **REC indicator is always visible** — both for your awareness and so colleagues nearby know they may be on camera. There is no way to record silently. Clips are only visible to people who can already see your other workspace attachments.
+</Info>
+
+Bird is tuned to be conservative and only start recording when you explicitly ask. Phrases that mention "record" but mean something else — *"recall the protocol"*, *"record my thoughts in my notebook"*, *"what's the record temperature"* — won't trigger a recording.
+
 ## Standby mode
 
-When you need to pause — to have a private conversation, take a phone call, or step away — put Bird in standby.
+When you need to pause — to have a private conversation, take a call, or step away — put Bird in standby.
 
 **In standby, no audio, video, or any other data is sent from your device.** The live stream is fully paused. Your microphone and camera are not active.
 
-- **To enter standby:** Tap the standby button on screen, or say **"Standby Bird"**
+- **To enter standby:** Tap the standby button, or say **"Standby Bird"**
 - **To wake Bird:** Say **"Hello Bird"**, or tap the standby button again to resume manually
 
 The wake word **"Hello Bird"** is detected locally on your device — it does not require streaming audio to a server. Only once the wake word is recognised does the live stream resume.
 
-This means you can keep your phone in your pocket with headphones, or leave it on the lab bench, and Bird will only listen when you want it to. Standby is useful for long lab sessions where you want Bird available but not always active.
+That means you can leave Bird active without keeping it always listening — keep your phone in your pocket with headphones, leave it on the lab bench, or leave a desktop session running while you take a call. Standby is useful for long lab sessions where you want Bird available but not always active.
 
 ## What's saved
 
-During a live session, notes and snapshots are only saved when you explicitly ask Bird to capture them. Nothing is automatically saved — you decide what's worth keeping.
+During a live session, notes, snapshots, and video clips are only saved when you explicitly ask Bird to capture them. Nothing is automatically saved — you decide what's worth keeping.
 
-All captured notes and snapshots are searchable immediately.
+All captured notes, snapshots, and clips are searchable immediately and play back inline in the attachment viewer.

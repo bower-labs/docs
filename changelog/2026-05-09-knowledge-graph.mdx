@@ -1,0 +1,69 @@
+---
+title: "Knowledge graph visualizer"
+description: "See your entire workspace as a force-directed graph — every note, protocol, attachment, and the relationships between them — with permission filtering, light and dark mode, and an opt-in 3D view."
+sidebarTitle: "Knowledge graph"
+---
+
+{/* TODO(design): hero image at /images/changelog/knowledge-graph-hero.png */}
+
+**Shipped 2026-05-09 · Visualisation**
+
+We've talked about Bower's knowledge graph for a while — the GRI-based
+edges, the inferred relationships, the link chips on every note. Today
+you can finally *see* it.
+
+## What's new
+
+A new **Knowledge Graph** page renders your entire workspace as a
+force-directed graph. Notes, protocols, attachments, projects, and
+people show up as nodes; explicit links and inferred relationships show
+up as edges between them.
+
+- **Click a node** to select it and dim the rest of the graph to the
+  selected node and its 1-hop neighbours.
+- **Hover a node** for a quick label preview.
+- **Click an edge** to inspect the relationship type and origin
+  (manual link, inferred, or system-derived from `created_by` /
+  `parent collection`).
+- **Filter by node type** in the side panel — show just protocols,
+  hide attachments, etc.
+- **Search** to fly the camera to a specific entity.
+- **Open the entity** from the detail panel to jump straight into the
+  underlying note.
+
+## Two renderers, one graph
+
+The default is a **2D Canvas2D renderer** — fast, readable in light or
+dark mode, and at home alongside the rest of Bower's UI. A toggle in
+the filter panel switches to an **opt-in 3D view** powered by Three.js,
+with a dark backdrop and bloom-style glow on nodes — useful for getting
+a sense of the shape of a large graph.
+
+Mobile and reduced-motion users always get the 2D renderer.
+
+## Permission-filtered
+
+The graph respects every layer of your workspace permissions. You only
+see nodes and edges you'd be allowed to read in the underlying notes —
+restricted notes are filtered out at query time, not just hidden in the
+client. This is checked against the same canonical permission resolver
+that gates note reads, so the visualizer can't drift from the rest of
+the app.
+
+## Inferred edges, clearly marked
+
+Edges that came from [Bird's inferred relationships](/changelog/2026-04-26-inferred-relationships)
+are drawn with a dashed line so they read differently from the explicit
+links you (or the system) created. Same convention as the link chips on
+the note view.
+
+## Limits
+
+The visualizer is built for workspaces up to **5,000 nodes**. Beyond
+that, performance starts to degrade — we'll add server-side clustering
+and viewport-windowed loading as workspaces approach that ceiling.
+
+## Related docs
+
+- [Inferred links](/ai-and-search/inferred-links)
+- [Linked entities](/organisation/linked-entities)

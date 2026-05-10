@@ -88,6 +88,15 @@
             ]
           },
           {
+            "group": "May 2026",
+            "pages": [
+              "changelog/2026-05-09-knowledge-graph",
+              "changelog/2026-05-07-orcid-and-openalex",
+              "changelog/2026-05-06-live-video-recording",
+              "changelog/2026-05-04-connectors-platform"
+            ]
+          },
+          {
             "group": "April 2026",
             "pages": [
               "changelog/2026-04-30-workspace-roles",
