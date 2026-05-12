@@ -21,19 +21,43 @@ Annual billing saves up to 17% compared to monthly. All paid plans include a 14-
 
 | | **Starter** | **Pro** | **Team** |
 | --- | :---: | :---: | :---: |
-| Workspaces you can own | 1 | 5 | Unlimited |
-| Members per workspace | 2 | 10 | 50 |
-| Storage per workspace | 1 GB | 50 GB | 100 GB |
+| Members per workspace | 1 paid seat + 1 guest | 1 paid seat + 4 guests | Paid seats + 4 guests per paid seat |
+| Storage per workspace | 1 GB | 100 GB | 500 GB per paid seat, pooled |
 
-### AI research partner
+### AI usage allowances
 
 | | **Starter** | **Pro** | **Team** |
 | --- | :---: | :---: | :---: |
-| Bird chat, search and summaries | ✓ | ✓ | ✓ |
-| Auto-organise captured content | ✓ | ✓ | ✓ |
+| Chat messages | 50 chats / month | 500 chats / month | 1,000 chats / month per paid seat |
+| Live agent minutes | 2 minutes / month | 30 minutes / month | 60 minutes / month per paid seat |
+| Text extractions (images and PDFs) | 15 extractions / month | 50 extractions / month | 100 extractions / month per paid seat |
+| Voice transcription minutes | 15 minutes / month | 50 minutes / month | 100 minutes / month per paid seat |
+
+### Bird, your AI co-scientist partner
+
+| | **Starter** | **Pro** | **Team** |
+| --- | :---: | :---: | :---: |
+| Bird chat with workspace citations | ✓ | ✓ | ✓ |
 | Live agent mode (voice + video aware) | ✓ | ✓ | ✓ |
-| Unlimited voice transcription | ✓ | ✓ | ✓ |
+| Mobile Bird (dedicated mobile chat at /m/bird) | ✓ | ✓ | ✓ |
+| Voice transcription (scientific vocab tuned) | ✓ | ✓ | ✓ |
 | Photo OCR with scientific vocab | ✓ | ✓ | ✓ |
+| Voice dictation in Bird chat | ✓ | ✓ | ✓ |
+| Web search with citations | ✓ | ✓ | ✓ |
+| Spreadsheet analysis (CSV / XLSX) | ✓ | ✓ | ✓ |
+| Inline charts in Bird responses | ✓ | ✓ | ✓ |
+| Auto-organise captured content | ✓ | ✓ | ✓ |
+| Proactive confidence flags on captures | — | ✓ | ✓ |
+| Personal preferences memory | — | ✓ | ✓ |
+| Workspace instructions (shared team memory) | — | — | ✓ |
+
+### Connectors — Bird across your tools
+
+| | **Starter** | **Pro** | **Team** |
+| --- | :---: | :---: | :---: |
+| Connectors per user | — | 2 per user | Unlimited |
+| Federated search via OAuth | — | ✓ | ✓ |
+| Save connector results into knowledge base | — | ✓ | ✓ |
 
 ### Capture and knowledge
 
@@ -43,22 +67,45 @@ Annual billing saves up to 17% compared to monthly. All paid plans include a 14-
 | Protocols, collections and tags | ✓ | ✓ | ✓ |
 | Bidirectional linked entities | ✓ | ✓ | ✓ |
 | Hybrid semantic + keyword search | ✓ | ✓ | ✓ |
+| Merge notes | ✓ | ✓ | ✓ |
 | Mobile PWA with quick capture | ✓ | ✓ | ✓ |
 | Export to PDF, Markdown, HTML | ✓ | ✓ | ✓ |
+| Inferred AI context graph | — | ✓ | ✓ |
+| Knowledge graph visualiser (2D + 3D) | — | ✓ | ✓ |
+| Trash + 30-day restore | — | ✓ | ✓ |
 
 ### Collaboration and sharing
 
 | | **Starter** | **Pro** | **Team** |
 | --- | :---: | :---: | :---: |
-| Workspace members and roles | ✓ | ✓ | ✓ |
+| Workspace roles (Owner / Admin / Member / Viewer) | — | — | ✓ |
 | Public share links (any note, protocol or artifact) | — | ✓ | ✓ |
+| Privacy controls on every artifact and collection | — | — | ✓ |
 
-### Compliance and audit
+### Version history
 
 | | **Starter** | **Pro** | **Team** |
 | --- | :---: | :---: | :---: |
-| Audit history retention | 30 days | 7 years | Unlimited |
-| PHI (HIPAA-compliant) mode | — | ✓ | ✓ |
+| Version history retention | 7 days | 1 year | 7 years |
+
+### Trust and privacy
+
+| | **Starter** | **Pro** | **Team** |
+| --- | :---: | :---: | :---: |
+| Encryption at rest and in transit | ✓ | ✓ | ✓ |
+| GDPR consent + data export + account deletion | ✓ | ✓ | ✓ |
+| Sub-processors registry | ✓ | ✓ | ✓ |
+| Audit history retention | 30 days | 1 year | 7 years |
+| PHI (HIPAA-compliant) mode | — | — | ✓ |
+| Compliance lockdown ('Just me' mode) | — | ✓ | ✓ |
+
+### Support
+
+| | **Starter** | **Pro** | **Team** |
+| --- | :---: | :---: | :---: |
+| Community support | ✓ | ✓ | ✓ |
+| Email support | ✓ | ✓ | ✓ |
+| Onboarding session | — | ✓ | ✓ |
 | Priority support | — | — | ✓ |
 
 {/* PRICING_TABLE:AUTO_GENERATED END */}
@@ -86,21 +133,67 @@ All paid plans include a 14-day free trial — no credit card required to start.
 You can pay with a credit or debit card. After payment (or during the trial),
 your workspace is upgraded immediately — no need to sign out or refresh.
 
+## Add or remove Team seats
+
+On the Team plan, every paid member (Owner, Admin, or Member) counts as a seat.
+Viewers are free and never count toward seat usage — Team includes 4 viewers
+per paid seat.
+
+### Adding a seat
+
+Open **Settings > Members** and invite a teammate as Owner, Admin, or Member.
+If the invite would take you above your current seat count, Bower shows a
+preview of the prorated charge for the remainder of the current billing period
+before anything is charged. Confirm to proceed — the seat is added to your
+subscription and Stripe issues a prorated invoice immediately. The new seat is
+held for the invitee until they accept.
+
+Bower does not silently top up your subscription. A seat is only added when an
+admin reviews the preview and confirms the charge.
+
+<Note>
+If your workspace is still in the 14-day free trial and you haven't added a
+payment method yet, the invite flow will ask you to add a card before the seat
+can be purchased.
+</Note>
+
+### Revoking a pending invite
+
+If you revoke a paid invitation before it's accepted, the seat is released
+straight away and Stripe issues a prorated credit for the unused portion of the
+current period. The credit is applied to your next invoice automatically.
+
+### Removing an existing member
+
+Removing a paid member from **Settings > Members** drops your seat count for
+the next billing cycle. The current period is not prorated — you've already
+paid for it, and the member retains no access after removal. Your next monthly
+or annual invoice reflects the lower seat count.
+
 ## Manage your subscription
 
 Click **Manage Billing** in the Billing tab to open the Stripe Customer Portal.
 From there you can:
 
-- Change your plan (upgrade or downgrade)
+- Switch between Pro and Team
 - Switch between monthly and annual billing
 - Update your payment method
 - View past invoices and receipts
-- Cancel your subscription
 
-<Note>
-Upgrades take effect immediately with a prorated charge. Downgrades take effect
-at the end of your current billing period — you keep paid features until then.
-</Note>
+Plan switches show the exact prorated charge in Stripe before you confirm.
+Upgrades and cycle changes apply immediately; the new rate is invoiced on the
+spot with credit for the time you've already paid for on the previous plan.
+
+## Monthly vs annual billing
+
+Both monthly and annual subscriptions renew automatically. A monthly plan
+charges on the same day each month; an annual plan charges once a year on the
+anniversary of the original purchase. Annual is around 17% cheaper per month
+than monthly across Pro and Team.
+
+To switch cycles, open **Manage Billing** and choose the new cycle on the same
+plan. The switch is prorated through Stripe — you'll see the exact charge or
+credit before confirming.
 
 ## What happens if payment fails
 
@@ -115,17 +208,24 @@ resolved.
 
 ## Cancellation
 
-You can cancel your subscription at any time from the Stripe Customer Portal
-(Settings > Billing > Manage Billing). After cancellation:
+To cancel, go to **Settings > Billing** and click **Downgrade to Free**. You
+don't need to open the Stripe portal. After confirmation:
 
-- You keep access to your paid plan until the end of the current billing period
+- You keep access to your paid plan until the end of the current billing
+  period — monthly cancellations run out at the end of the month, annual
+  cancellations at the end of the year
+- The Billing tab shows a banner with your end date
+- No further charges are made; Bower does not refund the unused portion of the
+  current period
 - At period end, your workspace moves to the Starter plan
 - Your data is preserved — nothing is deleted
-- Storage, member, workspace, and audit-retention limits revert to Starter levels
+- Storage, member, workspace, and audit-retention limits revert to Starter
+  levels
 - Public share links will no longer be accessible
 
-You can reactivate any time before period end from the same portal to keep your
-plan.
+You can reactivate at any time before the end date by clicking **Reactivate
+plan** in the same banner. Reactivation is instant, doesn't trigger a new
+charge, and leaves your existing billing cycle untouched.
 
 ## Student discount
 
