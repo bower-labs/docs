@@ -16,13 +16,28 @@ Every answer Bird gives includes **inline citations** — numbered references ba
   <Accordion title="Search the open web and scholarly sources">
     Bird can search the web — and the open scholarly record — for external sources. Ask *"What's the latest research on coral alkalinity tolerance?"* or *"What did Jane Smith publish in 2025?"* and Bird will find relevant sources and cite them alongside your workspace data.
 
-    Out of the box, Bird searches three open sources for you, with no setup:
+    Out of the box, Bird searches **eight open sources** for you, with no setup:
 
     - **The open web** via Google, including Google Scholar, journal sites, and institutional repositories.
-    - **[OpenAlex](https://openalex.org)** — the open catalogue of ~250M scholarly works. Bird searches it for related literature and fetches full records by DOI.
+    - **[OpenAlex](https://openalex.org)** — the open catalogue of ~250M scholarly works. Topical search + fetch by DOI.
+    - **[Semantic Scholar](https://www.semanticscholar.org)** — ~200M papers with AI-generated TLDRs, citation counts, and open-access PDF links. Bird also uses Semantic Scholar's citation graph to walk both the references *and* the forward citations of any paper you're interested in.
+    - **[Crossref](https://www.crossref.org)** — the canonical DOI registry, used as a fallback when other indexes are sparse and as a cross-check on the canonical publisher record.
+    - **[Unpaywall](https://unpaywall.org)** — given a DOI, Bird finds the best-known open-access copy so you can read the full text without leaving Bower.
+    - **[arXiv](https://arxiv.org)** — preprints across CS, ML, physics, math, statistics, biology, and economics. Bird fetches the latest preprint version when one is available.
+    - **[Europe PMC](https://europepmc.org)** — biomedical and life-sciences literature (PubMed + PMC + bioRxiv / medRxiv preprints) with full-text URLs.
     - **[ORCID](https://orcid.org)** — public publication histories. Bird can list a researcher's works by their ORCID iD.
 
     **Save your ORCID iD on your profile** (Settings → Profile → *Research identity*) and Bird will automatically pull from your publication list when you ask things like *"what have I published recently on coral alkalinity?"* — no need to share the iD each turn. We only ever read your **public** ORCID profile. [Add yours now](/workspaces-and-account/manage-account#add-your-orcid-id).
+  </Accordion>
+  <Accordion title="Walk a citation trail">
+    Give Bird one or more papers you already know are relevant, and it can walk the citation graph for you — pulling in both the foundations (papers cited *by* your seeds) and the follow-on work (papers that *cite* your seeds). Bird dedupes and ranks the results so the most-cited and most-co-cited papers float to the top, and resolves open-access PDF links automatically.
+
+    Ask Bird things like:
+
+    - *"Starting from DOI 10.1038/s41586-023-XXXXX, find the most relevant follow-on work."*
+    - *"I'm reading these three papers. What else should I be reading?"*
+
+    This is dramatically more effective than running flat searches when you already have one or two papers on the topic — citation-graph proximity is a much stronger relevance signal than keyword overlap.
   </Accordion>
   <Accordion title="Summarise">
     Select one or more notes and ask Bird to summarise. Useful when you've captured a week of observations and want the key points before a meeting or write-up.

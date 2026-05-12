@@ -1,0 +1,63 @@
+---
+title: "Bird now reads across eight open scientific sources"
+description: "Bird now searches OpenAlex, Semantic Scholar, Crossref, Unpaywall, arXiv, Europe PMC, ORCID, and the open web — and can walk the citation graph for any seed paper."
+sidebarTitle: "Wider, deeper research"
+---
+
+**Shipped 2026-05-12 · Bird**
+
+Bird's research reach just got significantly wider — and the way it
+searches got significantly smarter.
+
+## What's new
+
+Out of the box, Bird now searches **eight open sources** without any
+setup or connection step:
+
+- **The open web** via Google.
+- **[OpenAlex](https://openalex.org)** — the ~250M-work open catalogue.
+- **[Semantic Scholar](https://www.semanticscholar.org)** — ~200M papers
+  with AI-generated TLDRs, citation counts, and citation-graph traversal.
+- **[Crossref](https://www.crossref.org)** — the canonical DOI registry,
+  used as a fallback and cross-check.
+- **[Unpaywall](https://unpaywall.org)** — finds the best-known
+  open-access copy of any DOI so you can read the full text without
+  leaving Bower.
+- **[arXiv](https://arxiv.org)** — preprints across CS, ML, physics,
+  math, statistics, biology, and economics.
+- **[Europe PMC](https://europepmc.org)** — biomedical and
+  life-sciences literature (PubMed + PMC + bioRxiv / medRxiv preprints).
+- **[ORCID](https://orcid.org)** — public publication histories.
+
+## Citation-trail discovery
+
+Bird can now walk the citation graph for a paper you already know is
+relevant — pulling in both the foundations (papers cited *by* your seed)
+and the follow-on work (papers that *cite* your seed). It dedupes and
+ranks the results so the most-co-cited papers float to the top, and it
+resolves open-access PDF links automatically.
+
+Try it with prompts like:
+
+- *"Starting from DOI 10.1038/s41586-023-XXXXX, find the most relevant
+  follow-on work."*
+- *"I'm reading these three papers. What else should I be reading?"*
+
+This is the single biggest jump in research quality we've shipped. Once
+you've got one or two papers on a topic, citation-graph proximity is a
+much stronger relevance signal than keyword overlap — Bird now uses it
+by default.
+
+## Why this matters
+
+The bottleneck on a literature review is rarely "did the search engine
+find it" — it's "did the search engine surface it in a place I'd
+notice." Bird now reads laterally across eight sources, then ranks by
+citation-graph evidence rather than keyword match alone, so the papers
+that surface are the ones the field thinks are important.
+
+## Privacy
+
+Everything Bird does here is gated by the **Public sources** toggle in
+the chat composer. Flip it off for any message and Bird won't reach any
+external source on that turn.
