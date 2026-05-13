@@ -44,7 +44,7 @@ This isolation is enforced in middleware, not application logic — it cannot be
 - **Token verification** — every API request includes a signed authentication token that is verified server-side before any data is returned.
 - **Email verification** — unverified email addresses are blocked from accessing workspace data.
 - **Token expiry** — expired or revoked tokens are rejected immediately.
-- **Role-based access** — four roles (Owner, Admin, Member, Viewer) with a strict hierarchy enforced at the API level.
+- **Role-based access** — four roles (Owner, Admin, Member, Guest) with a strict hierarchy enforced at the API level.
 
 ## Audit trail
 

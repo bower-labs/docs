@@ -1,51 +1,93 @@
 ---
 title: "Invite team members"
-description: "Add colleagues to your workspace so they can capture, search, and collaborate."
+description: "Add paid members or free guests to your workspace — Bower hands you a link, you share it however you like."
 ---
 
-Add colleagues to your workspace so they can capture, search, and collaborate on shared notes and collections.
+Add colleagues to your workspace so they can capture, search, and collaborate on shared notes and collections. Bower invites are a **link you copy and share** — we don't email the invitee for you. That's deliberate: it keeps each invite traceable to a real conversation, lets you pick the channel (email, Slack, WhatsApp, in-person), and avoids triggering inbox-security filters on outreach mail.
 
 ## How to invite someone
 
-There are two ways to invite someone:
+<Steps>
+  <Step title="Open the invite dialog">
+    Click your avatar in the bottom-left and choose **Invite member**, or go to **Settings → Members → Invite member**.
+  </Step>
+  <Step title="Enter the invitee's email and pick a role">
+    The email is what the invite is bound to — the recipient must sign in or sign up with that exact address to accept. Pick **Guest** (free, read-only) or **Paid member** (Admin or Member).
+  </Step>
+  <Step title="Copy the link Bower generates">
+    Bower creates a unique invite link and shows it on the next screen. The link is auto-selected so **Cmd+C** / **Ctrl+C** just works. Share it however you like.
+  </Step>
+  <Step title="The invitee accepts">
+    They open the link, sign in (or create an account) with the invited email, and land in your workspace.
+  </Step>
+</Steps>
 
-**From the settings popover** — click your avatar in the bottom-left corner, then click **Invite member**.
+The link is the bearer token — anyone holding it can attempt to accept. But Bower enforces a **strict email match** at accept time: the verified account email must match the address the invite was created for. If it doesn't, the accept is refused with a clear "this invitation is for a different email address" message, and the invite stays open for the right person. A stale or forwarded link can't be redeemed by anyone else.
 
-**From workspace management** — go to **Settings > Workspace Management** and use the invite option there.
-
-Both routes generate a shareable invite link. Copy it and send it to your colleague however you like — email, Slack, text message.
-
-Invite links expire after **30 days**. If a link expires, generate a new one.
+Invite links expire after **30 days**. If a link expires, revoke it from **Settings → Members** and generate a new one.
 
 ## Roles
 
-Bower has four workspace roles:
+Bower has four workspace roles. The first three are **paid seats** that count toward your subscription; the fourth is a **free guest** with a per-tier cap.
 
-| Role | What they can do |
-| --- | --- |
-| Owner | Everything an Admin can do. Every workspace has at least one Owner — typically the person who created it. The Owner role is automatically assigned when you create a workspace and can be transferred to another Admin. |
-| Admin | Everything a Member can do, plus: invite and remove members, change member roles, edit workspace settings, manage billing, and manage [workspace memory](/ai-and-search/workspace-instructions). |
-| Member | Capture, view, edit, and search all notes, protocols, and collections in the workspace. The default role for invited collaborators. |
-| Viewer | Read-only access. Viewers can browse and search every note, protocol, collection, and attachment in the workspace but cannot create, edit, or delete content. Editor toolbars, tag inputs, link controls, voice and image capture, version-history restore, and the Trash and Audit pages are all hidden. Use Viewer for stakeholders who need visibility without the risk of accidental edits. |
+| Role | Billing class | What they can do |
+| --- | --- | --- |
+| **Owner** | Paid seat | Everything an Admin can do, plus manage billing and transfer ownership. Every workspace has at least one Owner — the person who created it. Ownership can be transferred to another Admin. |
+| **Admin** | Paid seat | Everything a Member can do, plus invite and remove members, change member roles, edit workspace settings, and manage [workspace instructions](/ai-and-search/workspace-instructions). Cannot manage billing. |
+| **Member** | Paid seat | Capture, view, edit, and search all notes, protocols, and collections in the workspace. The default for invited collaborators. |
+| **Guest** | Free | Read-only across the workspace — browse and search, but no editing, capture, or organisation actions. Right for external supervisors, stakeholders, or compliance reviewers who need visibility without seat cost. |
 
 A workspace must always have at least one Admin or Owner — Bower will block the last admin/owner from being downgraded or removed.
 
+### Guest caps per plan
+
+Guests don't consume a paid seat, but they're capped by your plan:
+
+| Plan | Guest allowance |
+| --- | --- |
+| Starter | 1 guest |
+| Pro | 4 guests |
+| Team | 4 guests per paid seat |
+
+When you hit the cap, the **Guest** option in the invite dialog is disabled with a prompt to upgrade or free up a slot.
+
+### Paid ↔ Guest is "remove and re-invite", not in-place
+
+Changing a guest into a paid member (or a paid member back to a guest) is a **billing-class change**, not a role flip. There's no in-place toggle for it — admins must **remove** the user and **re-invite** them in the new class. This is deliberate:
+
+- Promoting a guest to paid is a Stripe-billable event that needs an explicit seat purchase, including a prorated-charge preview.
+- Demoting a paid member to guest is a cancellation that should be a conscious decision (and may need a seat release).
+
+Within the paid class, you can change roles freely (Member ↔ Admin, with Owner promotions reserved for the existing Owner).
+
 ## Pending invites
 
-Invites that haven't been accepted yet are visible in **Settings > Workspace Management**. You can revoke a pending invite or generate a new link from there.
+Open **Settings → Members** to see invites that haven't been accepted yet. From there you can:
 
-## What members can see
+- **Copy the link again** if the invitee lost it.
+- **Revoke** a pending invite. For a guest, the slot is freed immediately. For a pending paid seat, the seat is released and Stripe issues a prorated credit on your next invoice.
 
-Everyone in a workspace — including Viewers — can see all notes, protocols, and collections in that workspace by default. There are no per-collection access restrictions; access is granted at the workspace level.
+## What each role can see
 
-Members cannot see notes or collections in your other workspaces — workspaces are fully isolated from each other.
+Everyone in a workspace — including Guests — can see content that's set to **Anyone in this workspace** privacy mode (the default). Two layers of access control then filter what individual people see beyond that:
+
+- **Workspace role** — Guests are read-only across the board; Members, Admins, and Owners can edit at their role's level.
+- **Per-entity privacy** — any note or collection can be restricted to **Only specific people** or **Just me**. Restricted content is hidden from anyone not on the list, regardless of workspace role.
+
+See [Workspace permissions overview](/workspaces-and-account/permissions-overview) for how the two layers combine, and [Sharing notes and collections](/organisation/sharing-artifacts) for the Share dialog.
+
+Members and Guests cannot see notes or collections in your other workspaces — workspaces are fully isolated from each other.
 
 ## Changing a member's role
 
-Admins and Owners can change a member's role from **Settings > Workspace Management**. Click the role next to a member's name and pick a new one.
+Admins and Owners can change a paid member's role from **Settings → Members**. Click the role next to a member's name and pick **Owner**, **Admin**, or **Member**. (Owner is only available if you yourself are the Owner.)
 
-A workspace must always have at least one Admin or Owner — Bower will block the change if it would leave the workspace without one.
+Guest is not in this menu — see the [Paid ↔ Guest](#paid--guest-is-remove-and-re-invite-not-in-place) note above.
+
+A workspace must always have at least one Admin or Owner. If a change would leave the workspace without one, Bower blocks it.
 
 ## Removing a member
 
-To remove someone from the workspace, go to **Settings > Workspace Management**, find their name, and choose **Remove**. Their notes remain in the workspace — only their access is revoked. Only Admins and Owners can remove members.
+To remove someone, go to **Settings → Members**, find their name, and choose **Remove**. Their notes remain in the workspace — only their access is revoked. Only Admins and Owners can remove members.
+
+Removing a paid member drops your seat count for the next billing cycle. Removing a guest frees their guest slot immediately.

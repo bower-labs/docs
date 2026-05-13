@@ -15,9 +15,9 @@ Both layers run on every request — the answer Bower gives is the **most restri
 
 ## Workspace roles
 
-When you invite someone to a workspace, you pick their role. Roles cascade — Owner has everything Admin has, Admin has everything Member has, and so on.
+When you invite someone, you pick their role. Owner, Admin, and Member are **paid seats**; Guest is a **free seat** with a per-tier cap. Permissions cascade — Owner has everything Admin has, Admin has everything Member has.
 
-| | Owner | Admin | Member | Viewer |
+| | Owner | Admin | Member | Guest |
 |---|:-:|:-:|:-:|:-:|
 | Read content | yes | yes | yes | yes |
 | Edit content | yes | yes | yes | no |
@@ -30,14 +30,18 @@ When you invite someone to a workspace, you pick their role. Roles cascade — O
 | Read **Just me** entities | only if on the list | only if on the list | only if on the list | only if on the list |
 | Transfer workspace ownership | yes | no | no | no |
 
-¹ Only the **workspace owner** can promote another member to Owner. Admins can manage every other role transition (Member ↔ Admin, Member ↔ Viewer, etc.) but cannot create new Owners.
+¹ Only the **workspace Owner** can promote another member to Owner. Admins can manage Member ↔ Admin transitions but cannot create new Owners.
 
 ### Why these roles
 
-* **Owner** — the workspace lead. They handle billing, can transfer ownership to someone else, and provide admin oversight of normal team work. They cannot read content marked **Just me**.
-* **Admin** — can manage members and settings but doesn't control billing. Useful for delegating workspace administration to lab managers without giving up the billing relationship.
-* **Member** — the default role. Can read and edit anything that's not restricted away from them, and create new content.
-* **Viewer** — read-only across the workspace. Useful for stakeholders, supervisors, or external collaborators who need to see work but not change it.
+* **Owner** (paid) — the workspace lead. Handles billing, can transfer ownership, and provides admin oversight of team work. Cannot read content marked **Just me**.
+* **Admin** (paid) — manages members and settings but doesn't control billing. Useful for delegating workspace administration to lab managers without giving up the billing relationship.
+* **Member** (paid) — the default for invited collaborators. Can read and edit anything that's not restricted away from them, and create new content.
+* **Guest** (free) — read-only across the workspace. Right for stakeholders, supervisors, or external collaborators who need to see work but not change it. Capped by plan (Starter 1 / Pro 4 / Team 4 per paid seat).
+
+### Paid ↔ Guest is a billing-class change
+
+Moving a user between the paid roles (Owner / Admin / Member) and Guest isn't a role flip — it's **remove and re-invite**. The role dropdown deliberately doesn't offer Guest for paid members, and doesn't offer paid roles for guests. See [Invite team members](/workspaces-and-account/invite-team-members#paid--guest-is-remove-and-re-invite-not-in-place) for why.
 
 ### Last-Owner protection
 
@@ -56,7 +60,7 @@ There are three modes:
 
 | Mode | Who can read | Who can edit |
 |---|---|---|
-| **Anyone in this workspace** *(default)* | all members | members at their workspace role |
+| **Anyone in this workspace** *(default)* | all members and guests | paid members at their workspace role; guests never edit |
 | **Only specific people** | listed people + workspace Owner | listed people with Edit permission |
 | **Just me** | the creator + anyone explicitly on the list | the creator + listed people with Edit |
 
@@ -66,7 +70,7 @@ For the full Share dialog walkthrough, see [Sharing notes and collections](/orga
 
 When someone tries to read a note, Bower checks **both** layers and returns the most restrictive answer:
 
-* **Workspace role** decides if they can read content **at all**. Viewers can read but not edit; non-members can't read anything.
+* **Workspace role** decides if they can read content **at all**. Guests can read but not edit; non-members can't read anything.
 * **Entity privacy** decides if they can read **this specific** note. A note in **Only specific people** mode is invisible to anyone not on the list (or who isn't the creator or workspace Owner). A note in **Just me** mode is invisible to anyone except the creator and people the creator has explicitly added.
 
 Examples:
@@ -75,7 +79,7 @@ Examples:
 * Workspace Member opens a **Only specific people** note they're not on → 404. They don't get to know it exists.
 * Workspace Owner opens a **Only specific people** note → reads it (Owner has admin oversight in this mode).
 * Workspace Owner opens a **Just me** note someone else created → 404. Owner has no oversight on Just-me content.
-* Workspace Viewer opens a default-public note → reads it (Viewer can read, entity is open). They cannot edit (Viewer role blocks).
+* Workspace Guest opens a default-public note → reads it (Guest can read, entity is open). They cannot edit (Guest role blocks).
 
 ### Special people: creator and Owner
 
