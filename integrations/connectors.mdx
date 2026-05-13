@@ -3,119 +3,105 @@ title: "Connectors"
 description: "Bird connects to 22 sources out of the box — 8 always-on scholarly indexes plus 14 of the tools your lab already uses. Federated search by default; nothing lands in your knowledge base until you save it."
 ---
 
-## 22 sources at Bird's fingertips
-
-**Bird searches 22 sources out of the box** — eight scholarly indexes and the open web (always-on, no setup) plus fourteen of the tools your lab already uses (one-click OAuth). Federated search by default; items only land in your knowledge base when you explicitly ask Bird to save them.
-
-<div style={{
-  display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fit, minmax(72px, 1fr))',
-  gap: '1.75rem',
-  padding: '2rem 1.5rem',
-  alignItems: 'center',
-  justifyItems: 'center',
-  background: 'linear-gradient(135deg, rgba(125, 90, 240, 0.06), rgba(34, 197, 194, 0.06))',
-  border: '1px solid rgba(125, 90, 240, 0.15)',
-  borderRadius: '1rem',
-  margin: '1.5rem 0 2rem',
-}}>
-  <img src="https://cdn.simpleicons.org/openalex" alt="OpenAlex" title="OpenAlex" style={{ height: '40px', width: 'auto' }} />
-  <img src="https://cdn.simpleicons.org/semanticscholar" alt="Semantic Scholar" title="Semantic Scholar" style={{ height: '40px', width: 'auto' }} />
-  <img src="https://cdn.simpleicons.org/crossref" alt="Crossref" title="Crossref" style={{ height: '40px', width: 'auto' }} />
-  <img src="https://www.google.com/s2/favicons?domain=unpaywall.org&sz=128" alt="Unpaywall" title="Unpaywall" style={{ height: '40px', width: 'auto' }} />
-  <img src="https://cdn.simpleicons.org/arxiv" alt="arXiv" title="arXiv" style={{ height: '40px', width: 'auto' }} />
-  <img src="https://www.google.com/s2/favicons?domain=europepmc.org&sz=128" alt="Europe PMC" title="Europe PMC" style={{ height: '40px', width: 'auto' }} />
-  <img src="https://cdn.simpleicons.org/orcid" alt="ORCID" title="ORCID" style={{ height: '40px', width: 'auto' }} />
-  <img src="https://cdn.simpleicons.org/google" alt="Google web search" title="Google web search" style={{ height: '40px', width: 'auto' }} />
-  <img src="https://cdn.simpleicons.org/googledrive" alt="Google Drive" title="Google Drive" style={{ height: '40px', width: 'auto' }} />
-  <img src="https://cdn.simpleicons.org/googledocs" alt="Google Docs" title="Google Docs" style={{ height: '40px', width: 'auto' }} />
-  <img src="https://cdn.simpleicons.org/googlesheets" alt="Google Sheets" title="Google Sheets" style={{ height: '40px', width: 'auto' }} />
-  <img src="https://cdn.simpleicons.org/dropbox" alt="Dropbox" title="Dropbox" style={{ height: '40px', width: 'auto' }} />
-  <img src="https://cdn.simpleicons.org/microsoftonedrive" alt="OneDrive" title="OneDrive" style={{ height: '40px', width: 'auto' }} />
-  <img src="https://cdn.simpleicons.org/box" alt="Box" title="Box" style={{ height: '40px', width: 'auto' }} />
-  <img src="https://cdn.simpleicons.org/slack" alt="Slack" title="Slack" style={{ height: '40px', width: 'auto' }} />
-  <img src="https://cdn.simpleicons.org/microsoftteams" alt="Microsoft Teams" title="Microsoft Teams" style={{ height: '40px', width: 'auto' }} />
-  <img src="https://cdn.simpleicons.org/notion" alt="Notion" title="Notion" style={{ height: '40px', width: 'auto' }} />
-  <img src="https://cdn.simpleicons.org/airtable" alt="Airtable" title="Airtable" style={{ height: '40px', width: 'auto' }} />
-  <img src="https://cdn.simpleicons.org/linear" alt="Linear" title="Linear" style={{ height: '40px', width: 'auto' }} />
-  <img src="https://cdn.simpleicons.org/asana" alt="Asana" title="Asana" style={{ height: '40px', width: 'auto' }} />
-  <img src="https://cdn.simpleicons.org/mondaydotcom" alt="Monday" title="Monday" style={{ height: '40px', width: 'auto' }} />
-  <img src="https://cdn.simpleicons.org/github" alt="GitHub" title="GitHub" style={{ height: '40px', width: 'auto' }} />
-</div>
-
 ## 8 always-on sources — no setup
 
-Out of the box, Bird grounds answers in eight open sources with no connection step. The new **citation trail** primitive walks both the references *and* the forward citations of any paper you give it, then ranks by citation-graph proximity — much stronger relevance than keyword overlap.
+Out of the box, Bird grounds answers in eight open sources with no connection step. The new **citation trail** primitive walks both the references _and_ the forward citations of any paper you give it, then ranks by citation-graph proximity — much stronger relevance than keyword overlap.
 
 <CardGroup cols={4}>
   <Card title="OpenAlex" href="https://openalex.org">
-    ~250M scholarly works, topical search + DOI fetch.
+    ~250M scholarly works, topical search \+ DOI fetch.
   </Card>
+
   <Card title="Semantic Scholar" href="https://www.semanticscholar.org">
     TLDRs, citation graph, embedding-based recommendations.
   </Card>
+
   <Card title="Crossref" href="https://www.crossref.org">
-    Canonical DOI registry — fallback + cross-check.
+    Canonical DOI registry — fallback \+ cross-check.
   </Card>
+
   <Card title="Unpaywall" href="https://unpaywall.org">
     Best-known open-access copy of any DOI.
   </Card>
+
   <Card title="arXiv" href="https://arxiv.org">
     Preprints — CS, ML, physics, math, stats, biology.
   </Card>
+
   <Card title="Europe PMC" href="https://europepmc.org">
-    Biomedical + life sciences, with full-text URLs.
+    Biomedical \+ life sciences, with full-text URLs.
   </Card>
+
   <Card title="ORCID" href="https://orcid.org">
-    Researcher identity + public publication histories.
+    Researcher identity \+ public publication histories.
   </Card>
+
   <Card title="Web search">
     Google search, including journal sites and repositories.
   </Card>
 </CardGroup>
 
-**Save your ORCID iD on your profile** (Settings → Profile → *Research identity*) and Bird will pull from your publication list when you ask things like *"what have I published recently on coral alkalinity?"* — no need to share the iD each turn. We only ever read your **public** ORCID profile.
+**Save your ORCID iD on your profile** (Settings → Profile → _Research identity_) and Bird will pull from your publication list when you ask things like _"what have I published recently on coral alkalinity?"_ — no need to share the iD each turn. We only ever read your **public** ORCID profile.
 
 ## 14 connectors — one-click OAuth
 
 Connectors extend Bird into the tools you've licensed. Each is connected **per user, per workspace** — your OAuth, your access. A colleague's connections aren't visible from your account.
 
 <CardGroup cols={4}>
-  <Card title="Google Drive" icon="google-drive" iconType="brands" />
-  <Card title="Google Docs" icon="file-lines" />
-  <Card title="Google Sheets" icon="table" />
-  <Card title="Dropbox" icon="dropbox" iconType="brands" />
-  <Card title="OneDrive" icon="microsoft" iconType="brands" />
-  <Card title="Box" icon="box-archive" />
-  <Card title="Slack" icon="slack" iconType="brands" />
-  <Card title="Microsoft Teams" icon="users" />
-  <Card title="Notion" icon="book-open" />
-  <Card title="Airtable" icon="table-cells" />
-  <Card title="Linear" icon="bars-progress" />
-  <Card title="Asana" icon="list-check" />
-  <Card title="Monday" icon="calendar" />
-  <Card title="GitHub" icon="github" iconType="brands" />
+  <Card title="Google Drive" icon="google-drive" iconType="brands">
+  </Card>
+
+  <Card title="Google Docs" icon="file-lines">
+  </Card>
+
+  <Card title="Google Sheets" icon="table">
+  </Card>
+
+  <Card title="Dropbox" icon="dropbox" iconType="brands">
+  </Card>
+
+  <Card title="OneDrive" icon="microsoft" iconType="brands">
+  </Card>
+
+  <Card title="Box" icon="box-archive">
+  </Card>
+
+  <Card title="Slack" icon="slack" iconType="brands">
+  </Card>
+
+  <Card title="Microsoft Teams" icon="users">
+  </Card>
+
+  <Card title="Notion" icon="book-open">
+  </Card>
+
+  <Card title="Airtable" icon="table-cells">
+  </Card>
+
+  <Card title="Linear" icon="bars-progress">
+  </Card>
+
+  <Card title="Asana" icon="list-check">
+  </Card>
+
+  <Card title="Monday" icon="calendar">
+  </Card>
+
+  <Card title="GitHub" icon="github" iconType="brands">
+  </Card>
 </CardGroup>
 
-Don't see a tool you rely on? [Send us
-feedback](/workspaces-and-account/feedback).
+Don't see a tool you rely on? [Send us feedback](/workspaces-and-account/feedback).
 
 ### How to connect
 
-Open **Account Settings → Connectors**, click **Connect** on the tool you
-want, sign in at the provider, and you're done. The card flips to
-**Connected** when authorisation completes.
+Open **Account Settings → Connectors**, click **Connect** on the tool you want, sign in at the provider, and you're done. The card flips to **Connected** when authorisation completes.
 
 ### Picking which connectors are active in a chat
 
-Connecting a tool makes it *available*. To use it in a conversation, open the
-**connector picker** in the composer and tick which connectors should be
-active. Fewer active sources = faster, more focused answers. Selections
-persist per chat.
+Connecting a tool makes it _available_. To use it in a conversation, open the **connector picker** in the composer and tick which connectors should be active. Fewer active sources = faster, more focused answers. Selections persist per chat.
 
-The picker also has a master **Public sources** switch. When off, every
-external source (the eight above, plus connectors) is blocked at the
-framework level — not just discouraged in the prompt — for that chat.
+The picker also has a master **Public sources** switch. When off, every external source (the eight above, plus connectors) is blocked at the framework level — not just discouraged in the prompt — for that chat.
 
 ## Privacy and security
 
@@ -123,18 +109,23 @@ framework level — not just discouraged in the prompt — for that chat.
   <Accordion title="Bower never sees your password">
     Authorisation runs through the provider's standard OAuth flow. We never touch your credentials.
   </Accordion>
+
   <Accordion title="OAuth tokens never live in Bower">
     Access tokens are held by our managed gateway (Composio). Bower stores only an opaque connection ID.
   </Accordion>
+
   <Accordion title="Searches respect provider permissions">
     Bird sees only what your account has access to in the provider. If your admin removes your access, Bird loses it on the next search.
   </Accordion>
+
   <Accordion title="Read-only by default">
     Bird never writes back to your connected tools. Content enters your knowledge base only when you explicitly ask Bird to save a result.
   </Accordion>
+
   <Accordion title="Disconnecting actually disconnects">
     Click Disconnect and the connection is revoked at the gateway; the token is destroyed. Items previously saved into your knowledge base stay put.
   </Accordion>
+
   <Accordion title="HIPAA workspaces can't use connectors yet">
     Our gateway provider's BAA isn't signed. Connectors are blocked in PHI-enabled workspaces — enforced server-side — until that's in place.
   </Accordion>
@@ -146,12 +137,15 @@ framework level — not just discouraged in the prompt — for that chat.
   <Accordion title="Re-auth — when a tool stops working">
     OAuth tokens expire. When that happens the card shows a **Re-auth** badge and Bird stops using that connector until you reconnect. Click **Reconnect**.
   </Accordion>
+
   <Accordion title="Switching the underlying account">
     Disconnect the existing connection and click Connect again. The next OAuth flow lets you sign in with the new account.
   </Accordion>
+
   <Accordion title="Cancelling a stuck connection attempt">
     If an OAuth dance was interrupted, the card stays in **Connecting…** and counts toward your cap. Click **Disconnect** to discard the attempt and free the slot.
   </Accordion>
+
   <Accordion title="Working with binary files (XLSX, PDF, images)">
     Bird returns a clickable link to binary files in storage tools. To analyse the contents, upload the file to your Bower workspace and Bird will read it with its built-in spreadsheet, PDF, and OCR tools.
   </Accordion>
