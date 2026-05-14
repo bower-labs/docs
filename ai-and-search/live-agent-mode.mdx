@@ -201,8 +201,50 @@ On the Protocol detail page, open the kebab menu (`⋮`) and choose **Bird AI an
 - **Not the protocol** — annotations live in a companion artifact, not the protocol body. The canonical protocol stays unchanged so admins keep control of the SOP.
 - **Not visible to people outside the workspace** — annotations inherit the parent protocol's access controls.
 
+## Visual watchers — "every time you see X, say Y"
+
+You can ask Bird to react to specific visual cues during any live session. Tell Bird what to watch for and what to say when it sees the thing, and Bird will keep an eye on the camera in the background. This works in any mode — you don't need to be running a protocol.
+
+### How to set one up
+
+Just say it in plain words:
+
+- *"Every time you see a thumbs up, say 'cool, man.'"*
+- *"Let me know when the gel turns pink."*
+- *"Watch for the colour change and tell me."*
+- *"Alert me if my hand touches the bench."*
+
+Bird confirms it's watching and the system starts checking camera frames every few seconds. When it spots a high-confidence match, Bird speaks the response you chose.
+
+### Limits
+
+- **Up to 3 watchers per session.** Past the limit, Bird tells you and asks you to clear one first. Voice-clear with *"forget about the thumbs up"* or *"stop watching for the gel"*.
+- **About a 15-second cooldown per watcher.** If the cue stays on camera, Bird won't repeat itself every time. Wait a bit before the next firing.
+- **Watchers reset on disconnect.** End the live session, and the watchers go with it. Re-register on the next session if you want them back.
+- **Each watcher costs a small amount.** Bird uses a separate AI model to check frames, so there's a per-session cost when watchers are active. Don't leave watchers running all day — clear them when you're done.
+
+### What works well
+
+Concrete, visually unambiguous cues:
+
+- ✅ *"a researcher's thumbs-up gesture"*
+- ✅ *"the centrifuge display reaching 10000 rpm"*
+- ✅ *"the gel turning pink"*
+
+What doesn't work as well — vague targets or things you can't see:
+
+- ❌ *"good things"* — too abstract; the model can't ground "good".
+- ❌ *"when I'm done"* — depends on your intent, not a visual.
+- ❌ *"the temperature reaching 37°C"* if the readout isn't on camera.
+
+### Asking Bird what it's watching for
+
+Just ask — *"what are you watching for?"* or *"what cues did I set up?"*. Bird lists the active watchers and how many times each has fired.
+
 ## What's saved
 
 During a live session, notes, snapshots, and video clips are only saved when you explicitly ask Bird to capture them. Bird AI annotations are the exception — those are captured automatically inside execution mode so the lab-learning loop works without conscious effort.
+
+Visual watchers are also automatic in spirit — they fire whenever Bird sees the cue — but they live only for the duration of the live session. Nothing gets saved to your workspace from a watcher firing; Bird just speaks the response and continues.
 
 All captured notes, snapshots, and clips are searchable immediately and play back inline in the attachment viewer. Annotations are accessible from the Protocol detail kebab menu.
