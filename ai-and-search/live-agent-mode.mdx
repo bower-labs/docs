@@ -176,13 +176,14 @@ Bird AI annotations are the lab-learnings Bird captures **while you run a protoc
 
 ### What gets captured
 
-- A **specific value** you state ("we use tip 7", "set temperature to 42 °C")
-- A **correction** to the protocol body ("we always do this cold", "skip step 3")
+- A **specific value** you state ("we use 50 µL of master mix here, not 100", "set the temperature to 42 °C")
+- A **correction** to the protocol body ("we always do this cold", "skip step 3", "anneal at 58 °C, not 60")
+- A **sterile-technique reminder** ("change pipette tips between each reagent", "vortex the tube before each addition") — the cross-contamination class of mistake that ruins more PCRs than any other
 - A **named tool, reagent, or setting** the protocol left open
 - A **deviation** or near-miss (also kept as a separate record — see above)
 - Anything you explicitly tell Bird to remember: *"remember that…"*, *"make a note that…"*, *"for next time…"*
 
-You don't have to use special phrasing. The first time you say *"we use tip 7 here"* during step 2 of a protocol, Bird saves that against step 2 of that protocol. The next time you run it, Bird already knows.
+You don't have to use special phrasing. The first time you say *"we use 50 µL of master mix, not the 100 in the protocol"* during step 2, Bird saves that against step 2 of that protocol. The next time anyone in your workspace runs it, Bird already knows.
 
 ### How they're used next time
 
