@@ -106,8 +106,102 @@ The wake word **"Hello Bird"** is detected locally on your device — it does no
 
 That means you can leave Bird active without keeping it always listening — keep your phone in your pocket with headphones, leave it on the lab bench, or leave a desktop session running while you take a call. Standby is useful for long lab sessions where you want Bird available but not always active.
 
+## Execution mode (running a protocol)
+
+When you start a live session and ask Bird to run one of your saved protocols, the live agent enters a structured **execution mode**. Bird parses the protocol body into a stepwise checklist, walks you through it step by step, and tracks your progress so you can keep both hands on the bench.
+
+### Starting a protocol
+
+- *"Run the **&lt;name&gt;** protocol"*
+- *"Start the **&lt;name&gt;** protocol"*
+- *"Let's do the **&lt;name&gt;** protocol"*
+
+If multiple protocols match what Bird heard, it will list them and ask which one — voice transcription can flip a letter ("workstation" vs "workspace"), so Bird is deliberately generous when searching.
+
+### The step strip
+
+A translucent strip appears at the bottom of the live screen showing:
+
+- **Done** steps — soft / ticked, behind you
+- **Current** step — large, bold, accented in brand colour
+- **Upcoming** steps — visible but de-emphasised
+
+The current step auto-scrolls into view as you advance. You can scroll up or down to peek at done or upcoming work; the next advance re-centres.
+
+### Advancing through steps
+
+Bird marks the current step done when you tell it you're finished. Natural phrasings all work:
+
+- *"Done"* / *"That's done"* / *"Next"*
+- *"Move on"* / *"Finished that"*
+
+Your verbal confirmation is always an unconditional override — Bird won't ask you to confirm or wait to visually verify. You said it, it's done.
+
+You can also skip a step:
+
+- *"Skip this one"* / *"We don't need this step"*
+
+### Pausing and resuming
+
+- *"Pause for a sec"* / *"Hold on"* — Bird stops the running clock and stays quiet until you resume
+- *"Resume"* / *"Where were we?"* — Bird announces the current step again and continues
+- *"That's done"* / *"We're finished"* (after the last step) — Bird ends the run and returns to general live mode
+
+### Timers
+
+Inside a protocol you can set a wall-clock timer for the current step:
+
+- *"Remind me in 30 minutes to take the gel out"*
+- *"Set a 5-minute timer"*
+- *"Buzz me when the incubation is done in 10 minutes"*
+
+Bird reads the duration back so you can catch a misheard time, then quietly waits. When the timer fires, Bird speaks the reminder.
+
+Timers are scoped to the **current step** — moving on clears them. If you want a multi-step reminder, set it on the step it should fire during.
+
+### Reporting deviations
+
+If something goes wrong or you do something differently than the protocol says, tell Bird. Examples:
+
+- *"I skipped the centrifuge step"*
+- *"I used 50 microlitres, not 100"*
+- *"I waited 10 minutes instead of 30"*
+- *"That tube touched the bench"*
+
+Bird captures the deviation with the right category (timing, parameter, sterile breach, etc.) and the active step id, so you have a record of what actually happened — useful for troubleshooting a failed run later.
+
+## Bird AI annotations
+
+Bird AI annotations are the lab-learnings Bird captures **while you run a protocol live**, so future runs of the same protocol get smarter. You don't manage them by hand — you talk, Bird saves the right things.
+
+### What gets captured
+
+- A **specific value** you state ("we use tip 7", "set temperature to 42 °C")
+- A **correction** to the protocol body ("we always do this cold", "skip step 3")
+- A **named tool, reagent, or setting** the protocol left open
+- A **deviation** or near-miss (also kept as a separate record — see above)
+- Anything you explicitly tell Bird to remember: *"remember that…"*, *"make a note that…"*, *"for next time…"*
+
+You don't have to use special phrasing. The first time you say *"we use tip 7 here"* during step 2 of a protocol, Bird saves that against step 2 of that protocol. The next time you run it, Bird already knows.
+
+### How they're used next time
+
+When you run the same protocol again, Bird loads its accumulated annotations as soft hints. As you reach each step, Bird weaves the relevant note into the announcement — *"Heads up — your lab usually uses 50 µL here, not 100. Want to stick with that?"* — rather than reading the bullets verbatim.
+
+If you repeat the same correction, Bird recognises it and **reinforces** the note (the bullet shows `[seen N×]` — higher N means more lab consensus). Reinforcement gives the model confidence to surface that note proactively in future runs.
+
+### Where to view them
+
+On the Protocol detail page, open the kebab menu (`⋮`) and choose **Bird AI annotations**. The dialog shows everything Bird has captured for that protocol, grouped by step. Read-only for now; admins will eventually be able to promote a bullet into the canonical protocol body.
+
+### What annotations are *not*
+
+- **Not a transcript** — Bird isn't recording every word you say. Only intent-bearing facts get saved.
+- **Not the protocol** — annotations live in a companion artifact, not the protocol body. The canonical protocol stays unchanged so admins keep control of the SOP.
+- **Not visible to people outside the workspace** — annotations inherit the parent protocol's access controls.
+
 ## What's saved
 
-During a live session, notes, snapshots, and video clips are only saved when you explicitly ask Bird to capture them. Nothing is automatically saved — you decide what's worth keeping.
+During a live session, notes, snapshots, and video clips are only saved when you explicitly ask Bird to capture them. Bird AI annotations are the exception — those are captured automatically inside execution mode so the lab-learning loop works without conscious effort.
 
-All captured notes, snapshots, and clips are searchable immediately and play back inline in the attachment viewer.
+All captured notes, snapshots, and clips are searchable immediately and play back inline in the attachment viewer. Annotations are accessible from the Protocol detail kebab menu.
