@@ -15,20 +15,20 @@ Both layers run on every request — the answer Bower gives is the **most restri
 
 ## Workspace roles
 
-When you invite someone, you pick their role. Owner, Admin, and Member are **paid seats**; Guest is a **free seat** with a per-tier cap. Permissions cascade — Owner has everything Admin has, Admin has everything Member has.
+When you invite someone, you pick their role. Owner, Admin, Member, and Viewer are **paid seats**; Guest is a **free seat** with a per-tier cap. Permissions cascade — Owner has everything Admin has, Admin has everything Member has.
 
-| | Owner | Admin | Member | Guest |
-|---|:-:|:-:|:-:|:-:|
-| Read content | yes | yes | yes | yes |
-| Edit content | yes | yes | yes | no |
-| Create / delete content | yes | yes | yes | no |
-| Invite team members | yes | yes | no | no |
-| Change member roles | yes ¹ | yes | no | no |
-| Manage workspace settings | yes | yes | no | no |
-| Manage billing | yes | no | no | no |
-| Read **Only specific people** entities (admin oversight) | yes | only if on the list | only if on the list | only if on the list |
-| Read **Just me** entities | only if on the list | only if on the list | only if on the list | only if on the list |
-| Transfer workspace ownership | yes | no | no | no |
+| | Owner | Admin | Member | Viewer | Guest |
+|---|:-:|:-:|:-:|:-:|:-:|
+| Read content | yes | yes | yes | yes | yes |
+| Edit content | yes | yes | yes | no | no |
+| Create / delete content | yes | yes | yes | no | no |
+| Invite team members | yes | yes | no | no | no |
+| Change member roles | yes ¹ | yes | no | no | no |
+| Manage workspace settings | yes | yes | no | no | no |
+| Manage billing | yes | no | no | no | no |
+| Read **Only specific people** entities (admin oversight) | yes | only if on the list | only if on the list | only if on the list | only if on the list |
+| Read **Just me** entities | only if on the list | only if on the list | only if on the list | only if on the list | only if on the list |
+| Transfer workspace ownership | yes | no | no | no | no |
 
 ¹ Only the **workspace Owner** can promote another member to Owner. Admins can manage Member ↔ Admin transitions but cannot create new Owners.
 
@@ -37,11 +37,14 @@ When you invite someone, you pick their role. Owner, Admin, and Member are **pai
 * **Owner** (paid) — the workspace lead. Handles billing, can transfer ownership, and provides admin oversight of team work. Cannot read content marked **Just me**.
 * **Admin** (paid) — manages members and settings but doesn't control billing. Useful for delegating workspace administration to lab managers without giving up the billing relationship.
 * **Member** (paid) — the default for invited collaborators. Can read and edit anything that's not restricted away from them, and create new content.
-* **Guest** (free) — read-only across the workspace. Right for stakeholders, supervisors, or external collaborators who need to see work but not change it. Capped by plan (Starter 1 / Pro 4 / Team 4 per paid seat).
+* **Viewer** (paid) — strict read-only across the workspace. The paid seat for stakeholders where read-only must be enforced by role, not just by per-entity privacy — auditors, IRB observers, regulated reviewers.
+* **Guest** (free) — read-only across the workspace, no seat cost. Capped by plan (Starter 1 / Pro 4 / Team 4 per paid seat). Right for external collaborators who need visibility but don't warrant a paid seat.
+
+Today Viewer and Guest are operationally similar — both are read-only. The role split exists to give Guest room to grow some write actions later without losing the strict read-only paid seat that compliance use cases require.
 
 ### Paid ↔ Guest is a billing-class change
 
-Moving a user between the paid roles (Owner / Admin / Member) and Guest isn't a role flip — it's **remove and re-invite**. The role dropdown deliberately doesn't offer Guest for paid members, and doesn't offer paid roles for guests. See [Invite team members](/workspaces-and-account/invite-team-members#paid--guest-is-remove-and-re-invite-not-in-place) for why.
+Moving a user between the paid roles (Owner / Admin / Member / Viewer) and Guest isn't a role flip — it's **remove and re-invite**. The role dropdown deliberately doesn't offer Guest for paid members, and doesn't offer paid roles for guests. See [Invite team members](/workspaces-and-account/invite-team-members#paid--guest-is-remove-and-re-invite-not-in-place) for why.
 
 ### Last-Owner protection
 
@@ -60,7 +63,7 @@ There are three modes:
 
 | Mode | Who can read | Who can edit |
 |---|---|---|
-| **Anyone in this workspace** *(default)* | all members and guests | paid members at their workspace role; guests never edit |
+| **Anyone in this workspace** *(default)* | all members, viewers, and guests | Owners / Admins / Members; viewers and guests never edit |
 | **Only specific people** | listed people + workspace Owner | listed people with Edit permission |
 | **Just me** | the creator + anyone explicitly on the list | the creator + listed people with Edit |
 
@@ -70,7 +73,7 @@ For the full Share dialog walkthrough, see [Sharing notes and collections](/orga
 
 When someone tries to read a note, Bower checks **both** layers and returns the most restrictive answer:
 
-* **Workspace role** decides if they can read content **at all**. Guests can read but not edit; non-members can't read anything.
+* **Workspace role** decides if they can read content **at all**. Viewers and Guests can read but not edit; non-members can't read anything.
 * **Entity privacy** decides if they can read **this specific** note. A note in **Only specific people** mode is invisible to anyone not on the list (or who isn't the creator or workspace Owner). A note in **Just me** mode is invisible to anyone except the creator and people the creator has explicitly added.
 
 Examples:
@@ -79,7 +82,7 @@ Examples:
 * Workspace Member opens a **Only specific people** note they're not on → 404. They don't get to know it exists.
 * Workspace Owner opens a **Only specific people** note → reads it (Owner has admin oversight in this mode).
 * Workspace Owner opens a **Just me** note someone else created → 404. Owner has no oversight on Just-me content.
-* Workspace Guest opens a default-public note → reads it (Guest can read, entity is open). They cannot edit (Guest role blocks).
+* Workspace Viewer or Guest opens a default-public note → reads it (the role can read, entity is open). They cannot edit (read-only role blocks).
 
 ### Special people: creator and Owner
 

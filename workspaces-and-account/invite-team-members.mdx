@@ -28,16 +28,21 @@ Invite links expire after **30 days**. If a link expires, revoke it from **Setti
 
 ## Roles
 
-Bower has four workspace roles. The first three are **paid seats** that count toward your subscription; the fourth is a **free guest** with a per-tier cap.
+Bower has five workspace roles. Four are **paid seats** that count toward your subscription; the fifth is a **free guest** with a per-tier cap.
 
 | Role | Billing class | What they can do |
 | --- | --- | --- |
 | **Owner** | Paid seat | Everything an Admin can do, plus manage billing and transfer ownership. Every workspace has at least one Owner — the person who created it. Ownership can be transferred to another Admin. |
 | **Admin** | Paid seat | Everything a Member can do, plus invite and remove members, change member roles, edit workspace settings, and manage [workspace instructions](/ai-and-search/workspace-instructions). Cannot manage billing. |
 | **Member** | Paid seat | Capture, view, edit, and search all notes, protocols, and collections in the workspace. The default for invited collaborators. |
-| **Guest** | Free | Read-only across the workspace — browse and search, but no editing, capture, or organisation actions. Right for external supervisors, stakeholders, or compliance reviewers who need visibility without seat cost. |
+| **Viewer** | Paid seat | Strict read-only across the workspace — browse and search, but never edit. Designed for paid-seat stakeholders where read-only must be guaranteed by role, not just per-entity restriction (auditors, IRB observers, regulated reviewers). |
+| **Guest** | Free | Read-only across the workspace, no seat cost. Capped by plan. Right for external collaborators, supervisors, and stakeholders who need visibility but don't warrant a paid seat. |
 
 A workspace must always have at least one Admin or Owner — Bower will block the last admin/owner from being downgraded or removed.
+
+<Note>
+**Viewer vs Guest today.** Both Viewer and Guest are read-only right now, so the practical difference is billing: Viewer is a paid seat, Guest is free. The Viewer role is reserved as the strict read-only seat for the day Guest gains some write actions in the workspace — at which point the two roles will visibly diverge. Today the invite dialog surfaces **Guest** for the read-only case; Viewer assignments are handled by [contacting support](mailto:hello@bowerlabs.ai).
+</Note>
 
 ### Guest caps per plan
 
