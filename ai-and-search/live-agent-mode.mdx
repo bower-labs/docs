@@ -191,9 +191,13 @@ When you run the same protocol again, Bird loads its accumulated annotations as 
 
 If you repeat the same correction, Bird recognises it and **reinforces** the note (the bullet shows `[seen N×]` — higher N means more lab consensus). Reinforcement gives the model confidence to surface that note proactively in future runs.
 
-### Where to view them
+### Where to view and edit them
 
-On the Protocol detail page, open the kebab menu (`⋮`) and choose **Bird AI annotations**. The dialog shows everything Bird has captured for that protocol, grouped by step. Read-only for now; admins will eventually be able to promote a bullet into the canonical protocol body.
+On the Protocol detail page, open the kebab menu (`⋮`) and choose **Bird AI annotations**. The dialog shows everything Bird has captured for that protocol, grouped by step.
+
+Every bullet has inline **edit** and **delete** controls. Use them when Bird captured something incorrectly (a misheard quantity, a typo, the wrong reagent) or when an old note no longer applies. Edits update the visible bullet text and the seen-count is preserved — re-saying the corrected note in a future run reinforces the same bullet. Deletes are immediate and can't be undone from the modal.
+
+Any workspace member can edit or delete any bullet, including ones marked as admin-locked — the lock is a UI marker for who originally authored the bullet, not an authorization gate. Viewers (read-only members) can't edit or delete.
 
 ### What annotations are *not*
 
