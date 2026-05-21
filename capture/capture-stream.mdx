@@ -1,0 +1,51 @@
+---
+title: "Capture Stream"
+description: "A chronological feed of everything captured across your workspace — voice notes, photos, AI-written summaries, attachments, and live recordings — filterable by source, person, collection, and time."
+---
+
+The Capture Stream is your workspace's single chronological feed: every note, every voice memo, every photo, every AI-authored summary, in the order they happened. Open it to see what the lab has been doing today; come back to it tomorrow to trace yesterday's work.
+
+## Opening the stream
+
+Click **Capture Stream** in the workspace sidebar, or navigate directly to `/capture-stream`. The page is workspace-scoped — you only see captures you have access to, gated by the same permissions that apply everywhere else in Bower.
+
+## What you see
+
+Each row shows one capture, top-to-bottom in reverse-chronological order:
+
+- **Icon and source label** on the left. A voice note shows the microphone icon and **VOICE**; an image-derived note shows the image icon and **IMAGE**; an AI-written summary shows the sparkle icon and **NOTE** (the source pill on the right tells you *how* it was made). Live-mode snapshots and recordings get their own camera and recorder icons.
+- **Title and snippet** in the middle. For notes, the snippet is the first ~300 characters of the body. For attachments, it's the file's extracted text (OCR for images, transcript for audio, first paragraph for PDFs).
+- **Inline media** beneath the title. Images render as a thumbnail; click to open at full size. Videos show a poster frame with a play overlay; click to play in a lightbox. Audio files render an inline player so you can listen without leaving the feed. Notes that were *transcribed from* an audio recording also get the inline audio player — the original recording is one click away from the transcript.
+- **Time and metadata** on the right. Hover the relative timestamp ("3 hours ago") to see the exact local date and time. Below it, the source pill ("From audio", "AI written", "Live photo") tells you the origin. Below that, the collection the capture belongs to.
+
+## Filters
+
+Four filter chips above the feed. All four round-trip through the URL, so a link to *"Mish's voice captures in Pancreatic shield, last 7 days"* is shareable.
+
+| Filter | What it does |
+| --- | --- |
+| **Any source** | Multi-select. Filter to specific origins — voice notes, image-derived notes, live recordings, AI-written, file uploads, etc. |
+| **Any collection** | Multi-select. Show only captures inside one or more collections. |
+| **Anyone** | Multi-select. Show only captures created by specific workspace members. |
+| **All time** | Today, last 7 days, last 30 days, or all time. |
+
+Active filters render as removable chips below the bar. Tap the × on any chip to drop one filter; click **Clear** to drop them all.
+
+## What's *not* in the stream
+
+The stream excludes the noise that would otherwise crowd it:
+
+- **Nested attachments** under another note (e.g. an image you dropped into a note's editor) — those belong to the parent note, not the feed.
+- **Trashed items** — restoring a trashed capture brings it back into the stream automatically.
+- **System-internal artifacts** (like the per-step annotations Bower records during a live protocol execution) — those are infrastructure, not content.
+
+## Why "Capture Stream"?
+
+Bower captures research as it happens: a quick voice note, a photo of a label, a recording from your glasses, a Bird summary you asked for in chat. Each of those lands in the same workspace, but they used to scatter across different views — voice notes in one place, attachments in another, AI output in a third. The Capture Stream pulls them back together in the order they actually occurred, so the question *"what happened in the lab on Tuesday?"* has one answer.
+
+## Related docs
+
+- [Mobile capture](/capture/mobile-capture) — voice and photo capture from your phone
+- [Batch import](/capture/batch-import) — bringing existing files into Bower
+- [Live agent mode](/ai-and-search/live-agent-mode) — the hands-free capture surface that feeds the stream
+- [Collections](/organisation/collections) — how captures get organised
