@@ -57,6 +57,7 @@
               "organisation/collections",
               "organisation/notes-vs-attachments",
               "organisation/protocols",
+              "organisation/equipment-register",
               "organisation/tags",
               "organisation/linked-entities",
               "organisation/organising-workspace",
@@ -91,6 +92,7 @@
           {
             "group": "May 2026",
             "pages": [
+              "changelog/2026-05-25-equipment-register",
               "changelog/2026-05-21-capture-stream",
               "changelog/2026-05-12-research-integrations",
               "changelog/2026-05-09-knowledge-graph",
