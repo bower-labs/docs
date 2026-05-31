@@ -1,0 +1,165 @@
+---
+title: AI app access
+description: Connect Claude.ai, ChatGPT, Cursor, and Zed to your Bower workspace.
+---
+
+Connect Claude.ai, ChatGPT, Cursor, and Zed to Bower so your AI assistant can
+search, read, and write to your workspace directly. The connection is
+OAuth-based — you authorise it, you can revoke it, and it is scoped to a single
+workspace.
+
+## What this is for
+
+The outbound Connectors (Google Drive, Notion, Slack, and others) let Bird reach
+out to the tools your lab already uses. AI app access goes the other way: it
+lets external AI clients — Claude.ai, ChatGPT, Cursor, Zed — read and write to
+your Bower workspace, with your explicit permission. You can ask Claude or
+another assistant to search your notes, create a new note, or look up your
+project data without leaving that client.
+
+## Supported clients
+
+- **Claude.ai** — native MCP connector with refresh-token support.
+- **ChatGPT** — custom MCP connector (Pro plan or higher).
+- **Cursor** — MCP servers configured via `~/.cursor/mcp.json` or the
+  MCP / Tools section of your Cursor settings (verify in your version).
+- **Zed** — MCP via `~/.config/zed/settings.json` (currently uses the
+  `mcp-remote` shim for HTTP transport; verify whether your version has added
+  native HTTP MCP support).
+
+## How to connect
+
+The server URL for all clients is `https://api.bowerlabs.ai/mcp`.
+
+Every client follows the same flow:
+
+1. In the client, add a new MCP server or connector and enter the URL
+   `https://api.bowerlabs.ai/mcp`.
+2. The client opens a browser tab to Bower's sign-in page.
+3. Sign in with your Bower account (Google or email).
+4. If you belong to more than one workspace, pick which workspace to grant the
+   client access to. If you have only one workspace, Bower selects it
+   automatically.
+5. The client reports "Connected" and Bower's tools become available.
+
+### Cursor — `~/.cursor/mcp.json`
+
+Create or open `~/.cursor/mcp.json` and add a `bower` entry under `mcpServers`:
+
+```jsonc
+{
+  "mcpServers": {
+    "bower": {
+      "url": "https://api.bowerlabs.ai/mcp"
+    }
+  }
+}
+```
+
+If the file already contains other servers, add the `bower` block alongside them
+— don't replace existing entries. Save the file and restart Cursor (or reload
+the MCP configuration if your version supports hot-reload). Bower will prompt for
+authorisation the first time you invoke a Bower tool.
+
+You can also configure Cursor via its Settings UI in the MCP / Tools section
+(verify the exact location in your version of Cursor).
+
+### Zed — `~/.config/zed/settings.json`
+
+As of 2026-05-31, Zed uses stdio-based MCP servers. Until Zed adds native HTTP
+MCP transport, use the `mcp-remote` shim:
+
+```bash
+npm install -g mcp-remote
+```
+
+Then add a `context_servers` block to `~/.config/zed/settings.json`:
+
+```jsonc
+{
+  "context_servers": {
+    "bower": {
+      "command": {
+        "path": "mcp-remote",
+        "args": ["https://api.bowerlabs.ai/mcp"]
+      }
+    }
+  }
+}
+```
+
+If your version of Zed has added native HTTP MCP support, the configuration
+simplifies to a `"url"` field. Check Zed's MCP documentation for the current
+syntax.
+
+Save the file and restart Zed. Bower will prompt for authorisation on first use.
+
+## What Bird can do via these clients
+
+- Search and read notes, links, collections, and attachments.
+- Create new notes in your workspace.
+- Read project and experiment data.
+- Everything is workspace-scoped — the client never sees data from workspaces
+  you are not a member of.
+
+More tools are added as Bower's MCP surface grows.
+
+## Permissions
+
+Bower issues two scopes at authorisation time:
+
+- `mcp:read` — read your workspace data.
+- `mcp:write` — create and modify data on your behalf.
+
+You authorise both when you connect. The workspace boundary is server-enforced
+on every request — a valid token for workspace A never returns data from
+workspace B.
+
+## Privacy and security
+
+- Bower never sees your AI client's credentials. The client and Bower exchange
+  only OAuth tokens.
+- Tokens are issued and rotated by WorkOS AuthKit, Bower's identity partner.
+  Bower stores no access tokens.
+- Refresh tokens rotate automatically — long-running sessions stay connected
+  without you needing to re-authorise.
+- You can revoke access at any time by disconnecting Bower in your client. Signing
+  out of Bower and starting a new session also issues a fresh token.
+- Workspace isolation is server-enforced — even with a valid token for workspace
+  A, no data from workspace B is ever returned.
+
+## Switching workspaces
+
+Disconnect Bower in your client, reconnect, and pick the new workspace at the
+sign-in step.
+
+## Troubleshooting
+
+**"Couldn't connect"** — confirm the URL is exactly
+`https://api.bowerlabs.ai/mcp`. No trailing slash, no extra path.
+
+**"Workspace not specified" / prompted to connect again** — visit
+`https://app.bowerlabs.ai/auth/workos` while signed in to your Bower account,
+pick a workspace, then retry the connection from your client.
+
+**Access expires after a few hours** — clients with native MCP refresh-token
+support (Claude.ai, recent versions of Cursor) refresh automatically. If your
+client does not, disconnect Bower and reconnect to start a fresh authorisation.
+
+**"Command not found: mcp-remote" (Zed)** — run `npm install -g mcp-remote` and
+confirm the binary is on your `$PATH`. Run `which mcp-remote` to find the full
+path and use it explicitly in your Zed settings if needed.
+
+**Connected to the wrong workspace** — disconnect Bower in your client, visit
+`https://app.bowerlabs.ai/auth/workos` to pre-select the correct workspace, then
+reconnect.
+
+**HIPAA workspaces** — AI app access is not yet available for HIPAA-enabled
+workspaces. Our identity provider's BAA is not yet signed. Server-side enforced.
+
+## Related docs
+
+- [Connectors](/integrations/connectors) — let Bird search the tools your lab
+  already uses (outbound direction).
+- [Trust Centre](https://bowerlabs.ai/trust) — security posture, data handling,
+  and compliance.

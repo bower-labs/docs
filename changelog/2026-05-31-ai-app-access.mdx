@@ -1,0 +1,60 @@
+---
+title: AI app access — Claude.ai, ChatGPT, Cursor, and Zed can now connect to Bower
+description: Bring your AI assistant to your Bower workspace.
+---
+
+You can now connect Claude.ai, ChatGPT, Cursor, and Zed to your Bower workspace
+so your AI assistant can search, read, and write directly to your notes,
+projects, and experiment data. Wherever you are working, Bird's workspace
+knowledge is available without switching context.
+
+**Shipped 2026-05-31 · Integrations**
+
+## What's new
+
+- **Claude.ai** — add Bower as an MCP connector; native refresh-token support
+  keeps the session alive.
+- **ChatGPT** — add Bower as a custom MCP connector (Pro plan or higher).
+- **Cursor** — configure Bower via `~/.cursor/mcp.json` or Settings → MCP / Tools.
+- **Zed** — configure Bower via `~/.config/zed/settings.json` using the
+  `mcp-remote` shim (verify native HTTP support in your version).
+- A new **AI app access** tab in Settings shows which clients have connected and
+  lets you manage access.
+
+All four clients connect to the same endpoint: `https://api.bowerlabs.ai/mcp`.
+
+## How it works
+
+Connection uses OAuth 2.1 + PKCE. When you add Bower as an MCP server in your
+client, the client opens a browser tab to Bower's sign-in page. Sign in with
+your Bower account — Google or email — and, if you belong to more than one
+workspace, pick which one to grant the client access to. Bower issues scoped
+tokens and redirects you back to the client. The whole flow takes under a minute.
+
+Tokens are issued and rotated by WorkOS AuthKit, Bower's identity partner.
+Refresh tokens rotate automatically, so long-running client sessions stay
+connected without you having to re-authorise. Bower stores no credentials of its
+own — all token lifecycle management runs through WorkOS.
+
+The scopes issued at connect time are `mcp:read` (read workspace data) and
+`mcp:write` (create and modify data on your behalf). You authorise both when you
+connect. Workspace isolation is server-enforced on every request — a token
+scoped to workspace A never returns data from workspace B, even if you are a
+member of both.
+
+## Privacy
+
+- Bower never sees your AI client's credentials. Only OAuth tokens are exchanged.
+- Tokens are issued and rotated by WorkOS AuthKit. Bower stores no access tokens.
+- Workspace isolation is server-enforced — valid tokens for one workspace never
+  surface data from another.
+
+## Tier limits
+
+AI app access is available on all paid Bower tiers. HIPAA-enabled workspaces are
+not yet supported — our identity provider's BAA is not yet signed. Server-side
+enforced until that is in place.
+
+## Related docs
+
+[AI app access — setup guide](/integrations/ai-app-access)
