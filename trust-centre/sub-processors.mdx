@@ -25,6 +25,17 @@ When you use AI features (Bird chat, voice transcription, photo text extraction,
 | [Google Cloud Speech-to-Text](https://cloud.google.com/terms/cloud-privacy-notice) | Voice note transcription | Audio recordings | US |
 | [Anthropic](https://www.anthropic.com/privacy) | AI chat (Bird), agent tasks | Text, chat messages | US |
 
+## Integrations & identity
+
+When you connect external services to Bower — either letting Bird search your other tools, or letting an external AI client read your Bower workspace — these providers process the OAuth tokens that broker that access. Bower never stores the underlying access tokens itself.
+
+| Service | Purpose | Data processed | Location |
+|---------|---------|---------------|----------|
+| [WorkOS](https://workos.com/privacy) ([DPA](https://workos.com/legal/dpa)) | OAuth Authorization Server for the MCP public server. Issues + rotates tokens when external AI clients (Claude.ai, ChatGPT, Cursor, Zed) connect to your workspace. | Email, display name, internal user ID, workspace ID, workspace role; OAuth client registrations | US |
+| [Composio](https://composio.dev/privacy) | Managed OAuth gateway for outbound [Connectors](/integrations/connectors). Holds your OAuth tokens for Drive, Notion, Slack, GitHub and other tools so Bower never sees them. | OAuth tokens for connected providers; tool-invocation requests and responses during federated reads | US |
+
+Connectors and external AI access are **not yet available in HIPAA-enabled workspaces** — neither provider's BAA is signed yet. Both surfaces are blocked server-side for PHI workspaces until that's in place.
+
 ## Payment processing
 
 | Service | Purpose | Data processed | Location |
@@ -50,7 +61,7 @@ All primary data (database, files, backups) is stored in Google Cloud's **us-cen
 
 We review our sub-processor list quarterly. If we add a new sub-processor that processes personal data, we will update this page. Material changes will be communicated via email to workspace owners.
 
-**Last reviewed:** 20 April 2026
+**Last reviewed:** 31 May 2026
 
 ## Questions
 
