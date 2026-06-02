@@ -1,57 +1,51 @@
 ---
 title: "Mobile capture"
-description: "Voice transcription and photo text extraction — capture by speaking or pointing your camera."
+description: "Capture by voice, photo, video, or text on your phone. Bower transcribes, extracts, and syncs to your desktop — so nothing falls between the bench and the write-up."
 ---
 
-Capture by voice or photo on your phone. Bower transcribes, extracts, and syncs to your desktop — so nothing falls between the bench and the write-up.
+The **Capture** tab on mobile is built around a single capture ring and a four-mode picker — **Voice**, **Photo**, **Video**, **Text**. Tap the ring to start, then every mode ends on the same review screen: **name → collection → save**. Pick a mode, capture, save. Everything syncs to your desktop within seconds.
 
-## Voice transcription
+<Info>
+Across every mode you can leave the **name** blank to let AI title it for you, and pick or create a **collection** inline — no need to leave the capture screen.
+</Info>
 
-Bower records your spoken observations and transcribes them in real time using scientific speech recognition trained on domain vocabulary. The transcript appears as an editable note, with the original recording attached.
+## Voice
 
-### To record a voice note
+Bower records your spoken observations and transcribes them in real time using scientific speech recognition trained on domain vocabulary. The transcript becomes an editable note, with the original recording attached.
 
 <Steps>
-  <Step title="Open Bower on your phone">
-    Go to [app.bowerlabs.ai](https://app.bowerlabs.ai) in your mobile browser. For faster access, you can [add Bower to your home screen](/getting-started/install-pwa).
-  </Step>
-  <Step title="Tap Voice Recording">
-    Select the **Voice Recording** tile on the Quick Capture page.
+  <Step title="Tap the ring in Voice mode">
+    A full-screen recording view opens with a live waveform and timer. You can pause and resume.
   </Step>
   <Step title="Speak your observation">
-    Bower listens and transcribes in real time.
+    Bird listens and transcribes in real time. Recordings can be up to 30 minutes long.
   </Step>
-  <Step title="Tap stop when you're done">
-    Recordings can be up to 30 minutes long.
-  </Step>
-  <Step title="Your note is created">
-    Bower generates a title automatically using AI, or you can set one manually. The transcript syncs to desktop within seconds. The original audio recording is always attached to the note — so the source of truth is never lost.
+  <Step title="Tap stop, then review and save">
+    Play back the recording, set a name (or let AI do it), choose a collection, and save. The transcript syncs to desktop within seconds, with the original audio always attached — the source of truth is never lost.
   </Step>
 </Steps>
 
 <Info>
 **A few things worth knowing:**
 - Bower recognises scientific terminology: units, chemical names, numeric values, and Latin binomials.
-- Recordings have a 30-minute limit per note.
 - If a value looks outside an expected range, Bird will flag it after capture — not during.
 - Accuracy improves as Bower learns your terminology and accent over time.
 - You can rate the quality of transcriptions and text extractions. Both positive and negative [feedback](/workspaces-and-account/feedback) helps us improve accuracy for scientific content.
 </Info>
 
-## Photo text extraction
+## Photo
 
 Point your camera at a handwritten notebook, printed document, instrument display, or sample label. Bower reads the image and extracts the text as an editable note. (This is sometimes called OCR — optical character recognition.)
 
-### To capture a photo
-
 <Steps>
-  <Step title="Tap Take Photo on the Quick Capture page">
-    You can take a new photo with your camera, or tap **From gallery** to select an existing image from your phone.
+  <Step title="Tap the ring in Photo mode">
+    Take a new photo with your camera, or choose an existing image from your gallery.
   </Step>
-  <Step title="Frame the document, display, or label and capture" />
-  <Step title="Bower reads the image and extracts the content" />
-  <Step title="The original image is attached to the note with metadata">
-    For photos taken on your phone, Bower automatically reads the embedded metadata: the actual capture time, GPS location, and device model are shown in the attachment panel alongside file size and upload time. Tap the location to open it in Maps.
+  <Step title="Choose Photo note or Equipment">
+    A toggle on the review screen lets you save it as a normal **Photo note**, or as **Equipment** — in which case Bird reads the nameplate and pre-fills make, model, and serial straight into your [Equipment Register](/organisation/equipment-register).
+  </Step>
+  <Step title="Review and save">
+    The original image is attached to the note with its metadata. For photos taken on your phone, Bower reads the embedded EXIF data — actual capture time, GPS location, and device model — shown in the attachment panel. Tap the location to open it in Maps.
   </Step>
 </Steps>
 
@@ -63,12 +57,25 @@ Point your camera at a handwritten notebook, printed document, instrument displa
 - Mixed handwriting and print
 - Sample storage labels
 
-### After extraction
+Extracted tables are inline-editable, low-confidence regions are highlighted, and everything becomes searchable immediately.
 
-- Extracted tables are inline-editable — correct values directly without retyping.
-- Low-confidence regions are highlighted. Bird will surface anything it wasn't sure about.
-- Everything becomes searchable immediately.
+## Video
+
+Record a clip up to 5 minutes. Bird transcribes the audio, generates chapters, and writes a summary — so a quick walkthrough of a setup or a result becomes a searchable, structured note.
+
+<Steps>
+  <Step title="Tap the ring in Video mode">
+    Your phone's camera opens to record a clip.
+  </Step>
+  <Step title="Review and save">
+    Preview the clip, name it (or let AI do it), choose a collection, and save. The video is attached to the note and processed in the background.
+  </Step>
+</Steps>
+
+## Text
+
+Type or paste a note directly. Use Text mode when you want to jot something quickly without recording — it lands in your workspace the same way every other capture does.
 
 ## What happens after capture
 
-Every voice note and photo syncs to your desktop workspace via WebSocket — no manual upload needed. Once there, it's fully searchable, editable, and available to Bird for summarisation and retrieval.
+Every capture is held safely on your device the moment you make it, so a dropped connection or an accidental refresh won't lose it. Once saved, it syncs to your desktop workspace in real time — no manual upload — and is fully searchable, editable, and available to Bird for summarisation and retrieval.
