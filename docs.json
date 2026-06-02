@@ -18,6 +18,7 @@
             "pages": [
               "index",
               "quickstart",
+              "getting-started/mobile",
               "getting-started/install-pwa",
               "trust-centre/index"
             ]
@@ -94,6 +95,8 @@
             "group": "May 2026",
             "pages": [
               "changelog/2026-05-31-ai-app-access",
+              "changelog/2026-05-30-page-tree-organising",
+              "changelog/2026-05-26-mobile-experience",
               "changelog/2026-05-25-equipment-register",
               "changelog/2026-05-21-capture-stream",
               "changelog/2026-05-12-research-integrations",
