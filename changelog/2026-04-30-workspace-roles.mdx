@@ -1,6 +1,6 @@
 ---
-title: "Workspace roles: Owner, Admin, Member, Viewer"
-description: "Four workspace roles with a clean separation of duties — billing for Owner, member management for Admin, day-to-day work for Member, read-only for Viewer."
+title: "Workspace roles: Owner, Admin, Member, Guest"
+description: "Four workspace roles with a clean separation of duties — billing for Owner, member management for Admin, day-to-day work for Member, read-only for Guest."
 sidebarTitle: "Workspace roles"
 ---
 
@@ -19,7 +19,7 @@ name says.
 
 ## The roles
 
-| | Owner | Admin | Member | Viewer |
+| | Owner | Admin | Member | Guest |
 |---|:-:|:-:|:-:|:-:|
 | Read content | yes | yes | yes | yes |
 | Edit and create content | yes | yes | yes | — |
@@ -37,9 +37,9 @@ name says.
   without taking on the billing relationship.
 - **Member** — the default role. Read, edit, and create — the role
   most of your team will sit in.
-- **Viewer** — read-only across the workspace. Right for stakeholders,
-  supervisors, or external collaborators who need to see work but not
-  change it.
+- **Guest** — read-only across the workspace, no seat cost. Right for
+  stakeholders, supervisors, or external collaborators who need to see
+  work but not change it.
 
 ## Last-Owner protection
 
@@ -56,7 +56,7 @@ Workspace roles decide what someone can do *across* the workspace.
 [Granular permissions](/changelog/2026-04-27-granular-permissions) decide
 who can read or edit a *specific* note or collection. Bower runs both
 checks on every request and returns the most restrictive answer — so a
-Viewer can read a default-public note but can't edit it, and a Member
+Guest can read a default-public note but can't edit it, and a Member
 opening a note they're not on the access list for gets a polite
 "request access" page rather than the content.
 
