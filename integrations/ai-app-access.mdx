@@ -17,12 +17,12 @@ project data without leaving that client.
 
 ## How to connect
 
-The server URL for all clients is `https://api.bowerlabs.ai/mcp`.
+The server URL for all clients is `https://app.bowerlabs.ai/mcp`.
 
 Every client follows the same flow:
 
 1. In the client, add a new MCP server or connector and enter the URL
-   `https://api.bowerlabs.ai/mcp`.
+   `https://app.bowerlabs.ai/mcp`.
 2. The client opens a browser tab to Bower's sign-in page.
 3. Sign in with your Bower account.
 4. If you belong to more than one workspace, pick which workspace to grant the
@@ -38,7 +38,7 @@ Create or open `~/.cursor/mcp.json` and add a `bower` entry under `mcpServers`:
 {
   "mcpServers": {
     "bower": {
-      "url": "https://api.bowerlabs.ai/mcp"
+      "url": "https://app.bowerlabs.ai/mcp"
     }
   }
 }
@@ -78,7 +78,7 @@ sign-in step.
 ## Troubleshooting
 
 **"Couldn't connect"** — confirm the URL is exactly
-`https://api.bowerlabs.ai/mcp`. No trailing slash, no extra path.
+`https://app.bowerlabs.ai/mcp`. No trailing slash, no extra path.
 
 **"Workspace not specified" / prompted to connect again** — visit
 `https://app.bowerlabs.ai/auth/workos` while signed in to your Bower account,
