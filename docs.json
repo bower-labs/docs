@@ -95,6 +95,7 @@
           {
             "group": "May 2026",
             "pages": [
+              "changelog/2026-06-12-protocol-step-videos",
               "changelog/2026-05-31-ai-app-access",
               "changelog/2026-05-30-page-tree-organising",
               "changelog/2026-05-26-mobile-experience",
