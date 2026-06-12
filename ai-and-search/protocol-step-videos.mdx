@@ -1,0 +1,47 @@
+---
+title: "Protocol step videos"
+description: "Attach a reference video to a protocol and mark where each step happens — then ask Bird to play the right moment, hands-free."
+---
+
+A protocol tells you *what* to do. A step video shows you *how it's done*. Attach a short recording of the protocol being performed — a training video, a recording from a previous run, anything — and mark the moment each step happens, the way YouTube chapters work. From then on, anyone running the protocol can pull up exactly the right clip without scrubbing.
+
+This matters most when your hands are full. During a live session you can simply say *"show me this step"* and the video appears, already playing from the right moment — on the web, on mobile, or on AR glasses.
+
+## Setting up a step video
+
+<Steps>
+  <Step title="Open the protocol">
+    Open the protocol in your workspace. You'll see a **Step video** section below the editor.
+  </Step>
+  <Step title="Add a video recording">
+    Click **Video recording** in the toolbar (or **Add video** in the Step video section) and upload your video. H.264 MP4 files work best across devices.
+  </Step>
+  <Step title="Mark each step">
+    Play the video. When you reach the moment a step begins, click **Set marker** next to that step. The timestamp is captured from wherever the video is — pause first for precision.
+  </Step>
+</Steps>
+
+Markers save automatically as you set them — there's nothing to submit. To change one, clear it (×) and set it again. The step list comes from your protocol's numbered steps; if you haven't run the protocol with Bird yet, the steps come from the document outline and are refined after the first run.
+
+## Asking Bird for the video
+
+Once a video is bound, these all work in a live session — in any mode, whether or not you're running the protocol:
+
+- *"Show me the video for this protocol"* — plays the bound video
+- *"Show me this step"* — while running the protocol, plays the current step's clip
+- *"Skip to step 3"* — jumps by step number
+- *"Show me the vortex step"* — jumps by what the step is called; a fragment of the name is enough
+- *"Play it from the start"* — restarts the video
+
+If a step doesn't have a marker yet, Bird will say so and list the steps that do.
+
+## Where the video appears
+
+- **Web and mobile** — an overlay above the live session view, and a **Watch** button on the current step during protocol runs
+- **AR glasses** — a floating panel beside the protocol card, so the clip and your bench stay in view together
+
+## A few details worth knowing
+
+- One video per protocol for now. Re-binding a different video replaces the markers.
+- The video is a normal attachment in your workspace — deleting the attachment removes the playback (the protocol itself is untouched).
+- Markers are tied to your protocol's steps. If you substantially rewrite the steps, revisit the markers — Bower matches them up intelligently, but a renamed step is honest work for nobody but you.
