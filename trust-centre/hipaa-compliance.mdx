@@ -18,7 +18,7 @@ These restrictions are enforced server-side by middleware — they cannot be byp
 
 The following features use Google Gemini exclusively and remain available:
 
-- Voice transcription (Google Cloud Speech-to-Text, covered by GCP BAA)
+- Voice transcription (Google Cloud Speech-to-Text, covered by GCP BAA). The OpenAI transcription fallback available to non-PHI workspaces is **disabled** here — PHI audio stays on Google only.
 - Photo OCR and text extraction (Gemini Vision)
 - AI-generated descriptions for attachments (Gemini)
 

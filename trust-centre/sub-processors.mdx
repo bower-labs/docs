@@ -7,6 +7,12 @@ Bower uses the following third-party services ("sub-processors") to operate the 
 
 We will update this page whenever we add or remove a sub-processor.
 
+## How our DPAs work
+
+For most providers, the DPA is **incorporated by reference** into the vendor's commercial terms — when we accept those terms to use the service, the DPA's data-protection obligations (including GDPR Standard Contractual Clauses for international transfers, UK/Swiss equivalents, and CCPA/CPRA) apply automatically, with no separate signature required. Where a provider offers a separately executed DPA, we link it next to the service below.
+
+Separately, **HIPAA** protections require a signed Business Associate Agreement (BAA). Only providers with a signed BAA (currently Google Cloud) may process data for **HIPAA-enabled (PHI) workspaces** — every other provider is blocked server-side for those workspaces. See [HIPAA compliance](/trust-centre/hipaa-compliance) for what that allows and blocks.
+
 ## Infrastructure & hosting
 
 | Service | Purpose | Data processed | Location |
@@ -22,8 +28,11 @@ When you use AI features (Bird chat, voice transcription, photo text extraction,
 | Service | Purpose | Data processed | Location |
 |---------|---------|---------------|----------|
 | [Google AI (Gemini, Vertex AI)](https://cloud.google.com/terms/cloud-privacy-notice) | AI chat (Bird), live voice/video mode, OCR/image text extraction, text embeddings, semantic memory | Text, images, audio, video streams | US |
-| [Google Cloud Speech-to-Text](https://cloud.google.com/terms/cloud-privacy-notice) | Voice note transcription | Audio recordings | US |
+| [Google Cloud Speech-to-Text](https://cloud.google.com/terms/cloud-privacy-notice) | Voice note transcription (primary) | Audio recordings | US |
+| [OpenAI](https://openai.com/policies/privacy-policy) ([DPA](https://openai.com/policies/data-processing-addendum/)) | Voice note transcription **fallback** — used only if Google Speech-to-Text is temporarily unavailable. Non-PHI workspaces only. | Audio recordings, voice transcripts | US |
 | [Anthropic](https://www.anthropic.com/privacy) | AI chat (Bird), agent tasks | Text, chat messages | US |
+
+Voice transcription uses **Google Cloud Speech-to-Text** by default. If it's temporarily unavailable, non-PHI workspaces fall back to **OpenAI** so transcription keeps working. **HIPAA-enabled (PHI) workspaces never use the OpenAI fallback** — they stay on Google only, enforced server-side. OpenAI does not train on data submitted via its API; its [Data Processing Addendum](https://openai.com/policies/data-processing-addendum/) is incorporated by reference into the OpenAI Services Agreement (effective 1 January 2026) — no separate signature required, acceptance is deemed by use of the API.
 
 ## Integrations & identity
 
@@ -61,7 +70,7 @@ All primary data (database, files, backups) is stored in Google Cloud's **us-cen
 
 We review our sub-processor list quarterly. If we add a new sub-processor that processes personal data, we will update this page. Material changes will be communicated via email to workspace owners.
 
-**Last reviewed:** 31 May 2026
+**Last reviewed:** 19 June 2026
 
 ## Questions
 
