@@ -177,6 +177,7 @@
             "pages": [
               "trust-centre/index",
               "trust-centre/data-privacy",
+              "trust-centre/ai-data-handling",
               "trust-centre/sub-processors",
               "trust-centre/cookies",
               "trust-centre/audit-logs",
