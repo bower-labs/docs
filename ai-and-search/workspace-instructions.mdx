@@ -8,7 +8,7 @@ Workspace instructions are a short note shared across your lab or organisation t
 If personal preferences are "this is me", workspace instructions are "this is how we do things here".
 
 <Note>
-  **Guidance, not enforcement.** Workspace instructions are direction Bird does its best to follow, not a hard policy engine. Treat them the way you'd treat a written brief to a new lab member: most of the time they shape behaviour as intended, but they aren't a substitute for technical controls (like HIPAA mode), access restrictions, or human review on high-stakes work. For anything that *must* be enforced, pair workspace instructions with the appropriate setting or policy.
+  **Guidance, not enforcement.** Workspace instructions are direction Bird does its best to follow, not a hard policy engine. Treat them the way you'd treat a written brief to a new lab member: most of the time they shape behaviour as intended, but they aren't a substitute for technical controls (like Restricted mode), access restrictions, or human review on high-stakes work. For anything that *must* be enforced, pair workspace instructions with the appropriate setting or policy.
 </Note>
 
 ## Why use them
@@ -92,16 +92,16 @@ Changes apply to new conversations across the whole workspace — Bird reads the
 
 Workspace instructions have a **3,000-character cap** — about 500 words. That's deliberately tight: it forces you to keep the field focused on policies and conventions that genuinely apply to every conversation, instead of letting it drift into a handbook of project notes. The character counter under the editor turns amber as you approach the limit and red if you exceed it. If you're near the cap, prune older items rather than expanding.
 
-## HIPAA workspaces
+## Restricted-mode workspaces
 
-If your workspace has HIPAA mode enabled, Bird automatically adds a locked compliance section to its system instructions. Workspace instructions must not contain:
+If your workspace is in Restricted mode (HIPAA-ready), Bird automatically adds a locked compliance section to its system instructions. Workspace instructions must not contain:
 
 - Patient identifiers
 - Dates of birth
 - Medical record numbers
 - Phone numbers in a structured pattern
 
-Saves are rejected if any of those patterns are detected. The audit trail never stores workspace instruction content for any workspace — the HIPAA rejection on save is an explicit defence-in-depth on top.
+Saves are rejected if any of those patterns are detected. The audit trail never stores workspace instruction content for any workspace — the Restricted-mode rejection on save is an explicit defence-in-depth on top.
 
 <Note>
   Workspace instructions are for **workspace structure, conventions, and policy guidance only** — never for sensitive subject data. Patient records and study data live in encrypted notes and are referenced by ID, not by name in instructions.

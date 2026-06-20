@@ -21,7 +21,7 @@ We deliberately keep this list small and route each task to the most appropriate
 |----------|--------------------|----------|---------------------|
 | **Google Vertex AI** (Gemini, Speech-to-Text) | Voice transcription, photo/OCR text extraction, attachment understanding, semantic search embeddings, live voice/video mode, and most AI classifiers | US | **Yes** |
 | **Google Gemini API** | Bird chat, PDF understanding, and some text generation | US | No |
-| **OpenAI** (gpt-4o-transcribe) | Voice transcription **fallback** only — used if Google Speech-to-Text is briefly unavailable. Non-PHI workspaces only. | US | No |
+| **OpenAI** (gpt-4o-transcribe) | Voice transcription **fallback** only — used if Google Speech-to-Text is briefly unavailable. Not used in Restricted mode. | US | No |
 
 Most of Bower's AI runs on **Google Vertex AI**, which is covered by a signed Business Associate Agreement (BAA). The other providers handle narrower tasks and are **never used by workspaces in [Restricted mode](/trust-centre/hipaa-compliance)** (see below).
 

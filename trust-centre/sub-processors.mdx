@@ -29,7 +29,7 @@ When you use AI features (Bird chat, voice transcription, photo text extraction,
 |---------|---------|---------------|----------|
 | [Google AI (Gemini, Vertex AI)](https://cloud.google.com/terms/cloud-privacy-notice) | AI chat (Bird), live voice/video mode, OCR/image text extraction, text embeddings, semantic memory | Text, images, audio, video streams | US |
 | [Google Cloud Speech-to-Text](https://cloud.google.com/terms/cloud-privacy-notice) | Voice note transcription (primary) | Audio recordings | US |
-| [OpenAI](https://openai.com/policies/privacy-policy) ([DPA](https://openai.com/policies/data-processing-addendum/)) | Voice note transcription **fallback** — used only if Google Speech-to-Text is temporarily unavailable. Non-PHI workspaces only. | Audio recordings, voice transcripts | US |
+| [OpenAI](https://openai.com/policies/privacy-policy) ([DPA](https://openai.com/policies/data-processing-addendum/)) | Voice note transcription **fallback** — used only if Google Speech-to-Text is temporarily unavailable. Not used in Restricted mode. | Audio recordings, voice transcripts | US |
 
 Voice transcription uses **Google Cloud Speech-to-Text** by default. If it's temporarily unavailable, workspaces not in [Restricted mode](/trust-centre/hipaa-compliance) fall back to **OpenAI** so transcription keeps working. **Restricted-mode workspaces never use the OpenAI fallback** — they stay on Google only, enforced server-side. OpenAI does not train on data submitted via its API; its [Data Processing Addendum](https://openai.com/policies/data-processing-addendum/) is incorporated by reference into the OpenAI Services Agreement (effective 1 January 2026) — no separate signature required, acceptance is deemed by use of the API.
 
@@ -42,7 +42,7 @@ When you connect external services to Bower — either letting Bird search your 
 | [WorkOS](https://workos.com/privacy) ([DPA](https://workos.com/legal/data-processing-addendum)) | OAuth Authorization Server for the MCP public server. Issues + rotates tokens when external AI clients (Claude.ai, ChatGPT, Cursor, Zed) connect to your workspace. | Email, display name, internal user ID, workspace ID, workspace role; OAuth client registrations | US |
 | [Composio](https://composio.dev/privacy) | Managed OAuth gateway for outbound [Connectors](/integrations/connectors). Holds your OAuth tokens for Drive, Notion, Slack, GitHub and other tools so Bower never sees them. | OAuth tokens for connected providers; tool-invocation requests and responses during federated reads | US |
 
-Connectors and external AI access are **not yet available in HIPAA-enabled workspaces** — neither provider's BAA is signed yet. Both surfaces are blocked server-side for PHI workspaces until that's in place.
+Connectors and external AI access are **not yet available in [Restricted-mode](/trust-centre/hipaa-compliance) workspaces** — neither provider's BAA is signed yet. Both surfaces are blocked server-side for Restricted-mode workspaces until that's in place.
 
 ## Payment processing
 
