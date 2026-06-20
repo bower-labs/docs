@@ -30,9 +30,8 @@ When you use AI features (Bird chat, voice transcription, photo text extraction,
 | [Google AI (Gemini, Vertex AI)](https://cloud.google.com/terms/cloud-privacy-notice) | AI chat (Bird), live voice/video mode, OCR/image text extraction, text embeddings, semantic memory | Text, images, audio, video streams | US |
 | [Google Cloud Speech-to-Text](https://cloud.google.com/terms/cloud-privacy-notice) | Voice note transcription (primary) | Audio recordings | US |
 | [OpenAI](https://openai.com/policies/privacy-policy) ([DPA](https://openai.com/policies/data-processing-addendum/)) | Voice note transcription **fallback** — used only if Google Speech-to-Text is temporarily unavailable. Non-PHI workspaces only. | Audio recordings, voice transcripts | US |
-| [Anthropic](https://www.anthropic.com/privacy) | AI chat (Bird), agent tasks | Text, chat messages | US |
 
-Voice transcription uses **Google Cloud Speech-to-Text** by default. If it's temporarily unavailable, non-PHI workspaces fall back to **OpenAI** so transcription keeps working. **HIPAA-enabled (PHI) workspaces never use the OpenAI fallback** — they stay on Google only, enforced server-side. OpenAI does not train on data submitted via its API; its [Data Processing Addendum](https://openai.com/policies/data-processing-addendum/) is incorporated by reference into the OpenAI Services Agreement (effective 1 January 2026) — no separate signature required, acceptance is deemed by use of the API.
+Voice transcription uses **Google Cloud Speech-to-Text** by default. If it's temporarily unavailable, workspaces not in [Restricted mode](/trust-centre/hipaa-compliance) fall back to **OpenAI** so transcription keeps working. **Restricted-mode workspaces never use the OpenAI fallback** — they stay on Google only, enforced server-side. OpenAI does not train on data submitted via its API; its [Data Processing Addendum](https://openai.com/policies/data-processing-addendum/) is incorporated by reference into the OpenAI Services Agreement (effective 1 January 2026) — no separate signature required, acceptance is deemed by use of the API.
 
 ## Integrations & identity
 

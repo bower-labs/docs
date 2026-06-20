@@ -1,53 +1,53 @@
 ---
-title: "HIPAA compliance mode"
-description: "How to enable PHI mode for workspaces that handle protected health information."
+title: "Restricted mode (HIPAA-ready)"
+description: "Lock a workspace down to BAA-covered AI only — for PHI or any highly sensitive data."
 ---
 
-If your workspace handles protected health information (PHI), you can enable HIPAA compliance mode to enforce stricter controls on AI processing and data sharing.
+If your workspace handles protected health information (PHI) — or any highly sensitive material you want to keep inside the tightest possible boundary (confidential or unpublished research, trade secrets, regulated data) — you can enable **Restricted mode (HIPAA-ready)** to enforce stricter controls on AI processing and data sharing.
 
-## What PHI mode does
+## What Restricted mode does
 
 When enabled, two restrictions take effect immediately:
 
-- **AI processing is restricted to Google Gemini only.** Bower uses multiple AI providers for different tasks. In PHI mode, only routes that use Google Gemini (covered by a signed Business Associate Agreement) are permitted. Other AI features are blocked at the API level.
+- **AI processing is restricted to Google (Vertex AI) only.** Bower uses multiple AI providers for different tasks. In Restricted mode, only routes covered by a signed Business Associate Agreement — Google Vertex AI — are permitted. Every other provider (the Gemini API, OpenAI) is blocked at the API level.
 - **External sharing is disabled.** Share links cannot be created for any artifact in the workspace. Existing share links are not retroactively removed, but no new ones can be generated.
 
 These restrictions are enforced server-side by middleware — they cannot be bypassed from the frontend.
 
-### What still works in PHI mode
+### What still works in Restricted mode
 
-The following features use Google Gemini exclusively and remain available:
+The following features run entirely on Google (Vertex AI, BAA-covered) and remain available:
 
-- Voice transcription (Google Cloud Speech-to-Text, covered by GCP BAA). The OpenAI transcription fallback available to non-PHI workspaces is **disabled** here — PHI audio stays on Google only.
+- Voice transcription (Google Cloud Speech-to-Text, covered by GCP BAA). The OpenAI transcription fallback available to other workspaces is **disabled** here — your audio stays on Google only.
 - Photo OCR and text extraction (Gemini Vision)
 - AI-generated descriptions for attachments (Gemini)
 
-### What is blocked in PHI mode
+### What is blocked in Restricted mode
 
-Any AI route not in the Gemini-only allowlist is blocked. This includes features that may route through non-BAA-covered providers. If you attempt to use a blocked feature, you will see an error explaining that the feature is restricted in PHI workspaces.
+Any AI route not in the Google Vertex AI (BAA-covered) allowlist is blocked. This includes features that may route through non-BAA-covered providers. If you attempt to use a blocked feature, you will see an error explaining that the feature is restricted in this workspace.
 
-## Enabling PHI mode
+## Enabling Restricted mode
 
-Only workspace **admins** and **owners** can toggle PHI mode.
+Only workspace **admins** and **owners** can toggle Restricted mode.
 
 <Steps>
   <Step title="Go to Settings > Workspace" />
-  <Step title="Find the PHI mode toggle in the workspace card" />
+  <Step title="Find the Restricted mode toggle in the workspace card" />
   <Step title="Click the toggle to enable" />
   <Step title="Confirm in the dialog that appears" />
 </Steps>
 
 A confirmation dialog will explain exactly what changes. Once confirmed, restrictions take effect immediately.
 
-## Disabling PHI mode
+## Disabling Restricted mode
 
-You can disable PHI mode from the same toggle. A warning dialog will explain that HIPAA protections will be removed. Disabling is also immediate — AI provider restrictions are lifted and sharing is re-enabled.
+You can disable Restricted mode from the same toggle. A warning dialog will explain that the protections will be removed. Disabling is also immediate — AI provider restrictions are lifted and sharing is re-enabled.
 
 ## Important notes
 
-- PHI mode is **forward-only**. Enabling it does not retroactively re-process content that was previously handled by non-Gemini providers.
-- PHI mode is a **workspace-level** setting. If you have multiple workspaces, each one can be configured independently. Consider creating a dedicated workspace for PHI data.
-- Bower's PHI mode restricts AI processing and sharing. It does not replace a full HIPAA compliance programme. You are responsible for ensuring your organisation meets all applicable requirements, including staff training, risk assessments, and BAA coverage for other tools in your workflow.
+- Restricted mode is **forward-only**. Enabling it does not retroactively re-process content that was previously handled by non-Gemini providers.
+- Restricted mode is a **workspace-level** setting. If you have multiple workspaces, each one can be configured independently. Consider creating a dedicated workspace for PHI data.
+- Bower's Restricted mode restricts AI processing and sharing. It does not replace a full HIPAA compliance programme. You are responsible for ensuring your organisation meets all applicable requirements, including staff training, risk assessments, and BAA coverage for other tools in your workflow.
 
 ## Further reading
 
