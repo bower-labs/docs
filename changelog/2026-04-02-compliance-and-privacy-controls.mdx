@@ -1,6 +1,6 @@
 ---
-title: "HIPAA and GDPR controls"
-description: "PHI guard middleware with a workspace toggle, GDPR consent and data export, account deletion, retention controls, and a public sub-processors list."
+title: "Restricted mode (HIPAA-ready) and GDPR controls"
+description: "Restricted mode (HIPAA-ready) with a workspace toggle, GDPR consent and data export, account deletion, retention controls, and a public sub-processors list."
 sidebarTitle: "Compliance controls"
 ---
 
@@ -15,13 +15,13 @@ without leaving Bower.
 
 ## What's new
 
-**HIPAA**
+**Restricted mode (HIPAA-ready)**
 
-- A workspace-level **HIPAA toggle** in Security settings switches on a
-  PHI guard that applies stricter handling to all artifacts in the
-  workspace.
-- The PHI guard middleware blocks PHI from reaching unauthorised endpoints
-  and surfaces audit trails for any access.
+- A workspace-level **Restricted mode** toggle in Security settings applies
+  stricter handling to all artifacts — AI processing is limited to
+  BAA-covered providers (Google Vertex AI) and external sharing is disabled.
+- Enforced server-side, with audit trails for any access. Built for PHI, and
+  useful for any highly sensitive data.
 
 **GDPR**
 
@@ -48,6 +48,6 @@ you need for an audit conversation.
 ## Related docs
 
 - [Trust Centre](/trust-centre)
-- [HIPAA compliance](/trust-centre/hipaa-compliance)
+- [Restricted mode (HIPAA-ready)](/trust-centre/hipaa-compliance)
 - [Data privacy](/trust-centre/data-privacy)
 - [Sub-processors](/trust-centre/sub-processors)
