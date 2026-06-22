@@ -14,7 +14,7 @@ You don't need to memorise exact phrases — Bird understands intent, so paraphr
 | Run a protocol & step through it by voice | ✓ | ✓ | ✓ |
 | Ask questions, talk through your work | ✓ | ✓ | ✓ |
 | Start / stop recording a clip | ✓ | — | ✓ |
-| Take a snapshot / create a note | ✓ | Audio only | ✓ |
+| Take a snapshot / create a note | ✓ | ✓ (spoken confirmation) | ✓ |
 | **Show** an image or reference video on screen | ✓ (overlay) | — (no screen) | ✓ (in-world panel) |
 | Jump a reference video to a step | ✓ | — | ✓ |
 | Reposition / resize the on-screen display | — | — | ✓ |
@@ -22,6 +22,10 @@ You don't need to memorise exact phrases — Bird understands intent, so paraphr
 
 <Note>
 The differences are about **capability, not preference** — the Ray-Bans have no screen, so "show me the gel photo" has nowhere to appear. Commands that need a display only exist on devices that have one.
+</Note>
+
+<Note>
+**Jumping to a specific step is confirmed first.** On any device, when you ask to jump to a named or numbered step — *"skip to step 3"*, *"go to the vortex step"* — Bird reads the step's title back (*"Jump to 'Vortex the sample' — that right?"*) and waits for a *"yes"* before moving. Marking a step done, skipping, and going back stay instant. See [execution mode](/ai-and-search/live-agent-mode#execution-mode-running-a-protocol) for details.
 </Note>
 
 ## Commands by device
@@ -63,18 +67,22 @@ The differences are about **capability, not preference** — the Ray-Bans have n
   </Tab>
 
   <Tab title="Meta Ray-Ban">
-    Audio-only — there's no screen, so everything is spoken. Bird keeps replies short and skips anything visual.
+    No screen, but the camera and mic are live, so replies are spoken and Bird keeps them short.
 
     **Run and step through a protocol**
     - *"Run the buffer prep protocol"* / *"Start it"*
     - *"Next step"* · *"Mark this done"* · *"Go back"* · *"What's the next step?"*
     - *"Skip to step 3"* · *"Read me step 5"*
 
+    **Capture by voice** — the glasses have a camera, so this works even without a screen
+    - *"Take a snapshot"* / *"Save this"* — Bird grabs the current camera frame and saves it to your workspace
+    - *"Make a note that the sample looked cloudy"* — Bird records a note by voice
+    - Bird confirms out loud; there's no screen to preview the result, but the snapshot or note lands in your workspace just the same
+
     **Talk through your work**
     - Ask anything: *"How much sodium chloride does this step need?"*, *"Is 4 °C okay for this?"*
-    - *"Make a note that the sample looked cloudy"* — Bird records it to your workspace by voice
 
-    **Not available on Ray-Ban** (no screen): showing images or videos, the heads-up card, resizing/pinning a display, and standby — those need a display. Use mobile or the VITURE glasses for anything visual.
+    **Not available on Ray-Ban** (needs a screen): *showing* images or videos, the heads-up card, resizing/pinning a display, and standby. Use mobile or the VITURE glasses for anything that has to appear on screen.
   </Tab>
 
   <Tab title="Mobile / Desktop">
