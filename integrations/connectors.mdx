@@ -1,6 +1,6 @@
 ---
 title: "Connectors"
-description: "Bird connects to 22 sources out of the box — 8 always-on scholarly indexes plus 14 of the tools your lab already uses. Federated search by default; nothing lands in your knowledge base until you save it."
+description: "Bird connects to 23 sources out of the box — 8 always-on scholarly indexes plus 15 of the tools your lab already uses. Federated search by default; nothing lands in your knowledge base until you save it."
 ---
 
 ## 8 always-on sources — no setup
@@ -43,7 +43,7 @@ Out of the box, Bird grounds answers in eight open sources with no connection st
 
 **Save your ORCID iD on your profile** (Settings → Profile → _Research identity_) and Bird will pull from your publication list when you ask things like _"what have I published recently on coral alkalinity?"_ — no need to share the iD each turn. We only ever read your **public** ORCID profile.
 
-## 14 connectors — one-click OAuth
+## 15 connectors — one-click OAuth
 
 Connectors extend Bird into the tools you've licensed. Each is connected **per user, per workspace** — your OAuth, your access. A colleague's connections aren't visible from your account.
 
@@ -61,6 +61,9 @@ Connectors extend Bird into the tools you've licensed. Each is connected **per u
   </Card>
 
   <Card title="OneDrive" icon="microsoft" iconType="brands">
+  </Card>
+
+  <Card title="OneNote" icon="note-sticky">
   </Card>
 
   <Card title="Box" icon="box-archive">
@@ -102,6 +105,36 @@ Open **Account Settings → Connectors**, click **Connect** on the tool you want
 Connecting a tool makes it _available_. To use it in a conversation, open the **connector picker** in the composer and tick which connectors should be active. Fewer active sources = faster, more focused answers. Selections persist per chat.
 
 The picker also has a master **Public sources** switch. When off, every external source (the eight above, plus connectors) is blocked at the framework level — not just discouraged in the prompt — for that chat.
+
+## Import your OneNote notebooks into Bower
+
+Connecting a tool lets Bird _search_ it in place. Importing is different: it makes a copy of your content **inside Bower**, as notes you can edit, search, link, and organise like anything else you've captured. OneNote is the first connector you can import from.
+
+<Note>
+  Import brings content **into** your workspace — the deliberate counterpart to federated search. Use it when you want your notebooks to live in Bower, not just be searchable at the source.
+</Note>
+
+### How to import
+
+1. Connect OneNote first (above), then open **Account Settings → Connectors**.
+2. On the OneNote card, click **Import**.
+3. In the wizard, browse your **notebooks → sections → pages** and tick what you want. Ticking a notebook or section selects everything inside it.
+4. Choose where it lands: **Create a new collection**, or **Add to an existing collection**.
+5. Click **Import**. The wizard closes and the import runs in the background.
+
+### What happens
+
+- Bower mirrors your OneNote structure: notebooks and sections become nested **collections**, and each page becomes a **note**.
+- Progress shows page by page in the tasks tray (bottom-right). You can keep working while it runs.
+- Each note records where it came from, so your imported content stays tied to its OneNote source.
+- Formatting carries over — tables, to-do checkboxes, and text styling — and inline images are brought across too. If an image can't be fetched, Bower flags it on the note rather than dropping it silently.
+
+### Good to know
+
+- **Read-only at the source.** Import never writes back to OneNote. Edits you make to an imported note stay in Bower.
+- **Re-importing won't duplicate.** Bower recognises pages it has already imported, so running the same import again won't create duplicate notes.
+- **Large notebooks.** A single import handles up to 500 pages. For a bigger notebook, import one section at a time.
+- **Availability.** Import is part of connectors, so it's available on Individual and Team plans. Restricted-mode workspaces can't use connectors yet.
 
 ## Privacy and security
 
