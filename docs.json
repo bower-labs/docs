@@ -97,6 +97,7 @@
           {
             "group": "June 2026",
             "pages": [
+              "changelog/2026-06-29-connectors-on-every-plan",
               "changelog/2026-06-27-onenote",
               "changelog/2026-06-12-protocol-step-videos"
             ]
