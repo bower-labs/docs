@@ -1,0 +1,46 @@
+---
+title: "Meeting summaries with action items"
+description: "Record a meeting and Bower adds a summary — TL;DR, key points, and action items with owners — above the transcript."
+sidebarTitle: "Meeting summaries"
+---
+
+{/* TODO(design): hero image at /images/changelog/meeting-summary-hero.png */}
+
+**Shipped 2026-07-10 · Voice notes**
+
+When you record or upload a meeting, Bower now writes a short summary at the top
+of the note — a one-line TL;DR, the key points, and a list of action items with
+the owner named for each — so you can see what was decided and who's doing what
+without reading the whole transcript.
+
+## What's new
+
+- A **Summary** panel at the top of every meeting note, above the transcript. It
+  lists the participants, a **TL;DR**, the **key points**, and the **action
+  items**.
+- Each action item names an **owner** — the person who agreed to do it — pulled
+  from the speakers in the meeting.
+- A **Transcript** heading below the summary, so the full back-and-forth is still
+  there in full.
+- The summary is ordinary note content — edit, reword, or delete any part of it
+  just like the rest of your note.
+
+## How it works
+
+With the **Meeting** toggle on, Bower transcribes the recording, labels each
+speaker, and then reads the transcript to draft the summary. Action items are
+matched to an owner only when the meeting clearly attributes the task to a named
+participant — Bower never guesses who owns what. The summary is written once,
+when the transcript is ready, and dropped straight into the note as editable
+text.
+
+## Good to know
+
+- Summaries are generated for **meeting** recordings (the **Meeting** toggle on).
+  Solo dictation is transcribed as before, with no summary.
+- Works on every surface — the desktop recorder, the **Transcribe as meeting**
+  option on an audio attachment, and meetings captured on mobile.
+- An action item is left **without an owner** rather than assigned to the wrong
+  person when the meeting doesn't clearly say who owns it.
+- The summary is a starting point — because it's plain note content, you can
+  correct or expand anything before sharing.
