@@ -1,0 +1,40 @@
+---
+title: "Speaker labels for meeting recordings"
+description: "Record a meeting and Bower labels each speaker's part of the transcript."
+sidebarTitle: "Meeting speaker labels"
+---
+
+{/* TODO(design): hero image at /images/changelog/meeting-diarization-hero.png */}
+
+**Shipped 2026-06-29 · Voice notes**
+
+When you record a voice note with more than one person talking, Bower can now
+identify the different speakers and label each turn of the conversation — so a
+meeting transcript reads as a clear back-and-forth instead of one undivided block
+of text.
+
+## What's new
+
+- A **Meeting** toggle next to the voice recorder. Turn it on before recording a
+  conversation with multiple speakers.
+- The transcript is split into labelled turns — **Speaker 1**, **Speaker 2**, and
+  so on — each as its own paragraph.
+- Solo dictation is unchanged: with the toggle off (the default), your note is
+  transcribed as a single flowing transcript, exactly as before.
+
+## How it works
+
+With **Meeting** on, Bower asks the speech engine to separate the voices in the
+recording and tags every passage with the speaker who said it. Your transcript is
+then formatted with each speaker's turn on its own line. The speaker labels are
+attached after transcription and never rewritten during clean-up, so attribution
+stays accurate.
+
+## Good to know
+
+- Speakers are labelled generically (**Speaker 1**, **Speaker 2**, …). You can
+  rename them in the note.
+- Works best for clear recordings; very large groups (4+ speakers) or noisy audio
+  may reduce accuracy.
+- Available for recorded and uploaded voice notes. Live mode is not yet supported.
+- Supported for English and 14 other languages.
