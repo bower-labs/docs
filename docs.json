@@ -95,6 +95,12 @@
             ]
           },
           {
+            "group": "July 2026",
+            "pages": [
+              "changelog/2026-07-12-bird-diagrams"
+            ]
+          },
+          {
             "group": "June 2026",
             "pages": [
               "changelog/2026-06-29-connectors-on-every-plan",
