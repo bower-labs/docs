@@ -97,6 +97,7 @@
           {
             "group": "July 2026",
             "pages": [
+              "changelog/2026-07-15-lifetime-personalization",
               "changelog/2026-07-12-bird-diagrams",
               "changelog/2026-07-10-meeting-summary"
             ]

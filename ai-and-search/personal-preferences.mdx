@@ -1,102 +1,64 @@
 ---
-title: "Personal preferences"
-description: "Tell Bird about you once — your role, expertise, and how you like to be helped — and every conversation starts calibrated."
+title: "Personal preferences and memory"
+description: "Help Bird understand how you work with personal preferences and private learned memories."
 ---
 
-Bird already carries a lot of context into each conversation: it remembers facts and decisions from your past chats (via its conversation memory), and it picks up whatever notes, projects, or files you've selected as live context. What it doesn't infer is *how* you like to be helped — your role, your response-style preferences, the recurring asks Bird tends to get wrong. Personal preferences fill that gap.
+Bird can personalise its help in three different ways. They have different
+authors, audiences, and purposes.
 
-**Personal preferences** are a short note you write *to Bird, about you*. They're injected into every conversation Bird has with you, so you don't have to keep re-introducing yourself or restating how you like things. Visible only to you — never to your workspace.
+| Type | Who creates it | Who can see it | Use it for |
+| --- | --- | --- | --- |
+| **Personal preferences** | You | Only you | How you like Bird to help: your role, expertise, writing style, and recurring preferences |
+| **What Bird remembers** | Bird, after processing a conversation turn and applying a memory change | Only you | Useful, durable details Bird has learned from working with you |
+| [**Workspace instructions**](/ai-and-search/workspace-instructions) | Workspace owners and admins | Everyone in the workspace | Shared lab conventions, vocabulary, and standing guidance |
 
-## Why use them
+All three are available on every Bower plan.
 
-Without personal preferences, you end up repeating the same setup every conversation:
+## Personal preferences
 
-> "I'm a postdoc, you can skip the basics. Always show units. Keep it concise."
+**Personal preferences** are a note you write for Bird. Use them for details
+you want to state directly, such as the depth of explanation you prefer, your
+field, or how you want results formatted.
 
-With personal preferences, you write that once in settings and Bird reads it before every reply.
-
-The benefits compound across daily use:
-
-<AccordionGroup>
-  <Accordion title="Calibrated explanations">
-    Bird tailors depth and vocabulary to your expertise. Tell it you're an expert in mass spectrometry but new to single-cell RNA-seq, and it will explain the latter without dumbing down the former.
-  </Accordion>
-  <Accordion title="Consistent communication style">
-    Want concise responses? Specific citation style? A preferred tone? State it once. Bird applies it across chat, voice, and the live agent.
-  </Accordion>
-  <Accordion title="Recurring preferences that stick">
-    Things that previously needed correcting in every conversation — "spell my name with the accent", "never use em-dashes", "always include a Methods bullet" — get respected from turn one.
-  </Accordion>
-  <Accordion title="Faster onboarding for new conversations">
-    No more "first turn = configure Bird, second turn = actual question". Every chat opens already focused on what you need.
-  </Accordion>
-</AccordionGroup>
-
-## How to write them
-
-Free text. No format required. Write to Bird like you'd brief a new lab partner.
-
-A useful starting structure:
-
-- **Who you are** — role, field, experience level
-- **Where Bird should calibrate up or down** — topics you know cold, topics you're still learning
-- **How you like to communicate** — response length, tone, citation style
-- **Recurring preferences** — things Bird has gotten wrong before, anything you don't want to keep restating
-
-### Example
+For example:
 
 ```
-I'm a postdoc in computational neuroscience, four years in. Comfortable with
-single-cell methods, Python, and statistical modelling. Still learning systems
-neuroscience and electrophysiology — explain those topics like I'm new.
-
-Communication:
-- Default to concise. Bullet points where it helps; prose where it doesn't.
-- Always include units alongside numbers; SI by default.
-- No em-dashes.
-
-Currently preparing an R01 renewal due 2026-06-01.
+I'm a postdoc in computational neuroscience. Default to concise answers,
+include SI units, and use bullet points for summaries.
 ```
 
-## Where to set them
+Set or update them in **Settings → Preferences → Personal preferences for
+Bird**. Keep them focused on preferences that are likely to remain useful.
 
-**Settings → Preferences → Personal preferences for Bird**
+## What Bird remembers
 
-Type or paste your preferences, hit **Save**. Changes apply to new conversations — Bird reads them at the start of each conversation, so existing chats keep their original context until they're closed and reopened.
+**What Bird remembers** is a list of explicit, learned memories. Bird may save
+a useful, durable detail after it processes a conversation turn and applies a
+memory change. This can include a fact or preference Bird learns during a
+normal chat.
 
-Personal preferences have a **3,000-character cap** — about 500 words, which is plenty. The character counter under the editor turns amber as you approach the limit and red if you exceed it; Bird performs best with focused, current preferences, so prune older items rather than expanding.
+Bird confirms this in the chat only after it saves a memory.
 
-## Privacy
+Memory capture happens in the background, so it should not slow Bird's
+response to you.
 
-<Note>
-  Personal preferences are **strictly private to you**. No one in your workspace, including admins and owners, can read or edit them. They're stored encrypted in your account and only injected into Bird conversations where you are the requester.
-</Note>
+### Review or remove learned memories
 
-If you delete your account, your personal preferences are deleted with it.
+Learned memories are private to you. Other members of your workspace,
+including owners and admins, cannot see or edit them.
 
-## Personal preferences vs. workspace instructions
+Open **Settings → Preferences → What Bird remembers** to view, edit, or delete
+any learned memory. Remove anything that is no longer accurate or helpful.
 
-Bird reads two layers of personalisation, and they compose:
+## Workspace instructions
 
-|  | Personal preferences | [Workspace instructions](/ai-and-search/workspace-instructions) |
-| --- | --- | --- |
-| Visible to | Only you | All workspace members |
-| Edited by | Only you | Owners and admins |
-| Use it for | Your role, preferences, recurring requests | Org policies, lab vocabulary, standing instructions |
-| Conflicts | Workspace instructions take precedence on compliance; personal preferences win on style | — |
-
-Use personal preferences for *how you like to work with Bird*. Use workspace instructions for *how the lab or organisation works*.
-
-## Tips
-
-<Tip>
-  **Keep them current.** Update your personal preferences when your focus changes — a new project, a deadline, a topic you're suddenly going deep on. Bird is more useful when its context reflects your present work, not your past.
-</Tip>
+Use [workspace instructions](/ai-and-search/workspace-instructions) for the
+guidance a whole lab or organisation should share with Bird: terminology,
+standing conventions, and team-wide expectations. They are not a place for
+your personal preferences or private learned memories.
 
 <Tip>
-  **Lead with the most surprising thing.** If there's one preference Bird often misses (e.g. "I always want SI units, not imperial"), put it near the top.
-</Tip>
-
-<Tip>
-  **Use plain language.** No need to format as a list, write headers, or use markdown. Bird understands natural prose.
+  Put a preference in the layer that owns it: write your own preferences,
+  review Bird's learned memories, and keep team guidance in workspace
+  instructions.
 </Tip>
