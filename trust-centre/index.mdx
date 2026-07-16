@@ -44,10 +44,10 @@ Bower is built for researchers who handle sensitive data. Every feature — from
 
 <CardGroup cols={3}>
   <Card title="AES-256 encryption" icon="lock">
-    All data encrypted at rest using AES-256. All data in transit encrypted via TLS. No unencrypted paths exist.
+    All data encrypted at rest using AES-256 and in transit via TLS, on every connection.
   </Card>
   <Card title="Workspace isolation" icon="shield-halved">
-    Full database-level isolation between workspaces, enforced in middleware. No cross-workspace data leakage is possible.
+    Each workspace's data is isolated at the data layer, scoped to a single workspace beneath the application so cross-workspace access is blocked before any data is returned.
   </Card>
   <Card title="Audit logging" icon="clock-rotate-left">
     Every create, update, and delete action is logged with who, what, when, and field-level diffs. Exportable to CSV.
