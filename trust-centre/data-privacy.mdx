@@ -16,7 +16,7 @@ All data between your browser and Bower's servers is encrypted using TLS. This i
 - Real-time WebSocket connections
 - Voice and video streams in live agent mode
 
-There is no unencrypted path to Bower's infrastructure.
+Every connection to Bower's infrastructure is served over TLS.
 
 ### At rest
 
@@ -30,14 +30,14 @@ Encryption keys are managed by the cloud infrastructure and are not accessible t
 
 ## Workspace isolation
 
-Workspaces are fully isolated at the database level — not just in the UI.
+Bower is multi-tenant: your data lives in a shared, encrypted database where every workspace's data is isolated at the data layer — not just in the UI.
 
-- Every database query is scoped to the current workspace. There is no API endpoint that can return data from a workspace you don't belong to.
+- Every database query is scoped to the current workspace by an enforcement layer that sits beneath the application code, rather than being added route by route.
 - Workspace membership is verified on every request before any data is returned.
 - Files are stored in workspace-scoped paths and are only accessible via time-limited signed URLs (24-hour expiry).
-- Bird and search are scoped to your current workspace. They cannot access data from other workspaces.
+- Bird and search are scoped to your current workspace.
 
-This isolation is enforced in middleware, not application logic — it cannot be bypassed by a misconfigured route or a new feature.
+This isolation does not depend on a developer remembering to add it: our test suite fails the build if any route that touches workspace data is missing its access check.
 
 ## Authentication and access control
 
