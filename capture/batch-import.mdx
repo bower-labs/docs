@@ -11,7 +11,7 @@ Bower handles mixed batches — you don't need to separate files by type before 
 
 | File type | What Bower does |
 | --- | --- |
-| Images (.jpg, .png, .heic) | Generates an AI description of the image and extracts any text it finds. Both the description and extracted text become a searchable note — so you can find images by what's in them, not just their filename. |
+| Images (.jpg, .png, .heic) | Extracts text, tables, equations, and relevant figure regions into a searchable, editable note. The source image remains attached. |
 | Voice recordings (.m4a, .mp3, .wav) | Transcription with scientific vocabulary recognition |
 | PDFs | Content extraction; auto-generates flow charts from embedded images |
 | Word documents (.docx) | Converted to editable notes; formatting including tables and coloured text is preserved |
@@ -41,6 +41,8 @@ Bower handles mixed batches — you don't need to separate files by type before 
 
 - Each note is immediately searchable.
 - Images are searchable by their AI-generated description — you can find a photo of a gel by searching for "gel electrophoresis" even if the filename is `IMG_4382.jpg`.
+- Equations are preserved as editable mathematical notation when Bower can recognise them.
+- Diagrams and other relevant figure regions appear inline as crops from the source image, in reading order. Bower does not redraw them.
 - For photos taken on a phone, Bower reads embedded metadata from the file: capture time, GPS location, and device model are shown in the attachment panel when present. Tap the location to open it in Maps.
 - Extracted tables are editable inline.
 - The original file is always attached to the note — nothing is discarded.
@@ -48,4 +50,4 @@ Bower handles mixed batches — you don't need to separate files by type before 
 
 ## A note on quality
 
-Text extraction accuracy on printed text is approximately 98%. Handwritten content and instrument displays are lower — Bird will flag low-confidence extractions for your review rather than presenting them silently as verified data. You always have the final say.
+Text extraction accuracy on printed text is approximately 98%. Handwritten content and instrument displays are lower. If Bower cannot preserve part of the layout or a figure crop, it flags the note for review rather than silently hiding the problem. You always have the final say.
