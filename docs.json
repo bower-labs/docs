@@ -45,6 +45,7 @@
               "ai-and-search/voice-commands-by-device",
               "ai-and-search/protocol-step-videos",
               "ai-and-search/hybrid-search",
+              "ai-and-search/command-palette",
               "ai-and-search/inferred-links",
               "capture/ai-titles"
             ]
@@ -97,6 +98,7 @@
           {
             "group": "July 2026",
             "pages": [
+              "changelog/2026-07-25-command-palette-expansion",
               "changelog/2026-07-17-pinned-items",
               "changelog/2026-07-15-lifetime-personalization",
               "changelog/2026-07-12-bird-diagrams",
