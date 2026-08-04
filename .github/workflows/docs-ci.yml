@@ -1,0 +1,46 @@
+name: Docs CI
+
+# Every pull request must run at least one automated check before it merges.
+#
+# Beyond catching real docs regressions (a navigation entry or inbound link
+# pointing at a page that no longer exists renders as a 404 on
+# docs.bowerlabs.ai), this workflow is what keeps the Vanta SOC 2 test
+# `github-code-change-automated-checks-enabled` green. That test fails any PR
+# merged with no checks attached and no written justification — which, before
+# this workflow existed, meant every single PR in this repository.
+#
+# Keep this workflow required on `main` and there is nothing left to justify.
+#
+# Security note: this workflow deliberately interpolates no `github.event.*`
+# values into `run:` steps, so there is no injection surface from PR titles,
+# branch names or commit messages.
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate docs site
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out the docs
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Validate docs.json, navigation targets and internal links
+        run: python3 scripts/validate-docs.py
