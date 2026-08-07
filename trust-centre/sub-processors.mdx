@@ -33,6 +33,14 @@ When you use AI features (Bird chat, voice transcription, photo text extraction,
 
 Voice transcription uses **Google Cloud Speech-to-Text** by default. If it's temporarily unavailable, workspaces not in [Restricted mode](/trust-centre/hipaa-compliance) fall back to **OpenAI** so transcription keeps working. **Restricted-mode workspaces never use the OpenAI fallback** — they stay on Google only, enforced server-side. OpenAI does not train on data submitted via its API; its [Data Processing Addendum](https://openai.com/policies/data-processing-addendum/) is incorporated by reference into the OpenAI Services Agreement (effective 1 January 2026) — no separate signature required, acceptance is deemed by use of the API.
 
+## Document conversion
+
+| Service | Purpose | Data processed | Location |
+|---------|---------|---------------|----------|
+| [Tiptap](https://tiptap.dev/privacy-policy) | Converts uploaded Word (.docx) files into Bower documents, preserving formatting and embedded images. | The contents of the Word file you upload | EU |
+
+Word imports in **Restricted-mode workspaces never reach Tiptap** — Bower converts those files itself, and embedded images are not imported. This is enforced server-side. See [HIPAA compliance](/trust-centre/hipaa-compliance) for the full list of what changes in Restricted mode.
+
 ## Integrations & identity
 
 When you connect external services to Bower — either letting Bird search your other tools, or letting an external AI client read your Bower workspace — these providers process the OAuth tokens that broker that access. Bower never stores the underlying access tokens itself.
