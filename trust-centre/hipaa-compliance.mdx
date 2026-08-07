@@ -21,10 +21,30 @@ The following features run entirely on Google (Vertex AI, BAA-covered) and remai
 - Voice transcription (Google Cloud Speech-to-Text, covered by GCP BAA). The OpenAI transcription fallback available to other workspaces is **disabled** here — your audio stays on Google only.
 - Photo OCR and text extraction (Gemini Vision)
 - AI-generated descriptions for attachments (Gemini)
+- Chat with Bird, note authoring, summaries, and titles — all on Vertex AI
+- Search, the knowledge graph, protocols, equipment, and audit logs — these never leave Bower
 
-### What is blocked in Restricted mode
+### What is not available in Restricted mode
 
-Any AI route not in the Google Vertex AI (BAA-covered) allowlist is blocked. This includes features that may route through non-BAA-covered providers. If you attempt to use a blocked feature, you will see an error explaining that the feature is restricted in this workspace.
+Each of these sends content to a third party that has not signed a BAA, so the workspace blocks it. The restriction is per workspace, not per user — a colleague in a different workspace is unaffected.
+
+| Capability | What happens in Restricted mode |
+| --- | --- |
+| **Connectors** (Google Drive, Notion, OneNote, and the rest) | Unavailable. Connecting an account and importing from one are both blocked. |
+| **AI app access** (connecting Bower to Claude, ChatGPT, or another AI app) | Blocked. Those apps reach Bower through a gateway that is not BAA-covered. |
+| **Share links** | Cannot be created. Links made before Restricted mode was enabled are not removed automatically — review them yourself. |
+| **Literature and citation lookups in Bird** (OpenAlex, Crossref, Semantic Scholar, arXiv, Europe PMC, Unpaywall, ORCID) | Unavailable. Searching them would send your query to a public scholarly API. |
+| **Embedded images in Word (.docx) imports** | The document still imports, converted inside Bower — but embedded images are not brought across. See below. |
+| **OpenAI transcription fallback** | Disabled. Audio stays on Google Speech-to-Text. |
+| Any other AI route not covered by the Google BAA | Blocked at the API level. |
+
+If you try to use a blocked feature, Bower tells you it is unavailable in this workspace rather than failing quietly.
+
+#### Word (.docx) imports
+
+Outside Restricted mode, Bower converts Word documents using a third-party conversion service. That service has no BAA, so in Restricted mode your document is never sent to it — Bower converts the file itself.
+
+The import still works. Text, headings, lists, and tables come across as usual. What you lose is **embedded images**: pictures inside the Word file are not imported. Bower adds a short note at the top of the imported document explaining this, so an image-less note is never a mystery. The original file stays attached, so nothing is lost — you can open it if you need the figures.
 
 ## Enabling Restricted mode
 

@@ -3,7 +3,7 @@ title: "Sub-processors"
 description: "Third-party services that process data on behalf of Bower."
 ---
 
-Bower uses the following third-party services ("sub-processors") to operate the platform. Each processes data on our behalf under a Data Processing Agreement (DPA).
+Bower uses the following third-party services ("sub-processors") to operate the platform. Almost all of them process data on our behalf under a Data Processing Agreement (DPA). Where an agreement is not yet in place, we say so on the entry rather than leaving you to assume — see Tiptap under [Document conversion](#document-conversion).
 
 We will update this page whenever we add or remove a sub-processor.
 
@@ -32,6 +32,16 @@ When you use AI features (Bird chat, voice transcription, photo text extraction,
 | [OpenAI](https://openai.com/policies/privacy-policy) ([DPA](https://openai.com/policies/data-processing-addendum/)) | Voice note transcription **fallback** — used only if Google Speech-to-Text is temporarily unavailable. Not used in Restricted mode. | Audio recordings, voice transcripts | US |
 
 Voice transcription uses **Google Cloud Speech-to-Text** by default. If it's temporarily unavailable, workspaces not in [Restricted mode](/trust-centre/hipaa-compliance) fall back to **OpenAI** so transcription keeps working. **Restricted-mode workspaces never use the OpenAI fallback** — they stay on Google only, enforced server-side. OpenAI does not train on data submitted via its API; its [Data Processing Addendum](https://openai.com/policies/data-processing-addendum/) is incorporated by reference into the OpenAI Services Agreement (effective 1 January 2026) — no separate signature required, acceptance is deemed by use of the API.
+
+## Document conversion
+
+| Service | Purpose | Data processed | Location |
+|---------|---------|---------------|----------|
+| [Tiptap](https://tiptap.dev/privacy-policy) | Converts uploaded Word (.docx) files into Bower documents, preserving formatting and embedded images. | The contents of the Word file you upload | EU |
+
+Word imports in **Restricted-mode workspaces never reach Tiptap** — Bower converts those files itself, and embedded images are not imported. This is enforced server-side. See [HIPAA compliance](/trust-centre/hipaa-compliance) for the full list of what changes in Restricted mode.
+
+**Agreement status:** Bower does not currently have a signed DPA or BAA with Tiptap. That is why Word imports are converted locally for Restricted-mode workspaces, and why no PHI workspace's document content reaches them. If you need a DPA to be in place before using Word import on a non-Restricted workspace, [contact us](mailto:support@bowerlabs.ai) — you can also enable Restricted mode to keep document conversion entirely inside Bower.
 
 ## Integrations & identity
 
