@@ -96,6 +96,12 @@
             ]
           },
           {
+            "group": "August 2026",
+            "pages": [
+              "changelog/2026-08-07-go-live-from-capture"
+            ]
+          },
+          {
             "group": "July 2026",
             "pages": [
               "changelog/2026-07-26-privacy-controls-on-every-plan",
