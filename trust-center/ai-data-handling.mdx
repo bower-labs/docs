@@ -15,7 +15,7 @@ Bower uses AI to power features like Bird (your AI assistant), voice transcripti
 
 ## Which AI providers we use
 
-We deliberately keep this list small and route each task to the most appropriate model. For the authoritative, always-current list of every service that processes data on our behalf, see the [sub-processor list](/trust-centre/sub-processors).
+We deliberately keep this list small and route each task to the most appropriate model. For the authoritative, always-current list of every service that processes data on our behalf, see the [sub-processor list](/trust-center/sub-processors).
 
 | Provider | What it's used for | Location | Covered by our BAA? |
 |----------|--------------------|----------|---------------------|
@@ -23,7 +23,7 @@ We deliberately keep this list small and route each task to the most appropriate
 | **Google Gemini API** | Bird chat, PDF understanding, and some text generation | US | No |
 | **OpenAI** (gpt-4o-transcribe) | Voice transcription **fallback** only — used if Google Speech-to-Text is briefly unavailable. Not used in Restricted mode. | US | No |
 
-Most of Bower's AI runs on **Google Vertex AI**, which is covered by a signed Business Associate Agreement (BAA). The other providers handle narrower tasks and are **never used by workspaces in [Restricted mode](/trust-centre/hipaa-compliance)** (see below).
+Most of Bower's AI runs on **Google Vertex AI**, which is covered by a signed Business Associate Agreement (BAA). The other providers handle narrower tasks and are **never used by workspaces in [Restricted mode](/trust-center/hipaa-compliance)** (see below).
 
 ## Is my data used to train AI models?
 
@@ -40,18 +40,18 @@ Every call to an AI provider is made **server-to-server from Bower's backend ove
 
 Two different things, kept separate:
 
-- **Your research data** (notes, files, transcripts, embeddings) is stored in **Bower's database and file storage** in Google Cloud's `us-central1` region (Iowa, USA). It stays there until you delete it. See [Data privacy](/trust-centre/data-privacy) for retention and deletion.
+- **Your research data** (notes, files, transcripts, embeddings) is stored in **Bower's database and file storage** in Google Cloud's `us-central1` region (Iowa, USA). It stays there until you delete it. See [Data privacy](/trust-center/data-privacy) for retention and deletion.
 - **The AI providers** receive your content only to produce a result, and process it for **inference only**. They do not persist it for training. Provider-side retention is short and limited to operating the service safely:
   - **Google Vertex AI** — no retention for training; data stays within our BAA boundary.
   - **OpenAI** — inputs may be held up to 30 days for abuse monitoring, then deleted (org-level API logging is disabled; not used for training).
 
 ### A note on AI quality monitoring
 
-To keep AI features reliable, a sample of AI requests/responses may be sent to **Langfuse** (our observability tool) for quality monitoring. User content in these traces is gated: **workspaces in Restricted mode never send content to Langfuse**, and for other workspaces it's controlled by a capture setting. Langfuse is listed on our [sub-processor list](/trust-centre/sub-processors).
+To keep AI features reliable, a sample of AI requests/responses may be sent to **Langfuse** (our observability tool) for quality monitoring. User content in these traces is gated: **workspaces in Restricted mode never send content to Langfuse**, and for other workspaces it's controlled by a capture setting. Langfuse is listed on our [sub-processor list](/trust-center/sub-processors).
 
 ## Locking it down further
 
-If you work with especially sensitive material — protected health information, confidential or unpublished research, trade secrets, regulated data — you can enable **[Restricted mode (HIPAA-ready)](/trust-centre/hipaa-compliance)** on a workspace. It enforces the strictest controls:
+If you work with especially sensitive material — protected health information, confidential or unpublished research, trade secrets, regulated data — you can enable **[Restricted mode (HIPAA-ready)](/trust-center/hipaa-compliance)** on a workspace. It enforces the strictest controls:
 
 - **AI processing is restricted to Google (Vertex AI) only** — the provider covered by our signed BAA. Every non-BAA provider (the Gemini API and OpenAI) is **blocked server-side**, including the OpenAI transcription fallback.
 - **External sharing is disabled** — no public share links.
@@ -63,4 +63,4 @@ These restrictions are enforced by middleware and cannot be bypassed from the ap
 
 For anything about how we handle your data, contact our Data Protection Officer at [privacy@bowerlabs.ai](mailto:privacy@bowerlabs.ai).
 
-**Related:** [Sub-processor list](/trust-centre/sub-processors) · [Data privacy](/trust-centre/data-privacy) · [HIPAA / compliance mode](/trust-centre/hipaa-compliance)
+**Related:** [Sub-processor list](/trust-center/sub-processors) · [Data privacy](/trust-center/data-privacy) · [HIPAA / compliance mode](/trust-center/hipaa-compliance)
