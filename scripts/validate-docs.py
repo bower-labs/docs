@@ -7,9 +7,13 @@ Three checks, all of which can genuinely fail on a realistic mistake:
 2. Every page listed in `navigation` resolves to an `.mdx`/`.md` file on disk.
    Catches a renamed or deleted page that the navigation still points at —
    Mintlify renders that as a 404 in the live sidebar.
-3. Every internal Markdown link (`](/some/page)`) resolves to a real page,
-   a declared `redirects` source, or a static asset. Catches the most common
-   docs regression: moving a page and leaving inbound links dangling.
+3. Every internal link resolves to a real page, a declared `redirects` source,
+   or a static asset — both Markdown links (`](/some/page)`) and JSX/HTML
+   attribute links (`href="/some/page"`, as used by every `<Card>`). Catches
+   the most common docs regression: moving a page and leaving inbound links
+   dangling. The `href` half matters as much as the Markdown half: the
+   Trust Center rename touched eight `<Card href>` values on one page alone,
+   and Markdown-only checking passed green on every one of them broken.
 
 Run: python3 scripts/validate-docs.py
 Exit 0 = clean, 1 = problems found (printed with file:line where known).
@@ -20,6 +24,7 @@ from __future__ import annotations
 import json
 import re
 import sys
+from itertools import chain
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -42,6 +47,11 @@ def is_site_content(path: Path) -> bool:
 # Markdown inline links to a site-root path: [text](/foo/bar) or [text](/foo#anchor).
 # Deliberately ignores external (http), anchor-only (#) and relative links.
 LINK_RE = re.compile(r"\[[^\]]*\]\((/[^)\s#]*)(?:#[^)\s]*)?\)")
+
+# JSX/HTML attribute links to a site-root path: href="/foo/bar" — how <Card>,
+# <Columns> and raw anchors point at internal pages. Same exclusions as above:
+# the leading `/` requirement drops external and relative hrefs.
+HREF_RE = re.compile(r"""href=["'](/[^"'\s#]*)(?:#[^"'\s]*)?["']""")
 
 
 def fail(problems: list[str]) -> None:
@@ -127,7 +137,7 @@ def main() -> None:
         for lineno, line in enumerate(
             path.read_text(encoding="utf-8").splitlines(), start=1
         ):
-            for match in LINK_RE.finditer(line):
+            for match in chain(LINK_RE.finditer(line), HREF_RE.finditer(line)):
                 target = match.group(1)
                 stripped = target.strip("/")
                 if not stripped:

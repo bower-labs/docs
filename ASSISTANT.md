@@ -1,8 +1,8 @@
-# Bower Help Centre — Documentation project instructions
+# Bower Help Center — Documentation project instructions
 
 ## About this project
 
-- This is the public-facing help centre for [Bower](https://bowerlabs.ai), built on [Mintlify](https://mintlify.com)
+- This is the public-facing help center for [Bower](https://bowerlabs.ai), built on [Mintlify](https://mintlify.com)
 - Pages are MDX files with YAML frontmatter
 - Configuration lives in `docs.json`
 - Run `mint dev` to preview locally (auto-selects an available port if 3000 is in use)
@@ -34,7 +34,7 @@ This person is warm but no-nonsense. They ask smart questions. They pay attentio
 
 ### Docs-specific register
 
-For product docs and help centre content, the tone is: **precise, step-by-step, technical where needed, still warm, never robotic.**
+For product docs and help center content, the tone is: **precise, step-by-step, technical where needed, still warm, never robotic.**
 
 Example: "Voice capture uses scientific speech recognition trained on domain vocabulary. Accuracy improves as Bower learns your terminology."
 

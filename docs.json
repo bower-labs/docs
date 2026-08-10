@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Bower Help Centre",
+  "name": "Bower Help Center",
   "colors": {
     "primary": "#1F3A89",
     "light": "#5E7D4F",
@@ -20,7 +20,7 @@
               "quickstart",
               "getting-started/mobile",
               "getting-started/install-pwa",
-              "trust-centre/index"
+              "trust-center/index"
             ]
           },
           {
@@ -185,21 +185,21 @@
         ]
       },
       {
-        "tab": "Trust Centre",
+        "tab": "Trust Center",
         "groups": [
           {
-            "group": "Trust Centre",
+            "group": "Trust Center",
             "pages": [
-              "trust-centre/index",
-              "trust-centre/data-privacy",
-              "trust-centre/ai-data-handling",
-              "trust-centre/sub-processors",
-              "trust-centre/cookies",
-              "trust-centre/audit-logs",
-              "trust-centre/hipaa-compliance",
-              "trust-centre/password-and-security",
-              "trust-centre/privacy-policy",
-              "trust-centre/terms-of-service"
+              "trust-center/index",
+              "trust-center/data-privacy",
+              "trust-center/ai-data-handling",
+              "trust-center/sub-processors",
+              "trust-center/cookies",
+              "trust-center/audit-logs",
+              "trust-center/hipaa-compliance",
+              "trust-center/password-and-security",
+              "trust-center/privacy-policy",
+              "trust-center/terms-of-service"
             ]
           }
         ]
@@ -252,6 +252,54 @@
     {
       "source": "/ai-and-search/personal-context",
       "destination": "/ai-and-search/personal-preferences"
+    },
+    {
+      "source": "/trust-centre",
+      "destination": "/trust-center"
+    },
+    {
+      "source": "/trust-centre/index",
+      "destination": "/trust-center/index"
+    },
+    {
+      "source": "/trust-centre/data-privacy",
+      "destination": "/trust-center/data-privacy"
+    },
+    {
+      "source": "/trust-centre/ai-data-handling",
+      "destination": "/trust-center/ai-data-handling"
+    },
+    {
+      "source": "/trust-centre/sub-processors",
+      "destination": "/trust-center/sub-processors"
+    },
+    {
+      "source": "/trust-centre/cookies",
+      "destination": "/trust-center/cookies"
+    },
+    {
+      "source": "/trust-centre/audit-logs",
+      "destination": "/trust-center/audit-logs"
+    },
+    {
+      "source": "/trust-centre/hipaa-compliance",
+      "destination": "/trust-center/hipaa-compliance"
+    },
+    {
+      "source": "/trust-centre/password-and-security",
+      "destination": "/trust-center/password-and-security"
+    },
+    {
+      "source": "/trust-centre/privacy-policy",
+      "destination": "/trust-center/privacy-policy"
+    },
+    {
+      "source": "/trust-centre/terms-of-service",
+      "destination": "/trust-center/terms-of-service"
+    },
+    {
+      "source": "/trust-centre/:slug*",
+      "destination": "/trust-center/:slug*"
     }
   ],
   "footer": {}
