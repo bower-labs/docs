@@ -1,9 +1,9 @@
 ---
 title: "Data privacy"
-description: "How Bower protects your research data — encryption, isolation, and access controls."
+description: "How Bower protects your research data: encryption, isolation, and access controls."
 ---
 
-Your research data is sensitive. Bower is built with security at every layer — from how data is stored and transmitted, to how access is controlled and audited.
+Your research data is sensitive. Bower is built with security at every layer, from how data is stored and transmitted to how access is controlled and audited.
 
 ## Encryption
 
@@ -22,29 +22,29 @@ Every connection to Bower's infrastructure is served over TLS.
 
 All data at rest is encrypted using AES-256:
 
-- **Database** — all notes, collections, metadata, and user records are encrypted at the storage layer.
-- **File storage** — all uploaded files (images, audio, PDFs, documents) are encrypted at rest.
-- **Backups** — database backups are encrypted automatically.
+- **Database**: all notes, collections, metadata, and user records are encrypted at the storage layer.
+- **File storage**: all uploaded files (images, audio, PDFs, documents) are encrypted at rest.
+- **Backups**: database backups are encrypted automatically.
 
 Encryption keys are managed by the cloud infrastructure and are not accessible to application code.
 
 ## Workspace isolation
 
-Bower is multi-tenant: your data lives in a shared, encrypted database where every workspace's data is isolated at the data layer — not just in the UI.
+Bower is multi-tenant: your data lives in a shared, encrypted database where every workspace's data is isolated at the data layer, not just in the UI.
 
 - Queries for your workspace's data are automatically scoped to it by a shared data-access layer, rather than that check being added route by route.
 - Workspace membership is verified on every request before any data is returned.
 - Files are stored in workspace-scoped paths and are only accessible via time-limited signed URLs (24-hour expiry).
 - Bird and search are scoped to your current workspace.
 
-This scoping is applied automatically in that shared layer, so it isn't something a developer has to remember to add on each new query. Separately, the endpoints that expose an individual note or project are covered by an automated test that fails our build if their access check is missing — so that protection can't be dropped by adding a new route.
+This scoping is applied automatically in that shared layer, so it isn't something a developer has to remember to add on each new query. Separately, the endpoints that expose an individual note or project are covered by an automated test that fails our build if their access check is missing, so that protection can't be dropped by adding a new route.
 
 ## Authentication and access control
 
-- **Token verification** — every API request includes a signed authentication token that is verified server-side before any data is returned.
-- **Email verification** — unverified email addresses are blocked from accessing workspace data.
-- **Token expiry** — expired or revoked tokens are rejected immediately.
-- **Role-based access** — four roles (Owner, Admin, Member, Guest) with a strict hierarchy enforced at the API level.
+- **Token verification**: every API request includes a signed authentication token that is verified server-side before any data is returned.
+- **Email verification**: unverified email addresses are blocked from accessing workspace data.
+- **Token expiry**: expired or revoked tokens are rejected immediately.
+- **Role-based access**: four roles (Owner, Admin, Member, Guest) with a strict hierarchy enforced at the API level.
 
 ## Audit trail
 
@@ -59,7 +59,7 @@ Audit logs are accessible from the **Audit log** link in the sidebar (or directl
 
 ## AI processing
 
-When Bower processes your data — voice transcription, photo text extraction, or Bird conversations — the content is sent to AI model providers for inference. **Your data is not used to train AI models.**
+When Bower processes your data (voice transcription, photo text extraction, or Bird conversations), the content is sent to AI model providers for inference. **Your data is not used to train AI models.**
 
 For exactly which providers we use, where your data goes in transit, how long it's kept, and how to lock it down, see [AI & your data](/trust-center/ai-data-handling). For the full list of every service that processes your data, see our [sub-processor list](/trust-center/sub-processors).
 
@@ -67,9 +67,9 @@ For exactly which providers we use, where your data goes in transit, how long it
 
 You have full control over your personal data in Bower:
 
-- **Export your data** — download a complete copy of all your personal data (profile, workspaces, projects, artifacts, audit history) as a JSON file from **Settings > Privacy > Export my data**. This covers your data across all workspaces.
-- **Delete your account** — permanently remove your profile and all associated data. See the Deletion section below.
-- **Cookie preferences** — control which cookies Bower uses. See our [cookie policy](/trust-center/cookies).
+- **Export your data**: download a complete copy of all your personal data (profile, workspaces, projects, artifacts, audit history) as a JSON file from **Settings > Privacy > Export my data**. This covers your data across all workspaces.
+- **Delete your account**: permanently remove your profile and all associated data. See the Deletion section below.
+- **Cookie preferences**: control which cookies Bower uses. See our [cookie policy](/trust-center/cookies).
 
 If you have questions about your data or want to exercise your rights, contact our Data Protection Officer at [privacy@bowerlabs.ai](mailto:privacy@bowerlabs.ai).
 
@@ -85,7 +85,7 @@ When you delete notes, attachments, or collections, they are **moved to trash** 
   - Your Firebase authentication record
   - Workspaces where you are the sole member (and all content and files within)
 
-  **In shared workspaces** (where other members exist), your notes, files, and collections are kept for the team — ownership is transferred to the workspace admin. Only your membership is removed. Audit logs are anonymized (the record of what happened is preserved, but your identity is removed).
+  **In shared workspaces** (where other members exist), your notes, files, and collections are kept for the team; ownership is transferred to the workspace admin. Only your membership is removed. Audit logs are anonymized (the record of what happened is preserved, but your identity is removed).
 
 We recommend [exporting your data](#your-data-rights) before deleting your account.
 
@@ -98,11 +98,11 @@ Our designated Data Protection Officer (DPO) is David Lyon. For any privacy-rela
 
 ## Further reading
 
-- [Sub-processor list](/trust-center/sub-processors) — all third-party services that process your data
-- [Cookie policy](/trust-center/cookies) — what cookies we use and how to manage them
-- [Audit logs](/trust-center/audit-logs) — track every change in your workspace
-- [Privacy Policy](/trust-center/privacy-policy) — full legal privacy policy
-- [Terms of Service](/trust-center/terms-of-service) — terms governing your use of Bower
+- [Sub-processor list](/trust-center/sub-processors): all third-party services that process your data
+- [Cookie policy](/trust-center/cookies): what cookies we use and how to manage them
+- [Audit logs](/trust-center/audit-logs): track every change in your workspace
+- [Privacy Policy](/trust-center/privacy-policy): full legal privacy policy
+- [Terms of Service](/trust-center/terms-of-service): terms governing your use of Bower
 
 ## Your responsibilities
 

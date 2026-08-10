@@ -1,6 +1,6 @@
 ---
 title: "Audit logs"
-description: "Track every change in your workspace — who did what, when, and to which entity."
+description: "Track every change in your workspace: who did what, when, and to which entity."
 ---
 
 Audit logs give you a complete record of every create, update, and delete action in your workspace. Useful for compliance, troubleshooting, or simply understanding what changed and when.
@@ -13,7 +13,7 @@ Every action on notes, attachments, and collections is logged with:
 - **What** they did (created, updated, or deleted)
 - **Which entity** was affected
 - **When** it happened
-- **What changed** — field-by-field before and after values
+- **What changed**: field-by-field before and after values
 
 Tracked entity types:
 
@@ -26,7 +26,7 @@ Tracked entity types:
 
 Click **Audit log** in the sidebar (near the bottom, just above Trash), or navigate directly to [app.bowerlabs.ai/audit](https://app.bowerlabs.ai/audit).
 
-Each entry shows a human-readable description — for example, "Jane Doe updated Note 'Sample batch 14'." Expand any entry to see the specific fields that changed, with before and after values.
+Each entry shows a human-readable description, for example "Jane Doe updated Note 'Sample batch 14'." Expand any entry to see the specific fields that changed, with before and after values.
 
 <Info>
 Bulk operations performed within a few seconds are grouped together, with a count badge showing how many items were affected.
@@ -36,13 +36,13 @@ Bulk operations performed within a few seconds are grouped together, with a coun
 
 Use the filter controls at the top of the page to narrow results:
 
-- **Entity type** — Show only collections or only artifacts
-- **Action** — Show only creates, updates, or deletes
-- **User** — Show only changes made by a specific workspace member
-- **Date range** — Use presets (last 7, 30, or 90 days) or set custom start and end dates
-- **Search** — Filter by entity name or description
+- **Entity type**: show only collections or only artifacts
+- **Action**: show only creates, updates, or deletes
+- **User**: show only changes made by a specific workspace member
+- **Date range**: use presets (last 7, 30, or 90 days) or set custom start and end dates
+- **Search**: filter by entity name or description
 
-Filters combine — you can search for all artifacts deleted by a specific user in the last 30 days.
+Filters combine, so you can search for all artifacts deleted by a specific user in the last 30 days.
 
 ## Exporting to CSV
 
@@ -54,9 +54,9 @@ The downloaded file is named `audit-logs-{timestamp}.csv`.
 
 When you expand an audit log entry, you see exactly what changed:
 
-- **Name, title** — The entity's display name
-- **Content** — Shows "Content was edited" (full diffs are not displayed for privacy)
-- **Tags** — Added tags shown with a plus, removed tags shown with strikethrough
-- **File metadata** — File name, size, type, dimensions, duration
-- **Parent collection** — When a note is moved between collections
-- **Processing status** — When text extraction or transcription status changes
+- **Name, title**: the entity's display name
+- **Content**: shows "Content was edited" (full diffs are not displayed for privacy)
+- **Tags**: added tags shown with a plus, removed tags shown with strikethrough
+- **File metadata**: file name, size, type, dimensions, duration
+- **Parent collection**: when a note is moved between collections
+- **Processing status**: when text extraction or transcription status changes
