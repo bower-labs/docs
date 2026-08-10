@@ -1,40 +1,40 @@
 ---
 title: "Restricted mode (HIPAA-ready)"
-description: "Lock a workspace down to BAA-covered AI only — for PHI or any highly sensitive data."
+description: "Lock a workspace down to BAA-covered AI only, for PHI or any highly sensitive data."
 ---
 
-If your workspace handles protected health information (PHI) — or any highly sensitive material you want to keep inside the tightest possible boundary (confidential or unpublished research, trade secrets, regulated data) — you can enable **Restricted mode (HIPAA-ready)** to enforce stricter controls on AI processing and data sharing.
+If your workspace handles protected health information (PHI), or any highly sensitive material you want to keep inside the tightest possible boundary (confidential or unpublished research, trade secrets, regulated data), you can enable **Restricted mode (HIPAA-ready)** to enforce stricter controls on AI processing and data sharing.
 
 ## What Restricted mode does
 
 When enabled, two restrictions take effect immediately:
 
-- **AI processing is restricted to Google (Vertex AI) only.** Bower uses multiple AI providers for different tasks. In Restricted mode, only routes covered by a signed Business Associate Agreement — Google Vertex AI — are permitted. Every other provider (the Gemini API, OpenAI) is blocked at the API level.
+- **AI processing is restricted to Google (Vertex AI) only.** Bower uses multiple AI providers for different tasks. In Restricted mode, only routes covered by a signed Business Associate Agreement (Google Vertex AI) are permitted. Every other provider (the Gemini API, OpenAI) is blocked at the API level.
 - **External sharing is disabled.** Share links cannot be created for any artifact in the workspace. Existing share links are not retroactively removed, but no new ones can be generated.
 
-These restrictions are enforced server-side by middleware — they cannot be bypassed from the frontend.
+These restrictions are enforced server-side by middleware; they cannot be bypassed from the frontend.
 
 ### What still works in Restricted mode
 
 The following features run entirely on Google (Vertex AI, BAA-covered) and remain available:
 
-- Voice transcription (Google Cloud Speech-to-Text, covered by GCP BAA). The OpenAI transcription fallback available to other workspaces is **disabled** here — your audio stays on Google only.
+- Voice transcription (Google Cloud Speech-to-Text, covered by GCP BAA). The OpenAI transcription fallback available to other workspaces is **disabled** here; your audio stays on Google only.
 - Photo OCR and text extraction (Gemini Vision)
 - AI-generated descriptions for attachments (Gemini)
-- Chat with Bird, note authoring, summaries, and titles — all on Vertex AI
-- Search, the knowledge graph, protocols, equipment, and audit logs — these never leave Bower
+- Chat with Bird, note authoring, summaries, and titles, all on Vertex AI
+- Search, the knowledge graph, protocols, equipment, and audit logs, which never leave Bower
 
 ### What is not available in Restricted mode
 
-Each of these sends content to a third party that has not signed a BAA, so the workspace blocks it. The restriction is per workspace, not per user — a colleague in a different workspace is unaffected.
+Each of these sends content to a third party that has not signed a BAA, so the workspace blocks it. The restriction is per workspace, not per user: a colleague in a different workspace is unaffected.
 
 | Capability | What happens in Restricted mode |
 | --- | --- |
 | **Connectors** (Google Drive, Notion, OneNote, and the rest) | Unavailable. Connecting an account and importing from one are both blocked. |
 | **AI app access** (connecting Bower to Claude, ChatGPT, or another AI app) | Blocked. Those apps reach Bower through a gateway that is not BAA-covered. |
-| **Share links** | Cannot be created. Links made before Restricted mode was enabled are not removed automatically — review them yourself. |
+| **Share links** | Cannot be created. Links made before Restricted mode was enabled are not removed automatically; review them yourself. |
 | **Literature and citation lookups in Bird** (OpenAlex, Crossref, Semantic Scholar, arXiv, Europe PMC, Unpaywall, ORCID) | Unavailable. Searching them would send your query to a public scholarly API. |
-| **Embedded images in Word (.docx) imports** | The document still imports, converted inside Bower — but embedded images are not brought across. See below. |
+| **Embedded images in Word (.docx) imports** | The document still imports, converted inside Bower, but embedded images are not brought across. See below. |
 | **OpenAI transcription fallback** | Disabled. Audio stays on Google Speech-to-Text. |
 | Any other AI route not covered by the Google BAA | Blocked at the API level. |
 
@@ -42,9 +42,9 @@ If you try to use a blocked feature, Bower tells you it is unavailable in this w
 
 #### Word (.docx) imports
 
-Outside Restricted mode, Bower converts Word documents using a third-party conversion service. That service has no BAA, so in Restricted mode your document is never sent to it — Bower converts the file itself.
+Outside Restricted mode, Bower converts Word documents using a third-party conversion service. That service has no BAA, so in Restricted mode your document is never sent to it; Bower converts the file itself.
 
-The import still works. Text, headings, lists, and tables come across as usual. What you lose is **embedded images**: pictures inside the Word file are not imported. Bower adds a short note at the top of the imported document explaining this, so an image-less note is never a mystery. The original file stays attached, so nothing is lost — you can open it if you need the figures.
+The import still works. Text, headings, lists, and tables come across as usual. What you lose is **embedded images**: pictures inside the Word file are not imported. Bower adds a short note at the top of the imported document explaining this, so an image-less note is never a mystery. The original file stays attached, so nothing is lost; you can open it if you need the figures.
 
 ## Enabling Restricted mode
 
@@ -61,7 +61,7 @@ A confirmation dialog will explain exactly what changes. Once confirmed, restric
 
 ## Disabling Restricted mode
 
-You can disable Restricted mode from the same toggle. A warning dialog will explain that the protections will be removed. Disabling is also immediate — AI provider restrictions are lifted and sharing is re-enabled.
+You can disable Restricted mode from the same toggle. A warning dialog will explain that the protections will be removed. Disabling is also immediate: AI provider restrictions are lifted and sharing is re-enabled.
 
 ## Important notes
 
@@ -71,6 +71,6 @@ You can disable Restricted mode from the same toggle. A warning dialog will expl
 
 ## Further reading
 
-- [Data privacy](/trust-center/data-privacy) — encryption, workspace isolation, and access controls
-- [Sub-processor list](/trust-center/sub-processors) — all third-party services that process your data
-- [Audit logs](/trust-center/audit-logs) — track every action in your workspace
+- [Data privacy](/trust-center/data-privacy): encryption, workspace isolation, and access controls
+- [Sub-processor list](/trust-center/sub-processors): all third-party services that process your data
+- [Audit logs](/trust-center/audit-logs): track every action in your workspace
