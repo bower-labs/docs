@@ -3,7 +3,7 @@ title: "Sub-processors"
 description: "Third-party services that process data on behalf of Bower."
 ---
 
-Bower uses the following third-party services ("sub-processors") to operate the platform. Almost all of them process data on our behalf under a Data Processing Agreement (DPA). Where an agreement is not yet in place, we say so on the entry rather than leaving you to assume. See Tiptap under [Document conversion](#document-conversion).
+Bower uses the following third-party services ("sub-processors") to operate the platform. Almost all of them process data on our behalf under a Data Processing Agreement (DPA). Where an agreement is not yet in place, we say so on the entry rather than leaving you to assume. See Tiptap under [Document conversion](#document-conversion) and Mintlify under [Documentation and help search](#documentation-and-help-search).
 
 We will update this page whenever we add or remove a sub-processor.
 
@@ -54,6 +54,16 @@ When you connect external services to Bower (either letting Bird search your oth
 
 Connectors and external AI access are **not yet available in [Restricted-mode](/trust-center/hipaa-compliance) workspaces**; neither provider's BAA is signed yet. Both surfaces are blocked server-side for Restricted-mode workspaces until that's in place.
 
+## Documentation and help search
+
+| Service | Purpose | Data processed | Location |
+|---------|---------|---------------|----------|
+| [Mintlify](https://www.mintlify.com/legal/privacy) | Hosts Bower's public help centre and lets Bird search it when you ask how to use Bower | The help-search query Bird generates from your request, including any request content Bird puts into that query, for non-Restricted workspaces only | Vendor-managed (United States and other countries) |
+
+**Restricted-mode workspaces never send help-search queries to Mintlify.** Bird blocks the external documentation lookup server-side and instead directs you to browse the public help centre without copying workspace content.
+
+**Agreement status:** Bower does not currently have a signed DPA or BAA with Mintlify. The help centre itself contains public Bower documentation. Bird-generated help-search queries are sent to Mintlify only from non-Restricted workspaces.
+
 ## Payment processing
 
 | Service | Purpose | Data processed | Location |
@@ -79,7 +89,7 @@ All primary data (database, files, backups) is stored in Google Cloud's **us-cen
 
 We review our sub-processor list quarterly. If we add a new sub-processor that processes personal data, we will update this page. Material changes will be communicated via email to workspace owners.
 
-**Last reviewed:** 12 July 2026
+**Last reviewed:** 12 August 2026
 
 ## Questions
 
