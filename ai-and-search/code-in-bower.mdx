@@ -1,0 +1,94 @@
+---
+title: 'Code in Bower'
+description: 'Attach R and Python scripts, read them without downloading, search inside them, and get properly formatted code back from Bird.'
+sidebarTitle: 'Code in Bower'
+---
+
+Bower handles the code that sits alongside your experiments: scripts you upload,
+code Bird writes back to you, and code blocks inside your notes.
+
+This page covers what works, and one thing that does not.
+
+## Attach a script
+
+Upload source files the way you upload anything else: drag them into a
+collection, use the upload button, or attach one to a Bird chat.
+
+The formats Bower accepts include `.R`, `.Rmd`, `.Rnw`, `.py`, `.ipynb`, `.sql`,
+`.sh`, `.jl` for Julia, `.m` for MATLAB, `.do` and `.ado` for Stata, plus
+`.json`, `.yaml`, `.xml`, `.c`, `.cpp`, `.java`, `.js` and `.ts`.
+
+If you tried this before and Bower turned you away, that was not you doing it
+wrong. Most operating systems have no registered file type for a `.R` or a
+`.do`, so your browser hands the upload over with the type field blank, and
+Bower used to refuse anything it could not identify. It now recognises these
+files by their extension.
+
+## Read it without downloading it
+
+Open the attachment and you see the file itself, syntax highlighted, with the
+language named at the top and buttons to copy or download it.
+
+An `.Rmd` keeps its chunk headers intact, options included, so `include=FALSE`
+is still visible where you wrote it.
+
+A few accepted formats have no highlighter yet, `.css` and `.xml` among them.
+Those still open and read as code, just without the colours. Files over 256 KB
+are not rendered in the browser: you get the file details and a download button
+instead, because syntax highlighting a file that size would lock up the tab.
+
+## Search inside your scripts
+
+When a script is brought in through **import**, Bower reads the text inside it.
+Search for a function name you defined and the file comes back, and Bird can
+read the file when you ask about it, rather than asking you to paste the code
+into the chat.
+
+<Note>
+  This applies to files brought in through import, or attached in a Bird chat. A
+  file attached directly to an existing note is stored and previewed, but its
+  contents are not indexed, so it will not turn up in search.
+</Note>
+
+## Code in your notes
+
+Code blocks in the editor are syntax highlighted, and each one has a language
+picker in its top corner. Pick R, Python, SQL or any other supported language
+and the block colours accordingly.
+
+Bower will not guess the language for you. A block with no language set renders
+as plain text, because a wrong guess quietly recolours your code and gives you
+no sign it happened. Short R snippets are the easiest thing in the world to
+mistake for something else.
+
+The language you pick travels with the note, so a block you tag as R is stored,
+searched and read back as R.
+
+## Code from Bird
+
+Ask Bird for a script and you get it back properly fenced and highlighted, with
+copy and download on the block.
+
+Bird writes in the language of your work. If your files and notes are R, you get
+R back, rather than a Python translation of what you asked for.
+
+## What Bird can and cannot run
+
+Bird can run **Python**, in a sandbox, for analysis over your data.
+
+Bird cannot run R. There is no R interpreter anywhere in Bower.
+
+Ask it to run an R script and it will say so, then offer the two things that
+actually exist: write the script out so you can run it yourself in RStudio, or
+do the equivalent analysis in Python and label it clearly as Python. It will not
+run something else and hand you the number as though it came from your code.
+
+This is deliberate. A result that came from a quiet translation of your analysis
+is worse than no result, because you have no way to tell it apart from the real
+thing.
+
+## Related
+
+- [Bird, your AI assistant](/ai-and-search/bird-ai-assistant)
+- [Batch import](/capture/batch-import)
+- [The editor](/capture/editor)

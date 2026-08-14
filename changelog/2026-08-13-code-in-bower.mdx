@@ -1,0 +1,63 @@
+---
+title: 'Your R scripts belong in Bower'
+description: 'Attach R, Python and SQL files, read them highlighted without downloading, search inside them, and get properly formatted code back from Bird.'
+sidebarTitle: 'Code in Bower'
+---
+
+**Shipped 2026-08-13 · Capture and Bird**
+
+Until today you could not attach an R script to Bower at all. The upload
+refused it, and if you got one in another way it sat there as a download link:
+not readable, not searchable, invisible to Bird.
+
+That is fixed, across every surface where code shows up.
+
+## What's new
+
+- **Code files upload.** `.R`, `.Rmd`, `.Rnw`, `.py`, `.ipynb`, `.sql`, `.sh`,
+  `.jl`, `.m`, `.do` and more. If Bower turned your `.R` away before, that was
+  not you doing it wrong: most operating systems register no file type for
+  these, so the browser sends the upload with the type field blank. Bower now
+  recognises them by extension.
+- **Scripts open as code, not as a download.** Syntax highlighted, language
+  named at the top, copy and download on the block. An `.Rmd` keeps its chunk
+  headers and their options intact.
+- **Search reads inside your scripts.** Import a script and search for a
+  function you defined in it. Bird can read it too, instead of asking you to
+  paste it into the chat.
+- **Note code blocks are syntax aware**, with a language picker on each block.
+  The language travels with the note, so a block you tag as R is stored and
+  searched as R.
+- **Bird writes code in your language.** If your work is R, you get R back, not
+  a Python translation of what you asked for.
+
+## What Bird will not do
+
+Bird can run Python in a sandbox. It cannot run R, and there is no R interpreter
+anywhere in Bower.
+
+Ask it to run an R script and it will tell you so, then offer the two things
+that exist: write the script out for you to run in RStudio, or do the equivalent
+analysis in Python and label it clearly as Python.
+
+It will not quietly translate your analysis into another language and hand back
+the number as though it came from your code. A result you cannot tell apart from
+the real thing is worse than no result.
+
+## Why
+
+Researchers do not stop writing code when they open a lab notebook. The analysis
+that produced a figure, the query behind a table, the chunk that cleans the
+plate readings: that work belonged in the record next to the results it
+produced, and it had nowhere to go.
+
+## Notes
+
+Bower does not guess a code block's language. A block with no language set
+renders as plain text, because a wrong guess recolours your code silently and
+short R snippets are easy to mistake for something else.
+
+Files over 256 KB are not rendered in the browser. You get the file details and
+a download button, because highlighting a file that size locks up the tab.
+
+Full detail in [Code in Bower](/ai-and-search/code-in-bower).

@@ -47,7 +47,8 @@
               "ai-and-search/hybrid-search",
               "ai-and-search/command-palette",
               "ai-and-search/inferred-links",
-              "capture/ai-titles"
+              "capture/ai-titles",
+              "ai-and-search/code-in-bower"
             ]
           },
           {
@@ -93,6 +94,12 @@
             "group": "What's new",
             "pages": [
               "changelog/index"
+            ]
+          },
+          {
+            "group": "August 2026",
+            "pages": [
+              "changelog/2026-08-13-code-in-bower"
             ]
           },
           {
