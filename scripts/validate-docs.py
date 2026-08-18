@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Validate the Mintlify docs site before it ships.
 
-Three checks, all of which can genuinely fail on a realistic mistake:
+Four checks, all of which can genuinely fail on a realistic mistake:
 
 1. `docs.json` parses as JSON.
 2. Every page listed in `navigation` resolves to an `.mdx`/`.md` file on disk.
@@ -14,6 +14,9 @@ Three checks, all of which can genuinely fail on a realistic mistake:
    dangling. The `href` half matters as much as the Markdown half: the
    Trust Center rename touched eight `<Card href>` values on one page alone,
    and Markdown-only checking passed green on every one of them broken.
+4. The brand assets and colors in `docs.json` are the current identity, in the
+   right slots. See the block comment above `check_brand` for why that needs a
+   check rather than a careful reviewer.
 
 Run: python3 scripts/validate-docs.py
 Exit 0 = clean, 1 = problems found (printed with file:line where known).
@@ -21,6 +24,7 @@ Exit 0 = clean, 1 = problems found (printed with file:line where known).
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import sys
@@ -97,6 +101,143 @@ def asset_exists(path: str) -> bool:
     return candidate.is_file()
 
 
+# --- Brand ------------------------------------------------------------------
+#
+# Bower's identity renders in three places that deploy independently: this help
+# center, the marketing site (bowerlabs.ai), and the product (app.bowerlabs.ai).
+# None of them hotlinks another's artwork — each hosts its own copy — so the
+# source is duplicated, and duplicated source drifts silently. Nothing about a
+# stale hex or a retired logo fails a build or looks wrong in review. This help
+# center is the proof: it shipped the 2025 purple-bird mark and the pre-2026-08
+# navy/sage hexes for months after both were retired.
+#
+# The website repo runs the same check from its side (scripts/check-brand-drift.mjs,
+# pinning src/lib/brand.json). CI here checks out this repository alone and
+# cannot read the others, so the expected values are pinned as literals. When
+# the brand moves, all three move together and these constants change in the
+# same commit.
+#
+# `logo` AND `colors` USE THE SAME SLOT NAMES FOR OPPOSITE THINGS, which is
+# the trap worth a check on its own.
+#
+#   logo.light   -> rendered in LIGHT mode, so it must be the DARK-ink lockup
+#   colors.light -> rendered in DARK mode (it is the light-on-dark primary)
+#
+# Verified against a running `mint dev`, not the schema: Mintlify's published
+# docs.json schema describes `logo.light` as "the light version of the logo
+# used in dark mode", and the implementation does the reverse — it renders
+# logo.light under `block dark:hidden`. Trusting that sentence is how this
+# check's first draft shipped a white lockup onto the parchment navbar. If you
+# change these, re-verify in the browser rather than re-reading the schema.
+#
+# Getting it wrong is invisible in review: whichever mode the reviewer happens
+# to be in still renders *something*, and the wrong lockup only disappears in
+# the other one.
+#
+# Hashes are the app repo's packages/frontend/src/assets/brand (and its
+# public/favicon.svg), which the website repo pins byte-identically.
+LOCKUP_DARK_INK = "4e7aeeaec903b38e4d4c9eb3126a425133c5b19c694f6c61f6e7f610119f92df"
+LOCKUP_LIGHT_INK = "81258939249ad9839a203d3a06b09fe79c1041a2e7ef1665e5fc3cc2ee53faff"
+FAVICON = "e624dc6155329952305459639e029234bf81ac6ff491b9cefb26bd1583e07956"
+
+# 2026-08 palette. Twilight ramp plus the neutrals this config can legitimately
+# reference; anything outside it is either a new brand color (add it here, and
+# to the other two repos) or a typo.
+BRAND_HEXES = {
+    "#AEC4ED": "Twilight 300",
+    "#83A5E3": "Twilight 400",
+    "#5C88DA": "Twilight 500 (core brand blue)",
+    "#4D72B7": "Twilight 600",
+    "#3F5C94": "Twilight 700",
+    "#2E446D": "Twilight 800",
+    "#1D2C46": "Twilight 900",
+    "#F0EEE9": "Parchment",
+    "#0E1420": "Dark canvas",
+    "#212721": "Charcoal",
+}
+
+# Steps that carry body text on Parchment at AA. The core brand blue #5C88DA is
+# deliberately absent: it is 3.02:1 on Parchment and 3.51:1 under a white label,
+# so it clears AA only as large display text (>=24px) or as a non-text UI color.
+# Mintlify paints `colors.primary` onto inline links and small UI labels, so the
+# obvious choice — "the brand blue" — is the one that fails.
+TEXT_SAFE_ON_LIGHT = {"#3F5C94", "#2E446D", "#1D2C46"}
+# The mirror on the dark canvas: the fill has to go lighter, not darker.
+TEXT_SAFE_ON_DARK = {"#AEC4ED", "#83A5E3"}
+
+
+def sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def check_brand(config: dict, problems: list[str]) -> None:
+    colors = config.get("colors", {})
+    background = config.get("background", {}).get("color", {})
+
+    for field, value in chain(
+        ((f"colors.{k}", v) for k, v in colors.items()),
+        ((f"background.color.{k}", v) for k, v in background.items()),
+    ):
+        if value.upper() not in BRAND_HEXES:
+            problems.append(
+                f"docs.json {field} is {value}, which is not a 2026-08 brand color. "
+                f"Either it is new (add it to BRAND_HEXES here, and to the website "
+                f"repo's src/lib/brand.json) or it is stale."
+            )
+
+    # `colors.primary` and `colors.dark` both render on the light canvas.
+    for field in ("primary", "dark"):
+        value = colors.get(field, "").upper()
+        if value and value in BRAND_HEXES and value not in TEXT_SAFE_ON_LIGHT:
+            problems.append(
+                f"docs.json colors.{field} is {value} ({BRAND_HEXES[value]}), which does "
+                f"not clear WCAG AA for body text on Parchment. Mintlify uses it for "
+                f"inline links and small labels. Use Twilight 700 #3F5C94 or darker."
+            )
+
+    value = colors.get("light", "").upper()
+    if value and value in BRAND_HEXES and value not in TEXT_SAFE_ON_DARK:
+        problems.append(
+            f"docs.json colors.light is {value} ({BRAND_HEXES[value]}). This is the "
+            f"dark-mode primary, so it has to be a LIGHT step — Twilight 300 #AEC4ED "
+            f"or 400 #83A5E3."
+        )
+
+    # Slot-aware: the hash pins both which artwork ships and which mode it
+    # ships in, so an inverted pair fails here rather than in production.
+    logo = config.get("logo", {})
+    expected = {
+        ("logo.light", logo.get("light")): (LOCKUP_DARK_INK, "the dark-ink lockup"),
+        ("logo.dark", logo.get("dark")): (LOCKUP_LIGHT_INK, "the light-ink lockup"),
+        ("favicon", config.get("favicon")): (FAVICON, "the mark favicon"),
+    }
+    for (field, path), (digest, label) in expected.items():
+        if not path:
+            problems.append(f"docs.json {field} is not set; it must point at {label}.")
+            continue
+        candidate = ROOT / path.strip("/")
+        if not candidate.is_file():
+            problems.append(f"docs.json {field} points at missing file '{path}'.")
+            continue
+        actual = sha256(candidate)
+        if actual != digest:
+            problems.append(
+                f"docs.json {field} -> {path} is not {label}. sha256 is {actual[:16]}…, "
+                f"expected {digest[:16]}…. If this repo is right, re-sync the app and "
+                f"website repos and update the hash here in the same commit; if the "
+                f"brand moved first, take their file. If the two lockups are simply "
+                f"swapped, note that logo.light is the file shown in LIGHT mode, so it "
+                f"is the DARK-ink one — the opposite of what colors.light means."
+            )
+
+    thumbnail = config.get("thumbnails", {}).get("background")
+    if thumbnail and not asset_exists(thumbnail):
+        problems.append(
+            f"docs.json thumbnails.background points at missing file '{thumbnail}'. "
+            f"Regenerate it with `python3 scripts/generate-og-background.py`."
+        )
+
+
 def main() -> None:
     problems: list[str] = []
 
@@ -150,12 +291,16 @@ def main() -> None:
                     continue
                 problems.append(f"{rel}:{lineno}: internal link to missing page '{target}'")
 
+    # --- Check 4: brand assets and colors are current, and in the right slots -
+    check_brand(config, problems)
+
     if problems:
         fail(problems)
 
     print(
         f"✔ docs.json valid · {len(nav_pages)} navigation pages resolve · "
-        f"internal links across {len(known_pages)} pages resolve"
+        f"internal links across {len(known_pages)} pages resolve · "
+        f"brand assets and colors match the 2026-08 identity"
     )
 
 

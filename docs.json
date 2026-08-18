@@ -2,12 +2,13 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "Bower Help Center",
+  "description": "Guides and reference for Bower, from your first capture to workspace administration.",
   "colors": {
-    "primary": "#1F3A89",
-    "light": "#5E7D4F",
-    "dark": "#1F3A89"
+    "primary": "#3F5C94",
+    "light": "#AEC4ED",
+    "dark": "#3F5C94"
   },
-  "favicon": "/favicon.png",
+  "favicon": "/favicon.svg",
   "navigation": {
     "tabs": [
       {
@@ -223,8 +224,28 @@
     }
   },
   "logo": {
-    "light": "/logo/light.png",
-    "dark": "/logo/dark.png"
+    "light": "/logo/logo-lockup.svg",
+    "dark": "/logo/logo-lockup-dark.svg"
+  },
+  "background": {
+    "color": {
+      "light": "#F0EEE9",
+      "dark": "#0E1420"
+    }
+  },
+  "thumbnails": {
+    "appearance": "light",
+    "background": "/images/og-background.png"
+  },
+  "seo": {
+    "metatags": {
+      "canonical": "https://docs.bowerlabs.ai"
+    },
+    "organization": {
+      "name": "Bower",
+      "url": "https://bowerlabs.ai",
+      "sameAs": ["https://www.linkedin.com/company/bowerlabs"]
+    }
   },
   "navbar": {
     "links": [
