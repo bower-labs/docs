@@ -9,6 +9,16 @@
 - Run `mint broken-links` to check links
 - Hosted at `docs.bowerlabs.ai`
 - This repo is **public** — treat every file as publicly visible. Never commit API keys, internal URLs, secrets, or system architecture details.
+- Run `python3 scripts/validate-docs.py` before opening a PR — it is what CI runs
+
+## Brand and assets
+
+The 2026-08 identity is shared with the marketing site (`bowerlabs.ai`) and the product (`app.bowerlabs.ai`). Each property hosts its own copy of the artwork rather than hotlinking the others, so the files here must stay byte-identical with theirs. `scripts/validate-docs.py` pins the hashes and fails on drift.
+
+- **Colors.** `colors.primary` is Twilight 700 `#3F5C94`, not the core brand blue `#5C88DA`. Mintlify paints `primary` onto inline links and small labels, and `#5C88DA` is 3.02:1 on Parchment — large display text and non-text UI only. The app repo's `packages/frontend/src/theme/colors.brand.ts` carries the full ramps and the reasoning.
+- **`logo` and `colors` use the same slot names for opposite things.** `logo.light` is the file rendered in *light* mode, so it holds the dark-ink lockup. `colors.light` is the primary rendered in *dark* mode, so it holds a light step. Mintlify's published schema describes `logo.light` the other way round and the implementation disagrees with it — check a running `mint dev` in both modes, not the schema. Getting it wrong is invisible in review, because whichever mode you happen to be in still renders something.
+- **Share cards.** Mintlify generates one per page from the logo, `colors.primary`, and the page's `title` and `description` frontmatter, over `images/og-background.png`. That background is generated — run `python3 scripts/generate-og-background.py`, do not edit the PNG. A page with no `description` gets a card with no subtitle, so keep frontmatter descriptions filled in.
+- **Fonts are deliberately not synced.** The siblings self-host GT Ultra and Suisse Int'l; those faces are licensed and this repo is public, so the help center stays on Mintlify's default stack.
 
 ## About Bower
 
