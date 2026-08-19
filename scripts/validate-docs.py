@@ -136,9 +136,9 @@ def asset_exists(path: str) -> bool:
 #
 # Hashes are the app repo's packages/frontend/src/assets/brand (and its
 # public/favicon.svg), which the website repo pins byte-identically.
-LOCKUP_DARK_INK = "4e7aeeaec903b38e4d4c9eb3126a425133c5b19c694f6c61f6e7f610119f92df"
-LOCKUP_LIGHT_INK = "81258939249ad9839a203d3a06b09fe79c1041a2e7ef1665e5fc3cc2ee53faff"
-FAVICON = "e624dc6155329952305459639e029234bf81ac6ff491b9cefb26bd1583e07956"
+LOCKUP_DARK_INK = "fa19a07c641c0ed6388ff1fc0d3ea8cb2f9144c455bfc403485a719e4738a066"
+LOCKUP_LIGHT_INK = "15d81a2de32061f59f9e31ef3c638f675187827fcc626522d59f7ffa54e1c4b3"
+FAVICON = "66934525858f9b542c7cfa765a42ba90d551f59607f9e2c7b0e4746a59e10d1f"
 
 # 2026-08 palette. Twilight ramp plus the neutrals this config can legitimately
 # reference; anything outside it is either a new brand color (add it here, and
