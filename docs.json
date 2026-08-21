@@ -237,6 +237,11 @@
     "appearance": "light",
     "background": "/images/og-background.png"
   },
+  "integrations": {
+    "ga4": {
+      "measurementId": "G-Y3X287QJ3X"
+    }
+  },
   "seo": {
     "metatags": {
       "canonical": "https://docs.bowerlabs.ai"
