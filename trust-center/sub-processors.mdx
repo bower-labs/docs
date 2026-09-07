@@ -5,7 +5,9 @@ description: "Third-party services that process data on behalf of Bower."
 
 Bower uses the following third-party services ("sub-processors") to operate the platform. Almost all of them process data on our behalf under a Data Processing Agreement (DPA). Where an agreement is not yet in place, we say so on the entry rather than leaving you to assume. See Tiptap under [Document conversion](#document-conversion) and Mintlify under [Documentation and help search](#documentation-and-help-search).
 
-We will update this page whenever we add or remove a sub-processor. One service, the LinkedIn Insight Tag on our marketing website, is **not** a sub-processor and is listed separately under [Advertising partners](#advertising-partners-not-sub-processors), with an explanation of the difference.
+We will update this page whenever we add or remove a sub-processor.
+
+This page covers services that process data **inside Bower**. Cookies and tags on our marketing website (bowerlabs.ai) are a separate matter and are listed in the [cookie policy](/trust-center/cookies), which is also where you change a consent choice.
 
 ## How our DPAs work
 
@@ -106,20 +108,6 @@ When you ask Bird to find papers, resolve a DOI, or look up an author, it querie
 | [ORCID](https://info.orcid.org/privacy-policy/) | Researcher identity lookup | ORCID iDs you enter, returned as public profile names and works | US |
 
 These are public scholarly registries handling public identifiers and search queries, not personal or research content, so no DPA or BAA is required. **Restricted-mode workspaces never reach any of them**: all seven go through one shared gateway that runs a fail-closed check before any request leaves, so the block is structural rather than repeated per service.
-
-## Advertising partners (not sub-processors)
-
-Everything above this line is a sub-processor: a service that handles data **on our behalf**, under our instructions, covered by an agreement between us and them. The one service below is not, and we list it separately rather than blurring the distinction.
-
-| Service | Purpose | Data processed | Location |
-|---------|---------|---------------|----------|
-| [LinkedIn](https://www.linkedin.com/legal/privacy-policy) | Measures our advertising on LinkedIn, and shows Bower ads to people who have visited our marketing website | The fact that a browser visited a page on bowerlabs.ai, plus IP address and browser data. **No research content, and nothing from inside the Bower app** | US / Ireland |
-
-The LinkedIn Insight Tag runs on the **marketing website only** (bowerlabs.ai). It is not present in the Bower app, and no workspace content ever reaches it. It loads only after a visitor accepts cookies; until then it is not set at all. See the [cookie policy](/trust-center/cookies) to change a choice you have already made.
-
-**Why it sits outside the list.** When you visit bowerlabs.ai, LinkedIn uses what it sees for its own advertising products, not solely for purposes we set. In data-protection terms it is acting as its own controller there, not as a processor working to our instructions, so calling it a sub-processor would tell you something untrue in a direction that matters: it would imply your workspace data reaches LinkedIn under a data processing agreement. It does not. Nothing from inside Bower is ever used for advertising.
-
-This is the only entry of its kind. If we add another, it appears here.
 
 ## Data residency
 
