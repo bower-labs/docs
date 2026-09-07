@@ -1,0 +1,77 @@
+---
+title: "Teach Bird your own visual categories"
+description: "Build a labeled reference set from your own images, then ask Bird which of your categories a new photo matches. Hands-free in a live session."
+sidebarTitle: "Visual reference sets"
+---
+
+**Shipped 2026-08-26 · Bird**
+
+A lot of bench work comes down to a judgment call about what you are looking
+at. Which bleaching stage is this coral at? Is this colony morphology type A or
+type B? Which of the four wear patterns does this component show? The answer is
+usually obvious with the reference images side by side, and much less obvious at
+6pm with gloves on.
+
+A **visual reference set** is your own labeled answer key. You pick the
+categories, you pick the images that define each one, and Bird compares new
+images against that set.
+
+## What's new
+
+- **Build a set in chat.** Tell Bird what the categories are and which images
+  define them. It drafts the set, shows you every label with its reference
+  images, and waits for you to press **Create set**. Nothing is written until
+  you do.
+- **Comparative descriptions.** Bower reads the whole set at once and writes
+  down the cues that separate each category from the others, so the
+  descriptions read as contrasts rather than captions. They stay at the level
+  of what is visible.
+- **Ask at the bench.** Point Bird at something new and ask *"which bleaching
+  stage is this?"* or *"compare this against my wear pattern references"*. In a
+  live session it works hands-free, so you can keep both hands on the sample.
+- **Your own written criteria.** Give a category the distinction you would
+  otherwise have to explain out loud every time, and Bird reads your wording
+  from then on.
+
+## The categories are yours
+
+Bird never invents a taxonomy. It only reports which of the categories you
+defined a new image most resembles, and it will not answer with a category you
+did not define. There is no scientific identification and no diagnosis here:
+this is a comparison against your own examples.
+
+Match strength comes back as high, medium, or low, never as a percentage,
+because a percentage implies a precision this does not have. If the comparison
+is not clean, Bird says the match was inconclusive, names the categories it was
+torn between, and asks the question that would settle it. That is the intended
+behavior, not a failure. A confident wrong label costs far more than an honest
+question.
+
+Every match is an assistive suggestion for you to confirm. Bird will not tag the
+image, file it, or change your reference set off the back of its own answer.
+
+## Why
+
+Most reference sets exist because a protocol asks for a judgment it cannot make
+for you. A step that says *"score the bleaching stage"* is precise about the
+procedure and silent about the call, because the call is visual and the protocol
+is text. The judgment is the part that drifts: between people, between shifts,
+and between whoever wrote the protocol and whoever is running it at 6pm.
+
+## Notes
+
+A set holds two to eight categories with one to three reference images each. Two
+is the minimum because the descriptions are comparative, and there is nothing to
+compare against with one.
+
+Reference images must be **JPEG, PNG or WebP**. Bower accepts other image
+formats, including HEIC, but they cannot be used as references.
+
+Creating the set **moves** each reference image into the set's collection. If you
+also want the set alongside a protocol, link the two with
+[linked entities](/organisation/linked-entities) rather than re-filing the
+images, because moving a reference image out detaches it from the set.
+
+Bird compares one image per reply. Ask about the next one in your next message.
+
+Full detail in [Visual reference sets](/ai-and-search/visual-reference-sets).

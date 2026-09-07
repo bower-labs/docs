@@ -101,6 +101,7 @@
           {
             "group": "August 2026",
             "pages": [
+              "changelog/2026-08-26-visual-reference-sets",
               "changelog/2026-08-13-code-in-bower"
             ]
           },
