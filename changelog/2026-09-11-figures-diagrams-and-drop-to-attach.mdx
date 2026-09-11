@@ -1,0 +1,61 @@
+---
+title: "Figures, diagrams, and dropping a file into chat"
+description: "Bird now draws publication-grade figures and mermaid diagrams in the conversation, and you can drag or paste a file straight into the chat box."
+sidebarTitle: "Figures and diagrams in chat"
+---
+
+**Shipped 2026-09-11 · Bird**
+
+Two changes to what a conversation with Bird can carry: what comes out of it,
+and what you can put into it.
+
+## Figures and diagrams
+
+Bird can now produce **publication-grade figures** and **mermaid diagrams**
+directly in the conversation, rather than describing a chart it cannot draw.
+
+- **Figures** are generated as real image files, so a figure is something you
+  can take away rather than a screenshot of a screen.
+- **Mermaid diagrams** render from a fenced block, which suits the things that
+  are genuinely diagrams: a workflow, a decision tree, a sample-handling chain,
+  an experimental design.
+
+Ask in plain language. "Plot these results", "draw the workflow for this
+protocol", "diagram how these samples were split".
+
+## Dropping and pasting files
+
+You can now get a file into the chat box three ways, all equivalent:
+
+- **The paperclip button**, which opens a file picker.
+- **Drag a file** from your desktop or file manager and drop it on the chat
+  box.
+- **Paste** a file, which in practice usually means a screenshot you have just
+  taken.
+
+Dragging a file used to open it in a new browser tab instead of attaching it,
+which is the browser's default for a page that does not handle the drop. The
+page handles it now.
+
+Bower accepts documents, images, spreadsheets, PDFs and research code,
+including scripts like `.R`, `.Rmd`, `.jl` and `.do` that many tools reject
+because the operating system gives them no recognised file type. If a file is
+too large or is not a type Bower reads, you get told which file and why, and
+the rest of your selection still attaches.
+
+## Also in chat
+
+Generated **R and Python** code now comes through cleanly. Code inside fenced
+and inline blocks was being rewritten on its way to the screen, which is what
+produced R that arrived on a single line and would not run when pasted into
+RStudio.
+
+## Notes
+
+Pasting a **table** copied out of a document pastes it as text, not as an
+attachment, because a copied table carries no file. To have Bird read a table,
+attach the file itself or a photo of it.
+
+Full detail in
+[Figures and diagrams](/ai-and-search/figures-and-diagrams) and
+[Bird](/ai-and-search/bird-ai-assistant).
