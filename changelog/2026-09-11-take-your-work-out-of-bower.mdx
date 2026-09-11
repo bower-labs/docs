@@ -1,0 +1,45 @@
+---
+title: "Take your work out of Bower"
+description: "Export a note to Word, print the whole thing rather than the first screen, and get legible paper even if you work in dark mode."
+sidebarTitle: "Word export and printing"
+---
+
+**Shipped 2026-09-11 · Organisation**
+
+Work that cannot leave the tool it was written in is work you end up retyping.
+A protocol goes to a collaborator as a document, a results summary goes to a
+client in their own format, and a method sheet goes to the bench on paper.
+
+Three things were in the way. There was no Word export. Printing gave you one
+page regardless of how long the note was. And a note written in dark mode
+printed as pale text on a dark slab.
+
+## What's new
+
+- **Export a note to Word.** `.docx` is now in the note menu alongside the
+  existing formats, generated in your browser. Nested content comes with it,
+  and where something genuinely cannot be represented, the export says so
+  rather than dropping it quietly.
+- **Print the whole note.** `Cmd+P` produced exactly one page, because the app
+  is a fixed-height scroller and paged media does not scroll. A researcher
+  could not print a protocol before a lab session. It prints the full note now,
+  and the toolbars stay off the page.
+- **PDF export covers the full note too**, for the same reason and by the same
+  fix.
+- **Printing is always light.** Dark mode is for screens. Printing now forces
+  the light palette so you get black text on white paper.
+- **Numbered lists keep their own starting number.** A list starting at 7
+  exported as a list starting at 1 in Word, plain text and Markdown. All three
+  exporters now agree with what you see in the editor.
+
+## Notes
+
+`Cmd+P` opens your browser's print dialog, so "Save as PDF" from that dialog
+and the note menu's PDF export both produce the whole note.
+
+Banded table rows are a screen feature and do not carry into `.docx` or PDF.
+
+Branded document templates, and control over scale, margins and orientation,
+are still open requests rather than shipped work.
+
+Full detail in [Export](/organisation/export).

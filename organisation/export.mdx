@@ -1,14 +1,15 @@
 ---
 title: "Exporting notes"
-description: "Export your notes as PDF, Markdown, HTML, or plain text."
+description: "Export your notes as Word, PDF, Markdown, HTML, or plain text."
 ---
 
-You can export any note from Bower in four formats. The original content and formatting are preserved as closely as each format allows.
+You can export any note from Bower in five formats. The original content and formatting are preserved as closely as each format allows.
 
 ## Export formats
 
 | Format | Best for |
 | --- | --- |
+| **Word** (.docx) | Sending to collaborators who will edit it, or who expect a document |
 | **PDF** | Sharing with collaborators, printing, archiving |
 | **Markdown** (.md) | Version control, plain text workflows, other tools |
 | **HTML** (.html) | Web publishing, embedding in reports |
@@ -23,12 +24,22 @@ You can export any note from Bower in four formats. The original content and for
 
 For **PDF**, Bower opens your browser's print dialog with the note pre-formatted for A4 pages. Use "Save as PDF" from the print dialog.
 
-For **Markdown, HTML, and plain text**, the file downloads directly.
+For **Word, Markdown, HTML, and plain text**, the file downloads directly. Word export is generated in your browser.
 
 ## What's included
 
 - Full note content with formatting (headings, lists, tables, bold/italic)
 - Images (embedded in HTML and PDF; referenced in Markdown)
 - Task list states (checked/unchecked)
+- Table cell and header shading, in Word export and import
+- A numbered list's own starting number, in Word, Markdown and plain text
+
+Printing a note (Cmd+P) and PDF export both produce the whole note, not just
+the part on screen, and always print in the light palette so a note written in
+dark mode is legible on paper.
+
+Banded table rows are a screen and share-link feature and do not carry into
+Word or PDF. Where Word cannot represent something, the export tells you rather
+than dropping it silently.
 
 Attachments are not included in the export — only the note's text content. If you need the original source files, download them separately from the note's attachment panel.

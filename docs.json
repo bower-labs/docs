@@ -46,6 +46,7 @@
               "ai-and-search/voice-commands-by-device",
               "ai-and-search/protocol-step-videos",
               "ai-and-search/visual-reference-sets",
+              "ai-and-search/figures-and-diagrams",
               "ai-and-search/hybrid-search",
               "ai-and-search/command-palette",
               "ai-and-search/inferred-links",
@@ -96,6 +97,14 @@
             "group": "What's new",
             "pages": [
               "changelog/index"
+            ]
+          },
+          {
+            "group": "September 2026",
+            "pages": [
+              "changelog/2026-09-11-tables-that-hold-real-data",
+              "changelog/2026-09-11-take-your-work-out-of-bower",
+              "changelog/2026-09-11-figures-diagrams-and-drop-to-attach"
             ]
           },
           {
@@ -207,7 +216,7 @@
               "trust-center/cookies",
               "trust-center/audit-logs",
               "trust-center/hipaa-compliance",
-      "trust-center/accessibility",
+              "trust-center/accessibility",
               "trust-center/password-and-security",
               "trust-center/privacy-policy",
               "trust-center/terms-of-service"
@@ -252,7 +261,9 @@
     "organization": {
       "name": "Bower",
       "url": "https://bowerlabs.ai",
-      "sameAs": ["https://www.linkedin.com/company/bower-labs/"]
+      "sameAs": [
+        "https://www.linkedin.com/company/bower-labs/"
+      ]
     }
   },
   "navbar": {

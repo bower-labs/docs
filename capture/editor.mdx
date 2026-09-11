@@ -104,16 +104,38 @@ Click the triangle to expand or collapse the section. Useful for hiding suppleme
 
 Insert a table with `/table` or Cmd+Shift+T. Tables start as 3x3 with a header row.
 
-- **Resize columns** -- drag column borders
+- **Resize columns** -- drag any column border, including the table's
+  right-hand edge
+- **Fit to width** -- in the table handle menu, beside duplicate and delete.
+  The quickest way to tame a wide or extracted table
+- **Banded rows** -- alternating row shading, from the table options menu or
+  Cmd+Shift+K
 - **Add/remove rows and columns** -- use keyboard shortcuts:
   - Cmd+Shift+Right / Left -- add column after/before
   - Cmd+Shift+Down / Up -- add row after/before
   - Cmd+Shift+Delete -- delete column
   - Cmd+Alt+Delete -- delete row
 - **Select cells** -- click and drag across cells
+- **Act on several rows at once** -- select whole rows, then delete, insert or
+  clear their contents; the action applies to everything you selected
 - **Merge/split cells** -- Cmd+Shift+M / Cmd+Shift+S
 - **Navigate** -- Tab / Shift+Tab to move between cells
-- **Scroll** -- on narrow screens, tables scroll horizontally
+- **Scroll** -- a table wider than the editor scrolls horizontally, with a
+  scrollbar above the table as well as below, so the right-hand columns stay
+  reachable while you are reading the header
+
+The table controls stay visible while your cursor is anywhere in the table, and
+every handle carries a tooltip.
+
+<Note>
+  Banded rows are a screen and share-link feature. They are not carried into
+  Word or PDF export, so a banded table prints unbanded. Duplicate, sort and
+  alignment act on the row you are hovering rather than on a multi-row
+  selection.
+</Note>
+
+Table cell and header shading survives a round trip through Word export and
+import.
 
 ## Mathematics (LaTeX)
 

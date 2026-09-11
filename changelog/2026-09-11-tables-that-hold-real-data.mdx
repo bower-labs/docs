@@ -1,0 +1,55 @@
+---
+title: "Tables that hold real data"
+description: "Resize any column including the last one, band rows for readability, delete several rows at once, and reach the right-hand columns of a wide table without scrolling to the bottom."
+sidebarTitle: "Better note tables"
+---
+
+**Shipped 2026-09-11 · Capture**
+
+A results table is not decoration. It is the part of the note somebody else has
+to read, check and sometimes sign off on. Tables in Bower were fine for three
+columns of prose and awkward for anything that looked like data, which is most
+of what researchers put in them.
+
+This release is the table pass, and almost all of it came from the cohort
+telling us what broke.
+
+## What's new
+
+- **Every column resizes, including the last one.** Dragging the right-hand
+  edge of a table used to add columns instead of resizing them, because the
+  only draggable thing there was the add-column strip. It resizes now, and the
+  add-column strips no longer pretend to be resize handles.
+- **Banded rows.** Toggle alternating row shading from the table options menu
+  or with `Cmd+Shift+K`. Banding carries into a shared read-only view, so
+  whoever you send the note to sees the same thing you do.
+- **Delete several rows at once.** Selecting five rows and choosing "Delete
+  row" used to delete one, because opening the menu quietly replaced your
+  selection with whichever row you were hovering. Delete, insert and "Clear row
+  contents" now all act on the rows you actually selected.
+- **Fit to width.** In the table handle menu, beside duplicate and delete. It
+  existed before and nothing rendered it, so a wide or extracted table could
+  only be tamed by dragging every column by hand.
+- **A scrollbar above the table, as well as below.** A wide table scrolls
+  inside its own box, and that scrollbar sat under the last row. On a long
+  table it was off screen while you were reading the header, so the columns to
+  the right were effectively unreachable. There is now a matching scrollbar
+  along the top.
+- **Wide tables stop compressing.** Columns no longer squeeze below a readable
+  width just because the table is wider than the editor.
+- **Table colours survive Word.** Cell and header shading now round-trips
+  through `.docx` import and export instead of being dropped on the way.
+
+## Finding the controls
+
+The table menus were reported as hard to find, so the handles now stay visible
+while your cursor is anywhere in the table rather than appearing only on hover,
+and every trigger carries a tooltip.
+
+## Notes
+
+Banded rows are a screen and share-link feature. They are not carried into
+`.docx` or PDF export, so a banded table prints unbanded.
+
+Duplicate, sort and alignment still act on the row you are hovering rather than
+on a multi-row selection. That is the next piece of this work, not an oversight.
