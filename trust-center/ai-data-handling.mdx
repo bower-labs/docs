@@ -3,7 +3,7 @@ title: "AI & your data"
 description: "Which AI providers Bower uses, where your data goes, what is retained, and how to lock it down."
 ---
 
-Bower uses AI to power Bird (your AI assistant), voice transcription, photo text extraction, and semantic search. This page explains what happens to your data when you use them.
+Bower uses AI to power Bower (your AI assistant), voice transcription, photo text extraction, and semantic search. This page explains what happens to your data when you use them.
 
 The binding commitments are in the [Terms of Service](https://bowerlabs.ai/terms) and the [Privacy Policy](https://bowerlabs.ai/privacy). This page explains how they are implemented. Where they differ, the Terms and the Privacy Policy govern.
 
@@ -21,7 +21,7 @@ For the authoritative, always-current list of every service that processes data 
 
 | Provider | What it is used for | Location | Covered by our BAA? |
 |----------|--------------------|----------|---------------------|
-| **Google Vertex AI** (Gemini, Speech-to-Text, embeddings) | Every AI feature: Bird chat, voice transcription, photo and OCR text extraction, PDF and attachment understanding, semantic search embeddings, live voice and video mode, and every AI classifier | US; global endpoint for some models | **Yes** |
+| **Google Vertex AI** (Gemini, Speech-to-Text, embeddings) | Every AI feature: Bower chat, voice transcription, photo and OCR text extraction, PDF and attachment understanding, semantic search embeddings, live voice and video mode, and every AI classifier | US; global endpoint for some models | **Yes** |
 
 **Every AI feature in Bower routes to Google Vertex AI**, which is covered by a signed Business Associate Agreement (BAA). That is true for all workspaces, not only those in [Restricted mode](/trust-center/hipaa-compliance): Restricted mode adds the other protections described below, but AI inference is already inside the BAA boundary everywhere.
 

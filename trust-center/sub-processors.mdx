@@ -25,11 +25,11 @@ Separately, **HIPAA** protections require a signed Business Associate Agreement 
 
 ## AI processing
 
-When you use AI features (Bird chat, voice transcription, photo text extraction, document processing), your content is sent to one of these providers to produce a result. **Bower does not use your identifiable content to train AI models, and these providers are contractually barred from training on it or retaining it for human review.** Those are two separate commitments; see [AI & your data](/trust-center/ai-data-handling#is-my-data-used-to-train-ai-models).
+When you use AI features (Bower chat, voice transcription, photo text extraction, document processing), your content is sent to one of these providers to produce a result. **Bower does not use your identifiable content to train AI models, and these providers are contractually barred from training on it or retaining it for human review.** Those are two separate commitments; see [AI & your data](/trust-center/ai-data-handling#is-my-data-used-to-train-ai-models).
 
 | Service | Purpose | Data processed | Location |
 |---------|---------|---------------|----------|
-| [Google AI (Gemini, Vertex AI)](https://cloud.google.com/terms/cloud-privacy-notice) | AI chat (Bird), live voice/video mode, voice note transcription (primary), OCR/image text extraction, text embeddings, semantic memory | Text, images, audio, video streams | US |
+| [Google AI (Gemini, Vertex AI)](https://cloud.google.com/terms/cloud-privacy-notice) | AI chat (Bower), live voice/video mode, voice note transcription (primary), OCR/image text extraction, text embeddings, semantic memory | Text, images, audio, video streams | US |
 | [Google Cloud Speech-to-Text](https://cloud.google.com/terms/cloud-privacy-notice) | Voice note transcription (automatic fallback) | Audio recordings | US |
 
 Voice transcription runs entirely on Google. Gemini on Vertex AI handles it by default, and if that call fails Bower retries automatically on Google Cloud Speech-to-Text. Both are covered by our Google Cloud BAA, so transcription stays inside the same boundary for every workspace, Restricted mode or not.
@@ -51,7 +51,7 @@ Word imports in **Restricted-mode workspaces never reach Tiptap**; Bower convert
 
 ## Integrations & identity
 
-When you connect external services to Bower (either letting Bird search your other tools, or letting an external AI client read your Bower workspace), these providers process the OAuth tokens that broker that access. Bower never stores the underlying access tokens itself.
+When you connect external services to Bower (either letting Bower search your other tools, or letting an external AI client read your Bower workspace), these providers process the OAuth tokens that broker that access. Bower never stores the underlying access tokens itself.
 
 | Service | Purpose | Data processed | Location |
 |---------|---------|---------------|----------|
@@ -64,11 +64,11 @@ Connectors and external AI access are **not yet available in [Restricted-mode](/
 
 | Service | Purpose | Data processed | Location |
 |---------|---------|---------------|----------|
-| [Mintlify](https://www.mintlify.com/legal/privacy) | Hosts Bower's public help centre and lets Bird search it when you ask how to use Bower | The help-search query Bird generates from your request, including any request content Bird puts into that query, for non-Restricted workspaces only | Vendor-managed (United States and other countries) |
+| [Mintlify](https://www.mintlify.com/legal/privacy) | Hosts Bower's public help centre and lets Bower search it when you ask how to use Bower | The help-search query Bower generates from your request, including any request content Bower puts into that query, for non-Restricted workspaces only | Vendor-managed (United States and other countries) |
 
-**Restricted-mode workspaces never send help-search queries to Mintlify.** Bird blocks the external documentation lookup server-side and instead directs you to browse the public help centre without copying workspace content.
+**Restricted-mode workspaces never send help-search queries to Mintlify.** Bower blocks the external documentation lookup server-side and instead directs you to browse the public help centre without copying workspace content.
 
-**Agreement status:** Bower does not currently have a signed DPA or BAA with Mintlify. The help centre itself contains public Bower documentation. Bird-generated help-search queries are sent to Mintlify only from non-Restricted workspaces.
+**Agreement status:** Bower does not currently have a signed DPA or BAA with Mintlify. The help centre itself contains public Bower documentation. Bower-generated help-search queries are sent to Mintlify only from non-Restricted workspaces.
 
 ## Payment processing
 
@@ -95,7 +95,7 @@ The [Stripe Data Processing Agreement](https://stripe.com/au/legal/dpa) applies 
 
 ## Research and literature lookups
 
-When you ask Bird to find papers, resolve a DOI, or look up an author, it queries public scholarly APIs. Each receives the search query Bird generates from your request.
+When you ask Bower to find papers, resolve a DOI, or look up an author, it queries public scholarly APIs. Each receives the search query Bower generates from your request.
 
 | Service | Purpose | Data processed | Location |
 |---------|---------|---------------|----------|

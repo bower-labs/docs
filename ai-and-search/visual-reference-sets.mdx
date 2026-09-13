@@ -1,14 +1,14 @@
 ---
 title: "Visual reference sets"
-description: "Teach Bird what each of your categories looks like, then ask it to compare what the camera sees against your own reference images."
+description: "Teach Bower what each of your categories looks like, then ask it to compare what the camera sees against your own reference images."
 ---
 
 Plenty of bench work comes down to a judgment call about what you are looking at. Which bleaching stage is this coral at? Is this colony morphology type A or type B? Which of the four wear patterns does this component show? The answer is usually obvious once you have the reference images side by side, and much less obvious at 6pm with gloves on.
 
-A visual reference set is your own labeled answer key. You pick the categories, you pick the images that define each one, and Bird uses that set as the basis for comparison. It never invents a taxonomy: the categories are yours, and Bird only reports which of them a new image most resembles.
+A visual reference set is your own labeled answer key. You pick the categories, you pick the images that define each one, and Bower uses that set as the basis for comparison. It never invents a taxonomy: the categories are yours, and Bower only reports which of them a new image most resembles.
 
 <Note>
-  Set one up in a Bird chat, where you can see the preview and confirm it. Once it exists, you can use it anywhere, including hands-free in a live session.
+  Set one up in a Bower chat, where you can see the preview and confirm it. Once it exists, you can use it anywhere, including hands-free in a live session.
 </Note>
 
 ## Setting one up
@@ -16,18 +16,18 @@ A visual reference set is your own labeled answer key. You pick the categories, 
 The images have to be in your workspace already, so upload or import them first.
 
 <Note>
-  Reference images must be **JPEG, PNG or WebP**. Bower lets you attach other image formats, including HEIC (the iPhone default), GIF and SVG, but they cannot be used as reference images. If Bird says a file is not an image when you can plainly see that it is, check the format before you check the file.
+  Reference images must be **JPEG, PNG or WebP**. Bower lets you attach other image formats, including HEIC (the iPhone default), GIF and SVG, but they cannot be used as reference images. If Bower says a file is not an image when you can plainly see that it is, check the format before you check the file.
 </Note>
 
 <Steps>
-  <Step title="Ask Bird in chat">
-    Tell Bird what you want to build and what the categories are. Something like *"Make a visual reference set for coral bleaching stages from the photos in my Bleaching Survey collection"* is enough to start.
+  <Step title="Ask Bower in chat">
+    Tell Bower what you want to build and what the categories are. Something like *"Make a visual reference set for coral bleaching stages from the photos in my Bleaching Survey collection"* is enough to start.
   </Step>
   <Step title="Agree the categories and images">
-    Bird proposes a category name for each group and the reference images it plans to use. Correct anything that is wrong. You can give a category your own written criteria too, which is worth doing when the distinction is one you would otherwise have to explain out loud every time.
+    Bower proposes a category name for each group and the reference images it plans to use. Correct anything that is wrong. You can give a category your own written criteria too, which is worth doing when the distinction is one you would otherwise have to explain out loud every time.
   </Step>
   <Step title="Confirm the preview">
-    Bird shows the draft and asks **Create this visual reference set?** Check the images against the labels, then click **Create set**. Nothing is written until you do.
+    Bower shows the draft and asks **Create this visual reference set?** Check the images against the labels, then click **Create set**. Nothing is written until you do.
   </Step>
 </Steps>
 
@@ -40,9 +40,9 @@ Confirming the draft produces a collection containing your reference images, plu
 
 Those descriptions are written by comparing the whole set at once, not one image at a time, which is why they read as contrasts rather than captions. They stay strictly at the level of what is visible. Bower will not identify an organism, offer a diagnosis, or assert a scientific fact about your images, and it flags overlap between two categories only where the overlap is actually visible.
 
-The guide is an ordinary note, and Bird reads your edited wording from then on. Sharpening a description is exactly what it is there for.
+The guide is an ordinary note, and Bower reads your edited wording from then on. Sharpening a description is exactly what it is there for.
 
-The **Labels** list is the part to leave alone. Bird reads your category names back out of it and matches them against the category stamped on each image, so renaming a category, rewriting the list as prose, or retyping the separator between a name and its criteria will stop the set matching. Edit the descriptions freely; edit the label lines only if you are also willing to rebuild the set.
+The **Labels** list is the part to leave alone. Bower reads your category names back out of it and matches them against the category stamped on each image, so renaming a category, rewriting the list as prose, or retyping the separator between a name and its criteria will stop the set matching. Edit the descriptions freely; edit the label lines only if you are also willing to rebuild the set.
 
 ## Working alongside a protocol
 
@@ -58,23 +58,23 @@ This is also why the set is worth building once and reusing. The judgment is the
 
 ## Using it at the bench
 
-Once the set exists, point Bird at something new and ask which category it matches. In a live session this works hands-free, so you can keep both hands on the sample:
+Once the set exists, point Bower at something new and ask which category it matches. In a live session this works hands-free, so you can keep both hands on the sample:
 
 - *"Which bleaching stage is this?"*
 - *"Compare this against my wear pattern references"*
 
-Bird replies with the closest match from your categories. It will not answer with a category you did not define.
+Bower replies with the closest match from your categories. It will not answer with a category you did not define.
 
-## When Bird is not sure
+## When Bower is not sure
 
-A reference set makes Bird's uncertainty explicit rather than hiding it. If the comparison is not clean, Bird says the match was inconclusive, names the categories it was torn between, and asks you a question aimed at the thing that would settle it. That is the intended behavior, not a failure: a confident wrong label is far more expensive than an honest question.
+A reference set makes Bower's uncertainty explicit rather than hiding it. If the comparison is not clean, Bower says the match was inconclusive, names the categories it was torn between, and asks you a question aimed at the thing that would settle it. That is the intended behavior, not a failure: a confident wrong label is far more expensive than an honest question.
 
 ## Limits and details
 
 - A set holds **two to eight categories**, with **one to three reference images** each. Two categories is the minimum because the descriptions are comparative, and there is nothing to compare against with only one.
 - Each image belongs to exactly one category, and category names within a set have to be distinct.
 - You can create a new collection for the set or use one you already have.
-- If you have just uploaded the images, give them a few seconds. Bower is still processing them, and Bird will ask you to try again rather than build a set on a half-written image.
-- Bird compares one image per reply. Ask about the next one in your next message.
-- Occasionally the comparative descriptions cannot be generated: the set exceeds the image-size limits (5 MB per image, 32 MB for the set), the workspace has hit its AI usage limit, a workspace data-handling policy blocks image analysis, or the attempt failed transiently. **Your labels and reference images are still saved either way.** The guide note names the reason when it knows it; where it does not, the attempt was transient and asking Bird to rebuild the descriptions is a better move than writing them by hand.
-- Every match Bird offers is framed as an assistive suggestion for you to confirm before you save it. Treat it as a second opinion, not an adjudication.
+- If you have just uploaded the images, give them a few seconds. Bower is still processing them, and Bower will ask you to try again rather than build a set on a half-written image.
+- Bower compares one image per reply. Ask about the next one in your next message.
+- Occasionally the comparative descriptions cannot be generated: the set exceeds the image-size limits (5 MB per image, 32 MB for the set), the workspace has hit its AI usage limit, a workspace data-handling policy blocks image analysis, or the attempt failed transiently. **Your labels and reference images are still saved either way.** The guide note names the reason when it knows it; where it does not, the attempt was transient and asking Bower to rebuild the descriptions is a better move than writing them by hand.
+- Every match Bower offers is framed as an assistive suggestion for you to confirm before you save it. Treat it as a second opinion, not an adjudication.

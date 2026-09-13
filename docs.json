@@ -39,7 +39,7 @@
           {
             "group": "AI & Search",
             "pages": [
-              "ai-and-search/bird-ai-assistant",
+              "ai-and-search/bower-ai-assistant",
               "ai-and-search/personal-preferences",
               "ai-and-search/workspace-instructions",
               "ai-and-search/live-agent-mode",
@@ -121,7 +121,7 @@
               "changelog/2026-07-25-command-palette-expansion",
               "changelog/2026-07-17-pinned-items",
               "changelog/2026-07-15-lifetime-personalization",
-              "changelog/2026-07-12-bird-diagrams",
+              "changelog/2026-07-12-bower-diagrams",
               "changelog/2026-07-10-meeting-summary"
             ]
           },
@@ -155,9 +155,9 @@
               "changelog/2026-04-30-workspace-roles",
               "changelog/2026-04-27-granular-permissions",
               "changelog/2026-04-26-inferred-relationships",
-              "changelog/2026-04-25-bird-memory",
+              "changelog/2026-04-25-bower-memory",
               "changelog/2026-04-24-version-history",
-              "changelog/2026-04-24-spreadsheets-in-bird",
+              "changelog/2026-04-24-spreadsheets-in-bower",
               "changelog/2026-04-24-inline-charts",
               "changelog/2026-04-20-audit-log-timeline",
               "changelog/2026-04-19-ui-refresh",
@@ -167,14 +167,14 @@
               "changelog/2026-04-10-voice-dictation",
               "changelog/2026-04-08-trash-and-restore",
               "changelog/2026-04-06-merge-notes",
-              "changelog/2026-04-03-bird-web-search",
+              "changelog/2026-04-03-bower-web-search",
               "changelog/2026-04-02-compliance-and-privacy-controls"
             ]
           },
           {
             "group": "March 2026",
             "pages": [
-              "changelog/2026-03-31-bird-on-mobile-and-glasses",
+              "changelog/2026-03-31-bower-on-mobile-and-glasses",
               "changelog/2026-03-27-onboarding-checklist",
               "changelog/2026-03-25-public-share-links",
               "changelog/2026-03-22-wake-word-standby",
@@ -198,7 +198,7 @@
               "changelog/2026-02-23-project-to-collection",
               "changelog/2026-02-08-semantic-search",
               "changelog/2026-02-08-voice-transcription-chirp3",
-              "changelog/2026-02-06-bird-launches"
+              "changelog/2026-02-06-bower-launches"
             ]
           }
         ]
@@ -347,6 +347,34 @@
     {
       "source": "/trust-centre/:slug*",
       "destination": "/trust-center/:slug*"
+    },
+    {
+      "source": "/ai-and-search/bird-ai-assistant",
+      "destination": "/ai-and-search/bower-ai-assistant"
+    },
+    {
+      "source": "/changelog/2026-07-12-bird-diagrams",
+      "destination": "/changelog/2026-07-12-bower-diagrams"
+    },
+    {
+      "source": "/changelog/2026-04-25-bird-memory",
+      "destination": "/changelog/2026-04-25-bower-memory"
+    },
+    {
+      "source": "/changelog/2026-02-06-bird-launches",
+      "destination": "/changelog/2026-02-06-bower-launches"
+    },
+    {
+      "source": "/changelog/2026-04-24-spreadsheets-in-bird",
+      "destination": "/changelog/2026-04-24-spreadsheets-in-bower"
+    },
+    {
+      "source": "/changelog/2026-03-31-bird-on-mobile-and-glasses",
+      "destination": "/changelog/2026-03-31-bower-on-mobile-and-glasses"
+    },
+    {
+      "source": "/changelog/2026-04-03-bird-web-search",
+      "destination": "/changelog/2026-04-03-bower-web-search"
     }
   ],
   "footer": {}

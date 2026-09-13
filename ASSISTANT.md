@@ -61,7 +61,7 @@ Use these terms — our users are scientists and will notice if we get them wron
 | **Workspace** | ~~Project / account~~ | The data container; "project" means something else |
 | **Note** | (use as-is) | Editable text content in Bower |
 | **Attachment** | (use as-is) | Original source file |
-| **Bird** | (always capitalised) | The AI assistant |
+| **Bower** | (always capitalised) | The AI assistant |
 | **Collection** | ~~Folder / group~~ | How notes are grouped |
 | **Page tree** | ~~Sidebar / nav~~ | The left-hand navigation panel |
 | **Member** | ~~User~~ | A person in a workspace |
