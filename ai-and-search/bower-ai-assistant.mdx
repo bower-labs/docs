@@ -1,0 +1,147 @@
+---
+title: "Bower: your AI assistant"
+description: "Ask Bower anything about your workspace — search, summarise, compare, create, and organise."
+---
+
+Bower is your built-in AI assistant. It has full access to your workspace — it can read, search, create, and organise your notes, collections, and attachments. It can also search the web for scientific sources.
+
+Every answer Bower gives includes **inline citations** — numbered references back to the specific notes, attachments, or web sources it used. You always know where the information came from.
+
+## What Bower can do
+
+<AccordionGroup>
+  <Accordion title="Search and retrieve">
+    Ask Bower in plain language: "Show me pH readings from last month" or "Find my notes on sample batch 14." Bower searches across everything in your workspace — voice transcripts, photo extractions, imported files — and returns relevant results with links to the source notes.
+  </Accordion>
+  <Accordion title="Search the open web and scholarly sources">
+    Bower can search the web — and the open scholarly record — for external sources. Ask *"What's the latest research on coral alkalinity tolerance?"* or *"What did Jane Smith publish in 2025?"* and Bower will find relevant sources and cite them alongside your workspace data.
+
+    Out of the box, Bower searches **eight open sources** for you, with no setup:
+
+    - **The open web** via Google, including Google Scholar, journal sites, and institutional repositories.
+    - **[OpenAlex](https://openalex.org)** — the open catalogue of ~250M scholarly works. Topical search + fetch by DOI.
+    - **[Semantic Scholar](https://www.semanticscholar.org)** — ~200M papers with AI-generated TLDRs, citation counts, and open-access PDF links. Bower also uses Semantic Scholar's citation graph to walk both the references *and* the forward citations of any paper you're interested in.
+    - **[Crossref](https://www.crossref.org)** — the canonical DOI registry, used as a fallback when other indexes are sparse and as a cross-check on the canonical publisher record.
+    - **[Unpaywall](https://unpaywall.org)** — given a DOI, Bower finds the best-known open-access copy so you can read the full text without leaving Bower.
+    - **[arXiv](https://arxiv.org)** — preprints across CS, ML, physics, math, statistics, biology, and economics. Bower fetches the latest preprint version when one is available.
+    - **[Europe PMC](https://europepmc.org)** — biomedical and life-sciences literature (PubMed + PMC + bioRxiv / medRxiv preprints) with full-text URLs.
+    - **[ORCID](https://orcid.org)** — public publication histories. Bower can list a researcher's works by their ORCID iD.
+
+    **Save your ORCID iD on your profile** (Settings → Profile → *Research identity*) and Bower will automatically pull from your publication list when you ask things like *"what have I published recently on coral alkalinity?"* — no need to share the iD each turn. We only ever read your **public** ORCID profile. [Add yours now](/workspaces-and-account/manage-account#add-your-orcid-id).
+  </Accordion>
+  <Accordion title="Walk a citation trail">
+    Give Bower one or more papers you already know are relevant, and it can walk the citation graph for you — pulling in both the foundations (papers cited *by* your seeds) and the follow-on work (papers that *cite* your seeds). Bower dedupes and ranks the results so the most-cited and most-co-cited papers float to the top, and resolves open-access PDF links automatically.
+
+    Ask Bower things like:
+
+    - *"Starting from DOI 10.1038/s41586-023-XXXXX, find the most relevant follow-on work."*
+    - *"I'm reading these three papers. What else should I be reading?"*
+
+    This is dramatically more effective than running flat searches when you already have one or two papers on the topic — citation-graph proximity is a much stronger relevance signal than keyword overlap.
+  </Accordion>
+  <Accordion title="Summarise">
+    Select one or more notes and ask Bower to summarise. Useful when you've captured a week of observations and want the key points before a meeting or write-up.
+  </Accordion>
+  <Accordion title="Compare">
+    Bower can pull related notes side by side. "Compare my alkalinity readings from this week and last week" works as a natural language query.
+  </Accordion>
+  <Accordion title="Create and edit notes">
+    Bower can create new notes, protocols, and collections on your behalf. "Create a protocol for the PCR workflow we discussed" or "Make a new collection called February Field Samples" — Bower handles the creation and confirms what it did.
+  </Accordion>
+  <Accordion title="Organise your workspace">
+    Bower can move notes between collections, link related entities, add tags, and update titles. "Move all my alkalinity notes into the Field Samples collection" saves you the manual work.
+  </Accordion>
+  <Accordion title="Process files">
+    Bower can trigger text extraction on images, transcribe audio files, and read the content of PDFs and documents in your workspace.
+  </Accordion>
+  <Accordion title="Generate execution plans">
+    Given a set of notes and a protocol, Bower can draft a structured execution plan. Useful for turning a series of captured observations into a formal experimental record.
+  </Accordion>
+  <Accordion title="Flag anomalies">
+    When a captured value falls outside the expected range for a protocol field, Bower surfaces it after capture — not during. It explains why it flagged the value and asks what you'd like to do.
+  </Accordion>
+  <Accordion title="Invite team members">
+    Workspace owners and admins can ask Bower to generate an invitation link: "Create an invite link for the lab" — Bower generates a shareable link you can send to colleagues.
+  </Accordion>
+  <Accordion title="Edit your profile">
+    Ask Bower to update your display name or save your ORCID iD without leaving the chat. *"Save my ORCID 0000-0001-2345-6789"* or *"Set my display name to Dr Jane Smith"* both work. Bower verifies the ORCID iD against ORCID's public API before saving — exactly the same check the [Profile tab](/workspaces-and-account/manage-account#add-your-orcid-id) runs — and replies with the canonical name it found, so you know the iD belongs to the right person. To remove a saved iD, ask *"clear my ORCID iD"*.
+  </Accordion>
+</AccordionGroup>
+
+## Citations — always showing the source
+
+Bower never gives you an answer without telling you where it came from. When Bower references a source, it places a numbered citation marker like **[1]** directly after the relevant claim. You can click the marker to see the source details.
+
+At the bottom of each response, a collapsible **Sources** section lists every source Bower used:
+
+- **Workspace sources** — links to the specific notes, protocols, or attachments Bower referenced. Click through to read the originals.
+- **Web sources** — links to external articles, papers, or documentation Bower found online. Favicons and page titles are shown for easy identification.
+
+This means you can always verify Bower's answers. Citations appear for both workspace searches and web searches, so every factual claim is traceable.
+
+## How to use Bower
+
+Bower is available in the right-hand panel of the desktop app. Type your question or instruction in natural language. No special syntax required.
+
+You can also use **context chips** — select specific notes or collections before asking Bower a question, and it will focus its response on those items.
+
+### Attaching files
+
+You can give Bower a file to work with directly in the chat input. Three ways, all equivalent:
+
+- **The paperclip button** in the chat input opens a file picker.
+- **Drag a file** from your desktop or file manager onto the chat input and drop it.
+- **Paste** a file — a screenshot you've just taken with your clipboard, for example.
+
+Attached files appear as chips above the input before you send. Remove one with the × on its chip. They're attached to that message only, so each question can carry its own files.
+
+Bower accepts documents, images, spreadsheets, PDFs and research code — including scripts like `.R`, `.Rmd`, `.jl` and `.do` that many tools reject because the operating system doesn't give them a recognised file type. If a file is too large or isn't a type Bower can read, you'll get a message saying which file and why, and the rest of your selection still attaches.
+
+<Tip>Dropping a photo of a gel, plate or instrument display straight into the chat is the quickest way to ask Bower about it — no need to save it to disk first.</Tip>
+
+<Note>Pasting a **table** copied out of a document pastes it as text, not as an attachment. To have Bower read a table, attach the file itself or a photo of it.</Note>
+
+### Watching Bower work — the live activity stream
+
+While Bower is working on a question, the response area shows a live activity line — short, plain-language descriptions of what Bower is doing right now: *Searching notes…*, *Reading a Drive file…*, *Looking up your publications on ORCID…*. Each step appears as it happens, replacing the older rotating "Thinking…" placeholder.
+
+Once Bower finishes, the live line collapses and the assistant's full reply appears. The activity stream is purely informational — there's nothing to click — but it's useful when a question takes longer than expected: at a glance you can see whether Bower is still actively searching or stuck waiting on an external service.
+
+### Voice dictation
+
+Instead of typing, you can tap the **microphone button** in the chat input to dictate your message. Speak naturally — your words appear as text in the input field in real time. Tap the stop button when you're done, review the text, and send.
+
+Voice dictation works on both desktop and mobile:
+
+- **Chrome, Safari, and Edge** — text streams live as you speak. You can see and review your words before sending.
+- **Firefox** — your voice is recorded first, then transcribed when you stop. Text appears after a short processing delay.
+
+If your browser doesn't support voice input, the microphone button won't appear.
+
+<Tip>Voice dictation is great for long scientific questions — speak your query instead of typing complex terminology.</Tip>
+
+### Live conversation
+
+For a continuous back-and-forth instead of one-off dictation, tap the **sparkle** button in an empty Bower chat. That launches a [live agent session](/ai-and-search/live-agent-mode) — real-time voice and (optionally) video, with hands-free snapshot and clip capture. Available on mobile and desktop.
+
+## Rating Bower's responses
+
+Every Bower response has thumbs up and thumbs down buttons. Rating responses helps us improve Bower for scientific workflows — both positive and negative [feedback](/workspaces-and-account/feedback) is valuable.
+
+## What Bower won't do
+
+- Bower won't act on your data without permission. It suggests; you confirm.
+- Bower won't present AI-extracted values as verified fact. Confidence indicators are shown where relevant.
+- Bower won't interrupt a capture in progress. It waits until you've stopped recording before offering observations.
+
+## Bower vs. search
+
+Bower and search are different tools for different moments.
+
+|  | Bower | Search |
+| --- | --- | --- |
+| Best for | Questions, summaries, comparisons, creating notes, web research | Finding a specific note or file you know exists |
+| Input | Natural language | Keywords or semantic query |
+| Output | Synthesised answer with inline citations | List of matching notes |
+
+Use search when you know what you're looking for. Use Bower when you're trying to make sense of what you've captured, or when you need to take action.

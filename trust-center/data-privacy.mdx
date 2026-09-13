@@ -35,7 +35,7 @@ Bower is multi-tenant: your data lives in a shared, encrypted database where eve
 - Queries for your workspace's data are automatically scoped to it by a shared data-access layer, rather than that check being added route by route.
 - Workspace membership is verified on every request before any data is returned.
 - Files are stored in workspace-scoped paths and are only accessible via time-limited signed URLs (24-hour expiry).
-- Bird and search are scoped to your current workspace.
+- Bower and search are scoped to your current workspace.
 
 This scoping is applied automatically in that shared layer, so it isn't something a developer has to remember to add on each new query. Separately, the endpoints that expose an individual note or project are covered by an automated test that fails our build if their access check is missing, so that protection can't be dropped by adding a new route.
 
@@ -59,7 +59,7 @@ Audit logs are accessible from the **Audit log** link in the sidebar (or directl
 
 ## AI processing
 
-When Bower processes your data (voice transcription, photo text extraction, or Bird conversations), the content is sent to AI model providers for inference.
+When Bower processes your data (voice transcription, photo text extraction, or Bower conversations), the content is sent to AI model providers for inference.
 
 Two separate commitments apply, and they protect different things:
 

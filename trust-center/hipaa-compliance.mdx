@@ -24,7 +24,7 @@ The following features run entirely on Google (Vertex AI, BAA-covered) and remai
 - Voice transcription, on Gemini (Vertex AI) with Google Cloud Speech-to-Text as the automatic fallback. Both are covered by the Google Cloud BAA, so your audio stays on Google.
 - Photo OCR and text extraction (Gemini Vision)
 - AI-generated descriptions for attachments (Gemini)
-- Chat with Bird, note authoring, summaries, and titles, all on Vertex AI
+- Chat with Bower, note authoring, summaries, and titles, all on Vertex AI
 - Search, the knowledge graph, protocols, equipment, and audit logs, which never leave Bower
 
 ### What is not available in Restricted mode
@@ -36,7 +36,7 @@ Each of these sends content to a third party that has not signed a BAA, so the w
 | **Connectors** (Google Drive, Notion, OneNote, and the rest) | Unavailable. Connecting an account and importing from one are both blocked. |
 | **AI app access** (connecting Bower to Claude, ChatGPT, or another AI app) | Blocked. Those apps reach Bower through a gateway that is not BAA-covered. |
 | **Share links** | Cannot be created. Links made before Restricted mode was enabled are not removed automatically; review them yourself. |
-| **Literature and citation lookups in Bird** (OpenAlex, Crossref, Semantic Scholar, arXiv, Europe PMC, Unpaywall, ORCID) | Unavailable. Searching them would send your query to a public scholarly API. |
+| **Literature and citation lookups in Bower** (OpenAlex, Crossref, Semantic Scholar, arXiv, Europe PMC, Unpaywall, ORCID) | Unavailable. Searching them would send your query to a public scholarly API. |
 | **Embedded images in Word (.docx) imports** | The document still imports, converted inside Bower, but embedded images are not brought across. See below. |
 | **AI quality monitoring** (Langfuse) | Nothing is sent. Request and response text never leaves to Langfuse from this workspace. |
 | **Session replay, autocapture, and heatmaps** (PostHog) | Disabled for the workspace regardless of cookie consent. The plain analytics events that remain carry only event names and metadata, never content. |
