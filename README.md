@@ -54,6 +54,6 @@ Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/sett
 ### Resources
 - [Mintlify documentation](https://mintlify.com/docs)
 
-## Licence
+## License
 
-Documentation content is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/); code samples are licensed under the MIT Licence. See [LICENSE](LICENSE).
+Documentation content is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/); code samples are licensed under the MIT License. See [LICENSE](LICENSE).
