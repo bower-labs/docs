@@ -1,0 +1,107 @@
+{
+  "_comment": [
+    "What the canonical Notion tone-of-voice doc requires the linter to catch.",
+    "",
+    "Notion is the source of truth for the RULES. This file is the machine-readable",
+    "extract of them, because .claude/hooks/voice_lint.py holds them as regexes and a",
+    "hook has to run fast and offline, so it cannot fetch Notion at write time. That",
+    "makes the regexes a copy, and copies drift.",
+    "",
+    "scripts/check-voice-lint-coverage.mjs closes that loop: it feeds every term below",
+    "through the real hook and fails if the hook does not flag it. So Notion can gain a",
+    "banned word and CI will tell you the linter has not kept up.",
+    "",
+    "TO REFRESH: read the Notion page (id 2ed3933a578d80d68233ca16390b9152) through the",
+    "Notion MCP connector, re-extract the spelling table and the never-list, update",
+    "mustFlag below, and bump sourceVersion. The check tests behaviour, not wording, so",
+    "adding a term here is what forces the linter to change."
+  ],
+  "source": "https://app.notion.com/p/Bower-tone-of-voice-2ed3933a578d80d68233ca16390b9152",
+  "sourceVersion": "1.1",
+  "extractedOn": "2026-08-10",
+
+  "mustFlag": {
+    "spelling": [
+      "organise",
+      "organisation",
+      "organisational",
+      "optimise",
+      "optimisation",
+      "standardise",
+      "prioritise",
+      "recognise",
+      "analyse",
+      "personalise",
+      "summarise",
+      "formalise",
+      "categorise",
+      "centre",
+      "behaviour",
+      "colour",
+      "licence",
+      "catalogue",
+      "litre",
+      "metre",
+      "fibre",
+      "labelling",
+      "modelling",
+      "signalling",
+      "programme"
+    ],
+    "bannedVocabulary": [
+      "revolutionize",
+      "revolutionise",
+      "disrupt",
+      "game-changing",
+      "unlock the power of",
+      "supercharge",
+      "synergy",
+      "best-in-class",
+      "world-class",
+      "next-generation",
+      "empower",
+      "democratize",
+      "democratise",
+      "reimagine",
+      "cutting-edge",
+      "seamless",
+      "effortless",
+      "paradigm",
+      "turnkey"
+    ],
+    "punctuation": ["—"],
+    "emoji": ["🚀", "🎉", "🔬"]
+  },
+
+  "mustNotFlag": {
+    "_comment": "False positives are how a hook gets disabled and then enforces nothing. These must stay clean.",
+    "terms": [
+      "organization",
+      "optimize",
+      "standardize",
+      "prioritize",
+      "recognize",
+      "analyze",
+      "personalize",
+      "center",
+      "behavior",
+      "color",
+      "license",
+      "catalog",
+      "program",
+      "analysis",
+      "analyses",
+      "optimism",
+      "realism",
+      "Trust Centre",
+      "Help Centre"
+    ]
+  },
+
+  "deliberateExclusions": {
+    "_comment": "Notion bans these, but a regex cannot judge them without false positives. They stay a human/skill responsibility, and that is a decision rather than an oversight.",
+    "leverage": "Banned as a verb only. 'Leverage' as a noun is legitimate English and the regex cannot tell them apart.",
+    "transform": "Banned except for a literal data transformation, which is a real and common use in this product's copy.",
+    "empower_note": "Included above because the marketing sense dominates; if it starts firing on legitimate copy, move it here."
+  }
+}

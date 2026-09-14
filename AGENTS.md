@@ -22,7 +22,7 @@ The 2026-08 identity is shared with the marketing site (`bowerlabs.ai`) and the 
 
 ## About Bower
 
-Bower is an AI-powered research platform that helps scientists capture, organise, and retrieve their lab work without interrupting their experiments. Named for the bowerbird's instinct to collect and organise, Bower does the same for research insights.
+Bower is an AI-powered research platform that helps scientists capture, organize, and retrieve their lab work without interrupting their experiments. Named for the bowerbird's instinct to collect and organize, Bower does the same for research insights.
 
 ## Voice and tone
 
@@ -82,7 +82,7 @@ A **method** is a high-level scientific technique, typically extractable from pu
 
 ### Units and precision
 
-Always use correct SI units with proper formatting. Write "°C" not "degrees." Write "µmol/L" not "micromoles per litre" in technical contexts. If you reference a specific number (like ~98% OCR accuracy), make sure it's current and defensible. Don't round up.
+Always use correct SI units with proper formatting. Write "°C" not "degrees." Write "µmol/L" not "micromoles per liter" in technical contexts. If you reference a specific number (like ~98% OCR accuracy), make sure it's current and defensible. Don't round up.
 
 ## The never list
 
@@ -102,6 +102,23 @@ These are hard rules, not guidelines.
 
 ## Style preferences
 
+- **Spelling is American.** organize, optimize, analyze, summarize, center,
+  behavior, color, license, catalog, program. House style went American on
+  2026-08-09; the word list lives in the Notion tone-of-voice doc and is
+  extracted to `scripts/voice-rules.json`, mirrored in `bower-labs/bower` and
+  `bower-labs/website` so all three surfaces read as one dialect. Refreshing
+  Notion means refreshing all three. `python3 scripts/check-house-spelling.py`
+  enforces it and runs in CI; `--fix` rewrites, and you should read the diff.
+  Note `analyse` -> `analyze` (it ends `-yse`, not `-ise`) and that the
+  participles drop the `e`: organis**ing** -> organiz**ing**.
+- **URL paths are not prose.** `/organisation/...` stays as it is. Renaming a
+  directory is a URL migration that needs `redirects` entries in `docs.json`,
+  which the Trust Center rename is the worked example of — not a spelling fix.
+  The guard excludes link targets and `href`s for this reason.
+- **A heading rename changes its anchor, and `redirects` cannot cover a
+  fragment** — they rewrite PATHS only. Before renaming a heading, grep the app
+  and these docs for `#that-anchor`; a stale fragment fails silently by landing
+  the reader at the top of the page.
 - Use active voice and second person ("you")
 - Keep sentences concise — one idea per sentence
 - Use sentence case for headings
