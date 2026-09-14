@@ -82,26 +82,67 @@ EXTRA = {
     "catalogued": "cataloged",
     "cataloguing": "cataloging",
     "catalogues": "catalogs",
+    "colourful": "colorful",
+    "colouration": "coloration",
 }
 
 
-def inflections(terms: list[str]) -> dict[str, str]:
+# Nouns whose VERB forms are correct in both dialects, or are not words.
+# `programme` is the dangerous one: `programming` / `programmed` are correct
+# American English, but inflecting the British noun maps them to `prograing` /
+# `programd`. Only `programme(s)` -> `program(s)` is a real correction.
+NOUNS_ONLY = {"programme", "litre", "metre", "fibre", "behaviour"}
+
+# Prefixes that attach without changing the stem's spelling rule. Enumerating
+# each derived word by hand is how `recoloured` and `Reorganise` survived a pass
+# that claimed to fix 145 violations.
+PREFIXES = (
+    "re", "un", "de", "pre", "dis", "non", "mis",
+    "over", "under", "micro", "milli", "multi", "inter", "sub", "co",
+)
+
+
+def inflections(terms: list[str], never_flag: set[str] | None = None) -> dict[str, str]:
+    """Every British form we flag, mapped to its American counterpart.
+
+    Inflected from the AMERICAN stem, never the British one: `centre` ->
+    `center`, so the past tense is `centered`, not `centerd`, and the
+    participle is `centering`, not `centeing`. Deriving from the British side
+    produced exactly those non-words.
+    """
+    never = never_flag or set()
     out: dict[str, str] = {}
+
+    def put(gb: str, us: str) -> None:
+        if gb == us or gb in never:
+            return
+        out[gb] = us
+        for pre in PREFIXES:
+            if pre + gb != pre + us:
+                out[pre + gb] = pre + us
+
     for term in terms:
         gb = term.lower()
         us = BASE.get(gb)
         if not us:
             continue
-        out[gb] = us
-        if gb.endswith("e"):
-            out[gb + "s"] = us + "s"
-            out[gb + "d"] = us + "d"
-            out[gb[:-1] + "ing"] = us[:-1] + "ing"
-        else:
-            out[gb + "s"] = us + "s"
-            out[gb + "ed"] = us + "ed"
-            out[gb + "ing"] = us + "ing"
-    out.update(EXTRA)
+        put(gb, us)
+        put(gb + "s", us + "s")
+        if gb in NOUNS_ONLY:
+            continue
+        gb_stem = gb[:-1] if gb.endswith("e") else gb
+        us_stem = us[:-1] if us.endswith("e") else us
+        put(gb_stem + "ing", us_stem + "ing")
+        put(gb + "d" if gb.endswith("e") else gb + "ed",
+            us + "d" if us.endswith("e") else us + "ed")
+        if gb.endswith("ise") or gb.endswith("yse"):
+            put(gb_stem + "ation", us_stem + "ation")
+            put(gb_stem + "able", us_stem + "able")
+            put(gb_stem + "er", us_stem + "er")
+            put(gb_stem + "ers", us_stem + "ers")
+
+    for gb, us in EXTRA.items():
+        put(gb, us)
     return out
 
 
@@ -124,14 +165,28 @@ def mask(text: str) -> str:
 WORD_RE = re.compile(r"[A-Za-z]+")
 
 
+def _skipped(path: Path) -> bool:
+    """Anchored at the TOP level for content dirs.
+
+    `any(part in SKIP_DIRS ...)` matched at any depth, so a future
+    `capture/images/guide.mdx` would be silently unscanned — the same
+    silent-skip class this guard exists to catch. `.git`/`.claude`/
+    `node_modules` still match anywhere, because they nest.
+    """
+    parts = path.relative_to(ROOT).parts
+    if any(p in {".git", ".claude", "node_modules"} for p in parts):
+        return True
+    return bool(parts) and parts[0] in {"images", "logo"}
+
+
 def scan(table: dict[str, str]) -> list[tuple[Path, int, str, str, str]]:
     hits: list[tuple[Path, int, str, str, str]] = []
     for path in sorted(ROOT.rglob("*")):
         if path.suffix not in {".mdx", ".md"} or not path.is_file():
             continue
-        if any(part in SKIP_DIRS for part in path.parts):
+        if _skipped(path):
             continue
-        raw = path.read_text(encoding="utf-8")
+        raw = path.read_text(encoding="utf-8", newline="")
         masked = mask(raw)
         for num, line in enumerate(masked.split("\n"), 1):
             for m in WORD_RE.finditer(line):
@@ -146,9 +201,9 @@ def fix(table: dict[str, str]) -> int:
     for path in sorted(ROOT.rglob("*")):
         if path.suffix not in {".mdx", ".md"} or not path.is_file():
             continue
-        if any(part in SKIP_DIRS for part in path.parts):
+        if _skipped(path):
             continue
-        raw = path.read_text(encoding="utf-8")
+        raw = path.read_text(encoding="utf-8", newline="")
         masked = mask(raw)
         out: list[str] = []
         last = 0
@@ -165,13 +220,14 @@ def fix(table: dict[str, str]) -> int:
             changed += 1
         if out:
             out.append(raw[last:])
-            path.write_text("".join(out), encoding="utf-8")
+            path.write_text("".join(out), encoding="utf-8", newline="")
     return changed
 
 
 def main() -> int:
     rules = json.loads(RULES.read_text(encoding="utf-8"))
-    table = inflections(rules["mustFlag"]["spelling"])
+    never = {t.lower() for t in rules.get("mustNotFlag", {}).get("terms", [])}
+    table = inflections(rules["mustFlag"]["spelling"], never)
 
     if "--fix" in sys.argv:
         print(f"fixed {fix(table)} occurrence(s) — READ THE DIFF")
