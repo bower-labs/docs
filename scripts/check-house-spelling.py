@@ -186,7 +186,9 @@ def scan(table: dict[str, str]) -> list[tuple[Path, int, str, str, str]]:
             continue
         if _skipped(path):
             continue
-        raw = path.read_text(encoding="utf-8", newline="")
+        # `Path.read_text(newline=...)` is 3.13+; CI pins 3.12, so open() it.
+        with path.open(encoding="utf-8", newline="") as fh:
+            raw = fh.read()
         masked = mask(raw)
         for num, line in enumerate(masked.split("\n"), 1):
             for m in WORD_RE.finditer(line):
@@ -203,7 +205,9 @@ def fix(table: dict[str, str]) -> int:
             continue
         if _skipped(path):
             continue
-        raw = path.read_text(encoding="utf-8", newline="")
+        # `Path.read_text(newline=...)` is 3.13+; CI pins 3.12, so open() it.
+        with path.open(encoding="utf-8", newline="") as fh:
+            raw = fh.read()
         masked = mask(raw)
         out: list[str] = []
         last = 0
@@ -220,7 +224,8 @@ def fix(table: dict[str, str]) -> int:
             changed += 1
         if out:
             out.append(raw[last:])
-            path.write_text("".join(out), encoding="utf-8", newline="")
+            with path.open("w", encoding="utf-8", newline="") as fh:
+                fh.write("".join(out))
     return changed
 
 
