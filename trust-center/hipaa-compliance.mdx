@@ -12,7 +12,7 @@ Bower acts as a **Business Associate** under HIPAA. We are not a Covered Entity.
 When enabled, two restrictions take effect immediately:
 
 - **AI processing is restricted to Google (Vertex AI) only.** Only routes covered by a signed Business Associate Agreement are permitted; any AI route to a provider without a BAA is blocked at the API level. Every AI feature already routes to Vertex AI for all workspaces, so this restriction is a guarantee that it stays that way rather than a change you will notice.
-- **No content leaves to non-BAA observability.** Nothing is sent to Langfuse; session replay, autocapture, and every other content-bearing analytics capture are disabled. Plain analytics events, which carry only event names and metadata and never content, still operate.
+- **Content only reaches services covered by a BAA.** AI quality monitoring runs at a provider covered by our signed BAA, so request and response text stays inside that boundary rather than being withheld from it. Session replay, autocapture, and every other content-bearing analytics capture remain disabled. Plain analytics events, which carry only event names and metadata and never content, still operate.
 - **External sharing is disabled.** Share links cannot be created for any artifact in the workspace. Existing share links are not retroactively removed, but no new ones can be generated.
 
 These restrictions are enforced server-side by middleware; they cannot be bypassed from the frontend.
@@ -38,7 +38,7 @@ Each of these sends content to a third party that has not signed a BAA, so the w
 | **Share links** | Cannot be created. Links made before Restricted mode was enabled are not removed automatically; review them yourself. |
 | **Literature and citation lookups in Bower** (OpenAlex, Crossref, Semantic Scholar, arXiv, Europe PMC, Unpaywall, ORCID) | Unavailable. Searching them would send your query to a public scholarly API. |
 | **Embedded images in Word (.docx) imports** | The document still imports, converted inside Bower, but embedded images are not brought across. See below. |
-| **AI quality monitoring** (Langfuse) | Nothing is sent. Request and response text never leaves to Langfuse from this workspace. |
+| **AI quality monitoring** | Available. Request and response text is retained, at a provider covered by our signed BAA and named on the [sub-processor list](/trust-center/sub-processors). **This changed in September 2026**; previously nothing was sent from a Restricted-mode workspace. |
 | **Session replay, autocapture, and heatmaps** (PostHog) | Disabled for the workspace regardless of cookie consent. The plain analytics events that remain carry only event names and metadata, never content. |
 | Any other AI route not covered by the Google BAA | Blocked at the API level. |
 

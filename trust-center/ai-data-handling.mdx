@@ -55,7 +55,7 @@ Two different things, kept separate:
 
 This is the part worth reading twice.
 
-To keep AI features reliable, Bower retains records of AI requests and the responses to them in **Langfuse**, a third-party observability service. **Those records contain the request and response text itself, and it is not de-identified.** We use them to find quality failures, evaluate changes before shipping, and investigate incidents you report. What improves from them is Bower itself: our prompts, our product code, and our configuration. Nothing is learned into any model's weights.
+To keep AI features reliable, Bower retains records of AI requests and the responses to them in a **third-party observability service**, named on the [sub-processor list](/trust-center/sub-processors) with its processing location and current agreement status. **Those records contain the request and response text itself, and it is not de-identified.** We use them to find quality failures, evaluate changes before shipping, and investigate incidents you report. What improves from them is Bower itself: our prompts, our product code, and our configuration. Nothing is learned into any model's weights.
 
 To be explicit about what this is and is not:
 
@@ -63,16 +63,16 @@ To be explicit about what this is and is not:
 - It is **not** de-identified data, and it is **not** used under the de-identified-data right described [above](#what-about-de-identified-data).
 - It is **not** used to train, fine-tune, or benchmark any model.
 
-These records are kept in Langfuse, which limits our access to the most recent **90 days** of them. We do not yet enforce a fixed deletion schedule; if we adopt one, this page will say so.
+These records are kept for up to **three years**, the limit of our plan's data access. That window widened from 90 days in September 2026 when the service moved to a region covered by our BAA. We do not yet enforce a fixed deletion schedule; if we adopt one, this page will say so.
 
-**Workspaces in Restricted mode send nothing to Langfuse.** That block is enforced server-side and cannot be turned off from the app. For other workspaces, capture of request and response text is controlled by a platform-level setting that Bower operates; there is no per-workspace toggle today. If you want AI features without this capture, Restricted mode is how you get that. Langfuse is covered by the ClickHouse DPA, which applies by incorporation rather than separate signature; there is no BAA, which is why Restricted-mode workspaces are blocked from it entirely. Both are recorded on the [sub-processor list](/trust-center/sub-processors).
+**This applies to Restricted-mode workspaces too, and that changed in September 2026.** Restricted mode previously blocked this capture entirely, because the observability service had no BAA. It now has a signed BAA and runs in that provider's dedicated HIPAA region, so the capture sits inside the same boundary as every other Restricted-mode control rather than being excluded from it. Capture of request and response text is controlled by a platform-level setting that Bower operates; there is no per-workspace toggle today, and Restricted mode no longer turns it off. The provider's agreement status and processing location are recorded on the [sub-processor list](/trust-center/sub-processors).
 
 ## Locking it down further
 
 If you work with especially sensitive material (protected health information, confidential or unpublished research, trade secrets, regulated data), enable **[Restricted mode (HIPAA-ready)](/trust-center/hipaa-compliance)** on the workspace. It enforces the strictest controls:
 
 - **AI processing stays on Google (Vertex AI)**, the provider covered by our signed BAA. Any AI route to a provider without a BAA is **blocked server-side**, and the block is enforced whether or not such a route currently exists.
-- **Nothing goes to Langfuse.** Session replay, autocapture, and every other content-bearing analytics capture are disabled; the analytics events that remain carry only event names and metadata.
+- **Content-bearing product analytics are disabled.** Session replay, autocapture, and every other content-bearing analytics capture are off; the analytics events that remain carry only event names and metadata. AI quality monitoring continues, at a BAA-covered provider, as described above.
 - **External sharing is disabled**: no new public share links.
 - **Connectors, external AI app access, and literature lookups are unavailable**, because each sends content to a third party without a BAA.
 - **Word document conversion happens inside Bower** rather than at a third-party service.
