@@ -63,7 +63,7 @@ To be explicit about what this is and is not:
 - It is **not** de-identified data, and it is **not** used under the de-identified-data right described [above](#what-about-de-identified-data).
 - It is **not** used to train, fine-tune, or benchmark any model.
 
-These records are kept for up to **three years**, the limit of our plan's data access. That window widened from 90 days in September 2026 when the service moved to a region covered by our BAA. We do not yet enforce a fixed deletion schedule; if we adopt one, this page will say so.
+These records are **deleted after 365 days**. That is a retention policy we configure and the service enforces on its own nightly sweep, judged on when each record was created rather than on when we last looked at it. Until September 2026 we could only tell you how far back our own access reached; now we can tell you when the records go.
 
 **This applies to Restricted-mode workspaces too, and that changed in September 2026.** Restricted mode previously blocked this capture entirely, because the observability service had no BAA. It now has a signed BAA and runs in that provider's dedicated HIPAA region, so the capture sits inside the same boundary as every other Restricted-mode control rather than being excluded from it. Capture of request and response text is controlled by a platform-level setting that Bower operates; there is no per-workspace toggle today, and Restricted mode no longer turns it off. The provider's agreement status and processing location are recorded on the [sub-processor list](/trust-center/sub-processors).
 
