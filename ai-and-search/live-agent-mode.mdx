@@ -180,40 +180,17 @@ If something goes wrong or you do something differently than the protocol says, 
 
 Bower captures the deviation with the right category (timing, parameter, sterile breach, etc.) and the active step id, so you have a record of what actually happened — useful for troubleshooting a failed run later.
 
-## Bower AI annotations
+## Remembering something for next time
 
-Bower AI annotations are the lab-learnings Bower captures **while you run a protocol live**, so future runs of the same protocol get smarter. You don't manage them by hand — you talk, Bower saves the right things.
+When you tell Bower something worth keeping during a protocol run, such as *"remember that we use 50 µL here"* or *"make a note that the buffer was cold"*, Bower writes it into a **note** anchored to that run and tells you so: *"Got it, putting that in a note for this run."* The note appears in your Capture Stream straight away and is searchable like any other note.
 
-### What gets captured
+Bower does not carry these notes into future runs. It won't read a tip back to you when you reach the same step next time, so if a change should apply to every run, edit the protocol itself.
 
-- A **specific value** you state ("we use 50 µL of master mix here, not 100", "set the temperature to 42 °C")
-- A **correction** to the protocol body ("we always do this cold", "skip step 3", "anneal at 58 °C, not 60")
-- A **sterile-technique reminder** ("change pipette tips between each reagent", "vortex the tube before each addition") — the cross-contamination class of mistake that ruins more PCRs than any other
-- A **named tool, reagent, or setting** the protocol left open
-- A **deviation** or near-miss (also kept as a separate record — see above)
-- Anything you explicitly tell Bower to remember: *"remember that…"*, *"make a note that…"*, *"for next time…"*
+If you ask for a note without saying what it should contain (*"take a note"*), Bower starts a voice note instead and records what you dictate next.
 
-You don't have to use special phrasing. The first time you say *"we use 50 µL of master mix, not the 100 in the protocol"* during step 2, Bower saves that against step 2 of that protocol. The next time anyone in your workspace runs it, Bower already knows.
-
-### How they're used next time
-
-When you run the same protocol again, Bower loads its accumulated annotations as soft hints. As you reach each step, Bower weaves the relevant note into the announcement — *"Heads up — your lab usually uses 50 µL here, not 100. Want to stick with that?"* — rather than reading the bullets verbatim.
-
-If you repeat the same correction, Bower recognizes it and **reinforces** the note (the bullet shows `[seen N×]` — higher N means more lab consensus). Reinforcement gives the model confidence to surface that note proactively in future runs.
-
-### Where to view and edit them
-
-On the Protocol detail page, open the kebab menu (`⋮`) and choose **Bower AI annotations**. The dialog shows everything Bower has captured for that protocol, grouped by step.
-
-Every bullet has inline **edit** and **delete** controls. Use them when Bower captured something incorrectly (a misheard quantity, a typo, the wrong reagent) or when an old note no longer applies. Edits update the visible bullet text and the seen-count is preserved — re-saying the corrected note in a future run reinforces the same bullet. Deletes are immediate and can't be undone from the modal.
-
-Any workspace member can edit or delete any bullet, including ones marked as admin-locked — the lock is a UI marker for who originally authored the bullet, not an authorization gate. Guests (read-only) can't edit or delete.
-
-### What annotations are *not*
-
-- **Not a transcript** — Bower isn't recording every word you say. Only intent-bearing facts get saved.
-- **Not the protocol** — annotations live in a companion artifact, not the protocol body. The canonical protocol stays unchanged so admins keep control of the SOP.
-- **Not visible to people outside the workspace** — annotations inherit the parent protocol's access controls.
+<Note>
+Bower AI annotations have been retired. Bower used to capture per-step tips while you ran a protocol and bring them up on later runs of the same protocol. It no longer captures or uses them, and the **Bower AI annotations** entry is gone from the Protocol detail menu.
+</Note>
 
 ## Visual watchers — "every time you see X, say Y"
 
@@ -257,8 +234,8 @@ Just ask — *"what are you watching for?"* or *"what cues did I set up?"*. Bowe
 
 ## What's saved
 
-During a live session, notes, snapshots, and video clips are only saved when you explicitly ask Bower to capture them. Bower AI annotations are the exception — those are captured automatically inside execution mode so the lab-learning loop works without conscious effort.
+During a live session, notes, snapshots, and video clips are only saved when you explicitly ask Bower to capture them.
 
 Visual watchers are also automatic in spirit — they fire whenever Bower sees the cue — but they live only for the duration of the live session. Nothing gets saved to your workspace from a watcher firing; Bower just speaks the response and continues.
 
-All captured notes, snapshots, and clips are searchable immediately and play back inline in the attachment viewer. Annotations are accessible from the Protocol detail kebab menu.
+All captured notes, snapshots, and clips are searchable immediately and play back inline in the attachment viewer.
