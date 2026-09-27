@@ -95,7 +95,7 @@ The [Stripe Data Processing Agreement](https://stripe.com/au/legal/dpa) applies 
 
 ## Research and literature lookups
 
-When you ask Bower to find papers, resolve a DOI, or look up an author, it queries public scholarly APIs. Each receives the search query Bower generates from your request.
+When you ask Bower to find papers, resolve a DOI, or look up an author, it queries public scholarly APIs. When you ask about a specific gene, protein, compound, or structure, it queries public biology databases. Each receives the search query Bower generates from your request.
 
 | Service | Purpose | Data processed | Location |
 |---------|---------|---------------|----------|
@@ -106,8 +106,13 @@ When you ask Bower to find papers, resolve a DOI, or look up an author, it queri
 | [Europe PMC](https://europepmc.org/) | Biomedical literature search | Search queries, identifiers | EU |
 | [Unpaywall](https://unpaywall.org/) | Open-access availability lookup | DOIs | US/Canada |
 | [ORCID](https://info.orcid.org/privacy-policy/) | Researcher identity lookup | ORCID iDs you enter, returned as public profile names and works | US |
+| [UniProt](https://www.uniprot.org/help/privacy) | Protein record lookup | Gene symbols, protein names, UniProt accessions | EU |
+| [NCBI Gene](https://www.nlm.nih.gov/web_policies.html) | Gene record lookup | Gene symbols, NCBI Gene IDs | US |
+| [ChEMBL](https://www.ebi.ac.uk/data-protection/privacy-notice/) | Compound and drug record lookup | Compound names, ChEMBL IDs | EU |
+| [RCSB PDB](https://www.rcsb.org/pages/policies) | 3D structure lookup | Structure search queries, PDB IDs | US |
+| [Ensembl](https://www.ensembl.org/info/about/legal/privacy.html) | Genome annotation lookup | Gene symbols, Ensembl IDs | EU |
 
-These are public scholarly registries handling public identifiers and search queries, not personal or research content, so no DPA or BAA is required. **Restricted-mode workspaces never reach any of them**: all seven go through one shared gateway that runs a fail-closed check before any request leaves, so the block is structural rather than repeated per service.
+These are public scholarly registries and biology databases handling public identifiers and search queries, not personal or research content, so no DPA or BAA is required. **Restricted-mode workspaces never reach any of them**: a fail-closed check runs before any request leaves Bower, and if it cannot confirm the workspace is allowed to contact public research services, nothing is sent. The per-chat **Public sources** switch blocks all twelve as well.
 
 ## Data residency
 

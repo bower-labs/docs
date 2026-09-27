@@ -1,11 +1,15 @@
 ---
 title: "Connectors"
-description: "Bower connects to 23 sources out of the box — 8 always-on scholarly indexes plus 15 of the tools your lab already uses. Federated search by default; nothing lands in your knowledge base until you save it."
+description: "Bower connects to 28 sources: 13 always-on public sources, covering the scholarly literature, the open web, and five biology databases, plus 15 of the tools your lab already uses. Federated search by default; nothing lands in your knowledge base until you save it."
 ---
 
-## 8 always-on sources — no setup
+## 13 always-on sources, no setup
 
-Out of the box, Bower grounds answers in eight open sources with no connection step. The new **citation trail** primitive walks both the references _and_ the forward citations of any paper you give it, then ranks by citation-graph proximity — much stronger relevance than keyword overlap.
+Out of the box, Bower grounds answers in 13 open sources with no connection step: eight for the literature and the open web, and five public biology databases.
+
+### Literature and the open web
+
+The **citation trail** walks both the references _and_ the forward citations of any paper you give it, then ranks by citation-graph proximity. That's a much stronger relevance signal than keyword overlap.
 
 <CardGroup cols={4}>
   <Card title="OpenAlex" icon="book" href="https://openalex.org">
@@ -42,6 +46,32 @@ Out of the box, Bower grounds answers in eight open sources with no connection s
 </CardGroup>
 
 **Save your ORCID iD on your profile** (Settings → Profile → _Research identity_) and Bower will pull from your publication list when you ask things like _"what have I published recently on coral alkalinity?"_ — no need to share the iD each turn. We only ever read your **public** ORCID profile.
+
+### Biology databases
+
+When you ask about a specific gene, protein, compound, or structure, Bower can look up the record rather than answering from memory. Every answer links to the record it came from, so you can check it at the source. If a lookup fails, Bower says so; it never presents an answer from memory as a looked-up record.
+
+<CardGroup cols={3}>
+  <Card title="UniProt" icon="circle-nodes" href="https://www.uniprot.org">
+    Proteins: reviewed UniProtKB entries, with accession, name, and sequence length.
+  </Card>
+
+  <Card title="NCBI Gene" icon="barcode" href="https://www.ncbi.nlm.nih.gov/gene">
+    Genes: NCBI Gene ID, official symbol, aliases, and chromosomal location.
+  </Card>
+
+  <Card title="ChEMBL" icon="flask" href="https://www.ebi.ac.uk/chembl">
+    Compounds and drugs: ChEMBL ID, formula, molecular weight, and highest clinical phase.
+  </Card>
+
+  <Card title="RCSB PDB" icon="cube" href="https://www.rcsb.org">
+    3D structures: PDB entry, experimental method, resolution, and primary citation.
+  </Card>
+
+  <Card title="Ensembl" icon="map-location-dot" href="https://www.ensembl.org">
+    Genome annotation: Ensembl gene ID, biotype, and genomic coordinates.
+  </Card>
+</CardGroup>
 
 ## 15 connectors — one-click OAuth
 
@@ -98,7 +128,7 @@ Don't see a tool you rely on? [Send us feedback](/workspaces-and-account/feedbac
 
 ### How to connect
 
-Open **Account Settings → Connectors**, click **Connect** on the tool you want, sign in at the provider, and you're done. The card flips to **Connected** when authorisation completes.
+Open **Account Settings → Connectors**, click **Connect** on the tool you want, sign in at the provider, and you're done. The card flips to **Connected** when authorization completes.
 
 ### Start with the tools behind your sign-in
 
@@ -107,7 +137,7 @@ If you signed in to Bower with Google or Microsoft, the **Get set up** section o
 - **Google:** Google Drive, Google Docs, and Google Sheets.
 - **Microsoft:** OneDrive and OneNote.
 
-Choose a suggested tool to start its normal provider authorisation flow. You can still connect any supported tool later from **Account Settings → Connectors**. The suggestion does not share access automatically: each tool needs its own approval.
+Choose a suggested tool to start its normal provider authorization flow. You can still connect any supported tool later from **Account Settings → Connectors**. The suggestion does not share access automatically: each tool needs its own approval.
 
 <Note>
   The dashboard suggestion is not shown in Restricted-mode workspaces, or after you already have an active connector. Connectors remain unavailable in Restricted-mode workspaces.
@@ -117,7 +147,11 @@ Choose a suggested tool to start its normal provider authorisation flow. You can
 
 Connecting a tool makes it _available_. To use it in a conversation, open the **connector picker** in the composer and tick which connectors should be active. Fewer active sources = faster, more focused answers. Selections persist per chat.
 
-The picker also has a master **Public sources** switch. When off, every external source (the eight above, plus connectors) is blocked at the framework level — not just discouraged in the prompt — for that chat.
+The picker also has a master **Public sources** switch. When off, every external source is blocked at the framework level for that chat, not just discouraged in the prompt. That covers all 13 always-on sources above (the eight literature and web sources and the five biology databases) plus your connectors.
+
+<Note>
+  If your workspace is in [Restricted mode](/trust-center/hipaa-compliance) because it holds protected health information (PHI), Bower never sends a query to the literature sources or the biology databases, whatever this switch is set to.
+</Note>
 
 ## Import your OneNote notebooks into Bower
 
