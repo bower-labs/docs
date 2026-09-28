@@ -1,0 +1,57 @@
+---
+title: "Answers you can check"
+description: "Bower looks up genes, proteins, compounds and structures in public databases with a link to each record, does sequence work in code, will not save a citation it never saw, and tells you when figures were not computed."
+sidebarTitle: "Answers you can check"
+---
+
+**Shipped 2026-09-28 · Bower**
+
+A research answer is only useful if you can check where it came from. When we
+went through how Bower handles scientific questions, the failures that mattered
+were not gaps in knowledge. They were answers that looked sourced and were not:
+a gene ID recalled from memory, a citation typed into a note from memory,
+statistics written up after the analysis never ran.
+
+This release makes each of those checkable, or stops it.
+
+## What's new
+
+- **Database lookups with a link to the record.** Ask for a gene, protein,
+  compound or structure ("what's the UniProt accession for SOX2?", "which
+  chromosome band is CFTR on?") and Bower looks it up in NCBI Gene, UniProt,
+  Ensembl, ChEMBL or the RCSB Protein Data Bank instead of answering from
+  memory. Every result links to the public record, so you can open it and
+  check. Bower tells you when it matched your query through an alias rather
+  than the official symbol, since an alias can name more than one gene, and
+  when an NCBI Gene record has been retired and what replaced it. Reference
+  questions are also noticeably faster.
+- **Sequence work done in code.** Reverse complement, complement, reverse,
+  translation, GC content, motif search and length are computed exactly rather
+  than worked out in Bower's head. It takes one DNA or RNA sequence at a time,
+  up to 100,000 characters.
+- **Citations checked before they are saved.** When Bower writes a DOI into a
+  note, it has to be one that came back from a tool, such as a literature
+  lookup, or that you typed in the conversation. If Bower tries to save a DOI
+  it never actually saw, the save is stopped, and Bower has to use the DOI
+  exactly as a lookup returned it or leave the citation out. This applies in
+  chat and in live sessions.
+- **A clear note when figures were not computed.** If code could not run in a
+  conversation, for example because the session's analysis limit was reached,
+  and a reply then states figures that came from no tool and not from you,
+  Bower puts a note above the reply saying those figures were not computed by
+  code, so you can check them before relying on them.
+
+## Notes
+
+- Database lookups use public services. Bower never sends one from a workspace
+  in [Restricted mode](/trust-center/hipaa-compliance), or when you turn off
+  **Public sources** in the
+  [connector picker](/integrations/connectors#picking-which-connectors-are-active-in-a-chat).
+- A DOI you say out loud in a live session is not accepted as verified, so a
+  misheard digit cannot end up in your notes as fact. Type it in chat, or ask
+  Bower to look the paper up.
+- The citation check covers DOIs Bower saves from now on. It does not re-check
+  citations already in your notes.
+- The figure note appears only when code could not run. It does not mean the
+  numbers are wrong: a small calculation done without code is often right. It
+  means check them before you rely on them.
