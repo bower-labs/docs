@@ -1,11 +1,15 @@
 ---
 title: "Connectors"
-description: "Bower connects to 23 sources out of the box — 8 always-on scholarly indexes plus 15 of the tools your lab already uses. Federated search by default; nothing lands in your knowledge base until you save it."
+description: "Bower connects to 28 sources: 13 always-on public sources, covering the scholarly literature, the open web, and five biology databases, plus 15 of the tools your lab already uses. Federated search by default; nothing lands in your knowledge base until you save it."
 ---
 
-## 8 always-on sources — no setup
+## 13 always-on sources, no setup
 
-Out of the box, Bower grounds answers in eight open sources with no connection step. The new **citation trail** primitive walks both the references _and_ the forward citations of any paper you give it, then ranks by citation-graph proximity — much stronger relevance than keyword overlap.
+Out of the box, Bower grounds answers in 13 open sources with no connection step: eight for the literature and the open web, and five public biology databases.
+
+### Literature and the open web
+
+The **citation trail** walks both the references _and_ the forward citations of any paper you give it, then ranks by citation-graph proximity. That's a much stronger relevance signal than keyword overlap.
 
 <CardGroup cols={4}>
   <Card title="OpenAlex" icon="book" href="https://openalex.org">
@@ -17,7 +21,7 @@ Out of the box, Bower grounds answers in eight open sources with no connection s
   </Card>
 
   <Card title="Crossref" icon="link" href="https://www.crossref.org">
-    Canonical DOI registry — fallback \+ cross-check.
+    Canonical DOI registry: fallback \+ cross-check.
   </Card>
 
   <Card title="Unpaywall" icon="lock-open" href="https://unpaywall.org">
@@ -25,7 +29,7 @@ Out of the box, Bower grounds answers in eight open sources with no connection s
   </Card>
 
   <Card title="arXiv" icon="atom" href="https://arxiv.org">
-    Preprints — CS, ML, physics, math, stats, biology.
+    Preprints: CS, ML, physics, math, stats, biology.
   </Card>
 
   <Card title="Europe PMC" icon="dna" href="https://europepmc.org">
@@ -41,11 +45,37 @@ Out of the box, Bower grounds answers in eight open sources with no connection s
   </Card>
 </CardGroup>
 
-**Save your ORCID iD on your profile** (Settings → Profile → _Research identity_) and Bower will pull from your publication list when you ask things like _"what have I published recently on coral alkalinity?"_ — no need to share the iD each turn. We only ever read your **public** ORCID profile.
+**Save your ORCID iD on your profile** (Settings → Profile → _Research identity_) and Bower will pull from your publication list when you ask things like _"what have I published recently on coral alkalinity?"_ You don't need to share the iD each turn. We only ever read your **public** ORCID profile.
 
-## 15 connectors — one-click OAuth
+### Biology databases
 
-Connectors extend Bower into the tools you've licensed. Each is connected **per user, per workspace** — your OAuth, your access. A colleague's connections aren't visible from your account.
+When you ask about a specific gene, protein, compound, or structure, Bower can look up the record rather than answering from memory. Every answer links to the record it came from, so you can check it at the source. If a lookup fails, Bower says so; it never presents an answer from memory as a looked-up record.
+
+<CardGroup cols={3}>
+  <Card title="UniProt" icon="circle-nodes" href="https://www.uniprot.org">
+    Proteins: reviewed UniProtKB entries, with accession, name, and sequence length.
+  </Card>
+
+  <Card title="NCBI Gene" icon="barcode" href="https://www.ncbi.nlm.nih.gov/gene">
+    Genes: NCBI Gene ID, official symbol, aliases, and chromosomal location.
+  </Card>
+
+  <Card title="ChEMBL" icon="flask" href="https://www.ebi.ac.uk/chembl">
+    Compounds and drugs: ChEMBL ID, formula, molecular weight, and highest clinical phase.
+  </Card>
+
+  <Card title="RCSB PDB" icon="cube" href="https://www.rcsb.org">
+    3D structures: PDB entry, experimental method, resolution, and primary citation.
+  </Card>
+
+  <Card title="Ensembl" icon="map-location-dot" href="https://www.ensembl.org">
+    Genome annotation: Ensembl gene ID, biotype, and genomic coordinates.
+  </Card>
+</CardGroup>
+
+## 15 connectors, one-click OAuth
+
+Connectors extend Bower into the tools you've licensed. Each is connected **per user, per workspace**: your OAuth, your access. A colleague's connections aren't visible from your account.
 
 <CardGroup cols={4}>
   <Card title="Google Drive" icon="google-drive" iconType="brands">
@@ -98,7 +128,7 @@ Don't see a tool you rely on? [Send us feedback](/workspaces-and-account/feedbac
 
 ### How to connect
 
-Open **Account Settings → Connectors**, click **Connect** on the tool you want, sign in at the provider, and you're done. The card flips to **Connected** when authorisation completes.
+Open **Account Settings → Connectors**, click **Connect** on the tool you want, sign in at the provider, and you're done. The card flips to **Connected** when authorization completes.
 
 ### Start with the tools behind your sign-in
 
@@ -107,7 +137,7 @@ If you signed in to Bower with Google or Microsoft, the **Get set up** section o
 - **Google:** Google Drive, Google Docs, and Google Sheets.
 - **Microsoft:** OneDrive and OneNote.
 
-Choose a suggested tool to start its normal provider authorisation flow. You can still connect any supported tool later from **Account Settings → Connectors**. The suggestion does not share access automatically: each tool needs its own approval.
+Choose a suggested tool to start its normal provider authorization flow. You can still connect any supported tool later from **Account Settings → Connectors**. The suggestion does not share access automatically: each tool needs its own approval.
 
 <Note>
   The dashboard suggestion is not shown in Restricted-mode workspaces, or after you already have an active connector. Connectors remain unavailable in Restricted-mode workspaces.
@@ -117,14 +147,18 @@ Choose a suggested tool to start its normal provider authorisation flow. You can
 
 Connecting a tool makes it _available_. To use it in a conversation, open the **connector picker** in the composer and tick which connectors should be active. Fewer active sources = faster, more focused answers. Selections persist per chat.
 
-The picker also has a master **Public sources** switch. When off, every external source (the eight above, plus connectors) is blocked at the framework level — not just discouraged in the prompt — for that chat.
+The picker also has a master **Public sources** switch. When off, every external source is blocked at the framework level for that chat, not just discouraged in the prompt. That covers all 13 always-on sources above (the eight literature and web sources and the five biology databases) plus your connectors.
+
+<Note>
+  If your workspace is in [Restricted mode](/trust-center/hipaa-compliance) because it holds protected health information (PHI), Bower never sends a query to the literature sources or the biology databases, whatever this switch is set to.
+</Note>
 
 ## Import your OneNote notebooks into Bower
 
 Connecting a tool lets Bower _search_ it in place. Importing is different: it makes a copy of your content **inside Bower**, as notes you can edit, search, link, and organize like anything else you've captured. OneNote is the first connector you can import from.
 
 <Note>
-  Import brings content **into** your workspace — the deliberate counterpart to federated search. Use it when you want your notebooks to live in Bower, not just be searchable at the source.
+  Import brings content **into** your workspace. It's the deliberate counterpart to federated search. Use it when you want your notebooks to live in Bower, not just be searchable at the source.
 </Note>
 
 ### How to import
@@ -140,14 +174,14 @@ Connecting a tool lets Bower _search_ it in place. Importing is different: it ma
 - Bower mirrors your OneNote structure: notebooks and sections become nested **collections**, and each page becomes a **note**.
 - Progress shows page by page in the tasks tray (bottom-right). You can keep working while it runs.
 - Each note records where it came from, so your imported content stays tied to its OneNote source.
-- Formatting carries over — tables, to-do checkboxes, and text styling — and inline images are brought across too. If an image can't be fetched, Bower flags it on the note rather than dropping it silently.
+- Formatting carries over (tables, to-do checkboxes, and text styling), and inline images are brought across too. If an image can't be fetched, Bower flags it on the note rather than dropping it silently.
 
 ### Good to know
 
 - **Read-only at the source.** Import never writes back to OneNote. Edits you make to an imported note stay in Bower.
 - **Re-importing won't duplicate.** Bower recognizes pages it has already imported, so running the same import again won't create duplicate notes.
 - **Large notebooks.** A single import handles up to 500 pages. For a bigger notebook, import one section at a time.
-- **Availability.** Import is part of connectors, which are available on every plan — Starter, Individual, and Team. Restricted-mode workspaces can't use connectors yet.
+- **Availability.** Import is part of connectors, which are available on every plan: Starter, Individual, and Team. Restricted-mode workspaces can't use connectors yet.
 
 ## Privacy and security
 
@@ -173,14 +207,14 @@ Connecting a tool lets Bower _search_ it in place. Importing is different: it ma
   </Accordion>
 
   <Accordion title="Restricted-mode workspaces can't use connectors yet">
-    Our gateway provider's BAA isn't signed. Connectors are blocked in Restricted-mode workspaces — enforced server-side — until that's in place.
+    Our gateway provider's BAA isn't signed. Connectors are blocked in Restricted-mode workspaces, enforced server-side, until that's in place.
   </Accordion>
 </AccordionGroup>
 
 ## Troubleshooting
 
 <AccordionGroup>
-  <Accordion title="Re-auth — when a tool stops working">
+  <Accordion title="Re-auth: when a tool stops working">
     OAuth tokens expire. When that happens the card shows a **Re-auth** badge and Bower stops using that connector until you reconnect. Click **Reconnect**.
   </Accordion>
 

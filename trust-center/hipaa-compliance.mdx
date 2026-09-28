@@ -37,6 +37,7 @@ Each of these sends content to a third party that has not signed a BAA, so the w
 | **AI app access** (connecting Bower to Claude, ChatGPT, or another AI app) | Blocked. Those apps reach Bower through a gateway that is not BAA-covered. |
 | **Share links** | Cannot be created. Links made before Restricted mode was enabled are not removed automatically; review them yourself. |
 | **Literature and citation lookups in Bower** (OpenAlex, Crossref, Semantic Scholar, arXiv, Europe PMC, Unpaywall, ORCID) | Unavailable. Searching them would send your query to a public scholarly API. |
+| **Biology database lookups in Bower** (UniProt, NCBI Gene, ChEMBL, RCSB PDB, Ensembl) | Unavailable. A lookup would send your query to a public biology database. |
 | **Embedded images in Word (.docx) imports** | The document still imports, converted inside Bower, but embedded images are not brought across. See below. |
 | **AI quality monitoring** | Available. Request and response text is retained, at a provider covered by our signed BAA and named on the [sub-processor list](/trust-center/sub-processors). **This changed in September 2026**; previously nothing was sent from a Restricted-mode workspace. |
 | **Session replay, autocapture, and heatmaps** (PostHog) | Disabled for the workspace regardless of cookie consent. The plain analytics events that remain carry only event names and metadata, never content. |
