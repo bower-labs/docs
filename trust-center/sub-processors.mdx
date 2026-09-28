@@ -112,7 +112,7 @@ When you ask Bower to find papers, resolve a DOI, or look up an author, it queri
 | [RCSB PDB](https://www.rcsb.org/pages/policies) | 3D structure lookup | Structure search queries, PDB IDs | US |
 | [Ensembl](https://www.ensembl.org/info/about/legal/privacy.html) | Genome annotation lookup | Gene symbols, Ensembl IDs | EU |
 
-These are public scholarly registries and biology databases handling public identifiers and search queries, not personal or research content, so no DPA or BAA is required. **Restricted-mode workspaces never reach any of them**: a fail-closed check runs before any request leaves Bower, and if it cannot confirm the workspace is allowed to contact public research services, nothing is sent. The per-chat **Public sources** switch blocks all twelve as well.
+These are public scholarly registries and biology databases handling public identifiers and search queries, not personal or research content, so no DPA or BAA is required. **Restricted-mode workspaces never reach any of them**: a fail-closed check runs before any request leaves Bower, and if it cannot confirm the workspace is allowed to contact public research services, nothing is sent. The **Public sources** switch in the chat composer blocks all twelve as well, for every message you send while it's off.
 
 ## Data residency
 

@@ -145,9 +145,9 @@ Choose a suggested tool to start its normal provider authorization flow. You can
 
 ### Picking which connectors are active in a chat
 
-Connecting a tool makes it _available_. To use it in a conversation, open the **connector picker** in the composer and tick which connectors should be active. Fewer active sources = faster, more focused answers. Selections persist per chat.
+Connecting a tool makes it _available_. To use it in a conversation, open the **connector picker** in the composer and tick which connectors should be active. Fewer active sources = faster, more focused answers. Your picks are saved in your browser for each workspace, so they carry over to every chat in that workspace until you change them.
 
-The picker also has a master **Public sources** switch. When off, every external source is blocked at the framework level for that chat, not just discouraged in the prompt. That covers all 13 always-on sources above (the eight literature and web sources and the five biology databases) plus your connectors.
+The picker also has a **Public sources** switch. When it's off, Bower can't reach any of the 13 always-on sources above (the eight literature and web sources and the five biology databases). The block is enforced before any request leaves Bower, not just discouraged in the prompt, and it's checked on every message you send. The switch is saved in your browser, so it stays off in every chat and workspace until you turn it back on. It doesn't cover your connectors: turn those off one by one in the same picker.
 
 <Note>
   If your workspace is in [Restricted mode](/trust-center/hipaa-compliance) because it holds protected health information (PHI), Bower never sends a query to the literature sources or the biology databases, whatever this switch is set to.
