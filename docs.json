@@ -102,6 +102,7 @@
           {
             "group": "September 2026",
             "pages": [
+              "changelog/2026-09-28-answers-you-can-check",
               "changelog/2026-09-25-bower-remembers",
               "changelog/2026-09-11-tables-that-hold-real-data",
               "changelog/2026-09-11-take-your-work-out-of-bower",
