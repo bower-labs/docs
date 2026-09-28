@@ -76,6 +76,7 @@
             "group": "Organisation",
             "pages": [
               "organisation/workspace-items",
+              "organisation/spreadsheets",
               "organisation/protocols",
               "organisation/protocol-runs",
               "organisation/protocol-menu-and-export",
