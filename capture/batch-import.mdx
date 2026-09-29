@@ -1,53 +1,65 @@
 ---
 title: "Batch import"
-description: "Upload multiple files at once. Bower processes each one with the right model and turns them into searchable, editable notes."
+description: "Upload up to 20 files at once. Bower turns documents, recordings and images with text into editable notes, and keeps everything else as searchable attachments."
 ---
 
-Upload multiple files at once. Bower processes each one with the right model and turns them into searchable, editable notes.
+Upload up to 20 files at once. Bower turns documents, recordings and images with text into editable notes, and keeps everything else as searchable attachments.
 
-## What you can import
+## What happens to each file type
 
-Bower handles mixed batches — you don't need to separate files by type before uploading.
+Mixed batches are fine, so you don't need to sort files by type before you upload them.
 
 | File type | What Bower does |
 | --- | --- |
-| Images (.jpg, .png, .heic) | Extracts text, tables, equations, and relevant figure regions into a searchable, editable note. The source image remains attached. |
-| Voice recordings (.m4a, .mp3, .wav) | Transcription with scientific vocabulary recognition |
-| PDFs | Content extraction; auto-generates flow charts from embedded images |
-| Word documents (.docx) | Converted to editable notes; formatting including tables and colored text is preserved |
+| Word documents (.docx, .doc) | Converted to an editable note. Tables, text color and highlighting are kept. |
+| Voice recordings and audio (.m4a, .mp3, .wav, .aac, .flac, .ogg) | Transcribed into a note, with scientific vocabulary recognition. |
+| Plain text and Markdown (.txt, .md) | Read directly into a note. |
+| Images (.jpg, .png, .heic, .webp, .tiff and more) | Bower reads text, tables, equations and figure regions. If it finds text, it creates an editable note. A photo or figure with no text stays an attachment, searchable by its AI-generated description. |
+| PDFs | The text is extracted, with OCR for scanned pages, so the PDF is searchable. It stays an attachment. To get an editable note, open the attachment, click **More options**, then **Convert to Note**. |
+| Videos (.mp4, .mov, .m4v, .avi) | Saved as a playable attachment, up to 10 minutes long. Video is not transcribed. |
+| Code files | Saved as an attachment, with its contents searchable. |
+| CSV and Excel (.csv, .xlsx) | Saved as an attachment. In workspaces with spreadsheets turned on, they become editable spreadsheets instead (.xlsm files, and files over 25 MB for .xlsx or 16 MB for .csv, stay attachments). |
+| Anything else (.zip and so on) | Saved as an attachment you can find by its file name. |
+
+When a file becomes a note, the original file is attached to that note, so nothing is discarded.
 
 ## How to import
 
 <Steps>
   <Step title="Open the import dialog">
-    Click the **New note** dropdown in any collection and select **Import**, or use the **+ New note** button on the dashboard.
+    Click **Create** and select **Import files**. To import straight into a collection, open it, click **Add**, and select **Import files**. You can also use **Import** in the **New** menu on your notes page.
   </Step>
   <Step title="Select your files">
-    Select all files — mixed types are fine. You can import up to **20 files** at a time, with a maximum of **50 MB per file**.
+    Drag files onto the dialog or click to browse. You can import up to **20 files** at a time, with a maximum of **500 MB per file**.
   </Step>
-  <Step title="Bower processes them">
-    Bower queues each file and processes them in parallel. Each file becomes a separate note with the source file attached.
+  <Step title="Keep working">
+    Click **Upload**. The files upload and process in the background, and you can follow their progress in the upload tray while you carry on with something else.
   </Step>
 </Steps>
+
+Already keep your notes in OneNote, Notion, Google Drive or OneDrive? Use the link in the import dialog to set up a [connector](/integrations/connectors) and import them directly.
 
 ## Limits
 
 | Limit | Value |
 | --- | --- |
 | Files per import | 20 |
-| Max file size | 50 MB per file |
+| Max file size | 500 MB per file |
+| Max video length | 10 minutes |
+
+## Importing into the protocol library
+
+When you import from the protocol library, Word documents, text files and audio recordings become protocols. Images with text become notes, and every other file type is saved as an attachment.
 
 ## After import
 
-- Each note is immediately searchable.
-- Images are searchable by their AI-generated description — you can find a photo of a gel by searching for "gel electrophoresis" even if the filename is `IMG_4382.jpg`.
-- Equations are preserved as editable mathematical notation when Bower can recognize them.
-- Diagrams and other relevant figure regions appear inline as crops from the source image, in reading order. Bower does not redraw them.
-- For photos taken on a phone, Bower reads embedded metadata from the file: capture time, GPS location, and device model are shown in the attachment panel when present. Tap the location to open it in Maps.
+- Each note and attachment is searchable as soon as processing finishes.
+- Images are searchable by their AI-generated description, so you can find a photo of a gel by searching for "gel electrophoresis" even if the file is called `IMG_4382.jpg`.
+- Equations are kept as editable mathematical notation when Bower can recognize them.
+- Diagrams and other figure regions appear inline as crops from the source image, in reading order. Bower does not redraw them.
 - Extracted tables are editable inline.
-- The original file is always attached to the note — nothing is discarded.
-- Bower can summarize, compare, or cross-reference the imported notes as soon as processing completes.
+- Bower can summarize, compare or cross-reference your imported notes as soon as processing finishes.
 
 ## A note on quality
 
-Text extraction accuracy on printed text is approximately 98%. Handwritten content and instrument displays are lower. If Bower cannot preserve part of the layout or a figure crop, it flags the note for review rather than silently hiding the problem. You always have the final say.
+Printed text extracts most reliably. Handwriting and instrument displays are harder to read, so check those notes against the original, which is always attached. You always have the final say.
