@@ -10,6 +10,8 @@ sidebarTitle: "Spreadsheets"
   Update "What Bower can change" when AI spreadsheets phase 2 ships (#3087):
   values, formulas, number formats and styles, charts, sort, filter,
   conditional formats and sheets, with a change card for each edit.
+  "Undo a change Bower made" describes AI spreadsheets phase 3 (undo from the
+  change card). Publish it only once phase 3 is in production.
 */}
 
 Spreadsheets in Bower are full workbooks you can edit right here: formulas,
@@ -161,6 +163,46 @@ Every change Bower makes is recorded with the before and after values.
 Other changes, such as formatting, formulas, charts, sorting and filtering,
 are not available yet. Bower tells you when you ask for one. Guests can ask
 Bower about a spreadsheet but cannot have it make changes.
+
+### Undo a change Bower made
+
+When Bower changes a spreadsheet from chat, a **Spreadsheet updated** card
+appears in the conversation. It lists each change Bower made.
+
+Press **Undo** on the card to reverse the whole batch of changes. The
+spreadsheet goes back exactly as it was before Bower's change. While this
+happens, the spreadsheet beside the chat shows **Undoing Bower's change...**
+and then reloads with the earlier version. The card then says **Undone**.
+
+The undo appears in the spreadsheet's [version history](#version-history) as a **Reverted from**
+entry. The version with Bower's change is still there, so you can restore it
+if you change your mind.
+
+#### When undo is not possible
+
+Undo only works while nobody has edited the spreadsheet since Bower's change.
+That includes you, a teammate and another change by Bower. If the spreadsheet
+has changed, nothing is undone, and the card says so. Choose **Open version
+history** to find the version you want and restore it.
+
+A card sometimes lists the changes with no Undo button. That happens when
+someone else edited the spreadsheet while Bower was making its change, or when
+the change could not be undone safely. Use version history instead.
+
+#### Good to know about undo
+
+- Undo is available for 24 hours after Bower's change.
+- Only the person Bower made the change for can undo it, and only if they can
+  edit the spreadsheet.
+- If Bower cannot confirm whether the undo happened, for example because the
+  connection dropped, the card tells you and offers version history. Check the
+  spreadsheet before you try again.
+- If the card says nothing was changed, Undo stays on the card so you can try
+  again.
+- Teammates who have the spreadsheet open see a notice and need to refresh the
+  page to see the earlier version.
+- Undo is the button on the card. Bower cannot undo a change if you ask it to
+  in chat, and undoing by voice in Live mode is not available yet.
 
 ### Live mode
 
