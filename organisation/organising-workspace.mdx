@@ -1,79 +1,103 @@
 ---
 title: "Organizing your workspace"
-description: "Drag-and-drop, bulk actions, and the &#8942; menu — everything you need to keep your workspace tidy."
+description: "Browse, select, move, copy, rename, and delete notes, attachments, and collections in the workspace view."
 ---
 
-Bower gives you a few ways to move, copy, and tidy up your workspace. None of them require you to open a note to act on it.
+Click **Workspace** in the left rail to open the workspace view. It shows the contents of one collection at a time, or the top level of your workspace. This page covers everything you can do there, with the mouse and the keyboard. Shortcuts use **Cmd** on Mac and **Ctrl** on Windows/Linux.
 
-## The page tree
+## Finding your way around
 
-The left-hand panel is your page tree — a hierarchical view of all your notes and collections. It's the main way to navigate and organize your workspace. Alongside it you'll find a collapsible **Library** (Collections, Artifacts, Protocols, and Equipment) and a **Recents** list of what you've touched lately.
+- **Breadcrumb.** The top bar shows where you are. Click any level to go back up. When you open an item from the workspace, its page shows the same breadcrumb and a back arrow to its collection.
+- **Search.** The search bar in the top bar opens the [command palette](/ai-and-search/command-palette).
+- **Add.** The **Add** button creates a collection or captures something into the collection you have open. You can also right-click empty space for the same menu, or drop files anywhere on the page to upload them there.
+
+### Views
+
+Choose a view with the switch on the right of the header:
+
+| View | Shows |
+| --- | --- |
+| **Folder view** | Icons and names, for scanning many items |
+| **Card view** | A preview of each item: the start of a note, an image thumbnail, the extracted text of a PDF or code file, or a video poster |
+| **List view** | A table with columns such as **Location**, **Created by**, and dates. Drag a column header's handle to reorder columns, or focus the handle and press **Left** / **Right** |
+
+Your view, sort, and filters are one choice for the whole workspace. Bower remembers them for you and keeps them as you move between collections. On a phone, you get Folder view and List view.
+
+### Scope, filters, and sort
+
+- **Scope** chooses between the items directly in this collection and everything inside it, including sub-collections. At the top level, the options are **Top level** and **Everything**.
+- **Type** filters by kind: notes, protocols, collections, documents, spreadsheets, images, video, audio, code, archives, equipment, and **Instrument data** (microscopy, flow cytometry, mass spectrometry, sequencing, structures, and more).
+- **Modified**, **People**, and **Tags** filter by date, creator, and tag. On a narrow window, the filters fold into one filter button that shows how many are active.
+- **Sort** orders by **Name**, **Last modified**, **Date created**, or **Type**, in either direction.
+
+## Selecting items
+
+| To | Do this |
+| --- | --- |
+| Select one item | Click it |
+| Add or remove one item | **Cmd+click** |
+| Select a range | **Shift+click**, or **Shift+Arrow** |
+| Select a group | Drag a rectangle across empty space (Folder and Card views) |
+| Select every loaded item | **Cmd+A** |
+| Move between items | **Arrow keys** |
+| Clear the selection | **Escape**, or click **Clear selection** in the action bar |
+
+In List view, a single click opens a row. Use the row's checkbox to select it instead.
+
+## Acting on items
+
+Open an item with a double-click, or with **Enter**. Everything else is in two places:
+
+- **The action bar** appears when you select something. It shows the actions that apply to your selection. A grayed-out action tells you why it can't run, for example "Merge works on notes only."
+- **The item menu** opens with a right-click, **Shift+F10**, the context menu key, or a long-press on a touchscreen. It's the same menu on tiles, cards, rows, and the page tree.
+
+| Action | What it does | Shortcut |
+| --- | --- | --- |
+| **Open** / **Open in new tab** | Open the item | **Enter** |
+| **Rename** | Edit the name in place. **Enter** saves; **Escape** or clicking away cancels | **F2** |
+| **Move to...** | Move the selection to another collection | |
+| **Copy to...** | Duplicate the selection into another collection. The originals stay where they are | |
+| **Copy link** | Copy a direct link to each item | |
+| **New collection inside** | Create a collection inside this one *(collections only)* | |
+| **Merge** | Combine 2 to 20 selected notes into one | |
+| **Add to favorites** | Add the item to **Favorites** in the page tree | |
+| **Download** | Download the original files *(uploaded files only; open a note to [export](/organisation/export) it)* | |
+| **Delete** | Move the selection to Trash, after you confirm | **Delete** or **Backspace** |
+
+### Copy, cut, and paste
+
+**Cmd+C** copies the selected items and **Cmd+X** cuts them. Open the collection you want, then press **Cmd+V**, or right-click empty space and choose **Paste**.
+
+- A copy makes duplicates. You can paste the same copy more than once.
+- A cut moves the items. Cut items look faded until you paste them. Press **Escape** to cancel a cut.
+
+This uses Bower's own clipboard, so it carries items between collections, not between apps. Copying text you've selected on the page still works as usual.
 
 ### Drag and drop
 
-Grab any note or collection and drag it. A blue line shows where it will land:
+Drag items onto a collection, in the workspace or in the page tree, to move them there. Bower stops a move that can't work, such as a collection into itself or into a collection you can only view, before anything changes.
 
-- **Reorder** — drop an item between two others to set its position within that level. Reordering works at every level, for both notes and collections.
-- **Nest** — drop an item onto a collection to move it inside. Collapsed collections **auto-expand** after a moment while you hover over them, so you can drag deep into the tree in one motion.
+If a collection with the same name is already there, Bower renames the collection you moved.
 
-The order is **shared across the workspace** — everyone on your team sees the same arrangement.
+### Undo
 
-## Multi-select bulk actions
+After a move, paste, or delete, a message at the bottom of the screen offers **Undo** for a few seconds. Undoing a move also restores a collection name Bower changed.
 
-For moving, copying, or deleting multiple items at once:
+## The page tree
 
-<Steps>
-  <Step title="Select items">
-    Click the checkboxes next to notes or collections to select them. In the table view, hold **Shift** and click to select all rows between two items.
-  </Step>
-  <Step title="Choose an action from the toolbar">
-    A bulk action toolbar appears when items are selected:
-    - **Move to** — move all selected items to a new parent
-    - **Copy to** — copy all selected items to a collection (originals stay in place)
-    - **Delete** — move all selected items to trash
-  </Step>
-</Steps>
+The panel on the left is the page tree. It opens with the workspace view and closes when you leave it; on a narrow window, open it from the rail.
 
-Bulk actions apply to everything in your selection. If you've selected a collection, all artifacts within it are included.
+- **Favorites** lists the items you've added to favorites, once you have some. Favorites are personal: your teammates don't see them, and they follow you across devices. You can keep up to 50, and drag them to reorder.
+- **Shared with me** lists items shared with you that sit in a collection you can't open, so they have no place in the tree. It appears only when there are some.
+- **The tree** shows every collection and its contents. Drag an item to reorder it, or onto a collection to nest it. To reorder from the keyboard, focus an item and press **Alt+Up** / **Alt+Down**. The order is shared: everyone in the workspace sees the same arrangement.
+- **Trash** is at the bottom of the panel.
 
-## The **&#8942;** menu
+## Trash
 
-Every note and collection in the page tree has a **&#8942;** menu (the three-dot icon that appears on hover). This gives you per-item actions without needing to open the item first.
+Deleting moves items to Trash. They stay there for **30 days**, then Bower deletes them permanently.
 
-| Action | What it does |
-| --- | --- |
-| New collection | Create a collection nested inside this one *(collections only)* |
-| Rename | Edit the note or collection title inline |
-| Move | Move the item to a different collection |
-| Copy | Duplicate the item to a collection |
-| Copy link | Copy a direct link to the item |
-| Manage access | Open access controls for the item |
-| Delete | Move to trash (with confirmation) |
+- **Deleting a collection** moves everything inside it to Trash too.
+- **The Trash page** lists everything in Trash, with search, sort, and a type filter. Restore items from there, or delete them permanently before the 30 days are up.
+- **Restoring an item whose collection is also in Trash** puts it at the top level of the workspace.
 
-## Pinning your favourites
-
-Pin the notes, protocols, attachments, and collections you come back to most, and they'll sit in a **Pinned** section at the top of the sidebar — one click away from wherever you are.
-
-- **To pin** — open an item's **&#8942;** menu and choose **Pin**.
-- **To unpin** — choose **Unpin** from the same menu, or hover over the item in the Pinned section and click the unpin icon.
-
-Pins are **personal**: your pinned list is yours alone, teammates never see it, and it follows you across browsers and devices. You can pin up to 50 items, and the Pinned section only appears once you've pinned something.
-
-<Note>
-  Pinning arrives with a refreshed sidebar that's [rolling out gradually](/changelog/2026-07-17-pinned-items). If you don't see a **Pin** option yet, it's on its way.
-</Note>
-
-## Undoing actions
-
-When you move or copy items, a toast notification appears at the bottom of the screen with an **Undo** button. You have 5 seconds to undo the action before it's finalised.
-
-## Deletion and trash
-
-When you delete a note or collection, it is **moved to trash** — not permanently removed. Trashed items remain available for **30 days**, after which they are automatically and permanently deleted.
-
-- **Deleting a collection** moves all notes and sub-collections inside it to trash.
-- **Undo** — a toast notification appears after every delete with an **Undo** button. Click it to restore the item immediately.
-- **Trash page** — click **Trash** in the sidebar (near the bottom) to see all trashed items, restore them individually, or permanently delete them early.
-- **Restoring an orphan** — if the original parent collection is also in trash, the restored item is placed at the workspace root.
-
-After 30 days, trashed items are permanently removed from the database and file storage. If you need to preserve data long-term, [export it](/organisation/export) before the 30-day window expires.
+If you need to keep data longer, [export it](/organisation/export) before the 30 days are up.
