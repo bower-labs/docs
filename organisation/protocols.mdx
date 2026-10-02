@@ -1,38 +1,102 @@
 ---
 title: "Protocols"
-description: "Create and manage step-by-step lab procedures as a distinct resource type."
+description: "Write, import and version step-by-step lab procedures, with the values in each step pulled out so they can be checked."
 ---
 
-Protocols are a dedicated artifact type in Bower for documenting step-by-step lab procedures. They use the same rich text editor as notes, but are stored and displayed separately — giving you a clean library of your standard operating procedures.
+A protocol is a detailed, operational guide your lab uses to perform a method. Think "how we run PCR in this lab", not the published method itself. Protocols live in their own library, separate from your notes, and can be tagged, linked and searched like anything else in Bower.
 
-## What a protocol is
+Bower has two kinds of protocol:
 
-A protocol is a detailed, operational guide that your lab uses to perform a method. Think: "How we run PCR in this lab" rather than the high-level published method itself.
-
-Protocols sit in their own library alongside your notes. They can be tagged, linked to notes, and searched like any other artifact.
+- **Structured protocols** are laid out as sections and numbered steps. The values in each step, such as temperatures, volumes and times, are pulled out so you can check them, and every version is kept. Approve a version and it's locked, so a record of a run always matches what the protocol said at the time.
+- **Note protocols** are plain written documents in the [rich text editor](/capture/editor), like a note.
 
 ## Creating a protocol
 
 1. Click **Protocols** in the left rail to open the protocol library.
-2. Click **Create** or use the import button to upload an existing document.
-3. Write your protocol using the [rich text editor](/capture/editor) — headings, numbered steps, tables, and images all work.
-4. Give it a clear title.
+2. Click **New protocol**.
+3. Choose **Structured protocol** or **Note protocol**.
+
+For a structured protocol, choose how to start:
+
+- **Attach a file.** Pick a PDF or Word (.docx) document. Bower reads the steps out of it and lays them out as a structured protocol. You can correct anything it gets wrong afterwards.
+- **Start from scratch.** You get an empty protocol and add the steps yourself.
+
+### While Bower reads your document
+
+The protocol page shows **Reading your document** while the import runs. A long protocol takes a few minutes, and you can leave the page while it works. In the library, the protocol shows **Importing** until it's done.
+
+If Bower can't find enough procedural detail to lay out as steps, the page says so and shows its reason. You can ask in the chat to try again and pull out whatever it can. If the import fails partway, delete the protocol and import the document again.
+
+### Turning a note protocol into steps
+
+Open the note protocol and click **Structure it**. Bower reads the document and builds a structured version alongside it. When it's ready, click **Open it**. The original document isn't changed.
+
+## The protocol page
+
+At the top are the protocol's title and its **version bar**: the state of the version you're viewing (for example **draft** or **approved**), and its name. Click the name to give the version your lab's own name, like "Rev C". A protocol imported from a file links back to it.
+
+Below that:
+
+- **Parameters** are the values your lab chooses each time, with their allowed range or options and a default.
+- **Method** holds the sections, lettered **A**, **B**, **C**, and their steps, numbered **A.1**, **A.2**, **B.1**. Steps that don't belong to a section are listed under **Other steps**. Use **Expand all** or **Collapse all** to open or close every section at once.
+
+Each step has its title, its text, and sometimes a short explanation of why it matters. Pictures, videos and files attached to the step appear below it.
+
+The panel beside the method holds **Acceptance criteria**, **Materials & equipment**, **Recipes**, **Safety**, **Troubleshooting**, **Review notes** and **Other details**.
+
+### Editing steps and sections
+
+While a version is a draft, you can edit it in place:
+
+- Click **Add step** or **Add section**.
+- Drag a step by its handle to reorder it, or to move it into another section. **Move up**, **Move down** and **Move into** do the same without dragging.
+- Hover over a step and click **Remove step** to delete it.
+- Use a section's actions to merge it into the one above, or to remove it.
+- Click **Add media** on a step to attach a picture, video or file. Removing it from the step keeps the file itself.
+
+Changes save automatically. Use **Undo** and **Redo** at the top of the page, or Cmd+Z and Shift+Cmd+Z.
+
+### Extracted values
+
+When Bower imports a protocol, it marks each value it finds in the steps, such as *37 °C*, *5 mL* or *10 min*, as a highlighted chip, and records how confident it is in each one. A value it isn't sure about, that no one has checked yet, is highlighted in a warning color with a dashed underline. Check it against your source before you rely on it.
+
+Click a value to see the wording it came from (**The document said …**) and correct it: the amount (or a range), the unit, what kind of value it is, and whether it's exact, approximate, or "until". Click **Remove: not a value** if Bower marked something that isn't a value.
+
+To add a value by hand, click **Insert a typed value** in the step's toolbar, or type `/` and choose **Value**.
+
+Reagents and equipment Bower recognizes are underlined. Hover over one to see what Bower took it to be.
+
+## Versions and approval
+
+Every structured protocol keeps its versions. When a version is ready to use at the bench, click **Approve this version**.
+
+<Warning>
+Approving a version can't be undone. Its values, step titles and step order are fixed from then on, so a run recorded against it always means what the page said at the time.
+</Warning>
+
+When you approve a version, you can name its state if your lab calls it something other than "approved". To change an approved protocol, click **New version**. Bower copies it into a new editable draft, and the approved version stays the one people run until the new one is approved.
+
+Once a protocol has more than one version, a **Versions** list appears beside the method. It marks the **current** version and the one you're **showing**; click any version to open it. You can also jump to the list from the protocol's menu with **Version history**.
+
+## Working on a protocol together
+
+If a colleague saves a change to a step while you're editing the same step, Bower doesn't overwrite either change. A banner appears on the step: click **Review** to compare the two, then **Keep mine** or **Use theirs**. Until you choose, your version isn't saved, and Bower asks before you leave the page.
+
+## When something doesn't come through
+
+An import can miss things: a table it couldn't read, or a whole part of the protocol such as the materials list. When it does, a notice at the top of the page lists what's missing, with the page of the source where it knows it. Check those parts against your original document.
+
+If a protocol is longer than Bower can load at once, the page tells you it isn't the whole method.
 
 ## The protocol library
 
-The protocol library is a dedicated page listing all protocols in your workspace. It shows:
+The protocol library lists every protocol in your workspace, with its title, collection, tags, who created it, and when it was created and last updated. Structured protocols carry a **Steps** badge. While an import runs, or if it found no steps or failed, the row says so.
 
-- Title
-- Tags
-- Parent collection
-- Created by
-- Created date
+Search, sort, and filter by collection, tag, or creator. Select several protocols to act on them together.
 
-You can search, sort, and filter by collection, tag, or creator. Select several protocols to act on them together.
+## Managing and exporting a protocol
 
-## Importing protocols
-
-Drag existing protocol documents (PDFs, Word docs) into the protocol library. Bower extracts the content and creates an editable protocol. The original file is preserved as an attachment.
+A structured protocol's **⋮** menu holds access, version history, moving, deleting, and export to PDF or Word. See [Protocol menu and export](/organisation/protocol-menu-and-export).
 
 ## Linking protocols to notes
 
