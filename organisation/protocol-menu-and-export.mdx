@@ -1,0 +1,74 @@
+---
+title: "Protocol menu and export"
+description: "Manage a step-by-step protocol from its ⋮ menu, and export the version you're viewing as a PDF or Word document."
+---
+
+A protocol with numbered steps has a **⋮** menu at the top right of the page. It's where you manage the protocol as a whole: who can see it, its versions, where it lives, and exporting a copy to share or print.
+
+## What's in the menu
+
+| Item | What it does |
+| --- | --- |
+| **Manage access** | Choose who in the workspace can see or edit the protocol. Needs manage access to the protocol. |
+| **Version history** | Scrolls to the **Versions** list beside the steps, where you can open any earlier version. Unavailable until the protocol has a second version. |
+| **Show in graph** | Opens the knowledge graph centered on this protocol. |
+| **View captures** | Opens the capture stream filtered to captures taken while running this protocol. |
+| **Move** | Moves the protocol to another collection, or to the top of the workspace. |
+| **Export** | Downloads the version you're viewing as **PDF** or **Word (.docx)**. See [Exporting a protocol](#exporting-a-protocol). |
+| **Delete** | Moves the protocol to the trash. |
+
+Below the actions, the menu shows who created the protocol, the version you're viewing and its state (for example **v3 · Rev C · draft**), and when it was created and last updated.
+
+**Move** and **Delete** need edit access. If you can only view the protocol, they're shown but unavailable, and hovering explains why. You can still export.
+
+There's no **Copy** for a step-by-step protocol yet. A copy would keep the text but not the versions and steps, so it isn't offered.
+
+## Deleting a protocol
+
+1. Click **⋮**, then **Delete**.
+2. Confirm **Move to Trash**.
+
+Bower saves any step edit still in progress first, then moves the protocol to the trash and takes you back to the protocol library. Click **Undo** in the message that appears to bring it straight back, versions and all. Otherwise it stays in the trash for 30 days before it's permanently deleted.
+
+## Exporting a protocol
+
+1. Open the protocol. If you want an earlier version, open it from the **Versions** list first. The export is always the version on screen.
+2. Click **⋮**, then **Export**.
+3. Choose **PDF** or **Word (.docx)**.
+
+For **PDF**, Bower opens your browser's print dialog with the protocol laid out on A4 pages. Choose "Save as PDF". For **Word**, the file downloads directly, named after the protocol and its version, for example `PCR setup v3.docx`. Both are generated in your browser.
+
+### What's in the document
+
+The export follows the page, in the same order and with the same step numbers:
+
+- The title, then the version and its state.
+- **Parameters** and **Materials & equipment**, as tables.
+- Each section, then its steps, numbered as on the page (**A.1**, **B.3**). Steps that aren't plain instructions are labeled with their type, for example **Check:** or **Wait:**.
+- Each step's text, its **Why**, and every picture, video or file attached to the step, with its caption.
+- **Acceptance criteria**, **Safety** (including which section a rule applies to), **Troubleshooting**, **Review notes** and **Other details**.
+
+**Extracted values stay visible.** Every value, such as a temperature, volume or time, is printed in bold on a light blue background, so you can find it at a glance. A value Bower extracted with low confidence that no one has checked yet is printed on an **amber** background, just as it's flagged on the page. Check those against your source before you rely on the printout. A value that hasn't been filled in prints as *[value not set]*.
+
+**Attached media.** A picture prints at a readable size with its caption. A video prints as its preview frame, captioned with the part of the video the step refers to (for example *Video: titration.mp4 (0:32 to 1:10)*). Every item links back to the original in Bower; opening a link needs access to the workspace. An item with nothing to print, such as a PDF or a video with no preview frame, prints as its caption and link.
+
+**Footer.** Every page ends with *Exported from Bower*, the protocol title, the version and the date, followed by the page number. The Word file always has it. In a PDF, Chrome and Edge print it. Other browsers, including Safari, may save the PDF without the footer, so use Chrome or Edge, or export to Word, when you need it on every page.
+
+### When something can't be included
+
+When the export finishes, Bower tells you what it couldn't include, and the file itself says so where it matters:
+
+- If the protocol page warns that part of the protocol didn't come through the import, the same warning is listed near the top of the document, under **Not recovered from the source**.
+- If a step's text can't be read, the step is still listed, with a note where its text should be.
+- If the protocol is too long to load in full, the document says it's incomplete at the top.
+- If Word can't include a picture, the export tells you. Reload the page and export again; a picture link that had expired is usually the cause.
+
+One exception: a picture that fails to load while the PDF is being prepared isn't reported. If a picture is missing from a PDF, reload the page and export again.
+
+### What isn't included
+
+- Earlier versions. Each export is one version; export each version you need.
+- Runs and captures. These stay in Bower.
+- Markdown, HTML and plain text, which are available for notes but not yet for step-by-step protocols.
+
+For notes, see [Exporting notes](/organisation/export).
