@@ -71,7 +71,7 @@
               "organisation/equipment-register",
               "organisation/tags",
               "organisation/linked-entities",
-              "organisation/brain",
+              "organisation/workspace-visualizer",
               "organisation/organising-workspace",
               "organisation/links",
               "organisation/export",
@@ -105,7 +105,7 @@
           {
             "group": "October 2026",
             "pages": [
-              "changelog/2026-10-05-brain"
+              "changelog/2026-10-05-workspace-visualizer"
             ]
           },
           {
