@@ -33,6 +33,39 @@ Attachments are also independently useful:
 
 You can store a file as an attachment only (without creating a note) if you don't need Bower to extract or process its content.
 
+## Processing in the background
+
+When you add a recording or a photo to a note, Bower transcribes it or reads its text on our servers. Once the upload finishes, you can leave the page, open another note, or close the tab. The work carries on, and the result lands in the note when it's ready.
+
+### Attachment tile states
+
+Open the **Attachments** pill on a note to see each file. The line under the file name tells you where it's up to:
+
+| What you see | What it means |
+| --- | --- |
+| A spinner and **Reading text… it will appear in this note** (or **Transcribing…** for a recording) | Bower is still working. You can keep typing in the note while it runs. |
+| The file type, size, and date (for example, **Photo · 2.4 MB · Oct 5**) | Processing is done. The text or transcript is in the note. |
+| An alert and a short message, such as **Couldn't read text. The photo is saved; use Image to Text from the menu to retry** | Processing didn't finish. Your file is still saved on the note. |
+
+If a photo has no readable text, the tile says **No text found in this photo. The photo is saved**, and a recording with no speech says **No speech found in this recording**. Retrying won't change those results.
+
+To retry a failed file, click the **⋮** menu on its row and choose **Image to Text** for a photo, or **Transcribe as dictation** or **Transcribe as meeting** for a recording.
+
+### Photos and scans
+
+There are two ways to turn a photo into text in a note:
+
+- Click **Image to Text** in the note header and choose a photo. Bower uploads it, attaches it to the note, and shows **Photo added. Its text will appear in the note**.
+- For a photo that's already attached, click the **⋮** menu on its row and choose **Image to Text**.
+
+When the text is ready, Bower adds it to the end of the note and shows **Text added to the note**. As with any AI output, check the extracted text against the photo before you rely on it.
+
+### Running text extraction again
+
+If a photo's text is already in the note, choosing **Image to Text** again asks first: **Add this photo's text again?** Click **Add again** to confirm. Bower adds a second copy of the text at the end of the note, and leaves the first copy where it is. Close the dialog to cancel.
+
+Recordings work the same way. Transcribing a recording that already has its transcript in the note asks **Add this recording's transcript again?** before adding a second copy.
+
 ## Protocols
 
 A [protocol](/organisation/protocols) is a step-by-step lab procedure — structurally the same as a note, but stored as a distinct type so it appears in the protocol library rather than your notes list. Use protocols for standard operating procedures, experimental methods, and repeatable workflows.
