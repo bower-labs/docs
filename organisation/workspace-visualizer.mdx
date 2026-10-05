@@ -1,0 +1,61 @@
+---
+title: "Workspace visualizer"
+description: "See how your notes, protocols, attachments, equipment, collections, and people connect, as a 2D or 3D graph or as a searchable list."
+---
+
+The Workspace visualizer is a map of your workspace. Every note, protocol, attachment, piece of equipment, collection, and person is a node, and every relationship between them is a line. It's the view to use when you want to see the shape of a project rather than one item at a time.
+
+The Workspace visualizer was called the knowledge graph until October 2026. It's the same page with a new name and a new place to open it.
+
+## Opening the Workspace visualizer
+
+There are two ways in.
+
+- **From the avatar menu.** Click your avatar at the bottom of the left rail, then choose **Workspace visualizer**. It sits above **Settings**.
+- **From an item.** Choose **Show in visualizer** in a note, protocol, spreadsheet, attachment, or collection's action menu, or in a collection's options menu. The visualizer opens centered on that item. You'll also find **Show in visualizer** at the foot of an item's [linked-items](/organisation/linked-entities) list.
+
+You can also press **Cmd+K** (Mac) or **Ctrl+K** (Windows/Linux) and type `visualizer`. The [command palette](/ai-and-search/command-palette) also finds it if you type `graph`, `map`, `relationships`, or `connections`.
+
+## What the visualizer shows
+
+- **Nodes** are the items in your workspace. Each type has its own icon.
+- **Solid lines** are explicit relationships: links you or a teammate made, and ones Bower records automatically, such as who created an item or which collection it's in.
+- **Dashed lines** are relationships [inferred by Bower's AI](/ai-and-search/inferred-links). They're suggestions, not confirmed links, and are drawn differently so you can tell them apart. This is the same convention as the link chips on a note.
+
+The visualizer only shows what you're allowed to read. Items you don't have access to are left out before the graph reaches your browser, using the same permission checks as opening the item itself.
+
+## Exploring the graph
+
+- **Click a node** to select it. The rest of the graph dims to that node and the items directly connected to it.
+- **Hover a node** to see its title.
+- **Click a line** to see the relationship type and where it came from: a manual link, inferred, or recorded by Bower.
+- **Search** to move the view to a specific item.
+- **Open an item** with **Open** in the detail panel to go straight to it.
+
+### Filtering
+
+The filter panel on the right narrows what's drawn:
+
+- **Node types**: show or hide each type, for example only protocols, or everything except attachments. Each row shows how many there are.
+- **Relationship source**: show **Explicit** relationships, **Inferred by AI** ones, or both.
+- **Relationship types**: show or hide specific kinds of relationship.
+
+### 2D and 3D
+
+The visualizer draws in 2D by default. Choose **3D** in the filter panel for a view that's useful for getting a sense of the shape of a large workspace. On small screens, or with reduced motion turned on in your system settings, it stays in 2D, and hovering **3D** explains why.
+
+## List view
+
+Choose **List** at the top of the filter panel to see the same items as a table instead of a drawing. Each row shows the item's title and type, and you can type in **Filter…** to narrow the list by title. Click a row to open the item. Choose **Graph** to go back.
+
+The list view is the text alternative to the graph. A screen reader can read every row, though rows open with a click and aren't yet reachable by keyboard. For keyboard navigation, use each item's [linked-items](/organisation/linked-entities) list. See [Accessibility](/trust-center/accessibility) for more.
+
+## Limits
+
+The visualizer draws up to 5,000 items. In a larger workspace, it shows the 5,000 most-connected items, and the list view says so.
+
+## Related docs
+
+- [Linked entities](/organisation/linked-entities)
+- [Inferred links](/ai-and-search/inferred-links)
+- [Command palette](/ai-and-search/command-palette)
