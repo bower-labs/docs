@@ -72,6 +72,7 @@
               "organisation/tags",
               "organisation/linked-entities",
               "organisation/organising-workspace",
+              "organisation/links",
               "organisation/export",
               "organisation/sharing-artifacts"
             ]
