@@ -1,0 +1,69 @@
+---
+title: "What's in your workspace"
+description: "The kinds of item a workspace holds: collections, notes, files, protocols, equipment, and links."
+---
+
+Everything you capture, import, or create becomes an item in your workspace. Every item sits in a collection or at the top level, and you can tag, link, share, move, and search it. To see one kind at a time, use the **Type** filter in the workspace view.
+
+Create any of them from **Create** (the **+** button):
+
+| Item | What it is | In the **Create** menu |
+| --- | --- | --- |
+| **Collection** | A group of items, like a folder | **Collection** |
+| **Note** | Editable text: typed, dictated, or extracted from a file | **Text note**, **Voice note**, **Photo → text** |
+| **File** | An uploaded file kept as it is, such as a PDF, spreadsheet, image, or instrument data | **Import files**, or drop files on the page |
+| **Protocol** | A step-by-step procedure your lab follows | **Protocol** |
+| **Equipment** | An instrument in your lab | **Equipment** |
+| **Link** | A shortcut to a web page outside Bower | **Link** |
+
+For moving, renaming, and deleting items, see [Organizing your workspace](/organisation/organising-workspace).
+
+## Collections
+
+A collection groups notes, files, protocols, and other collections. Use them by experiment, sample batch, or date range. Collections can be nested.
+
+Everyone in the workspace can see a new collection unless you tick **Private to me** when you create it. You can restrict an existing collection from the **Share** dialog. See [Sharing](/organisation/sharing-artifacts).
+
+## Notes
+
+A note is the editable record you search, organize, and build on. You write it in the [editor](/capture/editor), or Bower creates it when you dictate, photograph text, or import a document.
+
+## Files
+
+When you import a file, Bower decides whether to make a note from it:
+
+| File | What you get |
+| --- | --- |
+| Audio, Word, text, Markdown | A note with the transcript or text, and the original file attached to it |
+| Image | A note if Bower finds text in it; otherwise the image stays a file, with an AI description so you can search for it |
+| PDF, spreadsheet, CSV, video, code, archive, instrument data, other | The file, kept as it is. Bower extracts text from PDFs so search can find them |
+
+Bower never discards the original. To make a note from a PDF, image, audio file, or Word document that stayed a file, open it and choose **Convert to Note** from its menu.
+
+### Files attached to a note
+
+A note's **Attachments** pill lists its files. Bower transcribes recordings and reads text from photos in the background, so you can leave the page while it works. The line under each file shows its state:
+
+| What you see | What it means |
+| --- | --- |
+| A spinner with **Reading text…** or **Transcribing…** | Bower is still working |
+| The file type, size, and date | Done. The text is in the note |
+| An alert, such as **Couldn't read text** | It didn't finish. The file is still saved |
+
+To retry, click the **⋮** menu on the file and choose **Image to Text**, **Transcribe as dictation**, or **Transcribe as meeting**. If the text is already in the note, Bower asks before adding a second copy. Check extracted text against the source before you rely on it.
+
+## Protocols
+
+A protocol is your lab's operational procedure for a method. Structured protocols keep the values in each step and a version history. See [Protocols](/organisation/protocols).
+
+## Equipment
+
+An equipment item records an instrument's make, model, serial number, and location, so Bower can answer questions about your specific kit. See [Equipment](/organisation/equipment).
+
+## Links
+
+A link is a shortcut to a page outside Bower, such as an analysis project, vendor page, or shared drive folder. It sits next to the work it belongs with and opens in a new tab.
+
+Choose **Link** from the **Create** menu and paste a web address starting with `http://` or `https://`. Bower fills in the page's title and icon where it can read them. Pages behind a sign-in usually only give the site's address, so rename the link to something your team will search for.
+
+To change the address, title, or icon later, right-click the link and choose **Edit link**.
