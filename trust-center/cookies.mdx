@@ -7,12 +7,20 @@ Bower uses a small number of cookies and browser storage items to keep you signe
 
 ## Cookie consent
 
-When you first visit Bower, you'll see a consent banner at the bottom of the screen. You can choose:
+What happens on your first visit to the Bower app depends on where you are. Bower works out your location from your IP address when the app loads its feature flags.
+
+**In the EU, the EEA, the UK, or Switzerland,** you'll see a consent banner at the bottom of the screen, and analytics stay off until you choose. This covers the 27 EU member states, Iceland, Liechtenstein, Norway, the UK (including Guernsey, Jersey, the Isle of Man, and Gibraltar), Switzerland, and the EU territories that have their own country codes (the Åland Islands, French Guiana, Guadeloupe, Martinique, Mayotte, Réunion, and Saint Martin). If Bower can't tell where you are, you get the banner too. You can choose:
 
 - **Accept all**: enables analytics cookies alongside essential ones.
 - **Essential only**: only the cookies Bower needs to function. No analytics or tracking.
 
-You can change your preference at any time from **Settings > Security**.
+**Everywhere else,** analytics are on by default until you make a choice. The banner may appear for a moment while Bower checks your location, then it hides. You can switch analytics off at any time in **Settings > Security**.
+
+A few rules hold in every region:
+
+- **Your explicit choice always wins.** Once you accept or decline, on the banner or in **Settings > Security**, Bower never overrides it, wherever you are.
+- **The default follows your location.** If you're on the regional default and later open Bower from one of the opt-in jurisdictions above, the default is withdrawn, analytics switch off, and the banner returns.
+- **This applies to the Bower app only.** On our marketing website (bowerlabs.ai), analytics still wait for your consent in every region.
 
 ## Cookie categories
 
@@ -24,18 +32,18 @@ These cookies are required for Bower to work. They cannot be disabled.
 |-----------------|---------|----------|
 | Firebase Auth token | Keeps you signed in and verifies your identity on every request | Session (refreshed automatically) |
 | `workspaceId` (localStorage) | Remembers which workspace you last used | Persistent |
-| `bower_cookie_consent` (localStorage) | Stores your cookie preference | Persistent |
+| `bower_cookie_consent` (localStorage) | Stores your analytics preference, and whether it was your choice or the regional default | Persistent |
 | `chakra-ui-color-mode` (localStorage) | Remembers your light/dark theme choice | Persistent |
 | `ui-store` (localStorage) | Sidebar state and UI preferences | Persistent |
 
-### Analytics (requires consent)
+### Analytics
 
-These cookies help us understand how Bower is used so we can improve it. They are **only activated after you click "Accept all"** in the consent banner.
+These cookies help us understand how Bower is used so we can improve it. In the EU, the EEA, the UK, and Switzerland, they are **only activated after you click "Accept all"** in the consent banner. Elsewhere in the Bower app, they are **on by default until you switch them off** (see [Cookie consent](#cookie-consent) above). The default covers analytics events, autocapture, heatmaps, and session replay.
 
 | Cookie / Storage | Purpose | Provider | Duration |
 |-----------------|---------|----------|----------|
 | PostHog cookies | Product analytics, session recording, heatmaps | [PostHog](https://posthog.com/privacy) | Session / 1 year |
-| Google Analytics cookies | Marketing-site analytics and signup-funnel attribution. On the app these fire only on pre-sign-in pages and stop permanently once you sign in. | [Google](https://policies.google.com/privacy) | Up to 2 years |
+| Google Analytics cookies | Marketing-site analytics and signup-funnel attribution. On the app these fire only on pre-sign-in pages, follow the same regional rule as PostHog, and stop permanently once you sign in. On the marketing website they require consent everywhere. | [Google](https://policies.google.com/privacy) | Up to 2 years |
 
 ### Advertising (requires consent)
 
@@ -49,7 +57,7 @@ Like analytics, it loads only after you accept cookies; until then it is not set
 
 **What we track:** page views, feature usage (which tools you use and how often), UI interactions, and error rates. We use this to prioritize improvements and fix bugs.
 
-**What analytics events contain:** action names and metadata (e.g., "Note Created", "Search Performed"), not the body of your notes or files. Two honest caveats, because they are how these tools actually work. Session replay, when you consent to it, records what is on your screen, and your screen can include your notes as you edit them. And click tracking can capture the text of the element you clicked, such as a button label or an item title. Both are disabled entirely for workspaces in [Restricted mode](/trust-center/hipaa-compliance). Voice recordings and file contents are never sent to analytics.
+**What analytics events contain:** action names and metadata (e.g., "Note Created", "Search Performed"), not the body of your notes or files. Two honest caveats, because they are how these tools actually work. Session replay, when it is on, records what is on your screen, and your screen can include your notes as you edit them. And click tracking can capture the text of the element you clicked, such as a button label or an item title. Both are disabled entirely for workspaces in [Restricted mode](/trust-center/hipaa-compliance). Voice recordings and file contents are never sent to analytics.
 
 **Session recording and heatmaps are disabled entirely for workspaces in [Restricted mode](/trust-center/hipaa-compliance)**, regardless of your cookie choice. That gate runs in the browser, because session replay sends page content straight to PostHog without passing through Bower's servers.
 
@@ -73,9 +81,9 @@ For a complete list of services that process your data, see [Data privacy](/trus
 
 ## Managing your cookies
 
-- **On first visit:** use the consent banner to make your choice.
-- **After sign-in:** go to **Settings > Security** to update your analytics-cookie preference.
-- **In your browser:** you can clear Bower's cookies and localStorage at any time via your browser settings. This will sign you out and reset your consent preference.
+- **On first visit:** in the EU, the EEA, the UK, and Switzerland, use the consent banner to make your choice. Elsewhere, analytics are on by default and you can switch them off in **Settings > Security**.
+- **After sign-in:** go to **Settings > Security** to update your analytics-cookie preference. Switching analytics off stops further collection; it does not delete Google Analytics cookies already set before you signed in, which you can clear in your browser.
+- **In your browser:** you can clear Bower's cookies and localStorage at any time via your browser settings. This will sign you out and reset your consent preference, so the regional default applies again on your next visit.
 
 ## Questions
 
