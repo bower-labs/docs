@@ -1,118 +1,88 @@
 ---
 title: "Voice commands by device"
-description: "What you can say to Bower hands-free, and how it differs across mobile, Meta Ray-Ban glasses, and VITURE Luma Ultra AR glasses."
+description: "What you can say to Bower hands-free on your phone and on Bower Glasses, plus a short note on Meta Ray-Ban and VITURE glasses."
 ---
 
-Bower's [live agent mode](/ai-and-search/live-agent-mode) is voice-driven, but **what you can ask for depends on the device's capabilities**. A phone has a touchscreen, the Meta Ray-Bans have no screen at all, and the VITURE Luma Ultra glasses put a heads-up display and your hands into the mix. This page is the quick reference for which commands work where.
+Bower's [live agent mode](/ai-and-search/live-agent-mode) is voice-driven, but **what you can ask for depends on the device**. Your phone has a screen and a touchscreen. [Bower Glasses](/getting-started/bower-glasses) have a camera, microphones, and speakers but no display, so anything Bower shows you opens on your phone. This page is the quick reference for which commands work where.
 
-You don't need to memorise exact phrases — Bower understands intent, so paraphrases of the examples below work too. The phrases are just reliable starting points.
+You don't need to memorize exact phrases. Bower understands intent, so paraphrases of the examples below work too. The phrases are just reliable starting points.
 
 ## At a glance
 
-| What you want to do | Mobile / Desktop | Meta Ray-Ban | VITURE Luma Ultra |
-| --- | :---: | :---: | :---: |
-| Run a protocol & step through it by voice | ✓ | ✓ | ✓ |
-| Ask questions, talk through your work | ✓ | ✓ | ✓ |
-| Start / stop recording a clip | ✓ | ✓ (REC shown in the phone app) | ✓ |
-| Take a snapshot / create a note | ✓ | ✓ (spoken confirmation) | ✓ |
-| **Show** an image or reference video on screen | ✓ (overlay) | — (no screen) | ✓ (in-world panel) |
-| Jump a reference video to a step | ✓ | — | ✓ |
-| Reposition / resize the on-screen display | — | — | ✓ |
-| Put the display to sleep / quit hands-free | — | — | ✓ |
+| What you want to do | Phone | Bower Glasses |
+| --- | :---: | :---: |
+| Run a protocol and step through it by voice | ✓ | ✓ |
+| Ask questions, talk through your work | ✓ | ✓ |
+| Take a snapshot or create a note | ✓ | ✓ |
+| Start and stop recording a clip | ✓ | ✓ (REC shows in the Bower app) |
+| **Show** an image or reference video | ✓ (overlay) | ✓ (on your phone) |
+| Capture without going live | | ✓ (*"Take a photo"*, *"Start recording"*) |
 
 <Note>
-The differences are about **capability, not preference** — the Ray-Bans have no screen, so "show me the gel photo" has nowhere to appear. Commands that need a display only exist on devices that have one.
-</Note>
-
-<Note>
-**Jumping to a specific step is confirmed first.** On any device, when you ask to jump to a named or numbered step — *"skip to step 3"*, *"go to the vortex step"* — Bower reads the step's title back (*"Jump to 'Vortex the sample' — that right?"*) and waits for a *"yes"* before moving. Marking a step done, skipping, and going back stay instant. See [execution mode](/ai-and-search/live-agent-mode#execution-mode-running-a-protocol) for details.
+**Jumping to a specific step is confirmed first.** On any device, when you ask to jump to a named or numbered step, such as *"skip to step 3"* or *"go to the vortex step"*, Bower reads the step's title back (*"Jump to 'Vortex the sample', that right?"*) and waits for a *"yes"* before moving. Marking a step done, skipping, and going back stay instant. See [execution mode](/ai-and-search/live-agent-mode#execution-mode-running-a-protocol) for details.
 </Note>
 
 ## Commands by device
 
 <Tabs>
-  <Tab title="VITURE Luma Ultra">
-    The richest surface: a heads-up protocol card, an in-world image/video panel, hand gestures, and voice. Everything below is hands-free.
+  <Tab title="Bower Glasses">
+    Bower Glasses listen for commands whenever the Bower app is open, even before you go live. Voice commands need to be turned on during [setup](/getting-started/bower-glasses#set-up-your-glasses) or in **Settings → Communication**.
 
-    **Run and step through a protocol**
-    - *"Run the DNA extraction protocol"* / *"Start the execution"*
-    - *"Next step"* · *"Mark this done"* · *"Go back"* · *"Repeat that"*
-    - *"Skip to step 3"* · *"Show me the vortex step"*
-
-    **Show a reference video or image**
-    - *"Show me the video for this protocol"* — plays the bound step-video in the panel
-    - *"Show me the gel photo"* (or any saved image)
-    - *"Skip to step 2"* — seeks the video to that step's chapter
-
-    **Control the media panel** (once it's showing)
-    - Pause / resume: *"Pause the video"* · *"Keep playing"*
-    - *"Restart this step's video"*
-    - Close it: *"Close the video"* · *"Stop the video"* · *"That's enough"* · *"Get rid of it"*
-    - Or **reach out and hold your fingertip on the × button** in the corner of the panel
-    - Or **pinch with both hands and move them together / apart** to resize it
-
-    **Move the heads-up card**
-    - *"Pin it here"* (leave it fixed in space) · *"Follow me"* (re-dock to your view)
-    - *"Move it up"* · *"Bring it closer"* · *"Move it left/right/down/farther"*
-    - Or **pinch with both hands** to resize the card
-
-    **Sleep, record, and quit**
-    - *"Go to standby"* / *"Wake up"* (or **tap the standby pill** to wake)
+    **Capture without going live**
+    - *"Take a photo"* · *"Take a picture"*
     - *"Start recording"* / *"Stop recording"*
-    - *"Quit Bower"* — the glasses ask you to **confirm on-screen** before exiting
+    - *"Start voice memo"* / *"Stop microphone"*
 
-    <Tip>
-    If a command that controls the display ("close the video", "pin it here") ever isn't understood, make sure you said the *display* word — e.g. "close the **video**" rather than just "stop". Bower needs to know you mean the on-screen panel, not the recording or the protocol.
-    </Tip>
-  </Tab>
+    **Go live**
+    - *"Go live"* · *"Start live"*
+    - *"Hey Bower"*, then ask your question
 
-  <Tab title="Meta Ray-Ban">
-    No screen, but the camera and mic are live, so replies are spoken and Bower keeps them short.
-
-    **Run and step through a protocol**
-    - *"Run the buffer prep protocol"* / *"Start it"*
-    - *"Next step"* · *"Mark this done"* · *"Go back"* · *"What's the next step?"*
-    - *"Skip to step 3"* · *"Read me step 5"*
-
-    **Capture by voice** — the glasses have a camera, so this works even without a screen
-    - *"Take a snapshot"* / *"Save this"* — Bower grabs the current camera frame and saves it to your workspace
-    - *"Make a note that the sample looked cloudy"* — Bower records a note by voice
-    - Bower confirms out loud; there's no screen to preview the result, but the snapshot or note lands in your workspace just the same
-
-    **Record a clip**
-    - *"Start recording"* / *"Record this"* · *"Stop recording"* / *"That's enough, you can stop"*
-    - Bower confirms out loud, and the clip lands in your workspace the same way it does on any other device ([details](/ai-and-search/live-agent-mode#recording-video-clips))
-    - The glasses have no screen, so the red **REC** indicator appears in the Bower app on your paired phone for as long as the recording is active
-
-    **Talk through your work**
+    **In a live session**
+    - *"Run the buffer prep protocol"* · *"Next step"* · *"Mark this done"* · *"Go back"*
+    - *"Take a snapshot"* · *"Make a note that the sample looked cloudy"*
+    - *"Start recording"* / *"Stop recording"*. The **REC** indicator shows on the live screen in the Bower app.
+    - *"Show me the video for this protocol"* opens on your phone
     - Ask anything: *"How much sodium chloride does this step need?"*, *"Is 4 °C okay for this?"*
 
-    **Not available on Ray-Ban** (needs a screen): *showing* images or videos, the heads-up card, resizing/pinning a display, and standby. Use mobile or the VITURE glasses for anything that has to appear on screen.
+    You can also use the glasses button: press for a photo, double-press for video, press and hold to go live. See [Bower Glasses](/getting-started/bower-glasses#capture-with-the-button).
   </Tab>
 
-  <Tab title="Mobile / Desktop">
-    Live mode in Bower chat — voice plus an on-screen overlay and your camera. See [Live agent mode](/ai-and-search/live-agent-mode) for the full walkthrough.
+  <Tab title="Phone">
+    Live mode in the Bower app or in Bower chat in your phone's browser: voice plus an on-screen overlay and your phone's camera. See [Live agent mode](/ai-and-search/live-agent-mode) for the full walkthrough.
 
     **Run and step through a protocol**
     - *"Run the PCR setup protocol"* · *"Next step"* · *"Mark this done"* · *"Skip to step 3"*
 
     **Show media on screen**
-    - *"Show me the gel from last week"* (or any saved image) — appears as an overlay
+    - *"Show me the gel from last week"* (or any saved image) appears as an overlay
     - *"Show me the video for this protocol"* · *"Skip to step 2"* to seek it
     - Close the overlay by **tapping the ×** (or tapping outside it)
 
     **Capture and record**
-    - *"Take a snapshot"* — saves the current camera frame
+    - *"Take a snapshot"* saves the current camera frame
     - *"Create a note from what we just discussed"*
-    - *"Start recording"* / *"Stop recording"* — saves a short clip ([details](/ai-and-search/live-agent-mode))
+    - *"Start recording"* / *"Stop recording"* saves a short clip ([details](/ai-and-search/live-agent-mode#recording-video-clips))
 
     **Video awareness**
     - With video on, point your camera and ask: *"What's the reading on that display?"*
   </Tab>
 </Tabs>
 
+## Other glasses
+
+Bower's live agent also runs on two other pairs of smart glasses.
+
+<AccordionGroup>
+  <Accordion title="Meta Ray-Ban">
+    No display, so replies are spoken and kept short. You can run protocols, ask questions, take snapshots, make notes, and record clips by voice. Commands that show something on a screen aren't available.
+  </Accordion>
+  <Accordion title="VITURE Luma Ultra">
+    A heads-up display shows the current protocol step and an in-world panel for images and reference videos. Beyond the phone commands, you can move the display (*"Pin it here"*, *"Follow me"*, *"Bring it closer"*), resize it by pinching with both hands, put it to sleep (*"Go to standby"*), and quit (*"Quit Bower"*, confirmed on screen).
+  </Accordion>
+</AccordionGroup>
+
 ## Related
 
-- [Live agent mode](/ai-and-search/live-agent-mode) — how to start a live voice session
-- [Protocol step videos](/ai-and-search/protocol-step-videos) — binding reference videos to protocol steps
-- [Bower AI assistant](/ai-and-search/bower-ai-assistant) — the assistant behind all of this
+- [Bower Glasses](/getting-started/bower-glasses): pairing, the button, and hands-free capture
+- [Live agent mode](/ai-and-search/live-agent-mode): how to start a live session
+- [Protocol step videos](/ai-and-search/protocol-step-videos): binding reference videos to protocol steps

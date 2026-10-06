@@ -19,7 +19,9 @@
             "pages": [
               "index",
               "quickstart",
+              "getting-started/where-to-use-bower",
               "getting-started/mobile",
+              "getting-started/bower-glasses",
               "getting-started/install-pwa",
               "trust-center/index"
             ]
