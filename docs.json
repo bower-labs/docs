@@ -64,16 +64,14 @@
           {
             "group": "Organisation",
             "pages": [
-              "organisation/collections",
-              "organisation/notes-vs-attachments",
+              "organisation/workspace-items",
               "organisation/protocols",
               "organisation/protocol-menu-and-export",
-              "organisation/equipment-register",
+              "organisation/equipment",
               "organisation/tags",
               "organisation/linked-entities",
               "organisation/workspace-visualizer",
               "organisation/organising-workspace",
-              "organisation/links",
               "organisation/export",
               "organisation/sharing-artifacts"
             ]
@@ -298,6 +296,22 @@
     ]
   },
   "redirects": [
+    {
+      "source": "/organisation/notes-vs-attachments",
+      "destination": "/organisation/workspace-items"
+    },
+    {
+      "source": "/organisation/collections",
+      "destination": "/organisation/workspace-items"
+    },
+    {
+      "source": "/organisation/links",
+      "destination": "/organisation/workspace-items"
+    },
+    {
+      "source": "/organisation/equipment-register",
+      "destination": "/organisation/equipment"
+    },
     {
       "source": "/ai-and-search/workspace-memory",
       "destination": "/ai-and-search/workspace-instructions"
