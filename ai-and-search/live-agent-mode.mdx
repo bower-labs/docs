@@ -83,8 +83,10 @@ Bower confirms ("Recording now.") and a red **REC** indicator appears on screen 
 **To stop**, say:
 
 - *"Stop recording"*
-- *"That's enough, you can stop"*
+- *"Stop the recording"*
 - *"End the recording"*
+
+The word "recording" is required. A bare "stop", "cut" or "that's enough" doesn't end the clip, because people say those while filming.
 
 Bower confirms and the clip is saved to your workspace's attachments as MP4, where it plays back inline.
 
@@ -92,9 +94,11 @@ Bower confirms and the clip is saved to your workspace's attachments as MP4, whe
 | --------------------- | ------------------------------------------------------------------ |
 | Maximum length        | **2 minutes** — Bower stops automatically if you don't              |
 | Concurrent recordings | One per session                                                    |
-| If your network drops | The clip is lost (no partial recordings)                           |
+| If your network drops | Saved up to the drop, on a best-effort basis (see below)            |
 | Where it's saved      | Workspace attachments, MIME type `video/mp4`                       |
 | Storage cost          | Counts against your standard workspace storage quota               |
+
+If the connection drops while a recording is open, Bower saves what it received up to that point to your attachments when the session ends. Bower can't confirm this out loud, because the session is already gone. The saved clip has a 60-second limit to finish processing; if it takes longer, that clip isn't saved. Check your attachments after reconnecting.
 
 <Note>
 **Recordings are intentionally slideshow-quality** (1–2 fps for the video track, full-quality audio). This keeps file sizes small for everyday lab observation — it's not for high-motion footage.
