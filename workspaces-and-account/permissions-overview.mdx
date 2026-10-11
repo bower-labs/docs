@@ -25,19 +25,19 @@ When you invite someone, you pick their role. Owner, Admin, and Member are **pai
 | Invite team members | yes | yes | no | no |
 | Change member roles | yes ¹ | yes | no | no |
 | Manage workspace settings | yes | yes | no | no |
-| Manage billing | yes | no | no | no |
+| Manage billing | yes | yes | no | no |
 | Read **Only specific people** entities (admin oversight) | yes | only if on the list | only if on the list | only if on the list |
 | Read **Just me** entities | only if on the list | only if on the list | only if on the list | only if on the list |
 | Transfer workspace ownership | yes | no | no | no |
 
-¹ Only the **workspace Owner** can promote another member to Owner. Admins can manage Member ↔ Admin transitions but cannot create new Owners.
+¹ Between Member and Admin. Nobody can be made Owner by a role change: the Owner changes only through [Transfer ownership](/workspaces-and-account/manage-account#transfer-workspace-ownership).
 
 ### Why these roles
 
-* **Owner** (paid) — the workspace lead. Handles billing, can transfer ownership, and provides admin oversight of team work. Cannot read content marked **Just me**.
-* **Admin** (paid) — manages members and settings but doesn't control billing. Useful for delegating workspace administration to lab managers without giving up the billing relationship.
-* **Member** (paid) — the default for invited collaborators. Can read and edit anything that's not restricted away from them, and create new content.
-* **Guest** (free) — read-only across the workspace, no seat cost. Unlimited on every plan. Right for external collaborators and stakeholders who need visibility but don't warrant a paid seat.
+* **Owner** (paid): the workspace lead and billing owner: invoices and billing emails go to them. The only person who can transfer ownership, and provides admin oversight of team work. Cannot read content marked **Just me**.
+* **Admin** (paid): manages members, settings, and billing. Useful for delegating workspace administration to lab managers; ownership, and with it the billing relationship, stays with the Owner.
+* **Member** (paid): the default for invited collaborators. Can read and edit anything that's not restricted away from them, and create new content.
+* **Guest** (free): read-only across the workspace, no seat cost. Unlimited on every plan. Right for external collaborators and stakeholders who need visibility but don't warrant a paid seat.
 
 ### Paid ↔ Guest is a billing-class change
 
@@ -50,7 +50,7 @@ A workspace must always have at least one Owner. If you try to:
 * Demote the only Owner to Admin (or anything else), or
 * Remove the only Owner from the workspace (including leaving the workspace yourself if you're the sole Owner),
 
-Bower will refuse the action with a clear error message. The supported way to hand off the workspace is the **Transfer ownership** flow in workspace settings: it atomically promotes the new Owner and demotes the old one in one step, so the workspace always has exactly one Owner.
+Bower will refuse the action with a clear error message. To hand off the workspace, use [Transfer ownership](/workspaces-and-account/manage-account#transfer-workspace-ownership) in **Settings > Members**: it makes the new Owner the billing owner and turns you into an Admin in one step, so the workspace always has exactly one Owner.
 
 ## Per-entity privacy
 
