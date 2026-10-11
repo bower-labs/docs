@@ -1,6 +1,6 @@
 ---
 title: "Manage your account"
-description: "Profile, privacy controls, data export, and account settings."
+description: "Profile, privacy controls, data export, transferring workspace ownership, and account settings."
 ---
 
 Update your profile, manage your privacy preferences, export your data, and control your account from the Settings panel.
@@ -44,6 +44,39 @@ Your ORCID iD is also part of the onboarding flow for new accounts. You can skip
 </Steps>
 
 Workspace names are visible to all members of that workspace. Changing the name doesn't affect any notes, collections, or member access.
+
+## Transfer workspace ownership
+
+Every workspace has exactly one **Owner**, and the Owner is also the workspace's **billing owner**. To hand the workspace to someone else, for example when a lab head moves on or Bower set the workspace up for you, the current Owner transfers ownership.
+
+<Steps>
+  <Step title="Open Settings > Members">
+    The **Transfer ownership** button sits at the top of **Active members**.
+  </Step>
+  <Step title="Click Transfer ownership and pick the new Owner">
+    You can pick anyone already in the workspace as an Admin or Member. Guests appear in the list but can't be picked.
+  </Step>
+  <Step title="Type the workspace name to confirm">
+    The transfer happens as soon as you confirm. The new Owner doesn't need to accept.
+  </Step>
+</Steps>
+
+### What changes when ownership moves
+
+- **The new Owner** becomes the billing owner. Invoices and billing emails go to them from now on, and they're the only person who can transfer ownership again.
+- **You** become an **Admin**. You keep access to the workspace and its content.
+- **The payment method on file stays the same.** If the new Owner wants to pay with their own card, they update it in **Settings > Billing**. Your plan, seats, and billing history carry over unchanged.
+
+### Who can transfer ownership?
+
+Only the current Owner. Everyone else sees the **Transfer ownership** button greyed out; hover over it (or focus it with the keyboard) to see who the Owner is, so you know who to ask.
+
+### Why can't I pick someone?
+
+- **They're a Guest.** Guests are free, read-only seats, and the Owner holds a paid seat. Remove them and re-invite them as a Member first (see [Invite team members](/workspaces-and-account/invite-team-members#paid--guest-is-remove-and-re-invite-not-in-place)), then transfer.
+- **The workspace has an overdue payment.** Update the payment method in **Settings > Billing** first, so nobody inherits a failed invoice.
+
+You can't make someone the Owner by changing their role in the member list. **Transfer ownership** is the only way, because ownership carries the billing account with it.
 
 ## Change your email or password
 
@@ -111,5 +144,7 @@ To delete your account, go to **Settings > Security > Danger Zone** and click **
 - Workspaces where you are the sole member, including all content and files
 
 **What gets kept:**
-- In shared workspaces, your notes, files, and collections are preserved for the team. Ownership is transferred to the workspace admin.
+- In shared workspaces, your notes, files, and collections are preserved for the team.
+
+If you own a workspace that other people use, Bower asks you to [transfer ownership](#transfer-workspace-ownership) to one of them before your account can be deleted. If no one in it can take ownership (you're alone, or everyone else is a Guest), you can delete that workspace instead to finish deleting your account.
 - Audit logs are anonymised — the record of actions is kept, but your identity is removed.

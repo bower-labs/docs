@@ -103,6 +103,7 @@
           {
             "group": "October 2026",
             "pages": [
+              "changelog/2026-10-11-transfer-ownership",
               "changelog/2026-10-05-workspace-visualizer"
             ]
           },

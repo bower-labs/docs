@@ -32,10 +32,10 @@ Bower has four workspace roles. Three are **paid seats** that count toward your 
 
 | Role | Billing class | What they can do |
 | --- | --- | --- |
-| **Owner** | Paid seat | Everything an Admin can do, plus manage billing and transfer ownership. Every workspace has at least one Owner — the person who created it. Ownership can be transferred to another Admin. |
-| **Admin** | Paid seat | Everything a Member can do, plus invite and remove members, change member roles, edit workspace settings, and manage [workspace instructions](/ai-and-search/workspace-instructions). Cannot manage billing. |
+| **Owner** | Paid seat | Everything an Admin can do, plus transfer ownership. The Owner is the workspace's billing owner: invoices and billing emails go to them. Every workspace has exactly one Owner, starting with the person who created it. Ownership moves only through [Transfer ownership](/workspaces-and-account/manage-account#transfer-workspace-ownership), to any Admin or Member. |
+| **Admin** | Paid seat | Everything a Member can do, plus invite and remove members, change member roles, edit workspace settings, manage billing, and manage [workspace instructions](/ai-and-search/workspace-instructions). |
 | **Member** | Paid seat | Capture, view, edit, and search all notes, protocols, and collections in the workspace. The default for invited collaborators. |
-| **Guest** | Free | Read-only across the workspace, no seat cost. Capped by plan. Right for external collaborators, supervisors, and stakeholders who need visibility but don't warrant a paid seat. |
+| **Guest** | Free | Read-only across the workspace, no seat cost. Unlimited on every plan. Right for external collaborators, supervisors, and stakeholders who need visibility but don't warrant a paid seat. |
 
 A workspace must always have at least one Admin or Owner — Bower will block the last admin/owner from being downgraded or removed.
 
@@ -53,7 +53,7 @@ Changing a guest into a paid member (or a paid member back to a guest) is a **bi
 - Promoting a guest to paid is a Stripe-billable event that needs an explicit seat purchase, including a prorated-charge preview.
 - Demoting a paid member to guest is a cancellation that should be a conscious decision (and may need a seat release).
 
-Within the paid class, you can change roles freely (Member ↔ Admin, with Owner promotions reserved for the existing Owner).
+Within the paid class, you can change roles freely between Member and Admin. Owner isn't in the role list: the Owner changes only through [Transfer ownership](/workspaces-and-account/manage-account#transfer-workspace-ownership).
 
 ## Pending invites
 
