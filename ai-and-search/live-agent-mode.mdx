@@ -114,14 +114,14 @@ Bower is tuned to be conservative and only start recording when you explicitly a
 
 When you need to pause — to have a private conversation, take a call, or step away — put Bower in standby.
 
-**In standby, no audio, video, or any other data is sent from your device.** The live stream is fully paused. Your microphone and camera are not active.
+**In standby, Bower's servers receive no audio or video from your device.** The live stream to Bower is fully paused.
 
 - **To enter standby:** Tap the standby button, or say **"Standby Bower"**
 - **To wake Bower:** Say **"Hello Bower"**, or tap the standby button again to resume manually
 
-The wake word **"Hello Bower"** is detected locally on your device — it does not require streaming audio to a server. Only once the wake word is recognized does the live stream resume.
+The wake word **"Hello Bower"** is detected by your browser's built-in speech recognition, so your microphone stays on in standby. In Chrome and Edge, the browser sends that audio to its own speech service (Google or Microsoft) to recognize the phrase. Bower's servers don't receive it. Only once the wake word is recognized does the live stream to Bower resume.
 
-That means you can leave Bower active without keeping it always listening — keep your phone in your pocket with headphones, leave it on the lab bench, or leave a desktop session running while you take a call. Standby is useful for long lab sessions where you want Bower available but not always active.
+That means you can leave Bower active without streaming to Bower the whole time: keep your phone in your pocket with headphones, leave it on the lab bench, or leave a desktop session running while you take a call. Standby is useful for long lab sessions where you want Bower available but not always active.
 
 ## Execution mode (running a protocol)
 
