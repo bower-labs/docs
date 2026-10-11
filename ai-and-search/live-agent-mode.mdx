@@ -83,8 +83,10 @@ Bower confirms ("Recording now.") and a red **REC** indicator appears on screen 
 **To stop**, say:
 
 - *"Stop recording"*
-- *"That's enough, you can stop"*
+- *"Stop the recording"*
 - *"End the recording"*
+
+The word "recording" is required. A bare "stop", "cut" or "that's enough" doesn't end the clip, because people say those while filming.
 
 Bower confirms and the clip is saved to your workspace's attachments as MP4, where it plays back inline.
 
@@ -92,9 +94,11 @@ Bower confirms and the clip is saved to your workspace's attachments as MP4, whe
 | --------------------- | ------------------------------------------------------------------ |
 | Maximum length        | **2 minutes** — Bower stops automatically if you don't              |
 | Concurrent recordings | One per session                                                    |
-| If your network drops | The clip is lost (no partial recordings)                           |
+| If your network drops | Saved up to the drop, on a best-effort basis (see below)            |
 | Where it's saved      | Workspace attachments, MIME type `video/mp4`                       |
 | Storage cost          | Counts against your standard workspace storage quota               |
+
+If the connection drops while a recording is open, Bower saves what it received up to that point to your attachments when the session ends. Bower can't confirm this out loud, because the session is already gone. The saved clip has a 60-second limit to finish processing; if it takes longer, that clip isn't saved. Check your attachments after reconnecting.
 
 <Note>
 **Recordings are intentionally slideshow-quality** (1–2 fps for the video track, full-quality audio). This keeps file sizes small for everyday lab observation — it's not for high-motion footage.
@@ -110,14 +114,14 @@ Bower is tuned to be conservative and only start recording when you explicitly a
 
 When you need to pause — to have a private conversation, take a call, or step away — put Bower in standby.
 
-**In standby, no audio, video, or any other data is sent from your device.** The live stream is fully paused. Your microphone and camera are not active.
+**In standby, Bower's servers receive no audio or video from your device.** The live stream to Bower is fully paused.
 
 - **To enter standby:** Tap the standby button, or say **"Standby Bower"**
 - **To wake Bower:** Say **"Hello Bower"**, or tap the standby button again to resume manually
 
-The wake word **"Hello Bower"** is detected locally on your device — it does not require streaming audio to a server. Only once the wake word is recognized does the live stream resume.
+The wake word **"Hello Bower"** is detected by your browser's built-in speech recognition, so your microphone stays on in standby. In Chrome and Edge, the browser sends that audio to its own speech service (Google or Microsoft) to recognize the phrase. Bower's servers don't receive it. Only once the wake word is recognized does the live stream to Bower resume.
 
-That means you can leave Bower active without keeping it always listening — keep your phone in your pocket with headphones, leave it on the lab bench, or leave a desktop session running while you take a call. Standby is useful for long lab sessions where you want Bower available but not always active.
+That means you can leave Bower active without streaming to Bower the whole time: keep your phone in your pocket with headphones, leave it on the lab bench, or leave a desktop session running while you take a call. Standby is useful for long lab sessions where you want Bower available but not always active.
 
 ## Execution mode (running a protocol)
 
