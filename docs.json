@@ -103,6 +103,7 @@
           {
             "group": "October 2026",
             "pages": [
+              "changelog/2026-10-13-soc-2-and-hipaa-reports",
               "changelog/2026-10-11-transfer-ownership",
               "changelog/2026-10-05-workspace-visualizer"
             ]
@@ -224,6 +225,7 @@
               "trust-center/sub-processors",
               "trust-center/cookies",
               "trust-center/audit-logs",
+              "trust-center/soc-2-and-hipaa",
               "trust-center/hipaa-compliance",
               "trust-center/accessibility",
               "trust-center/password-and-security",

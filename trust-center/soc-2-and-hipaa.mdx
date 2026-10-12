@@ -1,0 +1,68 @@
+---
+title: "SOC 2 and HIPAA reports"
+description: "Bower has an independent SOC 2 Type I report and a HIPAA Type I attestation from Advantage Partners, both with an unqualified opinion and no exceptions. What they cover, what they don't, and how to request them."
+sidebarTitle: "SOC 2 and HIPAA reports"
+keywords: ["SOC 2", "SOC 2 Type I", "SOC 2 Type II", "HIPAA", "HIPAA attestation", "HITECH", "security audit", "Advantage Partners", "vendor security review"]
+---
+
+Bower has completed two independent audits: a **SOC 2 Type I** examination and a **HIPAA Type I** attestation. Both were performed by [Advantage Partners](https://advantage-partners.com), an independent CPA firm, under AICPA attestation standards. Both reports carry an **unqualified opinion with no exceptions noted**, and both were issued on October 12, 2026.
+
+You trust Bower with unpublished results, protocols your lab spent years refining, and in some workspaces patient data. These reports are an outside check that the controls protecting that work are designed the way we say they are.
+
+## At a glance
+
+| | SOC 2 Type I | HIPAA Type I |
+| --- | --- | --- |
+| Auditor | Advantage Partners | Advantage Partners |
+| Standard | AICPA SOC 2, 2017 Trust Services Criteria | HIPAA Security Rule and HITECH Act, AICPA attestation (AT-C 105, 205, and 315) |
+| Criteria in scope | Security | Administrative, physical, and technical safeguards; organizational requirements; breach notification |
+| System in scope | The Bower platform | The Bower platform |
+| Point in time | As of August 21, 2026 | As of August 21, 2026 |
+| Opinion | Unqualified | Unqualified |
+| Exceptions | None noted | None noted |
+| Report issued | October 12, 2026 | October 12, 2026 |
+| Hosting provider (subservice organization) | Google Cloud Platform | Google Cloud Platform |
+
+## Is Bower SOC 2 compliant?
+
+Yes. Bower has a **SOC 2 Type I report** with an unqualified opinion and no exceptions. An independent auditor examined the controls that protect the Bower platform and found them suitably designed, as of August 21, 2026, to meet the AICPA's Trust Services Criteria for security.
+
+Our **SOC 2 Type II** audit is underway. Type II tests whether those same controls operated effectively over a period of months, not only whether they were designed correctly on one date. We will publish it here when the report is issued.
+
+## Is Bower HIPAA compliant?
+
+Bower has an independent **HIPAA Type I attestation**. Advantage Partners examined Bower's health information security program against the HIPAA Security Rule and the HITECH Act and issued an unqualified opinion with no exceptions, as of August 21, 2026.
+
+There is no government certification for HIPAA, so an independent attestation like this one is how a vendor shows its safeguards have been checked by someone other than itself. Bower acts as a **Business Associate**, not a Covered Entity. If you will place protected health information (PHI) in Bower, you still need a signed Business Associate Agreement (BAA) with us, and the workspace that holds PHI should run in [Restricted mode](/trust-center/hipaa-compliance), which is how the PHI controls are enforced.
+
+## What Type I means, and what it doesn't
+
+A **Type I** report answers one question: on a specific date, were the right controls in place and designed to do their job? Ours answers it for August 21, 2026.
+
+It does not test how those controls performed over time. That is what a **Type II** report does, and it is the next report we expect. We would rather tell you exactly what an audit covers than let a badge imply more than it says.
+
+Some things sit outside any audit of Bower:
+
+- **Google Cloud Platform**, which hosts Bower, is a subservice organization. Both reports assume Google operates the controls it is responsible for; Google's own controls are covered by Google's own audits.
+- **Your organization's controls.** Both reports list complementary user entity controls, the things your team is responsible for, such as managing who has access to your workspace and enabling Restricted mode before adding PHI.
+- **Integrations you connect.** Third-party tools you link to Bower are governed by their own terms. The [sub-processor list](/trust-center/sub-processors) shows which providers are covered by a BAA.
+
+## How do we get a copy of the reports?
+
+SOC 2 and HIPAA reports are restricted-use documents: the auditor's terms limit them to customers, prospective customers, and their advisors. Email [privacy@bowerlabs.ai](mailto:privacy@bowerlabs.ai) with your organization's name and we will send them under a mutual NDA.
+
+The same address handles security questionnaires, our Data Processing Agreement, and BAAs.
+
+## What happens next
+
+- **SOC 2 Type II.** The observation period is underway; the report follows when it closes.
+- **Annual renewal.** We will renew both reports at least once a year, so the opinion you read is never more than a year old.
+- **Continuous monitoring.** Between audits, Bower's controls are monitored continuously through our compliance platform, and the policies behind them are reviewed on a fixed schedule.
+
+## Further reading
+
+- [Trust Center](/trust-center): security, privacy, and compliance at a glance
+- [Restricted mode (HIPAA-ready)](/trust-center/hipaa-compliance): the controls that apply to PHI workspaces
+- [Data privacy](/trust-center/data-privacy): encryption, workspace isolation, and access controls
+- [AI data handling](/trust-center/ai-data-handling): where AI processing happens and what is never used for training
+- [Sub-processor list](/trust-center/sub-processors): every provider that processes your data, and its DPA or BAA status
