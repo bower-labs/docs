@@ -1,0 +1,81 @@
+---
+title: "Troubleshooting"
+description: "Fix common Bower Glasses problems: pairing, Wi-Fi, hearing Bower, voice commands, captures that didn't save, and live sessions that won't start."
+---
+
+Most problems come down to one of four things: Bluetooth, the glasses' Wi-Fi, the workspace selected on the **Dashboard** tab, or the Bower app not being open. The **Devices** tab in the Bower app shows the glasses' Bluetooth, Wi-Fi, and battery status, so start there.
+
+## The app can't find my glasses
+
+- Check that Bluetooth is on and the glasses are charged, turned on, and in pairing mode. Keep them close to your phone.
+- On Android, Bower needs **Nearby devices** and **Location** permission to find the glasses. If you see **Bluetooth access blocked**, turn these on for Bower in your phone's settings.
+- On iPhone, if you see **Bluetooth access blocked**, turn on Bluetooth for Bower in the iPhone **Settings** app.
+- Tap **Scan again** on the **Devices** tab.
+
+If you see **Couldn't connect to glasses**, check they're on and nearby, then tap them again.
+
+## I can't hear Bower in my glasses
+
+On iPhone, the glasses' speakers pair separately from the glasses. If the app shows **Bower is speaking from this phone, not your glasses.**, tap **Set up glasses audio**, or tap **Glasses audio** on the **Devices** tab, and follow the guide. See [Hear Bower in your glasses on iPhone](/bower-glasses/set-up#hear-bower-in-your-glasses-on-iphone).
+
+If the row reads **Off · this phone is using another audio device**, disconnect your other headphones or speaker and check again.
+
+## The glasses won't join Wi-Fi
+
+- If you see **Couldn't join** followed by your network's name, check the password and that the network is in range, then try again.
+- To change networks, open **Connectivity** on the **Devices** tab and tap **Scan for networks**.
+- If there's no usable network, turn on **Offline mode** on the **Devices** tab. See [When there's no Wi-Fi](/bower-glasses/capture#when-theres-no-wi-fi).
+
+If you see a message that your glasses and phone are on different Wi-Fi networks, put both on the same network and try again.
+
+## Photos or video won't capture
+
+- **"Connect the glasses to Wi-Fi first"**: photos and video need the glasses' Wi-Fi. Check the Wi-Fi status on the **Devices** tab, or turn on **Offline mode**.
+- **"Choose a workspace on the Dashboard tab first."**: pick a workspace at the top of the **Dashboard** tab.
+- **"Capture busy"**: finish the current capture before pressing the button again. During a live session the button doesn't capture, so say *"Take a snapshot"* or *"Start recording"* instead.
+- **"Photo capture timed out"**: the glasses didn't confirm the photo in time. Check they're on Wi-Fi and try again.
+- **"Video transfer timed out"**: keep the glasses on Wi-Fi until saving finishes, and try a shorter clip.
+- **"Photo saved on glasses"** or **"Video saved on glasses"**: the capture is still stored on the glasses, but it didn't reach your phone or Bower.
+- **"Glasses disconnected"**: reconnect from the **Devices** tab. A recording that was running ends at the point the glasses disconnected.
+
+## Captures are waiting to upload
+
+Captures that haven't reached Bower yet show in a banner at the top of the **Workspace** tab. Tap **View details** to see each one:
+
+- **Waiting to upload** or **Retry scheduled**: Bower retries on its own when you're back online.
+- **Waiting for Wi-Fi**: a large upload is waiting for Wi-Fi. Tap **Retry now** to send it over mobile data.
+- **Upload failed · local copy kept**: tap **Retry now**. The capture stays on your phone until it uploads or you discard it.
+
+If **Offline mode** is on, uploads pause until you turn it off.
+
+## Voice commands don't respond
+
+- Make sure the Bower app is open on your phone. Voice commands don't listen while it's closed.
+- Check that **Idle voice commands** is on in **Profile → Settings → Communication**.
+- If the speech model didn't download, tap **Retry download** on the **Dashboard** card or in **Profile → Settings → Communication**. The download is about 75 MB, so use Wi-Fi.
+- If you see **Microphone needed**, turn on microphone access for Bower in your phone's settings.
+
+During a live session, the glasses' voice commands are off and Bower's live agent listens instead.
+
+## A live session won't start
+
+| Message | What to do |
+| --- | --- |
+| **AI processing is off** | Tap **Open AI processing settings** and turn it on. Bower can't capture or go live without it. |
+| **Choose a workspace on the Dashboard tab first.** | Pick a workspace on the **Dashboard** tab. |
+| **You need writer access to use Live mode.** | Guests have read-only access, so they can't go live. A workspace Admin can re-invite you as a paid member. See [Roles](/workspaces-and-account/invite-team-members#roles). |
+| **Live minutes quota exhausted.** | Your live minutes are used up. See [Billing](/workspaces-and-account/billing). |
+| **End the call to start Live.** | Finish the call on your phone first. |
+| **Live connection timed out. Try again.** | Check your phone's connection and start again. |
+
+If a session ends because there was no activity for 3 minutes, that was a *"Hey Bower"* conversation timing out. Say *"Hey Bower"* or *"Go live"* again.
+
+## A firmware update failed
+
+If you see **Firmware update failed**, check the glasses are turned on and nearby, then tap **Retry**. Keep the screen open until the update finishes; the glasses restart partway through, which can take a minute or two.
+
+During setup, **Continue anyway** skips the update so you can start capturing. You can update later from **Connectivity** on the **Devices** tab, under **Firmware update**.
+
+## Still stuck?
+
+[Send us feedback](/workspaces-and-account/feedback) with what you were doing and the message you saw. It helps us fix the cause rather than the symptom.

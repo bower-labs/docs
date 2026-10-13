@@ -1,11 +1,11 @@
 ---
 title: "Live agent mode"
-description: "A real-time voice and video conversation with Bower, on mobile or desktop."
+description: "A real-time voice and video conversation with Bower, from the Bower app, your phone's browser, or Bower Glasses."
 ---
 
 Live agent mode is a continuous, low-latency audio and video session with Bower. Unlike the standard chat interface — where you type a question and wait for a response — live mode is conversational. You can talk through an experiment, describe what's on an instrument display, or ask follow-up questions without stopping to type.
 
-Live mode is available on both mobile and desktop. With video enabled, Bower can see what your camera sees (or your screen) and respond to visual context: "What's the reading on that display?" or "Does this sample look contaminated to you?" are reasonable things to ask.
+Live mode runs on your phone and on [Bower Glasses](/bower-glasses/overview), not on a computer. With video enabled, Bower can see what your camera sees and respond to visual context: "What's the reading on that display?" or "Does this sample look contaminated to you?" are reasonable things to ask.
 
 ## When to use it
 
@@ -17,23 +17,24 @@ Live mode is available on both mobile and desktop. With video enabled, Bower can
 
 ## How to start a live session
 
-<Steps>
-  <Step title="Open Bower chat">
-    On mobile or desktop, open Bower chat as you normally would.
-  </Step>
-  <Step title="Tap the sparkle button">
-    Before you type anything into the chat input, tap the **sparkle** button. This launches a live session.
-  </Step>
-  <Step title="Allow access">
-    Allow microphone (and camera, if video) access when prompted.
-  </Step>
-  <Step title="Start talking">
-    Bower is listening and can respond in real time.
-  </Step>
-</Steps>
+<Tabs>
+  <Tab title="Bower app">
+    Tap **+** in the tab bar and turn the dial to **Live**. To run a protocol, open it and tap **Execute Protocol** instead.
+
+    Allow microphone and camera access when asked, then start talking.
+  </Tab>
+  <Tab title="Bower Glasses">
+    Press and hold the glasses button, or say *"Go live"*. Bower sees through the glasses camera and answers through the speakers. See [Live and protocols with Bower Glasses](/bower-glasses/live-and-protocols).
+  </Tab>
+  <Tab title="Phone browser">
+    If you use Bower in your phone's browser instead of the app, open Bower chat and tap the waveform button beside the send (arrow) button. Its tooltip reads **Live conversation**.
+
+    You can also tap **Go live with Bower** on the **Capture** tab in voice or video mode.
+  </Tab>
+</Tabs>
 
 <Note>
-The sparkle button only appears in an empty Bower chat — once you've started typing or sent a message, start a new chat to launch a live session.
+Live doesn't run on a computer. Get the [Bower app](/getting-started/mobile) on your phone, then start Live from its capture menu.
 </Note>
 
 ## Video awareness
@@ -56,7 +57,9 @@ You can ask Bower to capture what it sees or hears at any point during a live se
 
 ### Taking a photo yourself
 
-In a live session in your browser, on a phone or a computer, a round **Take photo** button appears just above the controls whenever your camera is on. It's hidden while Bower is in standby.
+In the Bower app, tap **Take a photo** on the live screen to save a photo yourself.
+
+In a live session in your phone's browser, a round **Take photo** button appears just above the controls whenever your camera is on. It's hidden while Bower is in standby.
 
 1. Point the camera at what you want to keep.
 2. Tap **Take photo**. The button shows a spinner while the photo saves, then a check mark.
@@ -105,12 +108,14 @@ If the connection drops while a recording is open, Bower saves what it received 
 </Note>
 
 <Info>
-**Privacy:** while a recording is active the **REC indicator is always visible** — both for your awareness and so colleagues nearby know they may be on camera. There is no way to record silently. Clips are only visible to people who can already see your other workspace attachments.
+**Privacy:** on your phone, the **REC indicator is visible on the live screen** for as long as a recording is active, both for your awareness and so colleagues nearby know they may be on camera. Bower Glasses have no display, so the indicator shows on the live screen in the Bower app when it's open. In a background *"Hey Bower"* session there's no on-screen indicator, so tell people nearby before you record. Clips are only visible to people who can already see your other workspace attachments.
 </Info>
 
 Bower is tuned to be conservative and only start recording when you explicitly ask. Phrases that mention "record" but mean something else — *"recall the protocol"*, *"record my thoughts in my notebook"*, *"what's the record temperature"* — won't trigger a recording.
 
 ## Standby mode
+
+Standby is available in live sessions in your phone's browser.
 
 When you need to pause — to have a private conversation, take a call, or step away — put Bower in standby.
 
@@ -121,7 +126,7 @@ When you need to pause — to have a private conversation, take a call, or step 
 
 The wake word **"Hello Bower"** is detected by your browser's built-in speech recognition, so your microphone stays on in standby. In Chrome and Edge, the browser sends that audio to its own speech service (Google or Microsoft) to recognize the phrase. Bower's servers don't receive it. Only once the wake word is recognized does the live stream to Bower resume.
 
-That means you can leave Bower active without streaming to Bower the whole time: keep your phone in your pocket with headphones, leave it on the lab bench, or leave a desktop session running while you take a call. Standby is useful for long lab sessions where you want Bower available but not always active.
+That means you can leave Bower active without streaming to Bower the whole time: keep your phone in your pocket with headphones, or leave it on the lab bench while you take a call. Standby is useful for long lab sessions where you want Bower available but not always active.
 
 ## Execution mode (running a protocol)
 
@@ -137,7 +142,7 @@ If multiple protocols match what Bower heard, it will list them and ask which on
 
 ### Step cards
 
-Each step appears as a card at the bottom of the live screen. Swipe between cards to look ahead or back; the current step is centered as you advance. Tap **Mark complete** to finish a step without speaking, or **Watch** to play that step in the protocol's reference video, when it has one.
+Each step appears as a card at the bottom of the live screen. Swipe between cards to look ahead or back; the current step is centered as you advance. Tap **Mark done** to finish a step without speaking, or **Watch** to play that step in the protocol's reference video, when it has one.
 
 Tap **Details** to open the full step: its formatted instructions (lists, tables, formulas), its materials, and any pictures, videos or files attached to it. Tap a picture or video to view it full screen. Files open in a new tab, so your run keeps going.
 
@@ -160,9 +165,11 @@ When you don't want the next step but a particular one — by number or by what 
 
 - *"Jump to step 5"* / *"Go back to the staining step"* / *"Let's do the gas setup now"*
 
-Because landing on the wrong step mid-procedure is disruptive, **a jump is confirmed before it happens**. Bower works out which step you meant and reads its title back as a quick check — *"Jump to 'Set up gas lines' — that right?"* — and waits. Say *"yes"* / *"do it"* / *"go ahead"* and Bower makes the jump. Say no, or name a different step, and it simply moves on to that instead — nothing jumps until you confirm.
+A clear step number, such as *"Jump to step 5"*, moves the run straight there.
 
-Marking a step done, skipping, and going back all stay instant — only a jump asks for confirmation. If Bower isn't sure which step you meant, it asks you to say which one rather than guessing.
+Because landing on the wrong step mid-procedure is disruptive, **a jump to a step you name by what it's about is confirmed first**. Bower works out which step you meant and reads it back as a quick check, for example *"Go to step 4, Set up gas lines?"*, and waits. Say *"yes"*, *"do it"*, or *"go ahead"* and Bower makes the jump. Say no, or name a different step, and nothing jumps until you confirm.
+
+Marking a step done, skipping, and going back all stay instant. If Bower isn't sure which step you meant, it asks you to say which one rather than guessing.
 
 ### Pausing and resuming
 
