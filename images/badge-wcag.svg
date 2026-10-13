@@ -1,6 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none">
-  <circle cx="40" cy="40" r="38" stroke="#4C1D95" stroke-width="3" fill="#F3EEFB"/>
-  <circle cx="40" cy="40" r="30" stroke="#4C1D95" stroke-width="2" fill="#4C1D95"/>
-  <text x="40" y="36" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="white">WCAG</text>
-  <text x="40" y="50" text-anchor="middle" font-family="system-ui, sans-serif" font-size="7" font-weight="600" fill="white" opacity="0.9">2.2 AA</text>
+  <circle cx="40" cy="40" r="37.5" fill="#EEF2FA" stroke="#5C88DA" stroke-width="2" stroke-dasharray="4 3.2"/>
+  <circle cx="40" cy="40" r="31.5" stroke="#AEC4ED" stroke-width="1"/>
+  <text x="40" y="38" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.3" fill="#2E446D">WCAG</text>
+  <text x="40" y="49" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="7.5" font-weight="600" letter-spacing="1.2" fill="#3F5C94">2.2 AA</text>
+  <circle cx="40" cy="62" r="2" fill="#5C88DA"/>
+  <circle cx="34" cy="62" r="1.4" fill="#AEC4ED"/>
+  <circle cx="46" cy="62" r="1.4" fill="#AEC4ED"/>
 </svg>

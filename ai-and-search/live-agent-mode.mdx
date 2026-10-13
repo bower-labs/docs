@@ -5,7 +5,7 @@ description: "A real-time voice and video conversation with Bower, from the Bowe
 
 Live agent mode is a continuous, low-latency audio and video session with Bower. Unlike the standard chat interface — where you type a question and wait for a response — live mode is conversational. You can talk through an experiment, describe what's on an instrument display, or ask follow-up questions without stopping to type.
 
-Live mode runs on your phone and on [Bower Glasses](/getting-started/bower-glasses), not on a computer. With video enabled, Bower can see what your camera sees and respond to visual context: "What's the reading on that display?" or "Does this sample look contaminated to you?" are reasonable things to ask.
+Live mode runs on your phone and on [Bower Glasses](/bower-glasses/overview), not on a computer. With video enabled, Bower can see what your camera sees and respond to visual context: "What's the reading on that display?" or "Does this sample look contaminated to you?" are reasonable things to ask.
 
 ## When to use it
 
@@ -23,20 +23,18 @@ Live mode runs on your phone and on [Bower Glasses](/getting-started/bower-glass
 
     Allow microphone and camera access when asked, then start talking.
   </Tab>
+  <Tab title="Bower Glasses">
+    Press and hold the glasses button, or say *"Go live"*. Bower sees through the glasses camera and answers through the speakers. See [Live and protocols with Bower Glasses](/bower-glasses/live-and-protocols).
+  </Tab>
   <Tab title="Phone browser">
-    Open Bower chat and tap the waveform button beside **Send**. Its tooltip reads **Live conversation**. The button is always there, so you can go live from a new chat or partway through one.
+    If you use Bower in your phone's browser instead of the app, open Bower chat and tap the waveform button beside **Send**. Its tooltip reads **Live conversation**.
 
     You can also tap **Go live with Bower** on the **Capture** tab in voice or video mode.
-
-    Allow microphone (and camera, if video) access when prompted, then start talking.
-  </Tab>
-  <Tab title="Bower Glasses">
-    Press and hold the glasses button, or say *"Go live"*. Bower sees through the glasses camera and answers through the speakers. See [Bower Glasses](/getting-started/bower-glasses).
   </Tab>
 </Tabs>
 
 <Note>
-The Bower panel on a computer doesn't have a Live button. If you're at your desk, the onboarding checklist shows a QR code that opens Bower on your phone, signed in to the same workspace.
+Live doesn't run on a computer. If you're at your desk, the onboarding checklist shows a QR code to get the Bower app, then start Live from its capture menu.
 </Note>
 
 ## Video awareness
@@ -86,8 +84,10 @@ Bower confirms ("Recording now.") and a red **REC** indicator appears on screen 
 **To stop**, say:
 
 - *"Stop recording"*
-- *"That's enough, you can stop"*
+- *"Stop the recording"*
 - *"End the recording"*
+
+The word "recording" is required. A bare "stop", "cut" or "that's enough" doesn't end the clip, because people say those while filming.
 
 Bower confirms and the clip is saved to your workspace's attachments as MP4, where it plays back inline.
 
@@ -95,9 +95,11 @@ Bower confirms and the clip is saved to your workspace's attachments as MP4, whe
 | --------------------- | ------------------------------------------------------------------ |
 | Maximum length        | **2 minutes** — Bower stops automatically if you don't              |
 | Concurrent recordings | One per session                                                    |
-| If your network drops | The clip is lost (no partial recordings)                           |
+| If your network drops | Saved up to the drop, on a best-effort basis (see below)            |
 | Where it's saved      | Workspace attachments, MIME type `video/mp4`                       |
 | Storage cost          | Counts against your standard workspace storage quota               |
+
+If the connection drops while a recording is open, Bower saves what it received up to that point to your attachments when the session ends. Bower can't confirm this out loud, because the session is already gone. The saved clip has a 60-second limit to finish processing; if it takes longer, that clip isn't saved. Check your attachments after reconnecting.
 
 <Note>
 **Recordings are intentionally slideshow-quality** (1–2 fps for the video track, full-quality audio). This keeps file sizes small for everyday lab observation — it's not for high-motion footage.
@@ -115,14 +117,14 @@ Standby is available in live sessions in your phone's browser.
 
 When you need to pause — to have a private conversation, take a call, or step away — put Bower in standby.
 
-**In standby, no audio, video, or any other data is sent from your device.** The live stream is fully paused. Your microphone and camera are not active.
+**In standby, Bower's servers receive no audio or video from your device.** The live stream to Bower is fully paused.
 
 - **To enter standby:** Tap the standby button, or say **"Standby Bower"**
 - **To wake Bower:** Say **"Hello Bower"**, or tap the standby button again to resume manually
 
-The wake word **"Hello Bower"** is detected locally on your device — it does not require streaming audio to a server. Only once the wake word is recognized does the live stream resume.
+The wake word **"Hello Bower"** is detected by your browser's built-in speech recognition, so your microphone stays on in standby. In Chrome and Edge, the browser sends that audio to its own speech service (Google or Microsoft) to recognize the phrase. Bower's servers don't receive it. Only once the wake word is recognized does the live stream to Bower resume.
 
-That means you can leave Bower active without keeping it always listening. Keep your phone in your pocket with headphones, or leave it on the lab bench while you take a call. Standby is useful for long lab sessions where you want Bower available but not always active.
+That means you can leave Bower active without streaming to Bower the whole time: keep your phone in your pocket with headphones, or leave it on the lab bench while you take a call. Standby is useful for long lab sessions where you want Bower available but not always active.
 
 ## Execution mode (running a protocol)
 
