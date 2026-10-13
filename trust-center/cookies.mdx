@@ -43,11 +43,14 @@ These cookies help us understand how Bower is used so we can improve it. In the 
 
 **What we track:** page views, feature usage (which tools you use and how often), UI interactions, and error rates. We use this to prioritize improvements and fix bugs.
 
-**What analytics events contain:** action names and metadata, such as internal IDs and counts (for example, "Note Created" or "Search Performed"). They never contain the content of your notes, files, or chats, or the titles and names you give them. This applies to every workspace. Click tracking records which element you clicked, never its text. Error reports keep the error type and where in the code it happened, never the error message. Voice recordings and file contents are never sent to analytics.
+**What analytics events contain:** action names such as "Note Created", plus internal IDs and counts. They never include the content of your notes, files, or chats, or their titles and names. This applies in every workspace.
 
-**Session replay, when you have consented to it,** records the page layout and where you click. All text, form inputs, images, and video are masked. It records no console logs and no network contents. One honest limit: replay can still capture the accessibility labels on buttons and links, and these sometimes name an item. For example, a **Remove** button can carry the name of the file it removes.
+- **Click tracking** records which element you clicked, not its text.
+- **Error reports** keep the error type and code location, not the message.
+- **Session replay**, when it is on, records page layout and clicks. All text, form inputs, images, and video are masked. Console logs and network contents are not recorded. One limit: accessibility labels on buttons and links can still appear, and these sometimes name an item, such as a file name on a **Remove** button.
+- **Voice recordings and file contents** are never sent.
 
-**In workspaces in [Restricted mode](/trust-center/hipaa-compliance), session replay, heatmaps, and click tracking are off entirely**, regardless of your cookie choice. We enforce this in the browser, so nothing is recorded in the first place.
+**In [Restricted mode](/trust-center/hipaa-compliance) workspaces,** session replay, heatmaps, and click tracking are off entirely, enforced in the browser.
 
 ### Not a cookie: AI quality monitoring
 
