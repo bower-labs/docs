@@ -1,0 +1,199 @@
+---
+title: "MCP server reference: Bower tools, limits, and errors"
+description: "Reference for the Bower MCP server at app.bowerlabs.ai/mcp: how Claude.ai, ChatGPT, Cursor, and Zed sign in, every tool an AI client can call, paging and upload limits, error shapes, and common workflows."
+---
+
+The Bower MCP server lets an AI client you already use, such as Claude.ai, ChatGPT, Cursor, or Zed, search, read, and write to one Bower workspace. This page is the reference: the tools the server offers, the limits it applies, and what its errors look like. For step-by-step setup, see [AI app access](/integrations/ai-app-access).
+
+## How do I connect to the Bower MCP server?
+
+The server URL is:
+
+```text
+https://app.bowerlabs.ai/mcp
+```
+
+Add it to your client as a remote MCP server (Claude.ai and ChatGPT call this a connector). The client then opens a Bower sign-in page in your browser. Sign-in runs through WorkOS AuthKit, Bower's identity partner, over OAuth 2.1 with PKCE:
+
+1. Sign in with your Bower account.
+2. Pick the workspace to grant access to. If you belong to only one, Bower selects it for you.
+3. The client receives a token scoped to that workspace and lists Bower's tools.
+
+Access tokens last about an hour. Clients that support MCP refresh tokens, including Claude.ai and recent versions of Cursor, renew them without asking you to sign in again. **Settings** > **Connect external AI** in Bower shows the server URL with a copy button and links back to these pages.
+
+## What can an AI client see?
+
+- **One workspace.** The token names the workspace you picked at sign-in. A token for one workspace never returns data from another, even if you belong to both.
+- **Only what you can see.** Every call runs with your own permissions. Items you can't open are left out of results or reported as not found.
+- **Read-only roles get read-only tools.** If you're a [Guest](/workspaces-and-account/permissions-overview) in the workspace, your client is offered only the tools marked **Read** below. Write tools are not listed, and the server refuses them if called.
+
+When a client connects, Bower also sends it a short orientation: what a workspace holds, the vocabulary it uses, and the order the tools are meant to be called in.
+
+## Which tools does the Bower MCP server offer?
+
+Every tool declares MCP annotations, so your client can tell a read from a write and flag the destructive ones. In the tables, **Read** tools change nothing. **Write** tools create or change data. **Destructive** tools remove something and, where noted, ask for confirmation first.
+
+In Bower's vocabulary, an **artifact** is any item in the workspace: a note, protocol, attachment, link, or piece of equipment. A **collection** groups artifacts and can nest.
+
+### Find things
+
+| Tool | Type | When to use it |
+|------|------|----------------|
+| `semantic_search_artifacts` | Read | Find notes, protocols, files, and images by meaning, when your wording may not match the text. |
+| `unified_search` | Read | Find exact words, names, or titles across artifacts and collections, with type and date filters. |
+| `find_artifact_by_title` | Read | Turn a known title or file name into an ID. Returns `found`, `ambiguous`, or `not_found`. |
+| `find_collection_by_name` | Read | Turn a collection name into an ID. Returns `found`, `ambiguous`, or `not_found`. |
+| `list_artifacts` | Read | Browse artifacts without a query, filtered by type or parent. Paged. |
+| `list_collections` | Read | Browse collections, filtered by parent or search term. Paged. |
+
+### Read content
+
+| Tool | Type | When to use it |
+|------|------|----------------|
+| `get_artifact` | Read | Read one artifact's metadata and full Markdown. Long text comes back in windows. |
+| `get_collection` | Read | Read one collection's details, tags, and dates. |
+| `read_file_content` | Read | Get an attachment's text, or a short-lived download URL for images, PDFs, audio, and video. |
+| `get_linked_entities` | Read | List what an item is linked to, including the captures made during a protocol run. |
+| `list_activity` | Read | See who created, updated, or deleted what, across the workspace or for one item. |
+| `list_workspace_members` | Read | Resolve a member's name to an ID before filtering activity. |
+| `get_current_user` | Read | Read your own profile: name, email, and ORCID iD. |
+
+### Work with files and data
+
+| Tool | Type | When to use it |
+|------|------|----------------|
+| `analyze_spreadsheet` | Read | Profile an uploaded CSV, TSV, XLSX, or XLS file: columns, types, statistics, and sample rows. |
+| `query_spreadsheet` | Read | Get an exact answer from an uploaded CSV, TSV, or XLSX file with one read-only SQL `SELECT`. |
+| `transcribe_attachment` | Write | Transcribe an audio or video attachment (mp3, wav, m4a, mp4, webm). Uses your workspace's transcription minutes. |
+| `process_attachments` | Write | Turn 1 to 10 attachments into notes: transcribe audio, run OCR on images, parse documents. |
+
+### Lab equipment
+
+| Tool | Type | When to use it |
+|------|------|----------------|
+| `list_workspace_equipment` | Read | List the instruments cataloged in the workspace, with make, model, serial, and location. |
+| `get_equipment_knowledge` | Read | Read one instrument's specifications, troubleshooting, and maintenance knowledge. |
+| `create_equipment` | Write | Catalog a new instrument. Give a make and model and Bower looks up a technical knowledge base for it. |
+
+### Create and edit
+
+| Tool | Type | When to use it |
+|------|------|----------------|
+| `create_artifact` | Write | Create 1 to 50 notes, protocols, or links in a collection or at the top level. |
+| `batch_create_artifacts` | Write | Create up to 10 longer notes in the background, one job each. |
+| `author_long_document` | Write | Write one long, multi-section note, such as a report or literature review, from sources you name. Runs in the background. |
+| `update_artifact` | Write | Change an artifact's title, tags, or content: append, prepend, replace one section, or find and replace. |
+| `create_collection` | Write | Create a collection, optionally inside another. |
+| `update_collection` | Write | Change a collection's name, description, tags, or dates. |
+| `update_current_user` | Write | Change your display name, or save or clear your ORCID iD. |
+
+### Organize and link
+
+| Tool | Type | When to use it |
+|------|------|----------------|
+| `move_artifact_to_entity` | Write | Move one artifact to another collection, the top level, or under another artifact. |
+| `copy_artifact_to_entity` | Write | Duplicate an artifact into another collection, the top level, or under another artifact. |
+| `link_entities` | Write | Link two items. Each item holds at most 20 links. |
+| `unlink_entities` | Destructive | Remove a link, whether a person made it or Bower suggested it. |
+
+### Delete and merge
+
+| Tool | Type | When to use it |
+|------|------|----------------|
+| `delete_artifact` | Destructive | Move one or more artifacts to Trash. Asks for confirmation first. |
+| `merge_artifacts` | Destructive | Merge 2 to 20 notes into the oldest one. The others go to Trash. Asks for confirmation first. |
+
+Deleting and merging always take two calls. The first returns `status: "confirmation_required"` with a preview of what will change. Your client should show you that preview and make the second call, with `confirmed: true`, only after you agree.
+
+### Resources
+
+The server also publishes two read-only MCP resources:
+
+- `bower://help/upload-instructions`: the current upload size limit, the accepted file types, and the steps to upload in the Bower app.
+- `bower://registry/artifact-types`: each artifact type and what it supports, such as whether its body can be edited.
+
+## What are the limits?
+
+### Uploads
+
+Files can't be uploaded through the MCP server. Your client can point you to the Bower app instead, where you add attachments to a collection, note, or protocol. The size limit per file and the accepted file types are published in the `bower://help/upload-instructions` resource, generated from the same settings the app's upload uses, so ask your client to read it rather than relying on a number copied elsewhere.
+
+### Paging
+
+- **Lists** (`list_artifacts`, `list_collections`, `list_activity`, `list_workspace_equipment`, and `get_linked_entities` with a `relationshipType`) return a page plus `hasMore` and `nextCursor`. Pass `nextCursor` back unchanged until `hasMore` is `false`. Cursors are opaque, so don't parse or build them.
+- **Long text** from `get_artifact` and `read_file_content` comes back in windows. When `truncated` is `true`, call again with `offset` set to `nextOffset`, or jump to a heading using its offset from `sections`.
+
+### Other limits
+
+- `link_entities`: 20 links per item, and Bower's suggested links count toward that cap.
+- `create_artifact`: 1 to 50 items per call. `batch_create_artifacts` and `process_attachments`: 1 to 10.
+- `merge_artifacts`: 2 to 20 notes, notes only.
+- `transcribe_attachment` draws on the workspace's transcription minutes for the billing period. Once they're used up, calls fail until the period rolls over or the workspace upgrades.
+
+## What do errors look like?
+
+Bower reports a failed tool call in one of two ways. Your client should handle both.
+
+**A tool error** comes back with `isError: true`. The result body names the problem:
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "NOT_FOUND",
+    "message": "...",
+    "severity": "FATAL",
+    "retryable": false
+  }
+}
+```
+
+`retryable` says whether the same call can succeed later. Some errors carry a more specific code at the start of `message`, such as `INVALID_PARENT: ...` when a move or copy names a target that doesn't exist, or `AI_TRANSCRIPTION_QUOTA_EXHAUSTED: ...` when the transcription allowance is used up.
+
+**A soft failure** comes back as a normal result, without `isError`, and with `success: false` and a message that starts with a code:
+
+```json
+{
+  "success": false,
+  "message": "LINK_CAP_EXCEEDED: ..."
+}
+```
+
+Read the code before retrying. `LINK_CAP_EXCEEDED`, for example, won't succeed on retry until you remove one of the item's existing links.
+
+Two outcomes look like errors but aren't:
+
+- `find_artifact_by_title` and `find_collection_by_name` report `not_found` and `ambiguous` in `data.status`, on a successful call. An ambiguous result lists the matches so your client can ask you which one you meant.
+- `confirmation_required` from `delete_artifact` or `merge_artifacts` is the first half of the two-call confirmation, not a failure.
+
+Connection problems arrive before any tool runs. A `401` means the token is missing, expired, or has no workspace, and your client should sign in again. A `503` with `Retry-After: 5` is temporary, so wait and retry. For fixes, see [Troubleshooting](/integrations/ai-app-access#troubleshooting).
+
+## Common workflows
+
+### How do I find the captures from a protocol run?
+
+The photos, voice notes, and videos captured while someone ran a protocol are linked to that protocol. To get them:
+
+1. Find the protocol with `find_artifact_by_title`, or with `list_artifacts` and `artifactType: "protocol"`.
+2. Call `get_linked_entities` with `entityType: "protocol"`, the protocol's ID as `entityId`, and `relationshipType: "captured_during"`. Results are newest first and paged, so follow `nextCursor` while `hasMore` is `true`.
+3. Each row carries `captureMethod`, `mimeType`, `linkedAt`, and `processingStatus`. For each attachment whose `processingStatus` is `"ready"`, call `read_file_content` to get its text or a download URL.
+
+To go the other way, from a note to the recording or image its text came from, call `get_linked_entities` on the note (`entityType: "note"`) with `relationshipType: "transcribed_from"` or `"extracted_from"`. In the app, the same captures appear on [Protocol runs](/organisation/protocol-runs).
+
+### How do I read a protocol's steps?
+
+1. Find the protocol with `find_artifact_by_title`.
+2. Call `get_artifact` with its ID. For a [structured protocol](/organisation/protocols), the Markdown it returns is generated from the protocol's sections and steps.
+
+Edit a structured protocol's steps in the Bower app. Its Markdown body is generated from those steps, so text an AI client writes into the body with `update_artifact` is replaced the next time a step changes. Changing the title or tags is safe.
+
+### How do I get something back from Trash?
+
+`delete_artifact` and `merge_artifacts` move items to Trash, where they stay for 30 days. Restoring happens in the Bower app: open **Trash** at the bottom of the page tree and restore the item from there. See [Trash](/organisation/organising-workspace#trash) for how restores work.
+
+## Related docs
+
+- [AI app access](/integrations/ai-app-access): set up Claude.ai, ChatGPT, Cursor, or Zed, and fix connection problems.
+- [Permissions overview](/workspaces-and-account/permissions-overview): what each workspace role can do.
+- [Linked entities](/organisation/linked-entities): how links and suggested links work in the app.
+- [Connectors](/integrations/connectors): the other direction, where Bower searches the tools your lab already uses.
