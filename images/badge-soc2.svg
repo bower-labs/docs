@@ -1,7 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none">
-  <circle cx="40" cy="40" r="38" stroke="#6B7280" stroke-width="3" fill="#F3F4F6"/>
-  <circle cx="40" cy="40" r="30" stroke="#6B7280" stroke-width="2" fill="#6B7280"/>
-  <text x="40" y="33" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="white">SOC 2</text>
-  <text x="40" y="44" text-anchor="middle" font-family="system-ui, sans-serif" font-size="7" font-weight="600" fill="white">Type II</text>
-  <text x="40" y="55" text-anchor="middle" font-family="system-ui, sans-serif" font-size="6" font-weight="500" fill="white" opacity="0.8">IN AUDIT</text>
+  <circle cx="40" cy="40" r="37.5" fill="#EEF2FA" stroke="#5C88DA" stroke-width="2" stroke-dasharray="4 3.2"/>
+  <circle cx="40" cy="40" r="31.5" stroke="#AEC4ED" stroke-width="1"/>
+  <text x="40" y="38" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="13" font-weight="700" letter-spacing="0.3" fill="#2E446D">SOC 2</text>
+  <text x="40" y="49" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="7.5" font-weight="600" letter-spacing="1.2" fill="#3F5C94">TYPE II</text>
+  <circle cx="40" cy="62" r="2" fill="#5C88DA"/>
+  <circle cx="34" cy="62" r="1.4" fill="#AEC4ED"/>
+  <circle cx="46" cy="62" r="1.4" fill="#AEC4ED"/>
 </svg>
