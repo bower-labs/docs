@@ -39,7 +39,6 @@
           {
             "group": "Capture",
             "pages": [
-              "capture/capture-stream",
               "capture/mobile-capture",
               "capture/batch-import",
               "capture/editor",
@@ -78,6 +77,7 @@
             "pages": [
               "organisation/workspace-items",
               "organisation/protocols",
+              "organisation/protocol-runs",
               "organisation/protocol-menu-and-export",
               "organisation/equipment",
               "organisation/tags",
@@ -420,6 +420,10 @@
     {
       "source": "/changelog/2026-07-15-lifetime-personalization",
       "destination": "/changelog/2026-09-25-bower-remembers"
+    },
+    {
+      "source": "/capture/capture-stream",
+      "destination": "/organisation/protocol-runs"
     }
   ],
   "footer": {}
