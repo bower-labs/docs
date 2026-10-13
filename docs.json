@@ -83,6 +83,7 @@
               "workspaces-and-account/invite-team-members",
               "workspaces-and-account/permissions-overview",
               "workspaces-and-account/switch-workspaces",
+              "workspaces-and-account/delete-workspace",
               "workspaces-and-account/manage-account",
               "workspaces-and-account/billing",
               "workspaces-and-account/dark-mode",
@@ -103,6 +104,7 @@
           {
             "group": "October 2026",
             "pages": [
+              "changelog/2026-10-13-delete-workspace",
               "changelog/2026-10-13-soc-2-and-hipaa-reports",
               "changelog/2026-10-11-transfer-ownership",
               "changelog/2026-10-05-workspace-visualizer"
