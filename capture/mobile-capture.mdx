@@ -1,53 +1,55 @@
 ---
 title: "Mobile capture"
-description: "Capture by voice, photo, video, or text on your phone. Bower transcribes, extracts, and syncs to your desktop — so nothing falls between the bench and the write-up."
+description: "Capture by voice, photo, video, text, or file upload in the Bower app. Bower transcribes, extracts text, and files everything in your workspace."
 ---
 
-The **Capture** tab on mobile is built around a single capture ring and a four-mode picker — **Voice**, **Photo**, **Video**, **Text**. Pick a mode, capture, review, and save. Everything syncs to your desktop within seconds.
+In the Bower app, tap **+** in the middle of the tab bar to open the capture menu, then turn the dial to **Vision**, **Voice**, **Text**, or **Upload**. Each one ends on a review screen where you name the capture (or let Bower name it), choose where it goes, and save.
 
-<Info>
-For voice, photo, and video, use **Save to** to choose the workspace, an existing collection, a new collection, or an existing note. When you choose a note, Bower keeps the original recording, image, or clip as an attachment to that note.
-</Info>
+Captures save to the workspace selected on the **Dashboard** tab. Don't have the app? See [Bower on your phone](/getting-started/mobile).
 
 ## Voice
 
-Bower records your spoken observations and transcribes them in real time using scientific speech recognition trained on domain vocabulary. The transcript becomes an editable note, with the original recording attached.
+Bower records your spoken observations and transcribes them using scientific speech recognition trained on domain vocabulary. The transcript becomes an editable note, with the original recording attached.
 
 <Steps>
-  <Step title="Tap the ring in Voice mode">
-    A full-screen recording view opens with a live waveform and timer. You can pause and resume.
+  <Step title="Choose Voice">
+    Recording starts straight away, with a live waveform. Tap **Pause** and **Resume** as you need to.
   </Step>
-  <Step title="Speak your observation">
-    Bower listens and transcribes in real time. Recordings can be up to 60 minutes long — long enough for a full meeting.
+  <Step title="Tap Stop and save">
+    The review screen opens.
   </Step>
-  <Step title="Tap stop, then review and save">
-    Play back the recording, set a name (or let AI do it), choose a destination, and save. If you choose an existing note, Bower attaches the original audio and appends the transcript to that note. Otherwise, the transcript becomes a new note in the workspace or collection you selected.
+  <Step title="Choose how to transcribe it">
+    Under **Transcribe as**, choose **Dictation** for one clean transcript, or **Meeting** to label each speaker (Speaker 1, Speaker 2, and so on).
+  </Step>
+  <Step title="Review and save">
+    Add a title or leave it for Bower, choose a destination, and tap **Save voice note**.
   </Step>
 </Steps>
 
 <Info>
 **A few things worth knowing:**
 - Bower recognizes scientific terminology: units, chemical names, numeric values, and Latin binomials.
-- If a value looks outside an expected range, Bower will flag it after capture — not during.
-- Accuracy improves as Bower learns your terminology and accent over time.
+- If a value looks outside an expected range, Bower will flag it after capture, not during.
 - You can rate the quality of transcriptions and text extractions. Both positive and negative [feedback](/workspaces-and-account/feedback) helps us improve accuracy for scientific content.
 </Info>
 
 ## Photo
 
-Point your camera at a handwritten notebook, printed document, instrument display, or sample label. Bower reads the image and extracts the text as an editable note. (This is sometimes called OCR — optical character recognition.)
+Point your camera at a handwritten notebook, printed document, instrument display, or sample label. Bower reads the image, extracts the text into an editable note, and describes what's in the photo. (This is sometimes called OCR, optical character recognition.)
 
 <Steps>
-  <Step title="Tap the ring in Photo mode">
-    Take a new photo with your camera, or choose an existing image from your gallery.
+  <Step title="Choose Vision, then Photo">
+    Take a photo, or tap the gallery button to choose one from your library. Pinch or use the zoom presets to get closer, and turn on the flash if you need it.
   </Step>
   <Step title="Choose Photo note or Equipment">
-    A toggle on the review screen lets you save it as a normal **Photo note**, or as **Equipment** — in which case Bower reads the nameplate and pre-fills make, model, and serial straight into a new [equipment](/organisation/equipment) item. If you got here by scanning the QR code from **Add equipment** on desktop, the toggle is already set to Equipment.
+    On the review screen, save it as a **Photo note**, or choose **Equipment**. Bower then reads the label to identify make, model, and serial number for a new [equipment](/organisation/equipment) item, and shows how confident the scan is. Equipment needs a connection.
   </Step>
   <Step title="Review and save">
-    Choose a destination and save. If you choose an existing note, Bower attaches the original image and appends the extracted text to that note. For photos taken on your phone, Bower reads the embedded EXIF data — actual capture time, GPS location, and device model — shown in the attachment panel. Tap the location to open it in Maps.
+    Add a title or leave it for Bower, choose a destination, and tap **Save photo** (or **Save to Equipment Register**).
   </Step>
 </Steps>
+
+For photos taken on your phone, Bower reads the embedded EXIF data (actual capture time, GPS location, and device model) and shows it in the attachment panel.
 
 ### What Bower can read
 
@@ -63,21 +65,37 @@ Recognized equations appear as mathematical notation in the note. Diagrams and o
 
 ## Video
 
-Record a clip up to 5 minutes. Bower preserves the original video as an attachment. Video captures are not currently transcribed.
-
 <Steps>
-  <Step title="Tap the ring in Video mode">
-    Your phone's camera opens to record a clip.
+  <Step title="Choose Vision, then Video">
+    Record a clip, or choose one from your library.
   </Step>
   <Step title="Review and save">
-    Preview the clip, name it (or let AI do it), choose a destination, and save. If you choose an existing note, the video is attached to that note without changing its text.
+    Add a title or leave it for Bower, choose a destination, and tap **Save video**.
   </Step>
 </Steps>
 
+Bower keeps the video as an attachment and processes it after saving. Video captures are not currently transcribed. Files can be up to 500 MB, which is about 10 minutes of video recorded in the app.
+
 ## Text
 
-Type or paste a note directly. Use Text mode when you want to jot something quickly without recording — it lands in your workspace the same way every other capture does.
+Choose **Text**, type or paste your note, and tap **Save note**. Leave the title empty and Bower names it for you.
+
+## Upload
+
+Choose **Upload** to send a file from your phone: images, video, audio, PDF, Word, Excel, PowerPoint, or CSV, up to 500 MB. Bower reads the file and files it in your workspace.
+
+## Where captures go
+
+On the review screen, tap **Add to collection…** to choose where the capture goes: the workspace itself, an existing collection, or a **New collection**. The app remembers your last choice for each workspace.
+
+To add a capture to an existing note, open the note and use **Attach capture**. Bower keeps the original as an attachment to that note. For a voice note or photo, it also adds the transcript or extracted text to the note.
 
 ## What happens after capture
 
-Every capture is held safely on your device the moment you make it, so a dropped connection or an accidental refresh won't lose it. Once saved, it syncs to your desktop workspace in real time — no manual upload — and is fully searchable, editable, and available to Bower for summarization and retrieval.
+When you tap save, the app keeps the capture on your phone and takes you to the **Workspace** tab while it uploads in the background. Bower then transcribes or reads it, and names it if you left the title empty.
+
+If you're offline, the capture waits on your phone. A banner at the top of the **Workspace** tab shows anything still uploading or waiting, with **Retry now** and **Discard** for each item. Once uploaded, captures are searchable, editable, and available to Bower in your workspace on every device.
+
+## Capturing in your phone's browser
+
+If you [use Bower in your phone's browser](/getting-started/install-pwa), the **Capture** tab has a capture ring with **Voice**, **Photo**, **Video**, and **Text** modes. It works the same way: capture, review, choose **Save to**, and save. Voice recordings there can be up to 60 minutes and videos up to 5 minutes.
