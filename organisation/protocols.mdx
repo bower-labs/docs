@@ -1,50 +1,48 @@
 ---
-title: "Protocols"
-description: "Write, import and version step-by-step lab procedures, with the values in each step pulled out so they can be checked."
+title: "Protocols: structured, versioned lab procedures"
+description: "Build lab protocols in Bower as sections of numbered steps with typed values, a customizable sidebar, capture steps, and versions that lock once approved."
 ---
 
-A protocol is a detailed, operational guide your lab uses to perform a method. Think "how we run PCR in this lab", not the published method itself. Protocols live in their own library, separate from your notes, and can be tagged, linked and searched like anything else in Bower.
+A protocol in Bower is your lab's own step-by-step procedure for a method. Think "how we run PCR in this lab", not the published method. Protocols live in their own library, separate from your notes, and can be tagged, linked and searched like anything else in Bower.
 
-Bower has two kinds of protocol:
+A Bower protocol is built from parts, not written as one long document:
 
-- **Structured protocols** are laid out as sections and numbered steps. The values in each step, such as temperatures, volumes and times, are pulled out so you can check them, and every version is kept. Approve a version and it's locked, so a record of a run always matches what the protocol said at the time.
-- **Note protocols** are plain written documents in the [rich text editor](/capture/editor), like a note.
+- **Steps grouped in sections**, lettered and numbered so everyone refers to the same step.
+- **Typed values** in each step, such as temperatures, volumes and durations, that Bower can check.
+- **Versions** that lock once approved, so a record of a run always matches what the protocol said at the time.
+- **A sidebar** beside the steps for materials, recipes, safety notes and anything else your lab wants to keep with the method.
+- **Capture steps** that say what the person running the protocol should record: a photo, a video or a voice note.
 
-## Creating a protocol
+## How do I create a protocol?
 
 1. Click **Protocols** in the left rail to open the protocol library.
-2. Click **New protocol**.
-3. Choose **Structured protocol** or **Note protocol**.
+2. Click **New protocol**, then **Structured protocol**.
+3. Choose how to start:
+   - **Attach a file.** Pick a PDF or Word (.docx) document. Bower reads the steps out of it and lays them out as a protocol. You can correct anything it gets wrong afterward.
+   - **Start from scratch.** You get an empty draft right away. Give it a title and add sections and steps yourself.
 
-For a structured protocol, choose how to start:
-
-- **Attach a file.** Pick a PDF or Word (.docx) document. Bower reads the steps out of it and lays them out as a structured protocol. You can correct anything it gets wrong afterwards.
-- **Start from scratch.** You get an empty protocol and add the steps yourself.
-
-### While Bower reads your document
+### What happens while Bower reads my document?
 
 The protocol page shows **Reading your document** while the import runs. A long protocol takes a few minutes, and you can leave the page while it works. In the library, the protocol shows **Importing** until it's done.
 
-If Bower can't find enough procedural detail to lay out as steps, the page says so and shows its reason. You can ask in the chat to try again and pull out whatever it can. If the import fails partway, delete the protocol and import the document again.
+If Bower can't find enough procedural detail to lay out as steps, the page says so and shows its reason. You can ask in the chat to try again and extract whatever it can. If the import fails partway, delete the protocol and import the document again.
 
-### Turning a note protocol into steps
+## What's on a protocol page?
 
-Open the note protocol and click **Structure it**. Bower reads the document and builds a structured version alongside it. When it's ready, click **Open it**. The original document isn't changed.
-
-## The protocol page
-
-At the top are the protocol's title and its **version bar**: the state of the version you're viewing (for example **draft** or **approved**), and its name. Click the name to give the version your lab's own name, like "Rev C". A protocol imported from a file links back to it.
+At the top are the protocol's title and its **version bar**: the state of the version you're viewing (for example **draft** or **approved**) and its name. Click the name to give the version your lab's own name, like "Rev C". A protocol imported from a file links back to it.
 
 Below that:
 
-- **Parameters** are the values your lab chooses each time, with their allowed range or options and a default.
+- **Parameters** are the values your lab chooses each time you run the protocol. Each parameter has a type:
+  - **Options**: a list to choose from. Press an option to make it the default.
+  - **Range**: a number with a minimum, a maximum, a unit and a default.
+  - **Text**: anything you type, with an optional default.
 - **Method** holds the sections, lettered **A**, **B**, **C**, and their steps, numbered **A.1**, **A.2**, **B.1**. Steps that don't belong to a section are listed under **Other steps**. Use **Expand all** or **Collapse all** to open or close every section at once.
+- **The sidebar** sits beside the method. See [What goes in the protocol sidebar?](#what-goes-in-the-protocol-sidebar)
 
 Each step has its title, its text, and sometimes a short explanation of why it matters. Pictures, videos and files attached to the step appear below it.
 
-The panel beside the method holds **Acceptance criteria**, **Materials & equipment**, **Recipes**, **Safety**, **Troubleshooting**, **Review notes** and **Other details**.
-
-### Editing steps and sections
+## How do I edit steps and sections?
 
 While a version is a draft, you can edit it in place:
 
@@ -56,37 +54,86 @@ While a version is a draft, you can edit it in place:
 
 Changes save automatically. Use **Undo** and **Redo** at the top of the page, or Cmd+Z and Shift+Cmd+Z.
 
-### Extracted values
+## What are typed values?
 
-When Bower imports a protocol, it marks each value it finds in the steps, such as *37 °C*, *5 mL* or *10 min*, as a highlighted chip, and records how confident it is in each one. A value it isn't sure about, that no one has checked yet, is highlighted in a warning color with a dashed underline. Check it against your source before you rely on it.
+A typed value is a quantity Bower understands, not just text: an amount with a unit, such as *37 °C*, *5 mL* or *10 min*, and how precise it is. Typed values appear as highlighted chips in the step.
 
-Click a value to see the wording it came from (**The document said …**) and correct it: the amount (or a range), the unit, what kind of value it is, and whether it's exact, approximate, or "until". Click **Remove: not a value** if Bower marked something that isn't a value.
+When Bower imports a protocol, it marks each value it finds and records how confident it is in each one. A value it isn't sure about, that no one has checked yet, is highlighted in a warning color with a dashed underline. Check it against your source before you rely on it.
+
+Click a value to see the wording it came from (**The document said …**) and correct its amount, unit and precision. Precision is one of **Exact**, **About**, **Range** or **Until**. Choose **Range** and a second amount appears after **to**. If no precision is selected, the document didn't state one. Click **Remove: not a value** if Bower marked something that isn't a value.
 
 To add a value by hand, click **Insert a typed value** in the step's toolbar, or type `/` and choose **Value**.
 
 Reagents and equipment Bower recognizes are underlined. Hover over one to see what Bower took it to be.
 
-## Versions and approval
+## What are capture steps?
 
-Every structured protocol keeps its versions. When a version is ready to use at the bench, click **Approve this version**.
+A capture step tells the person running the protocol to record something at that point: a **photo**, a **video** or a **voice note**. Use one wherever your lab wants evidence of a step, such as a photo of a gel or a video of a technique.
+
+To make a step a capture step in a draft, hover over the step and click **Add capture**, then choose **Photo**, **Video** or **Voice note**. A step asks for one capture at most. Click the capture on the step to change it, or choose **Nothing** to clear it.
+
+When Bower imports a protocol, it marks the steps where your document asks for a photo, a video or a voice note. On an approved version, the capture shows on the step and can't be changed.
+
+## What goes in the protocol sidebar?
+
+The sidebar beside the method holds the reference material that goes with the steps. Bower has these built-in sections, in this default order:
+
+- **Acceptance criteria**: what a successful run looks like.
+- **Materials & equipment**: what you need, with vendor and catalog number.
+- **Recipes**: buffers and mixes the steps refer to.
+- **Safety**: hazards and precautions.
+- **Troubleshooting**: what went wrong, and what to do about it.
+- **Review notes**: things Bower read in an imported document but thinks are worth checking.
+- **Other details**: anything else, as a label and a value.
+
+You can also add sections of your own, such as "Storage" or "Waste disposal".
+
+Each entry in a section has a title, with details below it where the section uses them. A troubleshooting entry, for example, names the problem and then the fix.
+
+When you're reading a protocol, empty sections are hidden. While a version is a draft, every section it has shows, even an empty one, so you can fill it in. To add a section it doesn't have yet, such as **Safety** on a protocol you started from scratch, use **Add section**.
+
+### How do I customize the sidebar?
+
+While a version is a draft, the sidebar is yours to arrange:
+
+- **Add a section.** Click **Add section** at the foot of the sidebar. The menu lists the built-in sections this version doesn't have yet, then **Custom section…**. For a custom section, type its name and press Enter.
+- **Rename a custom section.** Click its name and type a new one.
+- **Reorder sections.** Drag a section by the handle on its header. With a keyboard, focus the handle, press Space, move it with the arrow keys, and press Space again.
+- **Remove a section.** Hover over the section's header and click **✕** (Remove). If the section has entries, Bower asks first and tells you how many entries go with it. An empty section is removed straight away.
+
+**Materials & equipment** and **Recipes** can be removed only when they're empty. Delete their entries first.
+
+Changes to the sidebar apply to the draft you're editing. An approved version keeps the sidebar it was approved with.
+
+## How do versions and approval work?
+
+Every protocol keeps its versions. When a version is ready to use at the bench, click **Approve this version**.
 
 <Warning>
-Approving a version can't be undone. Its values, step titles and step order are fixed from then on, so a run recorded against it always means what the page said at the time.
+Approving a version can't be undone. Its values, step titles, step order and sidebar are fixed from then on, so a run recorded against it always means what the page said at the time.
 </Warning>
 
 When you approve a version, you can name its state if your lab calls it something other than "approved". To change an approved protocol, click **New version**. Bower copies it into a new editable draft, and the approved version stays the one people run until the new one is approved.
 
 Once a protocol has more than one version, a **Versions** list appears beside the method. It marks the **current** version and the one you're **showing**; click any version to open it. You can also jump to the list from the protocol's menu with **Version history**.
 
-## Working on a protocol together
+## Can Bower answer questions about a protocol?
+
+Yes. Ask Bower in the chat about a protocol and it reads the whole thing: its sections and steps, which steps ask for a capture, and every sidebar section, including the ones you added yourself. For example, ask "What are the safety notes for the PCR setup protocol?" or "What's in the Storage section?". See [Bower AI assistant](/ai-and-search/bower-ai-assistant).
+
+## What happens when two people edit the same step?
 
 If a colleague saves a change to a step while you're editing the same step, Bower doesn't overwrite either change. A banner appears on the step: click **Review** to compare the two, then **Keep mine** or **Use theirs**. Until you choose, your version isn't saved, and Bower asks before you leave the page.
 
-## When something doesn't come through
+## What if an import misses something?
 
 An import can miss things: a table it couldn't read, or a whole part of the protocol such as the materials list. When it does, a notice at the top of the page lists what's missing, with the page of the source where it knows it. Check those parts against your original document.
 
 If a protocol is longer than Bower can load at once, the page tells you it isn't the whole method.
+
+## What about older protocols written as a document?
+
+Some older protocols were written as a single document rather than as steps. To convert one, open it and click **Structure it**. Bower reads the document and builds a structured version alongside it. When it's ready, click **Open it**. The original document isn't changed.
 
 ## The protocol library
 
