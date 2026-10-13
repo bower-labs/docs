@@ -33,7 +33,10 @@ At the top are the protocol's title and its **version bar**: the state of the ve
 
 Below that:
 
-- **Parameters** are the values your lab chooses each time you run the protocol. A choice lists its options; a number can have a minimum, a maximum and a unit. Each can have a default.
+- **Parameters** are the values your lab chooses each time you run the protocol. Each parameter has a type:
+  - **Options**: a list to choose from. Press an option to make it the default.
+  - **Range**: a number with a minimum, a maximum, a unit and a default.
+  - **Text**: anything you type, with an optional default.
 - **Method** holds the sections, lettered **A**, **B**, **C**, and their steps, numbered **A.1**, **A.2**, **B.1**. Steps that don't belong to a section are listed under **Other steps**. Use **Expand all** or **Collapse all** to open or close every section at once.
 - **The sidebar** sits beside the method. See [What goes in the protocol sidebar?](#what-goes-in-the-protocol-sidebar)
 
@@ -53,11 +56,11 @@ Changes save automatically. Use **Undo** and **Redo** at the top of the page, or
 
 ## What are typed values?
 
-A typed value is a quantity Bower understands, not just text: an amount (or a range) with a unit, such as *37 °C*, *5 mL* or *10 min*, and whether it's exact, approximate, or "until". Typed values appear as highlighted chips in the step.
+A typed value is a quantity Bower understands, not just text: an amount with a unit, such as *37 °C*, *5 mL* or *10 min*, and how precise it is. Typed values appear as highlighted chips in the step.
 
 When Bower imports a protocol, it marks each value it finds and records how confident it is in each one. A value it isn't sure about, that no one has checked yet, is highlighted in a warning color with a dashed underline. Check it against your source before you rely on it.
 
-Click a value to see the wording it came from (**The document said …**) and correct it: the amount, the unit, what kind of value it is, and whether it's exact, approximate, or "until". Click **Remove: not a value** if Bower marked something that isn't a value.
+Click a value to see the wording it came from (**The document said …**) and correct its amount, unit and precision. Precision is one of **Exact**, **About**, **Range** or **Until**. Choose **Range** and a second amount appears after **to**. If no precision is selected, the document didn't state one. Click **Remove: not a value** if Bower marked something that isn't a value.
 
 To add a value by hand, click **Insert a typed value** in the step's toolbar, or type `/` and choose **Value**.
 
