@@ -11,7 +11,7 @@ Create any of them from **Create** (the **+** button):
 | --- | --- | --- |
 | **Collection** | A group of items, like a folder | **Collection** |
 | **Note** | Editable text: typed, dictated, or extracted from a file | **Text note**, **Voice note**, **Photo → text** |
-| **Spreadsheet** | An editable workbook with formulas, sheets, and charts | **Spreadsheet**, or import a `.csv` or `.xlsx` file |
+| **Spreadsheet** | An editable workbook. See [Spreadsheets](/organisation/spreadsheets) | **Spreadsheet** |
 | **File** | An uploaded file kept as it is, such as a PDF, image, or instrument data | **Import files**, or drop files on the page |
 | **Protocol** | A step-by-step procedure your lab follows | **Protocol** |
 | **Equipment** | An instrument in your lab | **Equipment** |
@@ -37,7 +37,7 @@ When you import a file, Bower decides what to make from it:
 | --- | --- |
 | Audio, Word, text, Markdown | A note with the transcript or text, and the original file attached to it |
 | Image | A note if Bower finds text in it; otherwise the image stays a file, with an AI description so you can search for it |
-| CSV, Excel (`.xlsx`) | An editable [spreadsheet](/organisation/spreadsheets), with the original file kept. Macro-enabled and very large workbooks stay files, and so do all CSV and Excel files in a [Restricted mode](/trust-center/hipaa-compliance) workspace |
+| CSV, Excel | A [spreadsheet](/organisation/spreadsheets), with some exceptions |
 | PDF, video, code, archive, instrument data, other | The file, kept as it is. Bower extracts text from PDFs so search can find them |
 
 Bower never discards the original. To make a note from a PDF, image, audio file, or Word document that stayed a file, open it and choose **Convert to Note** from its menu.
@@ -53,10 +53,6 @@ A note's **Attachments** pill lists its files. Bower transcribes recordings and 
 | An alert, such as **Couldn't read text** | It didn't finish. The file is still saved |
 
 To retry, click the **⋮** menu on the file and choose **Image to Text**, **Transcribe as dictation**, or **Transcribe as meeting**. If the text is already in the note, Bower asks before adding a second copy. Check extracted text against the source before you rely on it.
-
-## Spreadsheets
-
-A spreadsheet is a workbook you edit in Bower, with formulas, multiple sheets, charts, and pivot tables. Your team can edit it together, and Bower can read it and make changes you ask for. See [Spreadsheets](/organisation/spreadsheets).
 
 ## Protocols
 
