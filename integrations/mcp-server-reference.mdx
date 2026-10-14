@@ -1,6 +1,6 @@
 ---
 title: "MCP server reference: Bower tools, limits, and errors"
-description: "Reference for the Bower MCP server at app.bowerlabs.ai/mcp: how Claude.ai, ChatGPT, Cursor, and Zed sign in, all 36 tools an AI client can call, paging and upload limits, error shapes, and workflows for protocols, captures, and Trash."
+description: "Reference for the Bower MCP server at app.bowerlabs.ai/mcp: how Claude.ai, ChatGPT, Cursor, and Zed sign in, the tools an AI client can call, paging and upload limits, error shapes, and workflows for protocols, captures, and Trash."
 ---
 
 The Bower MCP server lets an AI client you already use, such as Claude.ai, ChatGPT, Cursor, or Zed, search, read, and write to one Bower workspace. This page is the reference: the tools the server offers, the limits it applies, and what its errors look like. For step-by-step setup, see [AI app access](/integrations/ai-app-access).
@@ -27,13 +27,15 @@ Access tokens last about an hour. Clients that support MCP refresh tokens, inclu
 
 - **One workspace.** The token names the workspace you picked at sign-in. A token for one workspace never returns data from another, even if you belong to both.
 - **Only what you can see.** Every call runs with your own permissions. Items you can't open are left out of results or reported as not found.
-- **Read-only roles get read-only tools.** If you're a [Guest](/workspaces-and-account/permissions-overview) in the workspace, your client is offered only the 19 tools marked **Read** below. Write tools are not listed, and the server refuses them if called.
+- **Read-only roles get read-only tools.** If you're a [Guest](/workspaces-and-account/permissions-overview) in the workspace, your client is offered only the tools marked **Read** below. Write tools are not listed, and the server refuses them if called.
 
 When a client connects, Bower also sends it a short orientation: what a workspace holds, the vocabulary it uses, and the order the tools are meant to be called in.
 
 ## Which tools does the Bower MCP server offer?
 
-The server offers 36 tools: 19 that only read and 17 that write. Every tool declares MCP annotations, so your client can tell a read from a write and flag the destructive ones. In the tables, **Read** tools change nothing. **Write** tools create or change data. **Destructive** tools remove something and, where noted, ask for confirmation first.
+The tables below group the tools by task, with one line on when to use each. Tools are added and refined over time, so the authoritative, always-current list of names and descriptions is the one the server publishes at [app.bowerlabs.ai/mcp/tools](https://app.bowerlabs.ai/mcp/tools). Your client reads the same list when it connects.
+
+Every tool declares MCP annotations, so your client can tell a read from a write and flag the destructive ones. In the tables, **Read** tools change nothing. **Write** tools create or change data. **Destructive** tools remove something and, where noted, ask for confirmation first.
 
 In Bower's vocabulary, an **artifact** is any item in the workspace: a note, protocol, attachment, link, or piece of equipment. A **collection** groups artifacts and can nest.
 
@@ -67,7 +69,7 @@ In Bower's vocabulary, an **artifact** is any item in the workspace: a note, pro
 |------|------|----------------|
 | `analyze_spreadsheet` | Read | Profile an uploaded CSV, TSV, XLSX, or XLS file: columns, types, statistics, and sample rows. |
 | `query_spreadsheet` | Read | Get an exact answer from an uploaded CSV, TSV, or XLSX file with one read-only SQL `SELECT`. |
-| `inspect_spreadsheet` | Read | Read one sheet of a native Bower spreadsheet. Works only in workspaces with spreadsheets turned on; elsewhere it reports that they aren't enabled. |
+| `inspect_spreadsheet` | Read | Read one sheet of a Bower spreadsheet as it is now: headers, rows or a range, formulas, charts, and whole-column statistics. |
 | `transcribe_attachment` | Write | Transcribe an audio or video attachment (mp3, wav, m4a, mp4, webm). Uses your workspace's transcription minutes. |
 | `process_attachments` | Write | Turn 1 to 10 attachments into notes: transcribe audio, run OCR on images, parse documents. |
 
