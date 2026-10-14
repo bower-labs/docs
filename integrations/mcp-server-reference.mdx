@@ -155,7 +155,7 @@ Bower reports a failed tool call in one of two ways. Your client should handle b
 }
 ```
 
-`retryable` says whether the same call can succeed later. Some errors carry a more specific code. `update_artifact` answers `PROTOCOL_TEXT_IS_GENERATED` when a client tries to edit a structured protocol's text (see [below](#how-do-i-read-a-protocols-steps)). Others put the code at the start of `message`, such as `INVALID_PARENT: ...` when a move or copy names a target that doesn't exist, or `AI_TRANSCRIPTION_QUOTA_EXHAUSTED: ...` when the transcription allowance is used up.
+`retryable` says whether the same call can succeed later. Some errors carry a more specific code. `update_artifact` answers `PROTOCOL_TEXT_IS_GENERATED` when a client tries to edit a structured protocol's text (see [below](#how-do-i-read-the-steps-in-a-protocol)). Others put the code at the start of `message`, such as `INVALID_PARENT: ...` when a move or copy names a target that doesn't exist, or `AI_TRANSCRIPTION_QUOTA_EXHAUSTED: ...` when the transcription allowance is used up.
 
 **A soft failure** comes back as a normal result, without `isError`, and with `success: false` and a message that starts with a code:
 
@@ -190,7 +190,7 @@ The `storageUrl` is short-lived and points at Bower's file storage host. Some AI
 
 To go the other way, from a note to the recording or image its text came from, call `get_linked_entities` on the note (`entityType: "note"`) with `relationshipType: "transcribed_from"` or `"extracted_from"`. In the app, the same captures appear on [Protocol runs](/organisation/protocol-runs).
 
-### How do I read a protocol's steps?
+### How do I read the steps in a protocol?
 
 1. Find the protocol with `find_artifact_by_title`.
 2. Call `get_protocol` with its ID. One call returns the whole [structured protocol](/organisation/protocols): every section (materials, parameters, safety, troubleshooting, and any the author added) and its steps with their text and amounts. To read only part of it, pass `section` (a section's key, kind, or title) or `stepKeys`. Long protocols come back in pages; when the response has `nextOffset`, call again with `offset` set to it.
