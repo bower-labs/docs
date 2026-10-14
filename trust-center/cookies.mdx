@@ -41,21 +41,16 @@ These cookies help us understand how Bower is used so we can improve it. In the 
 | PostHog cookies | Product analytics, session recording, heatmaps | [PostHog](https://posthog.com/privacy) | Session / 1 year |
 | Google Analytics cookies | Marketing-site analytics and signup-funnel attribution. On the app these fire only on pre-sign-in pages, follow the same regional rule as PostHog, and stop permanently once you sign in. | [Google](https://policies.google.com/privacy) | Up to 2 years |
 
-### Advertising (requires consent)
-
-Used on our **marketing website only** (bowerlabs.ai). There is no advertising cookie anywhere in the Bower app.
-
-| Cookie / Storage | Purpose | Provider | Duration |
-|-----------------|---------|----------|----------|
-| LinkedIn Insight Tag | Measures our advertising on LinkedIn, and shows Bower ads to people who have already visited our website | [LinkedIn](https://www.linkedin.com/legal/privacy-policy) | Up to 6 months |
-
-Like analytics, it loads only after you accept cookies; until then it is not set. **Nothing from inside Bower reaches it**, and no research content is ever used for advertising.
-
 **What we track:** page views, feature usage (which tools you use and how often), UI interactions, and error rates. We use this to prioritize improvements and fix bugs.
 
-**What analytics events contain:** action names and metadata (e.g., "Note Created", "Search Performed"), not the body of your notes or files. Two honest caveats, because they are how these tools actually work. Session replay, when it is on, records what is on your screen, and your screen can include your notes as you edit them. And click tracking can capture the text of the element you clicked, such as a button label or an item title. Both are disabled entirely for workspaces in [Restricted mode](/trust-center/hipaa-compliance). Voice recordings and file contents are never sent to analytics.
+**What analytics events contain:** action names such as "Note Created", plus internal IDs and counts. They never include the content of your notes, files, or chats, or their titles and names. This applies in every workspace.
 
-**Session recording and heatmaps are disabled entirely for workspaces in [Restricted mode](/trust-center/hipaa-compliance)**, regardless of your cookie choice. That gate runs in the browser, because session replay sends page content straight to PostHog without passing through Bower's servers.
+- **Click tracking** records which element you clicked, not its text.
+- **Error reports** keep the error type and code location, not the message.
+- **Session replay**, when it is on, records page layout and clicks. All text, form inputs, images, and video are masked. Console logs and network contents are not recorded. One limit: accessibility labels on buttons and links can still appear, and these sometimes name an item, such as a file name on a **Remove** button.
+- **Voice recordings and file contents** are never sent.
+
+**In [Restricted mode](/trust-center/hipaa-compliance) workspaces,** session replay, heatmaps, and click tracking are off entirely, enforced in the browser.
 
 ### Not a cookie: AI quality monitoring
 
@@ -70,7 +65,6 @@ Bower uses the following third-party services that may set cookies or process da
 | Firebase Authentication | Sign-in and identity verification | [Firebase Privacy](https://firebase.google.com/support/privacy) |
 | PostHog | Product analytics and feature flags | [PostHog Privacy](https://posthog.com/privacy) |
 | Cloudflare Turnstile | Bot protection during sign-up | [Cloudflare Privacy](https://www.cloudflare.com/privacypolicy/) |
-| LinkedIn | Advertising measurement on our marketing website only | [LinkedIn Privacy](https://www.linkedin.com/legal/privacy-policy) |
 | Google Analytics 4 | Marketing-site and pre-sign-in analytics | [Google Privacy](https://policies.google.com/privacy) |
 
 For a complete list of services that process your data, see [Data privacy](/trust-center/data-privacy).
