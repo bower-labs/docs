@@ -1,36 +1,27 @@
 ---
-title: AI app access
-description: Connect Claude.ai, ChatGPT, or Cursor to your Bower workspace.
+title: "AI app access: connect Claude.ai, ChatGPT, Cursor, or Zed over MCP"
+description: "Connect Claude.ai, ChatGPT, Cursor, or Zed to your Bower workspace through the Bower MCP server at app.bowerlabs.ai/mcp: setup, what the client can read, write, and restore, limits, errors, and troubleshooting."
 ---
 
-Connect Claude.ai, ChatGPT, or Cursor to Bower so your AI assistant can search,
-read, and write to your workspace directly. The connection is OAuth-based — you
-authorise it, you can revoke it, and it is scoped to a single workspace.
+AI app access connects an AI client you already use to your Bower workspace through the Bower MCP server. Your client can then search, read, and write to the workspace without you leaving it. The connection uses OAuth: you authorize it, you can revoke it, and it covers a single workspace.
 
-## What this is for
+## What is AI app access for?
 
-The outbound Connectors let Bower reach out to the tools your lab already uses.
-AI app access goes the other way: it lets external AI clients read and write to
-your Bower workspace, with your explicit permission. You can ask Claude or
-another assistant to search your notes, create a new note, or look up your
-project data without leaving that client.
+[Connectors](/integrations/connectors) let Bower reach out to the tools your lab already uses. AI app access goes the other way: an external AI client reaches into your Bower workspace over MCP, with your permission. You can ask Claude or another assistant to find a protocol, read the voice notes from a run, or draft a note, from inside that client.
 
-## How to connect
+## How do I connect an AI client to Bower?
 
-The server URL for all clients is `https://app.bowerlabs.ai/mcp`.
+The MCP server URL for every client is `https://app.bowerlabs.ai/mcp`. You'll also find it, with a copy button, in Bower under **Settings** > **Connect external AI**.
 
 Every client follows the same flow:
 
-1. In the client, add a new MCP server or connector and enter the URL
-   `https://app.bowerlabs.ai/mcp`.
+1. In the client, add a new MCP server (Claude.ai and ChatGPT call it a connector) and enter `https://app.bowerlabs.ai/mcp`.
 2. The client opens a browser tab to Bower's sign-in page.
 3. Sign in with your Bower account.
-4. If you belong to more than one workspace, pick which workspace to grant the
-   client access to. If you have only one workspace, Bower selects it
-   automatically.
-5. The client reports "Connected" and Bower's tools become available.
+4. If you belong to more than one workspace, pick the one to grant access to. If you have only one, Bower selects it for you.
+5. The client reports that it's connected and lists Bower's MCP tools.
 
-### Cursor — `~/.cursor/mcp.json`
+### Cursor: `~/.cursor/mcp.json`
 
 Create or open `~/.cursor/mcp.json` and add a `bower` entry under `mcpServers`:
 
@@ -44,60 +35,79 @@ Create or open `~/.cursor/mcp.json` and add a `bower` entry under `mcpServers`:
 }
 ```
 
-Save the file and restart Cursor (or reload the MCP configuration if your
-version supports hot-reload). You can also configure Cursor via Settings → MCP /
-Tools.
+Save the file and restart Cursor, or reload the MCP configuration if your version supports it. You can also add the server from Cursor's MCP settings.
 
-## What Bower can do via these clients
+### Zed
 
-- Search and read notes, links, collections, and attachments.
-- Create new notes in your workspace.
-- Read project and experiment data.
-- Everything is workspace-scoped — the client never sees data from workspaces
-  you are not a member of.
+Add `https://app.bowerlabs.ai/mcp` as a remote MCP server in Zed's settings, then complete the sign-in in your browser.
 
-More tools are added as Bower's MCP surface grows.
+## What can an AI client do in Bower over MCP?
+
+In brief, a connected client can:
+
+- **Find** notes, protocols, files, images, and collections, by meaning or by exact words, names, and dates.
+- **Read** a note as Markdown, a structured protocol's sections and steps in one call, an attachment's text or a short-lived download link, a collection's details, and recent workspace activity.
+- **Follow links** between items, including the photos, voice notes, and videos captured while a protocol was run, and who captured each one.
+- **Work with files and spreadsheets**: read a Bower spreadsheet, profile or query an uploaded CSV, TSV, or XLSX file, transcribe audio and video, and turn attachments into notes.
+- **Look up lab equipment** and its technical knowledge, and catalog new instruments.
+- **Create and edit** notes, protocols, links, and collections, and move, copy, link, and unlink items.
+- **Delete and merge**, always after showing you a preview and getting your confirmation. Deleted items go to Trash.
+- **Restore from Trash**: bring a deleted item back to where it was. If its collection is in Trash and limits who can see it, the collection has to be restored first, from [Trash](/organisation/organising-workspace#trash) in Bower.
+
+Every call runs with your own permissions in the workspace you picked. If you're a Guest, your client sees only the read-only tools. The [MCP server reference](/integrations/mcp-server-reference) groups the tools by task, and the server publishes its current list at [app.bowerlabs.ai/mcp/tools](https://app.bowerlabs.ai/mcp/tools).
+
+### What can't it do?
+
+- **Upload files.** Add attachments in the Bower app. The size limit and accepted file types are published to the client in the `bower://help/upload-instructions` resource.
+- **Delete permanently.** Items your client deletes go to Trash. Emptying Trash, or deleting an item permanently, happens in the Bower app.
+- **Edit a structured protocol's steps.** Edit them in the Bower app. A structured protocol's text is generated from its steps, so Bower refuses a client's edit to that text with `PROTOCOL_TEXT_IS_GENERATED` rather than let the next step change overwrite it. Your client can still read the protocol and change its title or tags.
+- **Always fetch the files it links to.** For images, PDFs, audio, and video, your client gets a short-lived signed link to the file. Some AI apps run code in a sandbox that blocks Bower's file storage host, so the assistant may not be able to download the file itself. Open it in Bower instead.
+
+## Which MCP version does Bower support?
+
+The Bower MCP server speaks MCP specification revision 2026-07-28 and still serves clients built for the 2025 revisions.
+
+## What limits apply?
+
+- **Paging.** Long lists come back a page at a time, and long notes and files come back in windows of text. Your client follows the paging fields until it has everything.
+- **Links.** Each item holds at most 20 links, counting the links Bower suggests.
+- **Batch sizes.** Up to 50 items per `create_artifact` call, up to 10 per `batch_create_artifacts` or `process_attachments` call, and 2 to 20 notes per merge.
+- **Transcription.** Transcribing audio or video uses your workspace's transcription minutes for the billing period.
+
+## What happens when a call fails?
+
+Your client sees one of two shapes. A tool error is marked `isError: true` and carries a code such as `NOT_FOUND`, plus whether retrying can help. A soft failure is a normal result with `success: false` and a message that starts with a code, such as `LINK_CAP_EXCEEDED: ...`. In both cases a well-behaved client reads the code and tells you what went wrong instead of retrying blindly. The [MCP server reference](/integrations/mcp-server-reference#what-do-errors-look-like) shows both shapes.
 
 ## Privacy and security
 
-- Bower never sees your AI client's credentials. The client and Bower exchange
-  only OAuth tokens.
-- Tokens are issued and rotated by WorkOS AuthKit, Bower's identity partner.
-  Bower stores no access tokens.
-- Refresh tokens rotate automatically — long-running sessions stay connected
-  without re-authorisation.
+- Bower never sees your AI client's credentials. The client and Bower exchange only OAuth tokens.
+- Tokens are issued and rotated by WorkOS AuthKit, Bower's identity partner. Bower stores no access tokens.
+- Access tokens last about an hour. Refresh tokens rotate automatically, so long-running sessions stay connected without signing in again.
 - You can revoke access at any time by disconnecting Bower in your client.
-- Workspace isolation is server-enforced — a valid token for workspace A never
-  returns data from workspace B.
+- Workspace isolation is enforced by the server. A valid token for workspace A never returns data from workspace B.
+- Bower tells every connected client to treat the contents of your notes and files as data, never as instructions.
 
-## Switching workspaces
+## How do I switch workspaces?
 
-Disconnect Bower in your client, reconnect, and pick the new workspace at the
-sign-in step.
+Disconnect Bower in your client, reconnect, and pick the new workspace at the sign-in step.
 
 ## Troubleshooting
 
-**"Couldn't connect"** — confirm the URL is exactly
-`https://app.bowerlabs.ai/mcp`. No trailing slash, no extra path.
+**"Couldn't connect"**: confirm the URL is exactly `https://app.bowerlabs.ai/mcp`, with no trailing slash and no extra path.
 
-**"Workspace not specified" / prompted to connect again** — visit
-`https://app.bowerlabs.ai/auth/workos` while signed in to your Bower account,
-pick a workspace, then retry the connection from your client.
+**"Workspace not specified", or prompted to connect again**: visit `https://app.bowerlabs.ai/auth/workos` while signed in to your Bower account, pick a workspace, then retry the connection from your client.
 
-**Access expires after a few hours** — clients with native MCP refresh-token
-support (Claude.ai, recent versions of Cursor) refresh automatically. If your
-client does not, disconnect Bower and reconnect to start a fresh authorisation.
+**Access expires after about an hour**: clients with MCP refresh-token support, such as Claude.ai and recent versions of Cursor, refresh automatically. If yours doesn't, disconnect Bower and reconnect to start a fresh authorization.
 
-**Connected to the wrong workspace** — disconnect Bower in your client, visit
-`https://app.bowerlabs.ai/auth/workos` to pre-select the correct workspace, then
-reconnect.
+**Connected to the wrong workspace**: disconnect Bower in your client, visit `https://app.bowerlabs.ai/auth/workos` to pick the correct workspace, then reconnect.
 
-**Restricted-mode workspaces** — AI app access is not yet available for workspaces
-in Restricted mode (HIPAA-ready). Server-side enforced.
+**A tool your client expected is missing**: if you're a Guest in the workspace, your client is offered read-only tools only. Ask a workspace Admin if you need to create or edit.
+
+**Restricted-mode workspaces**: AI app access is not yet available for workspaces in Restricted mode (HIPAA-ready). The server enforces this.
 
 ## Related docs
 
-- [Connectors](/integrations/connectors) — let Bower search the tools your lab
-  already uses (outbound direction).
-- [Trust Center](/trust-center) — security posture, data handling,
-  and compliance.
+- [MCP server reference](/integrations/mcp-server-reference): every tool, limits, error shapes, and common workflows.
+- [Connectors](/integrations/connectors): let Bower search the tools your lab already uses (the outbound direction).
+- [Permissions overview](/workspaces-and-account/permissions-overview): what each workspace role can do.
+- [Trust Center](/trust-center): security posture, data handling, and compliance.

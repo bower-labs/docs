@@ -69,7 +69,8 @@
             "group": "Integrations",
             "pages": [
               "integrations/connectors",
-              "integrations/ai-app-access"
+              "integrations/ai-app-access",
+              "integrations/mcp-server-reference"
             ]
           },
           {
