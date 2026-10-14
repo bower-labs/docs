@@ -1,218 +1,184 @@
 ---
-title: "Spreadsheets"
-description: "Create, import and edit spreadsheets in Bower, work on them with your team, and ask Bower about the data."
+title: "Spreadsheets in Bower"
+description: "Create, import, and edit spreadsheets in Bower, work on them with your team, and have Bower read the data, make changes, and undo them."
 sidebarTitle: "Spreadsheets"
 ---
 
-{/*
-  DRAFT, not released. Native spreadsheets are behind a per-workspace flag
-  (spreadsheet-univer-enabled). Publish with the rollout.
-  Update "What Bower can change" when AI spreadsheets phase 2 ships (#3087):
-  values, formulas, number formats and styles, charts, sort, filter,
-  conditional formats and sheets, with a change card for each edit.
-  "Undo a change Bower made" describes AI spreadsheets phase 3 (undo from the
-  change card). Publish it only once phase 3 is in production.
-*/}
+A spreadsheet in Bower is a full workbook you edit in the browser: formulas, formatting, multiple sheets, charts, and pivot tables. Your team can work in it at the same time, and Bower can read the data, answer questions about it, and make changes you ask for in chat.
 
-Spreadsheets in Bower are full workbooks you can edit right here: formulas,
-formatting, multiple sheets, charts and pivot tables. Your team can work in
-the same spreadsheet at the same time, and Bower can read the data, answer
-questions about it and keep it up to date.
+Spreadsheets are available in every workspace except those in [Restricted mode](/trust-center/hipaa-compliance). See [Restricted mode workspaces](#restricted-mode-workspaces).
 
 ## Get a spreadsheet into Bower
 
 There are four ways to start.
 
-- **Start from scratch.** Choose **Create (+) > Spreadsheet > Start from
-  scratch** for an empty sheet.
-- **Import a file.** Choose **Create (+) > Spreadsheet > Import a file** and
-  pick a `.csv` or `.xlsx` file. Every sheet in the file comes across.
-- **Upload it anywhere.** A `.csv` or `.xlsx` you upload with **Import files**
-  on a collection or the Artifacts page, or attach in Bower Chat, becomes a
-  spreadsheet automatically.
-- **Convert a file you already uploaded.** Open the file and choose **Convert
-  to spreadsheet** from its menu. Bower creates a new spreadsheet next to it,
-  with the same sharing settings, and leaves the original file as it was.
-  Files uploaded before spreadsheets were available are not converted for you.
+- **Start from scratch.** Choose **Create (+) > Spreadsheet > Start from scratch** for an empty sheet.
+- **Import a file.** Choose **Create (+) > Spreadsheet > Import a file** and pick a `.csv` or `.xlsx` file. Every sheet in an Excel file comes across.
+- **Upload it.** A `.csv` or `.xlsx` file you upload with **Import files**, drop on a collection or the Artifacts page, or attach in Bower Chat becomes a spreadsheet. See [Batch import](/capture/batch-import).
+- **Convert a file you already uploaded.** Open a `.csv` or `.xlsx` attachment and choose **Convert to spreadsheet** from its menu. Bower creates a new spreadsheet next to it with the same sharing settings and leaves the original file as it was. Files uploaded before spreadsheets were available aren't converted for you, so use this for those.
 
-Spreadsheets live at the top of your workspace or inside a collection.
+A spreadsheet lives at the top level of your workspace or inside a collection. A file always arrives as a new spreadsheet: you can't import a file into a spreadsheet that already exists.
+
+### Limits
+
+| File | What happens |
+| --- | --- |
+| `.csv` up to 16 MB, `.xlsx` up to 25 MB | Becomes a spreadsheet |
+| Macro-enabled workbooks (`.xlsm`) | Stays a file. Bower can't keep macros working, so it doesn't import a copy without them. Save a copy as `.xlsx` to edit it in Bower. |
+| `.csv` over 16 MB, `.xlsx` over 25 MB | Stays a file: too large to edit as a spreadsheet |
+| A `.csv` with more than 200,000 cells (rows × columns) | The import fails and the original file is kept. Split the file or remove unused columns, then import it again. |
+| `.xls`, `.tsv`, and other tabular formats | Stays a file. Save it as `.xlsx` or `.csv` to edit it in Bower. |
+| A file attached to a note, an equipment item, or a protocol | Stays a file, because spreadsheets live in a workspace or a collection |
+
+When an `.xlsm` file or an oversized file stays a file, Bower tells you why as it uploads. You can still download a file that stays a file, and ask Bower about it in chat.
 
 ### While it sets up
 
-Turning a file into a spreadsheet takes a few seconds, longer for large
-files. You never have to wait: keep working, and the spreadsheet's icon shows
-a small spinner wherever it appears (your collection, the page tree, recent
-items and chat) until it is ready. Bower lets you know when it is done.
+Turning a file into a spreadsheet takes a few seconds, longer for a large file. You don't have to wait: keep working, and the spreadsheet's icon shows a small spinner wherever it appears (your collection, the page tree, recent items, and chat) until it's ready.
 
-If you open it early, you see **Setting up your spreadsheet**, and the page
-switches to the spreadsheet by itself when it is ready. Your original file is
-always kept with the spreadsheet.
+If you open it early, you see **Setting up your spreadsheet**, and the page switches to the spreadsheet when it's ready. Bower keeps your original file with the spreadsheet.
 
-### Files that stay as files
+### If a file can't be set up
 
-Some files are kept as regular attachments, and Bower tells you why when you
-upload them.
-
-| File | Why it stays a file |
-| --- | --- |
-| Macro-enabled workbooks (`.xlsm`) | Bower cannot keep macros working. Save a copy as `.xlsx` to edit it in Bower. |
-| CSV over 16 MB, Excel over 25 MB | Too large to edit as a spreadsheet. |
-| Files attached to a note, equipment or a protocol | Spreadsheets live in a workspace or a collection. |
-
-You can still download these files and ask Bower about them.
-
-### If a file cannot be set up
-
-Occasionally a file cannot become a spreadsheet, for example a CSV with more
-than 200,000 cells, or a damaged file. The spreadsheet shows an error icon, and
-opening it tells you why. From there you can **Download original** to get
-back exactly what you uploaded, or **Retry import** if the problem was
-temporary.
+Occasionally a file can't become a spreadsheet, for example a damaged file or a CSV over the cell limit. The spreadsheet shows an error icon, and opening it tells you why. From there you can choose **Download original** to get back exactly what you uploaded, or **Retry import** if the problem was temporary. Retrying needs edit access.
 
 ### What comes across from Excel
 
-Cell values and formulas come across intact, including named ranges and
-tables. A few things do not survive the import:
+Cell values and formulas come across, including named ranges and tables. A few things don't survive the import:
 
-- **Pivot tables** are not kept. You can build new ones in Bower.
+- **Pivot tables** aren't kept. You can build new ones in Bower.
 - **Charts** may not all come across. Check them after importing.
-- **Links to external data** (connections and linked workbooks) are dropped,
-  so the spreadsheet no longer refreshes from its source.
-- Printer settings are not kept.
+- **Links to external data** (connections and linked workbooks) are dropped, so the spreadsheet no longer refreshes from its source.
+- **Printer settings** aren't kept.
+
+A CSV is read so that values like `007` and gene names like `SEPT2` stay as text rather than turning into numbers or dates.
 
 ## Work in a spreadsheet
 
 The spreadsheet page works like the spreadsheet tools you already know.
 
-- **Edit** cells, write formulas, format numbers and text, and use multiple
-  sheets (tabs along the bottom).
-- **Organize your data** with sort, filter, data validation, conditional
-  formatting, tables, notes and hyperlinks. Add images, charts and pivot tables.
-- **Find** anything with the search box above the grid. Press Enter for the
-  next match and Shift+Enter for the previous one.
-- **Discover features** with the features search, and see every shortcut
-  with the keyboard shortcuts button.
+- **Edit** cells, write formulas, format numbers and text, and use multiple sheets (tabs along the bottom).
+- **Organize your data** with sort, filter, data validation, conditional formatting, tables, notes, and hyperlinks. Add images, charts, and pivot tables.
+- **Find** anything in the workbook with the search box beside the sheet tabs. Press Enter for the next match and Shift+Enter for the previous one. The search box isn't shown on a phone.
+- **Discover features** with the features search, and see every shortcut with the keyboard shortcuts button.
 - **Rename** the spreadsheet by editing its title.
+
+Bower's workspace search matches a spreadsheet by its title. It doesn't search the contents of cells yet.
 
 ### Saving and working together
 
-There is no save button: every change saves as you go, and the indicator in
-the header shows when it is saving and when it is saved. You need to be
-online to edit.
+There's no save button: every change saves as you go, and the indicator in the header shows when it's saving and when it's saved. You need to be online to edit.
 
-Everyone with edit access can work in the same spreadsheet at the same time,
-and you see where your teammates are in the sheet as they work.
+Everyone with edit access can work in the same spreadsheet at the same time, and you see where your teammates are in the sheet as they work. Changes Bower makes appear the same way, attributed to the person who asked for them.
 
 ### Version history
 
-Choose **Version history** from the spreadsheet's menu to see who changed
-what and when, and to restore an earlier version.
+Choose **Version history** from the spreadsheet's menu to see every version, who made it, and when. Restore an earlier version to go back to it. A restore adds a new version marked **Reverted from**, so you can restore the newer version again if you change your mind.
 
-### Share, export and print
+Changes Bower makes appear in version history like anyone else's edits.
 
-- **Manage access** to decide who can view and who can edit. People with view
-  access see the spreadsheet but cannot change it.
-- **Export** as an Excel file (`.xlsx`), or export the current sheet as a CSV.
-  Exporting needs edit access.
-- **Print** from the spreadsheet's menu.
-- **Move, copy or delete** the spreadsheet from the same menu, like anything
-  else in Bower.
+If a teammate restores a version while you have the spreadsheet open, you see a notice asking you to refresh the page. Refresh to load the restored version.
 
-## Ask Bower about your spreadsheets
+### Share, copy, export, and print
 
-Bower understands your spreadsheets the way you do: by sheet, column header
-and row.
+Everything below is in the spreadsheet's menu.
 
-### What you can ask
+- **Manage access** to decide who can view and who can edit. People with view access see the spreadsheet but can't change it.
+- **Copy** makes an independent copy of the whole workbook. Changes to one don't affect the other.
+- **Export** the whole workbook as an Excel file (**Excel (.xlsx)**), or the sheet you're looking at as a CSV (**CSV (this sheet)**). The CSV holds the values as they're displayed. Exporting needs edit access.
+- **Print** the spreadsheet.
+- **Move** or **delete** the spreadsheet, like anything else in Bower. A deleted spreadsheet goes to the [Trash](/organisation/organising-workspace#trash).
 
-- **Questions about the data.** "What's the average yield in the Batch B
-  sheet?" "Which samples are below 0.5?" Bower reads the live values,
-  including what your formulas calculate, and tells you which sheet and range
-  its answer came from.
-- **About what you have selected.** When a spreadsheet is open, the chat box
-  shows it along with the cells you have selected, and updates as your
-  selection changes. Ask "summarize these" and Bower works on exactly those
-  cells. You can remove the selection and keep the spreadsheet in the
-  conversation.
-- **About charts.** Bower can read the charts on a sheet and explain what they
-  show.
-- **Deeper analysis.** For statistics such as fits and models, or figures for
-  a note or report, Bower runs the analysis on the values you point it to.
-  For a large range, it asks you to narrow it down first.
-- **About a file you just uploaded.** Attach a spreadsheet in chat and ask
-  about it in the same message. If it is still setting up, Bower answers from
-  your original file and tells you so.
+## Ask Bower about a spreadsheet
 
-Bower also flags cells with errors, such as `#DIV/0!`, when they affect an
-answer.
+Bower reads your spreadsheets the way you do: by sheet, column header, and row.
+
+### What Bower can read
+
+- **The data.** "What's the average yield in the Batch B sheet?" "Which samples are below 0.5?" Bower reads the live values, including what your formulas calculate, and tells you which sheet and range its answer came from. Totals, means, minimums, and maximums are calculated in code, not estimated by the model.
+- **Your selection.** When a spreadsheet is open, the chat box shows it along with the sheet and cells you've selected, and updates as your selection changes. Ask "summarize these" and Bower works on exactly those cells. You can remove the selection from the chip and keep the spreadsheet in the conversation.
+- **Formulas, charts, and filters.** Bower can read a cell's formula, the charts on a sheet, and the range a filter covers.
+- **Errors.** Bower flags cells with errors, such as `#DIV/0!`, when they affect an answer.
+- **A spreadsheet you name.** Ask about a spreadsheet by its title, and Bower finds it, even when it isn't open.
+- **A file that's still setting up.** If a spreadsheet is still importing, Bower answers from your original file and tells you so. It can make changes once the import finishes.
+
+For statistics such as fits and models, or a figure for a note or report, Bower runs an analysis on the values you point it to. It works on up to 200 cells at a time, so for a larger range it asks you to narrow it down first. Bower reads up to 5,000 cells in one go; for a bigger sheet, name the columns or range you mean.
+
+Guests can ask Bower about a spreadsheet they can see. Bower only reads spreadsheets you have access to.
 
 ### What Bower can change
 
-Bower can **add a row or update one**. It finds the row by the value in the
-first column (for example a sample ID) and fills in the columns you name.
-Before it changes anything:
+Ask in chat, and Bower changes the spreadsheet for you. It can:
 
-- it asks you which row you mean if the value matches more than one row, or
-  none;
-- it checks with you before overwriting a cell that already has a value;
-- it confirms the change only after checking it landed.
+- **Enter values and formulas** in a range. When you want something that updates (a total, a ratio, a flag), Bower writes a formula rather than a number it worked out.
+- **Add or update a row** found by the value in its first column, such as a sample ID, filling in the columns you name.
+- **Format numbers**, for example as a percentage, a currency, or a set number of decimal places.
+- **Style cells**: bold, italic, text color, fill color, and horizontal alignment.
+- **Insert a chart**: column, bar, or line.
+- **Sort** a range by one column, ascending or descending.
+- **Filter**: add a filter to a table, or clear a sheet's filter.
+- **Add conditional formatting**: highlight values greater than, less than, or between numbers you choose, or add a color scale or data bars.
+- **Add a sheet** or **rename a sheet**.
 
-The change appears straight away for everyone who has the spreadsheet open.
-Every change Bower makes is recorded with the before and after values.
+Bower can make up to 50 of these changes in one request. When a request is clear, it makes the change without asking first. It asks when it isn't sure which sheet, range, or row you mean. When it adds or updates a row by its key, it also asks before overwriting a cell that already has a value or replacing a formula.
 
-Other changes, such as formatting, formulas, charts, sorting and filtering,
-are not available yet. Bower tells you when you ask for one. Guests can ask
-Bower about a spreadsheet but cannot have it make changes.
+Bower doesn't sort a range that holds formulas, because sorting would break their references. It tells you instead.
+
+#### The change card
+
+When Bower changes a spreadsheet, a **Spreadsheet updated** card appears in the conversation. It lists each change, built from what actually landed in the spreadsheet rather than from Bower's own summary. If some changes didn't apply, the card shows which ones landed, which didn't, and why. Changes that landed stay in the spreadsheet. A link on the card opens the spreadsheet.
+
+#### Not available yet
+
+Bower can't yet insert or delete rows or columns (it can add rows below a table), create pivot tables, add images, merge cells, set up data validation or dropdowns, create named ranges, delete a sheet, make pie, scatter, area, or other chart types, change or delete a chart that's already on the sheet, or work across two spreadsheets at once. It tells you when you ask for one of these, and you can make the change yourself in the spreadsheet.
+
+Guests can't have Bower change a spreadsheet. Bower only changes a spreadsheet you can edit.
 
 ### Undo a change Bower made
 
-When Bower changes a spreadsheet from chat, a **Spreadsheet updated** card
-appears in the conversation. It lists each change Bower made.
+You can undo a change Bower made from chat in two ways:
 
-Press **Undo** on the card to reverse the whole batch of changes. The
-spreadsheet goes back exactly as it was before Bower's change. While this
-happens, the spreadsheet beside the chat shows **Undoing Bower's change...**
-and then reloads with the earlier version. The card then says **Undone**.
+- Press **Undo** on the **Spreadsheet updated** card.
+- Ask Bower, in any words: "undo that," "put it back."
 
-The undo appears in the spreadsheet's [version history](#version-history) as a **Reverted from**
-entry. The version with Bower's change is still there, so you can restore it
-if you change your mind.
+Either way, Bower reverses the whole batch of changes on that card, and the spreadsheet goes back exactly as it was before. While it works, the spreadsheet beside the chat shows **Undoing Bower's change...** and then reloads. The card then says **Undone**.
 
-#### When undo is not possible
+The undo appears in [version history](#version-history) as a **Reverted from** entry. The version with Bower's change is still there, so you can restore it if you change your mind.
 
-Undo only works while nobody has edited the spreadsheet since Bower's change.
-That includes you, a teammate and another change by Bower. If the spreadsheet
-has changed, nothing is undone, and the card says so. Choose **Open version
-history** to find the version you want and restore it.
+#### When undo is possible
 
-A card sometimes lists the changes with no Undo button. That happens when
-someone else edited the spreadsheet while Bower was making its change, or when
-the change could not be undone safely. Use version history instead.
+- **Within 24 hours** of Bower's change.
+- **Only if nobody has edited the spreadsheet since**, including you, a teammate, or another change by Bower. If it has changed, nothing is undone, and the card says so. Choose **Open version history** to find the version you want and restore it.
+- **Only by the person Bower made the change for**, and only while they can edit the spreadsheet.
+- **Only the latest change.** Asking Bower to undo reverses its most recent change to that spreadsheet. For an earlier one, use version history.
+
+A card sometimes lists the changes with no **Undo** button. That happens when someone else edited the spreadsheet while Bower was making its change, or when the change couldn't be undone safely. Adding or updating a single row by its key doesn't offer undo either. Use version history for these.
 
 #### Good to know about undo
 
-- Undo is available for 24 hours after Bower's change.
-- Only the person Bower made the change for can undo it, and only if they can
-  edit the spreadsheet.
-- If Bower cannot confirm whether the undo happened, for example because the
-  connection dropped, the card tells you and offers version history. Check the
-  spreadsheet before you try again.
-- If the card says nothing was changed, Undo stays on the card so you can try
-  again.
-- Teammates who have the spreadsheet open see a notice and need to refresh the
-  page to see the earlier version.
-- Undo is the button on the card. Bower cannot undo a change if you ask it to
-  in chat, and undoing by voice in Live mode is not available yet.
+- If Bower can't confirm whether the undo happened, for example because the connection dropped, the card says so and offers version history. Check the spreadsheet before you try again.
+- If the spreadsheet was busy and nothing changed, **Undo** stays on the card so you can try again.
+- Teammates who have the spreadsheet open see a notice and need to refresh the page to see the earlier version.
+- After you reload a conversation, a card's **Undo** button can reappear even though the change was already undone. Pressing it tells you the spreadsheet has changed, and nothing else happens.
+- To change a value back by hand ("set B2 back to 5"), ask for it as a new change. Bower makes that as a normal edit, not an undo.
 
-### Live mode
+### Live agent mode
 
-In Live mode, Bower knows which spreadsheet, sheet and cells you have on
-screen, so you can ask about them by voice. Answers are short and spoken.
-Before any change, Bower reads back what it is about to do and waits for your
-yes.
+In [Live agent mode](/ai-and-search/live-agent-mode), you can ask Bower about a spreadsheet by voice, and it answers in a sentence, naming the sheet the answer came from. Live agent mode doesn't change spreadsheets or undo changes. Use chat for those.
+
+### AI apps
+
+If you've connected Bower to Claude, ChatGPT, or another AI app through [AI app access](/integrations/ai-app-access), that app can read your spreadsheets. It can't change them; changes and undo happen in Bower Chat.
+
+## Restricted mode workspaces
+
+Workspaces in [Restricted mode](/trust-center/hipaa-compliance) don't have native spreadsheets:
+
+- There's no **Spreadsheet** option in the **Create** menu, and no **Convert to spreadsheet** on attachments.
+- `.csv` and `.xlsx` files you upload stay files. You can still download them and ask Bower about them in chat.
+- A spreadsheet created before the workspace turned on Restricted mode still appears in lists and search, but it doesn't open.
 
 ## Good to know
 
 - Spreadsheets need an internet connection to edit.
-- Text in your cells is treated as data. Bower never follows instructions
-  written inside a spreadsheet.
+- Text in your cells is treated as data. Bower never follows instructions written inside a spreadsheet.
