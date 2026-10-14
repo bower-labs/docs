@@ -166,7 +166,7 @@ Bower reports a failed tool call in one of two ways. Your client should handle b
 }
 ```
 
-Read the code before retrying. `LINK_CAP_EXCEEDED`, for example, won't succeed on retry until you remove one of the item's existing links, and `RESTORE_PARENT_FIRST` won't succeed until the item's collection is restored.
+Read the code before retrying. `LINK_CAP_EXCEEDED`, for example, won't succeed on retry until you remove one of the item's existing links, `RESTORE_PARENT_FIRST` won't succeed until the item's collection is restored, and `PARENT_IN_TRASH` won't succeed until the note or instrument a file belongs to is restored.
 
 Two outcomes look like errors but aren't:
 
@@ -205,8 +205,9 @@ A structured protocol's Markdown is generated from its steps, so `update_artifac
 1. Call `restore_artifact` with the ID `delete_artifact` reported. Items in Trash don't appear in search or `find_artifact_by_title`, so keep that ID.
 2. The item returns to the collection it was in. If that collection is also in Trash, the item goes to the top level of the workspace and the result has `restoredToRoot: true`.
 3. If the item inherits a sharing restriction from that trashed collection, restoring it alone would drop the restriction. The tool answers `RESTORE_PARENT_FIRST` and nothing moves. Someone who can manage the collection restores it from Trash in Bower first, and the item comes back with it.
+4. If the item is a file whose note or instrument is still in Trash, the tool answers `PARENT_IN_TRASH` and nothing moves. Restore the note or instrument first.
 
-For a file inside a note that is also in Trash, restore the note: its files come back with it. Restoring needs edit access to the item. Permanent deletion isn't available over MCP. See [Trash](/organisation/organising-workspace#trash) for how restores work in the app.
+For a file inside a note that is also in Trash, restore the note. Only the files deleted together with the note come back with it. A file that was deleted on its own before the note stays in Trash; call `restore_artifact` on it once the note is back. Restoring needs edit access to the item. Permanent deletion isn't available over MCP. See [Trash](/organisation/organising-workspace#trash) for how restores work in the app.
 
 ## Related docs
 
