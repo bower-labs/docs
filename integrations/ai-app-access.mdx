@@ -1,6 +1,6 @@
 ---
 title: "AI app access: connect Claude.ai, ChatGPT, Cursor, or Zed over MCP"
-description: "Connect Claude.ai, ChatGPT, Cursor, or Zed to your Bower workspace through the Bower MCP server at app.bowerlabs.ai/mcp: setup, what the client can do, limits, errors, and troubleshooting."
+description: "Connect Claude.ai, ChatGPT, Cursor, or Zed to your Bower workspace through the Bower MCP server at app.bowerlabs.ai/mcp: setup, what the client can read, write, and restore, limits, errors, and troubleshooting."
 ---
 
 AI app access connects an AI client you already use to your Bower workspace through the Bower MCP server. Your client can then search, read, and write to the workspace without you leaving it. The connection uses OAuth: you authorize it, you can revoke it, and it covers a single workspace.
@@ -46,20 +46,26 @@ Add `https://app.bowerlabs.ai/mcp` as a remote MCP server in Zed's settings, the
 In brief, a connected client can:
 
 - **Find** notes, protocols, files, images, and collections, by meaning or by exact words, names, and dates.
-- **Read** a note or protocol as Markdown, an attachment's text or a short-lived download link, a collection's details, and recent workspace activity.
-- **Follow links** between items, including the photos, voice notes, and videos captured while a protocol was run.
+- **Read** a note as Markdown, a structured protocol's sections and steps in one call, an attachment's text or a short-lived download link, a collection's details, and recent workspace activity.
+- **Follow links** between items, including the photos, voice notes, and videos captured while a protocol was run, and who captured each one.
 - **Work with files**: profile or query an uploaded CSV, TSV, or XLSX file, transcribe audio and video, and turn attachments into notes.
 - **Look up lab equipment** and its technical knowledge, and catalog new instruments.
 - **Create and edit** notes, protocols, links, and collections, and move, copy, link, and unlink items.
 - **Delete and merge**, always after showing you a preview and getting your confirmation. Deleted items go to Trash.
+- **Restore from Trash**: bring a deleted item back to where it was. If its collection is in Trash and limits who can see it, the collection has to be restored first, from [Trash](/organisation/organising-workspace#trash) in Bower.
 
-Every call runs with your own permissions in the workspace you picked. If you're a Guest, your client sees only the read-only tools. The [MCP server reference](/integrations/mcp-server-reference) lists every tool with one line on when to use it.
+Every call runs with your own permissions in the workspace you picked. If you're a Guest, your client sees only the 19 read-only tools out of 36. The [MCP server reference](/integrations/mcp-server-reference) lists every tool with one line on when to use it.
 
 ### What can't it do?
 
 - **Upload files.** Add attachments in the Bower app. The size limit and accepted file types are published to the client in the `bower://help/upload-instructions` resource.
-- **Restore from Trash.** Restore items from the [Trash](/organisation/organising-workspace#trash) page in the Bower app.
-- **Edit a structured protocol's steps.** Edit them in the Bower app. A structured protocol's text is generated from its steps, so text a client writes into it is replaced the next time a step changes. Your client can still read the protocol and change its title or tags.
+- **Delete permanently.** Items your client deletes go to Trash. Emptying Trash, or deleting an item permanently, happens in the Bower app.
+- **Edit a structured protocol's steps.** Edit them in the Bower app. A structured protocol's text is generated from its steps, so Bower refuses a client's edit to that text with `PROTOCOL_TEXT_IS_GENERATED` rather than let the next step change overwrite it. Your client can still read the protocol and change its title or tags.
+- **Always fetch the files it links to.** For images, PDFs, audio, and video, your client gets a short-lived signed link to the file. Some AI apps run code in a sandbox that blocks Bower's file storage host, so the assistant may not be able to download the file itself. Open it in Bower instead.
+
+## Which MCP version does Bower support?
+
+The Bower MCP server speaks MCP specification revision 2026-07-28 and still serves clients built for the 2025 revisions.
 
 ## What limits apply?
 

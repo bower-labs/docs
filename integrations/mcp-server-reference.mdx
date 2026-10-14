@@ -1,6 +1,6 @@
 ---
 title: "MCP server reference: Bower tools, limits, and errors"
-description: "Reference for the Bower MCP server at app.bowerlabs.ai/mcp: how Claude.ai, ChatGPT, Cursor, and Zed sign in, every tool an AI client can call, paging and upload limits, error shapes, and common workflows."
+description: "Reference for the Bower MCP server at app.bowerlabs.ai/mcp: how Claude.ai, ChatGPT, Cursor, and Zed sign in, all 36 tools an AI client can call, paging and upload limits, error shapes, and workflows for protocols, captures, and Trash."
 ---
 
 The Bower MCP server lets an AI client you already use, such as Claude.ai, ChatGPT, Cursor, or Zed, search, read, and write to one Bower workspace. This page is the reference: the tools the server offers, the limits it applies, and what its errors look like. For step-by-step setup, see [AI app access](/integrations/ai-app-access).
@@ -19,19 +19,21 @@ Add it to your client as a remote MCP server (Claude.ai and ChatGPT call this a 
 2. Pick the workspace to grant access to. If you belong to only one, Bower selects it for you.
 3. The client receives a token scoped to that workspace and lists Bower's tools.
 
+The server speaks MCP specification revision 2026-07-28 and still serves clients built for the 2025 revisions.
+
 Access tokens last about an hour. Clients that support MCP refresh tokens, including Claude.ai and recent versions of Cursor, renew them without asking you to sign in again. **Settings** > **Connect external AI** in Bower shows the server URL with a copy button and links back to these pages.
 
 ## What can an AI client see?
 
 - **One workspace.** The token names the workspace you picked at sign-in. A token for one workspace never returns data from another, even if you belong to both.
 - **Only what you can see.** Every call runs with your own permissions. Items you can't open are left out of results or reported as not found.
-- **Read-only roles get read-only tools.** If you're a [Guest](/workspaces-and-account/permissions-overview) in the workspace, your client is offered only the tools marked **Read** below. Write tools are not listed, and the server refuses them if called.
+- **Read-only roles get read-only tools.** If you're a [Guest](/workspaces-and-account/permissions-overview) in the workspace, your client is offered only the 19 tools marked **Read** below. Write tools are not listed, and the server refuses them if called.
 
 When a client connects, Bower also sends it a short orientation: what a workspace holds, the vocabulary it uses, and the order the tools are meant to be called in.
 
 ## Which tools does the Bower MCP server offer?
 
-Every tool declares MCP annotations, so your client can tell a read from a write and flag the destructive ones. In the tables, **Read** tools change nothing. **Write** tools create or change data. **Destructive** tools remove something and, where noted, ask for confirmation first.
+The server offers 36 tools: 19 that only read and 17 that write. Every tool declares MCP annotations, so your client can tell a read from a write and flag the destructive ones. In the tables, **Read** tools change nothing. **Write** tools create or change data. **Destructive** tools remove something and, where noted, ask for confirmation first.
 
 In Bower's vocabulary, an **artifact** is any item in the workspace: a note, protocol, attachment, link, or piece of equipment. A **collection** groups artifacts and can nest.
 
@@ -51,8 +53,9 @@ In Bower's vocabulary, an **artifact** is any item in the workspace: a note, pro
 | Tool | Type | When to use it |
 |------|------|----------------|
 | `get_artifact` | Read | Read one artifact's metadata and full Markdown. Long text comes back in windows. |
+| `get_protocol` | Read | Read a structured protocol in one call: the whole thing, or one section or set of steps, with materials, parameters, and amounts. |
 | `get_collection` | Read | Read one collection's details, tags, and dates. |
-| `read_file_content` | Read | Get an attachment's text, or a short-lived download URL for images, PDFs, audio, and video. |
+| `read_file_content` | Read | Get an attachment's text, or a short-lived signed `storageUrl` for images, PDFs, audio, and video. |
 | `get_linked_entities` | Read | List what an item is linked to, including the captures made during a protocol run. |
 | `list_activity` | Read | See who created, updated, or deleted what, across the workspace or for one item. |
 | `list_workspace_members` | Read | Resolve a member's name to an ID before filtering activity. |
@@ -64,6 +67,7 @@ In Bower's vocabulary, an **artifact** is any item in the workspace: a note, pro
 |------|------|----------------|
 | `analyze_spreadsheet` | Read | Profile an uploaded CSV, TSV, XLSX, or XLS file: columns, types, statistics, and sample rows. |
 | `query_spreadsheet` | Read | Get an exact answer from an uploaded CSV, TSV, or XLSX file with one read-only SQL `SELECT`. |
+| `inspect_spreadsheet` | Read | Read one sheet of a native Bower spreadsheet. Works only in workspaces with spreadsheets turned on; elsewhere it reports that they aren't enabled. |
 | `transcribe_attachment` | Write | Transcribe an audio or video attachment (mp3, wav, m4a, mp4, webm). Uses your workspace's transcription minutes. |
 | `process_attachments` | Write | Turn 1 to 10 attachments into notes: transcribe audio, run OCR on images, parse documents. |
 
@@ -96,12 +100,13 @@ In Bower's vocabulary, an **artifact** is any item in the workspace: a note, pro
 | `link_entities` | Write | Link two items. Each item holds at most 20 links. |
 | `unlink_entities` | Destructive | Remove a link, whether a person made it or Bower suggested it. |
 
-### Delete and merge
+### Delete, merge, and restore
 
 | Tool | Type | When to use it |
 |------|------|----------------|
 | `delete_artifact` | Destructive | Move one or more artifacts to Trash. Asks for confirmation first. |
 | `merge_artifacts` | Destructive | Merge 2 to 20 notes into the oldest one. The others go to Trash. Asks for confirmation first. |
+| `restore_artifact` | Write | Bring one artifact back from Trash, by the ID `delete_artifact` reported. Needs edit access to the item. |
 
 Deleting and merging always take two calls. The first returns `status: "confirmation_required"` with a preview of what will change. Your client should show you that preview and make the second call, with `confirmed: true`, only after you agree.
 
@@ -148,7 +153,7 @@ Bower reports a failed tool call in one of two ways. Your client should handle b
 }
 ```
 
-`retryable` says whether the same call can succeed later. Some errors carry a more specific code at the start of `message`, such as `INVALID_PARENT: ...` when a move or copy names a target that doesn't exist, or `AI_TRANSCRIPTION_QUOTA_EXHAUSTED: ...` when the transcription allowance is used up.
+`retryable` says whether the same call can succeed later. Some errors carry a more specific code. `update_artifact` answers `PROTOCOL_TEXT_IS_GENERATED` when a client tries to edit a structured protocol's text (see [below](#how-do-i-read-a-protocols-steps)). Others put the code at the start of `message`, such as `INVALID_PARENT: ...` when a move or copy names a target that doesn't exist, or `AI_TRANSCRIPTION_QUOTA_EXHAUSTED: ...` when the transcription allowance is used up.
 
 **A soft failure** comes back as a normal result, without `isError`, and with `success: false` and a message that starts with a code:
 
@@ -159,7 +164,7 @@ Bower reports a failed tool call in one of two ways. Your client should handle b
 }
 ```
 
-Read the code before retrying. `LINK_CAP_EXCEEDED`, for example, won't succeed on retry until you remove one of the item's existing links.
+Read the code before retrying. `LINK_CAP_EXCEEDED`, for example, won't succeed on retry until you remove one of the item's existing links, and `RESTORE_PARENT_FIRST` won't succeed until the item's collection is restored.
 
 Two outcomes look like errors but aren't:
 
@@ -176,20 +181,30 @@ The photos, voice notes, and videos captured while someone ran a protocol are li
 
 1. Find the protocol with `find_artifact_by_title`, or with `list_artifacts` and `artifactType: "protocol"`.
 2. Call `get_linked_entities` with `entityType: "protocol"`, the protocol's ID as `entityId`, and `relationshipType: "captured_during"`. Results are newest first and paged, so follow `nextCursor` while `hasMore` is `true`.
-3. Each row carries `captureMethod`, `mimeType`, `linkedAt`, and `processingStatus`. For each attachment whose `processingStatus` is `"ready"`, call `read_file_content` to get its text or a download URL.
+3. Each row carries `captureMethod`, `mimeType`, `linkedAt`, `processingStatus`, and `createdBy`: the ID and display name of the member of record. That is the person who captured it, or the admin who inherited it if that person's account was deleted.
+4. For each attachment whose `processingStatus` is `"ready"`, call `read_file_content` to get its text or a signed `storageUrl` for the file.
+
+The `storageUrl` is short-lived and points at Bower's file storage host. Some AI clients run code in a sandbox that blocks that host, so your assistant may get the URL but be unable to fetch the file itself. If that happens, open the capture in Bower, or use the text Bower already extracted with `get_artifact`.
 
 To go the other way, from a note to the recording or image its text came from, call `get_linked_entities` on the note (`entityType: "note"`) with `relationshipType: "transcribed_from"` or `"extracted_from"`. In the app, the same captures appear on [Protocol runs](/organisation/protocol-runs).
 
 ### How do I read a protocol's steps?
 
 1. Find the protocol with `find_artifact_by_title`.
-2. Call `get_artifact` with its ID. For a [structured protocol](/organisation/protocols), the Markdown it returns is generated from the protocol's sections and steps.
+2. Call `get_protocol` with its ID. One call returns the whole [structured protocol](/organisation/protocols): every section (materials, parameters, safety, troubleshooting, and any the author added) and its steps with their text and amounts. To read only part of it, pass `section` (a section's key, kind, or title) or `stepKeys`. Long protocols come back in pages; when the response has `nextOffset`, call again with `offset` set to it.
+3. If the result says `structured: false`, the protocol is plain text. Read it with `get_artifact` instead.
 
-Edit a structured protocol's steps in the Bower app. Its Markdown body is generated from those steps, so text an AI client writes into the body with `update_artifact` is replaced the next time a step changes. Changing the title or tags is safe.
+A structured protocol's Markdown is generated from its steps, so `update_artifact` refuses to edit its text and answers `PROTOCOL_TEXT_IS_GENERATED`. Edit the steps in the Bower app. Your client can still change the protocol's title and tags.
 
 ### How do I get something back from Trash?
 
-`delete_artifact` and `merge_artifacts` move items to Trash, where they stay for 30 days. Restoring happens in the Bower app: open **Trash** at the bottom of the page tree and restore the item from there. See [Trash](/organisation/organising-workspace#trash) for how restores work.
+`delete_artifact` and `merge_artifacts` move items to Trash, where they stay for 30 days. To bring one back:
+
+1. Call `restore_artifact` with the ID `delete_artifact` reported. Items in Trash don't appear in search or `find_artifact_by_title`, so keep that ID.
+2. The item returns to the collection it was in. If that collection is also in Trash, the item goes to the top level of the workspace and the result has `restoredToRoot: true`.
+3. If the item inherits a sharing restriction from that trashed collection, restoring it alone would drop the restriction. The tool answers `RESTORE_PARENT_FIRST` and nothing moves. Someone who can manage the collection restores it from Trash in Bower first, and the item comes back with it.
+
+For a file inside a note that is also in Trash, restore the note: its files come back with it. Restoring needs edit access to the item. Permanent deletion isn't available over MCP. See [Trash](/organisation/organising-workspace#trash) for how restores work in the app.
 
 ## Related docs
 
