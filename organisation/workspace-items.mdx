@@ -1,6 +1,6 @@
 ---
 title: "What's in your workspace"
-description: "The kinds of item a workspace holds: collections, notes, files, protocols, equipment, and links."
+description: "The kinds of item a Bower workspace holds: collections, notes, spreadsheets, files, protocols, equipment, and links, and what each file type becomes."
 ---
 
 Everything you capture, import, or create becomes an item in your workspace. Every item sits in a collection or at the top level, and you can tag, link, share, move, and search it. To see one kind at a time, use the **Type** filter in the workspace view.
@@ -11,7 +11,8 @@ Create any of them from **Create** (the **+** button):
 | --- | --- | --- |
 | **Collection** | A group of items, like a folder | **Collection** |
 | **Note** | Editable text: typed, dictated, or extracted from a file | **Text note**, **Voice note**, **Photo → text** |
-| **File** | An uploaded file kept as it is, such as a PDF, spreadsheet, image, or instrument data | **Import files**, or drop files on the page |
+| **Spreadsheet** | An editable workbook. See [Spreadsheets](/organisation/spreadsheets) | **Spreadsheet** |
+| **File** | An uploaded file kept as it is, such as a PDF, image, or instrument data | **Import files**, or drop files on the page |
 | **Protocol** | A step-by-step procedure your lab follows | **Protocol** |
 | **Equipment** | An instrument in your lab | **Equipment** |
 | **Link** | A shortcut to a web page outside Bower | **Link** |
@@ -20,7 +21,7 @@ For moving, renaming, and deleting items, see [Organizing your workspace](/organ
 
 ## Collections
 
-A collection groups notes, files, protocols, and other collections. Use them by experiment, sample batch, or date range. Collections can be nested.
+A collection groups notes, spreadsheets, files, protocols, and other collections. Use them by experiment, sample batch, or date range. Collections can be nested.
 
 Everyone in the workspace can see a new collection unless you tick **Private to me** when you create it. You can restrict an existing collection from the **Share** dialog. See [Sharing](/organisation/sharing-artifacts).
 
@@ -30,13 +31,14 @@ A note is the editable record you search, organize, and build on. You write it i
 
 ## Files
 
-When you import a file, Bower decides whether to make a note from it:
+When you import a file, Bower decides what to make from it:
 
 | File | What you get |
 | --- | --- |
 | Audio, Word, text, Markdown | A note with the transcript or text, and the original file attached to it |
 | Image | A note if Bower finds text in it; otherwise the image stays a file, with an AI description so you can search for it |
-| PDF, spreadsheet, CSV, video, code, archive, instrument data, other | The file, kept as it is. Bower extracts text from PDFs so search can find them |
+| CSV, Excel | A [spreadsheet](/organisation/spreadsheets), with some exceptions |
+| PDF, video, code, archive, instrument data, other | The file, kept as it is. Bower extracts text from PDFs so search can find them |
 
 Bower never discards the original. To make a note from a PDF, image, audio file, or Word document that stayed a file, open it and choose **Convert to Note** from its menu.
 

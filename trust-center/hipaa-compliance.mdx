@@ -47,6 +47,8 @@ Each of these sends content to a third party that has not signed a BAA, so the w
 
 If you try to use a blocked feature, Bower tells you it is unavailable in this workspace rather than failing quietly.
 
+Native [spreadsheets](/organisation/spreadsheets#restricted-mode) are also unavailable in Restricted mode.
+
 #### Word (.docx) imports
 
 Outside Restricted mode, Bower converts Word documents using a third-party conversion service. That service has no BAA, so in Restricted mode your .docx is never sent to it; Bower converts the file itself. Legacy .doc files are the one exception: they are converted via Google Workspace, which is covered by a separate signed BAA, so they too stay inside a BAA boundary.
