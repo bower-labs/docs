@@ -177,6 +177,18 @@ Marking a step done, skipping, and going back all stay instant. If Bower isn't s
 - *"Resume"* / *"Where were we?"* — Bower announces the current step again and continues
 - *"That's done"* / *"We're finished"* (after the last step) — Bower ends the run and returns to general live mode
 
+### Undoing the last step
+
+When you mark the last step done, Bower finishes the protocol and returns to general live mode. If that last *"done"* was misheard, or you finished a step too soon, you have **10 minutes** to take it back in the same live session:
+
+1. Say *"Go back"* or *"Undo"*, or name the step you want, such as *"Go back to step 6"*.
+2. Bower asks first, for example *"Reopen the finished protocol at step 6, Image the gel?"*
+3. Say *"yes"* and Bower reopens the run at that step: *"The protocol is open again."* Say no, and the run stays finished.
+
+Bower always asks before reopening a finished protocol, even when you name a clear step number, so a stray *"go back"* can't undo a run that really was finished. Tapping a step card doesn't reopen it; only your voice does. A run you reopen and then leave without finishing is recorded as **Ended early**.
+
+After 10 minutes, a finished run is a fixed record and can't be reopened. A run that ended early, because you stopped it or started another protocol, can't be reopened either. In both cases, start the protocol again for a new run. See [Can a finished run change?](/organisation/protocols#can-a-finished-run-change)
+
 ### Timers
 
 Inside a protocol you can set a wall-clock timer for the current step:
@@ -202,7 +214,7 @@ Bower captures the deviation with the right category (timing, parameter, sterile
 
 ## Remembering something for next time
 
-When you tell Bower something worth keeping during a protocol run, such as *"remember that we use 50 µL here"* or *"make a note that the buffer was cold"*, Bower writes it into a **note** anchored to that run and tells you so: *"Got it, putting that in a note for this run."* The note appears under that run in [Protocol runs](/organisation/protocol-runs) straight away and is searchable like any other note.
+When you tell Bower something worth keeping during a protocol run, such as *"remember that we use 50 µL here"* or *"make a note that the buffer was cold"*, Bower writes it into a **note** anchored to that run and tells you so: *"Got it, putting that in a note for this run."* The note appears on that run's record straight away and is searchable like any other note. See [What is on a run record?](/organisation/protocols#what-is-on-a-run-record)
 
 Bower does not carry these notes into future runs. It won't read a tip back to you when you reach the same step next time, so if a change should apply to every run, edit the protocol itself.
 
