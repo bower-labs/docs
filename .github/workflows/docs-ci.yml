@@ -42,6 +42,9 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Prove the validator's detectors still see planted cases
+        run: python3 scripts/test-validate-docs.py
+
       - name: Validate docs.json, navigation targets and internal links
         run: python3 scripts/validate-docs.py
 

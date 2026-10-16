@@ -1,14 +1,9 @@
-# Bower Help Center — Documentation project instructions
+# Bower Help Center: assistant instructions
 
-## About this project
-
-- This is the public-facing help center for [Bower](https://bowerlabs.ai), built on [Mintlify](https://mintlify.com)
-- Pages are MDX files with YAML frontmatter
-- Configuration lives in `docs.json`
-- Run `mint dev` to preview locally (auto-selects an available port if 3000 is in use)
-- Run `mint broken-links` to check links
-- Hosted at `docs.bowerlabs.ai`
-- This repo is **public** — treat every file as publicly visible. Never commit API keys, internal URLs, secrets, or system architecture details.
+This file is read by the help center's AI assistant (Mintlify) when it answers
+readers, and it is the one source for Bower's voice, terminology and never
+list. Authoring rules for people and agents editing the docs live in
+`AGENTS.md`, which points here.
 
 ## About Bower
 
@@ -89,36 +84,3 @@ These are hard rules, not guidelines.
 5. **Never obscure the AI.** When Bower's AI does something, be transparent about what it did and how confident it is. Never present AI output as verified truth. The researcher is always the authority.
 
 6. **Never use emojis.** Not in the docs, not in examples, not anywhere.
-
-## Style preferences
-
-- **Spelling is American.** organize, optimize, analyze, summarize, center,
-  behavior, color, license, catalog, program. House style went American on
-  2026-08-09; the word list lives in the Notion tone-of-voice doc and is
-  extracted to `scripts/voice-rules.json`, mirrored in `bower-labs/bower` and
-  `bower-labs/website` so all three surfaces read as one dialect. Refreshing
-  Notion means refreshing all three. `python3 scripts/check-house-spelling.py`
-  enforces it and runs in CI; `--fix` rewrites, and you should read the diff.
-  Note `analyse` -> `analyze` (it ends `-yse`, not `-ise`) and that the
-  participles drop the `e`: organis**ing** -> organiz**ing**.
-- **URL paths are not prose.** `/organisation/...` stays as it is. Renaming a
-  directory is a URL migration that needs `redirects` entries in `docs.json`,
-  which the Trust Center rename is the worked example of — not a spelling fix.
-  The guard excludes link targets and `href`s for this reason.
-- **A heading rename changes its anchor, and `redirects` cannot cover a
-  fragment** — they rewrite PATHS only. Before renaming a heading, grep the app
-  and these docs for `#that-anchor`; a stale fragment fails silently by landing
-  the reader at the top of the page.
-- Use active voice and second person ("you")
-- Keep sentences concise — one idea per sentence
-- Use sentence case for headings
-- Bold for UI elements: Click **Settings**
-- Code formatting for file names, commands, paths, and code references
-- No marketing language. State what the feature does, not how exciting it is.
-
-## Content boundaries
-
-- Do not document internal admin features, infrastructure, or deployment
-- Do not expose API keys, internal URLs, or system architecture details
-- Do not document features that are not yet available to users
-- Do not include screenshots of internal tools or admin panels

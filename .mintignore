@@ -5,3 +5,7 @@
 # Draft content
 drafts/
 *.draft.mdx
+
+# Agent instructions (CLAUDE.md imports AGENTS.md)
+CLAUDE.md
+AGENTS.md
