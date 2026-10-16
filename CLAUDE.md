@@ -1,2 +1,2 @@
 @AGENTS.md
-@ASSISTANT.md
+@.mintlify/ASSISTANT.md

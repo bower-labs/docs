@@ -22,7 +22,7 @@ The 2026-08 identity is shared with the marketing site (`bowerlabs.ai`) and the 
 
 ## Voice, terminology and the never list
 
-These live in `ASSISTANT.md`, because the help center's AI assistant reads that
+These live in `.mintlify/ASSISTANT.md`, because the help center's AI assistant reads that
 file when it answers readers. Read it before writing; it is the one copy.
 
 ## Style preferences

@@ -29,8 +29,8 @@ Four checks, all of which can genuinely fail on a realistic mistake:
    the first time someone updates one copy; keep it on the page that owns it
    and link there. Exact matching only catches copy-paste; reworded repeats
    are a reviewer's job (AGENTS.md, "Concise, with one source of truth").
-8. Every page is in the navigation. A page outside it has no sidebar entry,
-   so readers and search engines reach it only by luck.
+8. Every published page, `.mdx` or `.md`, is in the navigation. A page outside
+   it has no sidebar entry, so readers and search engines reach it only by luck.
 
 It also prints the longest pages (not a failure): long pages are where
 repetition and drift collect, so they are the first to trim.
@@ -113,6 +113,29 @@ def page_exists(slug: str) -> bool:
     return False
 
 
+MINTLIFY_DEFAULT_IGNORES = {"README.md", "LICENSE.md", "CHANGELOG.md", "CONTRIBUTING.md"}
+
+
+def mintignored(path: Path) -> bool:
+    """True when Mintlify will not publish this file: a default ignore, or a
+    name or path listed in .mintignore (literal entries and `dir/` prefixes)."""
+    rel = path.relative_to(ROOT)
+    if str(rel) in MINTLIFY_DEFAULT_IGNORES:
+        return True
+    ignore = ROOT / ".mintignore"
+    if not ignore.is_file():
+        return False
+    for raw in ignore.read_text(encoding="utf-8").splitlines():
+        entry = raw.strip()
+        if not entry or entry.startswith("#"):
+            continue
+        if entry.endswith("/") and str(rel).startswith(entry):
+            return True
+        if Path(str(rel)).match(entry):
+            return True
+    return False
+
+
 def page_file(slug: str) -> Path | None:
     slug = slug.strip("/") or "index"
     for candidate in chain(
@@ -138,7 +161,7 @@ def asset_exists(path: str) -> bool:
 # Rather than mirror that, a heading that something links to must be plain.
 
 FRAGMENT_LINK_RE = re.compile(
-    r"\]\((/[^)\s#]*)?#([^)\s]+)\)|href=[\"'](/[^\"'\s#]*)?#([^\"'\s]+)[\"']"
+    r"\]\((/[^)\s#]*)?#([^)\s]+)(?:\s+\"[^\"]*\")?\)|href=[\"'](/[^\"'\s#]*)?#([^\"'\s]+)[\"']"
 )
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*#*\s*$")
 FENCE_RE = re.compile(r"^\s*(```|~~~)")
@@ -219,6 +242,7 @@ DUPLICATE_MIN_WORDS = 10
 DUPLICATE_EXEMPT_DIRS = ("changelog", "snippets")
 
 
+JSX_TEXT_ATTR_RE = re.compile(r"""\b(?:title|description)=["']([^"']+)["']""")
 LIST_MARKER_RE = re.compile(r"^\s*(?:[-*+]|\d+\.)\s+")
 
 
@@ -236,9 +260,15 @@ def prose_body(text: str) -> str:
             in_fence = not in_fence
             parts.append("\n")
             continue
-        if in_fence or not stripped or stripped.startswith(("import ", "|", "{/*")):
+        if in_fence or not stripped or stripped.startswith(("import ", "{/*")):
             parts.append("\n")
             continue
+        if stripped.startswith("|"):  # a table: each cell is a block of its own
+            parts.append("\n" + "\n".join(stripped.strip("|").split("|")) + "\n")
+            continue
+        attrs = JSX_TEXT_ATTR_RE.findall(line)
+        if attrs:
+            parts.append("\n" + "\n".join(attrs) + "\n")
         if stripped.startswith("<"):  # JSX: keep any text, as a block of its own
             parts.append("\n" + re.sub(r"<[^>]+>", " ", line) + "\n")
             continue
@@ -477,11 +507,17 @@ def main() -> None:
     check_brand(config, problems)
 
     # --- Check 5: anchors resolve ---------------------------------------------
-    redirects = {
-        r["source"].strip("/"): r.get("destination", "")
-        for r in config.get("redirects", [])
-        if isinstance(r, dict) and r.get("source")
-    }
+    redirect_entries = [
+        r for r in config.get("redirects", []) if isinstance(r, dict) and r.get("source")
+    ]
+    redirects = {r["source"].strip("/"): r.get("destination", "") for r in redirect_entries}
+    if len(redirects) != len(redirect_entries):
+        seen_sources: set[str] = set()
+        for r in redirect_entries:
+            source = r["source"].strip("/")
+            if source in seen_sources:
+                problems.append(f"docs.json has two redirects from '/{source}'; keep one.")
+            seen_sources.add(source)
     content_pages = [
         p for p in sorted(ROOT.rglob("*.mdx")) if is_site_content(p)
     ]
@@ -498,8 +534,8 @@ def main() -> None:
     for source, destination in redirects.items():
         dest_page, _, fragment = destination.partition("#")
         dest_page = dest_page.strip("/")
-        if ":" in source or "*" in source:
-            continue  # a wildcard like /trust-centre/:slug* maps a whole tree
+        if ":" in source or "*" in source or destination.startswith(("http://", "https://")):
+            continue  # a wildcard maps a whole tree; an external URL is not ours to check
         if page_file(source) is not None:
             problems.append(
                 f"docs.json redirect '/{source}' is shadowed by a live page with that "
@@ -519,8 +555,14 @@ def main() -> None:
     check_duplicates(content_pages, problems)
 
     # --- Check 8: every page is in the navigation ------------------------------
+    # Mintlify also publishes .md files (a root ASSISTANT.md was live at
+    # /ASSISTANT), except the ones it ignores by default or by .mintignore.
     nav_set = {slug.strip("/") for slug in nav_pages}
-    for path in content_pages:
+    published_md = [
+        p for p in sorted(ROOT.rglob("*.md"))
+        if is_site_content(p) and not mintignored(p)
+    ]
+    for path in content_pages + published_md:
         rel = path.relative_to(ROOT)
         if rel.parts[0] == "snippets":
             continue
