@@ -28,7 +28,12 @@ Four checks, all of which can genuinely fail on a realistic mistake:
 7. No sentence of 10+ words appears on two pages. A fact written twice drifts
    the first time someone updates one copy; keep it on the page that owns it
    and link there. Exact matching only catches copy-paste; reworded repeats
-   are a reviewer's job (AGENTS.md, "One source of truth").
+   are a reviewer's job (AGENTS.md, "Concise, with one source of truth").
+8. Every page is in the navigation. A page outside it has no sidebar entry,
+   so readers and search engines reach it only by luck.
+
+It also prints the longest pages (not a failure): long pages are where
+repetition and drift collect, so they are the first to trim.
 
 Run: python3 scripts/validate-docs.py
 Exit 0 = clean, 1 = problems found (printed with file:line where known).
@@ -214,9 +219,9 @@ DUPLICATE_MIN_WORDS = 10
 DUPLICATE_EXEMPT_DIRS = ("changelog", "snippets")
 
 
-def prose_sentences(text: str):
-    """(normalized, original) for each sentence of body prose: no frontmatter,
-    code, tables, JSX lines or imports."""
+def prose_body(text: str) -> str:
+    """Body prose of a page as one string: no frontmatter, code, tables, JSX
+    lines, imports, link targets or Markdown markup."""
     text = re.sub(r"\A---\n.*?\n---\n", "", text, flags=re.S)
     kept: list[str] = []
     in_fence = False
@@ -230,8 +235,12 @@ def prose_sentences(text: str):
     body = " ".join(kept)
     body = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", body)
     body = re.sub(r"<[^>]+>", " ", body)
-    body = re.sub(r"[*_`#>]", " ", body)
-    for sentence in re.split(r"(?<=[.!?])\s+", body):
+    return re.sub(r"[*_`#>]", " ", body)
+
+
+def prose_sentences(text: str):
+    """(normalized, original) for each sentence of DUPLICATE_MIN_WORDS+ words."""
+    for sentence in re.split(r"(?<=[.!?])\s+", prose_body(text)):
         normalized = " ".join(re.sub(r"[^a-z0-9 ]", "", sentence.lower()).split())
         if len(normalized.split()) >= DUPLICATE_MIN_WORDS:
             yield normalized, " ".join(sentence.split())
@@ -492,14 +501,34 @@ def main() -> None:
     # --- Check 7: no sentence repeated across pages ---------------------------
     check_duplicates(content_pages, problems)
 
+    # --- Check 8: every page is in the navigation ------------------------------
+    nav_set = {slug.strip("/") for slug in nav_pages}
+    for path in content_pages:
+        rel = path.relative_to(ROOT)
+        if rel.parts[0] == "snippets":
+            continue
+        if str(rel.with_suffix("")) not in nav_set:
+            problems.append(f"{rel} is not in docs.json navigation, so nothing in the sidebar leads to it.")
+
     if problems:
         fail(problems)
 
+    word_counts = sorted(
+        (
+            (len(prose_body(p.read_text(encoding="utf-8")).split()), p)
+            for p in content_pages
+            if p.relative_to(ROOT).parts[0] not in DUPLICATE_EXEMPT_DIRS
+        ),
+        reverse=True,
+    )
+    print("Longest pages (words of prose; trim these first):")
+    for words, path in word_counts[:5]:
+        print(f"  {words:>5}  {path.relative_to(ROOT)}")
     print(
         f"✔ docs.json valid · {len(nav_pages)} navigation pages resolve · "
         f"internal links across {len(known_pages)} pages resolve · "
         f"brand assets and colors match the 2026-08 identity · anchors and "
-        f"{len(redirects)} redirects resolve · no sentence repeated across pages"
+        f"{len(redirects)} redirects resolve · no sentence repeated across pages · every page in the navigation"
     )
 
 
