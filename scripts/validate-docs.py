@@ -17,6 +17,18 @@ Four checks, all of which can genuinely fail on a realistic mistake:
 4. The brand assets and colors in `docs.json` are the current identity, in the
    right slots. See the block comment above `check_brand` for why that needs a
    check rather than a careful reviewer.
+5. Every `#anchor` in an internal link or a redirect destination names a real
+   heading on the target page. A stale fragment fails silently: the reader
+   lands at the top of the page. When this check was added, four were live,
+   all on headings with an apostrophe or quotes, which Mintlify keeps in the
+   anchor (`when-there’s-no-wi-fi`) while authors type them without.
+6. Every redirect lands on a real page in one hop: its destination exists and
+   is not itself a redirect source, and its source is not a live page (which
+   would shadow the redirect).
+7. No sentence of 10+ words appears on two pages. A fact written twice drifts
+   the first time someone updates one copy; keep it on the page that owns it
+   and link there. Exact matching only catches copy-paste; reworded repeats
+   are a reviewer's job (AGENTS.md, "One source of truth").
 
 Run: python3 scripts/validate-docs.py
 Exit 0 = clean, 1 = problems found (printed with file:line where known).
@@ -96,9 +108,153 @@ def page_exists(slug: str) -> bool:
     return False
 
 
+def page_file(slug: str) -> Path | None:
+    slug = slug.strip("/") or "index"
+    for candidate in chain(
+        (ROOT / f"{slug}{s}" for s in PAGE_SUFFIXES),
+        (ROOT / slug / f"index{s}" for s in PAGE_SUFFIXES),
+    ):
+        if candidate.is_file():
+            return candidate
+    return None
+
+
 def asset_exists(path: str) -> bool:
     candidate = ROOT / path.strip("/")
     return candidate.is_file()
+
+
+# --- Anchors ----------------------------------------------------------------
+#
+# Mintlify's heading anchors, verified against `mint dev` for all 711 "plain"
+# headings on the site (2026-10-16): lowercase, spaces to hyphens, `? . , : ( )
+# /` dropped. It KEEPS apostrophes (as ’), curly quotes, `&`, `—` and most other
+# symbols, and drops a few (`↔`), so those anchors cannot be predicted reliably.
+# Rather than mirror that, a heading that something links to must be plain.
+
+FRAGMENT_LINK_RE = re.compile(
+    r"\]\((/[^)\s#]*)?#([^)\s]+)\)|href=[\"'](/[^\"'\s#]*)?#([^\"'\s]+)[\"']"
+)
+HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*#*\s*$")
+FENCE_RE = re.compile(r"^\s*(```|~~~)")
+ID_ATTR_RE = re.compile(r"""\bid=["']([^"']+)["']""")
+SNIPPET_IMPORT_RE = re.compile(r"""^import\s+\w+\s+from\s+["'](/snippets/[^"']+)["']""", re.M)
+PLAIN_HEADING_RE = re.compile(r"^[A-Za-z0-9 ?.,:()/-]+$")
+
+
+def heading_text(raw: str) -> str:
+    text = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", raw)
+    text = re.sub(r"<[^>]+>", "", text)
+    return text.replace("**", "").replace("`", "").strip()
+
+
+def mintlify_slug(raw: str) -> str:
+    text = heading_text(raw).replace("'", "’").lower()
+    text = re.sub(r"[^\w\s’-]", "", text)
+    return re.sub(r"\s", "-", text.strip())
+
+
+def page_anchors(path: Path, seen: set[Path] | None = None) -> dict[str, str]:
+    """anchor -> heading text for one page, including imported snippets and
+    explicit `id=` attributes (which map to themselves)."""
+    seen = seen or set()
+    seen.add(path)
+    text = path.read_text(encoding="utf-8")
+    anchors: dict[str, str] = {}
+    in_fence = False
+    for line in text.splitlines():
+        if FENCE_RE.match(line):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+        heading = HEADING_RE.match(line)
+        if heading:
+            anchors.setdefault(mintlify_slug(heading.group(2)), heading_text(heading.group(2)))
+        for anchor in ID_ATTR_RE.findall(line):
+            anchors.setdefault(anchor, anchor)
+    for snippet in SNIPPET_IMPORT_RE.findall(text):
+        snippet_path = ROOT / snippet.lstrip("/")
+        if snippet_path.is_file() and snippet_path not in seen:
+            for anchor, label in page_anchors(snippet_path, seen).items():
+                anchors.setdefault(anchor, label)
+    return anchors
+
+
+def check_anchor(
+    where: str, page: str, fragment: str, redirects: dict[str, str], problems: list[str]
+) -> None:
+    page = page.strip("/") or "index"
+    if page in redirects:
+        page = redirects[page].split("#", 1)[0].strip("/") or "index"
+    target = page_file(page)
+    if target is None:
+        return  # a missing page is check 3's (or check 6's) problem
+    anchors = page_anchors(target)
+    if fragment not in anchors:
+        problems.append(
+            f"{where}: '#{fragment}' is not a heading on /{page}. If you renamed the "
+            f"heading, update this link. Headings that are linked to must use only "
+            f"letters, digits, spaces, hyphens and ?.,:()/ (Mintlify keeps "
+            f"apostrophes, quotes, & and dashes in the anchor)."
+        )
+    elif not PLAIN_HEADING_RE.match(anchors[fragment]) and fragment != anchors[fragment]:
+        problems.append(
+            f"{where}: '#{fragment}' links to the heading \"{anchors[fragment]}\" on "
+            f"/{page}, whose anchor depends on punctuation. Reword the heading with "
+            f"only letters, digits, spaces, hyphens and ?.,:()/, then update its links."
+        )
+
+
+# --- Duplicate sentences ----------------------------------------------------
+#
+# Changelog entries summarize the feature page they link to, by design, and
+# snippets exist to be shared, so both are out of scope.
+DUPLICATE_MIN_WORDS = 10
+DUPLICATE_EXEMPT_DIRS = ("changelog", "snippets")
+
+
+def prose_sentences(text: str):
+    """(normalized, original) for each sentence of body prose: no frontmatter,
+    code, tables, JSX lines or imports."""
+    text = re.sub(r"\A---\n.*?\n---\n", "", text, flags=re.S)
+    kept: list[str] = []
+    in_fence = False
+    for line in text.splitlines():
+        if FENCE_RE.match(line):
+            in_fence = not in_fence
+            continue
+        if in_fence or line.strip().startswith(("import ", "|", "<", "{/*")):
+            continue
+        kept.append(line)
+    body = " ".join(kept)
+    body = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", body)
+    body = re.sub(r"<[^>]+>", " ", body)
+    body = re.sub(r"[*_`#>]", " ", body)
+    for sentence in re.split(r"(?<=[.!?])\s+", body):
+        normalized = " ".join(re.sub(r"[^a-z0-9 ]", "", sentence.lower()).split())
+        if len(normalized.split()) >= DUPLICATE_MIN_WORDS:
+            yield normalized, " ".join(sentence.split())
+
+
+def check_duplicates(pages: list[Path], problems: list[str]) -> None:
+    where: dict[str, list[str]] = {}
+    example: dict[str, str] = {}
+    for path in pages:
+        rel = path.relative_to(ROOT)
+        if rel.parts[0] in DUPLICATE_EXEMPT_DIRS:
+            continue
+        for normalized, original in prose_sentences(path.read_text(encoding="utf-8")):
+            files = where.setdefault(normalized, [])
+            if str(rel) not in files:
+                files.append(str(rel))
+            example.setdefault(normalized, original)
+    for normalized, files in sorted(where.items()):
+        if len(files) > 1:
+            problems.append(
+                f"the same sentence is on {', '.join(files)}: \"{example[normalized][:120]}\". "
+                f"Keep it on the page that owns the fact and link there from the others."
+            )
 
 
 # --- Brand ------------------------------------------------------------------
@@ -294,13 +450,56 @@ def main() -> None:
     # --- Check 4: brand assets and colors are current, and in the right slots -
     check_brand(config, problems)
 
+    # --- Check 5: anchors resolve ---------------------------------------------
+    redirects = {
+        r["source"].strip("/"): r.get("destination", "")
+        for r in config.get("redirects", [])
+        if isinstance(r, dict) and r.get("source")
+    }
+    content_pages = [
+        p for p in sorted(ROOT.rglob("*.mdx")) if is_site_content(p)
+    ]
+    for path in content_pages:
+        rel = path.relative_to(ROOT)
+        own = str(rel.with_suffix(""))
+        for lineno, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+            for match in FRAGMENT_LINK_RE.finditer(line):
+                page = match.group(1) or match.group(3) or own
+                fragment = match.group(2) or match.group(4)
+                check_anchor(f"{rel}:{lineno}", page, fragment, redirects, problems)
+
+    # --- Check 6: every redirect lands on a page in one hop -------------------
+    for source, destination in redirects.items():
+        dest_page, _, fragment = destination.partition("#")
+        dest_page = dest_page.strip("/")
+        if ":" in source or "*" in source:
+            continue  # a wildcard like /trust-centre/:slug* maps a whole tree
+        if page_file(source) is not None:
+            problems.append(
+                f"docs.json redirect '/{source}' is shadowed by a live page with that "
+                f"path. Delete the page or the redirect."
+            )
+        if dest_page in redirects:
+            problems.append(
+                f"docs.json redirect '/{source}' -> '{destination}' chains through another "
+                f"redirect. Point it at '{redirects[dest_page]}' directly."
+            )
+        elif page_file(dest_page) is None:
+            problems.append(f"docs.json redirect '/{source}' points at missing page '{destination}'.")
+        elif fragment:
+            check_anchor(f"docs.json redirect '/{source}'", dest_page, fragment, redirects, problems)
+
+    # --- Check 7: no sentence repeated across pages ---------------------------
+    check_duplicates(content_pages, problems)
+
     if problems:
         fail(problems)
 
     print(
         f"✔ docs.json valid · {len(nav_pages)} navigation pages resolve · "
         f"internal links across {len(known_pages)} pages resolve · "
-        f"brand assets and colors match the 2026-08 identity"
+        f"brand assets and colors match the 2026-08 identity · anchors and "
+        f"{len(redirects)} redirects resolve · no sentence repeated across pages"
     )
 
 

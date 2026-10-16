@@ -115,10 +115,16 @@ These are hard rules, not guidelines.
   directory is a URL migration that needs `redirects` entries in `docs.json`,
   which the Trust Center rename is the worked example of — not a spelling fix.
   The guard excludes link targets and `href`s for this reason.
-- **A heading rename changes its anchor, and `redirects` cannot cover a
-  fragment** — they rewrite PATHS only. Before renaming a heading, grep the app
-  and these docs for `#that-anchor`; a stale fragment fails silently by landing
-  the reader at the top of the page.
+- **A heading rename changes its anchor, and a redirect `source` cannot carry
+  a fragment** (browsers never send it). A `destination` can:
+  `/organisation/protocols#protocol-runs` works. Before renaming a heading, grep
+  the app repo for `#that-anchor`; `validate-docs.py` checks these docs' own
+  links and redirect destinations, but not links from the app.
+- **Headings that are linked to use plain characters only**: letters, digits,
+  spaces, hyphens and `?.,:()/`. Mintlify keeps apostrophes (as `’`), quotes,
+  `&` and dashes in the anchor, so "What's on a run record?" becomes
+  `#what’s-on-a-run-record` and every hand-typed link to it breaks. Write "What
+  is on a run record?" instead. CI enforces this for linked headings.
 - Use active voice and second person ("you")
 - Keep sentences concise — one idea per sentence
 - Use sentence case for headings
@@ -126,9 +132,37 @@ These are hard rules, not guidelines.
 - Code formatting for file names, commands, paths, and code references
 - No marketing language. State what the feature does, not how exciting it is.
 
+## Concise, with one source of truth
+
+Our pages tend to run long, and a fact written twice drifts the first time
+someone updates only one copy. So:
+
+- **Every fact has one owning page.** The page about a feature owns how it
+  works. Every other page that needs it says one sentence and links there
+  (`[Undoing the last step](/ai-and-search/live-agent-mode#undoing-the-last-step)`),
+  never a paraphrase of the steps, limits, labels or numbers.
+- **Numbers, limits and labels live in one place**: a timeout, a retention
+  period, a list of supported devices. A second page links instead of
+  restating them, because they are what changes.
+- **Before writing, grep** for the feature's name and its UI labels across the
+  repo. Fold what you find into the owning page or turn it into a link.
+- **Say it once on the page too.** No intro that previews the sections, no
+  closing summary, no "as mentioned above". A table or a list replaces a
+  paragraph that walks through cases.
+- **Cut to what a reader does or sees.** Implementation detail, edge cases
+  nobody hits and reassurance go. If a section reads well without a sentence,
+  delete it.
+- **Changelog entries** may summarize the feature page they link to, in a few
+  bullets; they are the one exception, and they are frozen once published.
+- **Quote labels as rendered**, not from a code template: `Show 10 more (23
+  left)` is not `Show 10 more`.
+
+`validate-docs.py` fails when a sentence of 10+ words appears on two pages.
+That only catches copy-paste; a reworded repeat is the reviewer's to catch.
+
 ## Content boundaries
 
 - Do not document internal admin features, infrastructure, or deployment
 - Do not expose API keys, internal URLs, or system architecture details
-- Do not document features that are not yet available to users
+- Do not document features that are not yet available to users. Docs for a flag-gated feature open as a **draft** PR and merge when the flag widens, or earlier with David's OK
 - Do not include screenshots of internal tools or admin panels
