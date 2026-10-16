@@ -219,20 +219,37 @@ DUPLICATE_MIN_WORDS = 10
 DUPLICATE_EXEMPT_DIRS = ("changelog", "snippets")
 
 
+LIST_MARKER_RE = re.compile(r"^\s*(?:[-*+]|\d+\.)\s+")
+
+
 def prose_body(text: str) -> str:
-    """Body prose of a page as one string: no frontmatter, code, tables, JSX
-    lines, imports, link targets or Markdown markup."""
+    """Body prose of a page: no frontmatter, code, tables, JSX tags, imports,
+    link targets or Markdown markup. Every block boundary (blank line, heading,
+    list item, skipped line) is a newline, so a heading or a bullet never fuses
+    with the sentence after it; hard-wrapped lines of one paragraph stay joined."""
     text = re.sub(r"\A---\n.*?\n---\n", "", text, flags=re.S)
-    kept: list[str] = []
+    parts: list[str] = []
     in_fence = False
     for line in text.splitlines():
+        stripped = line.strip()
         if FENCE_RE.match(line):
             in_fence = not in_fence
+            parts.append("\n")
             continue
-        if in_fence or line.strip().startswith(("import ", "|", "<", "{/*")):
+        if in_fence or not stripped or stripped.startswith(("import ", "|", "{/*")):
+            parts.append("\n")
             continue
-        kept.append(line)
-    body = " ".join(kept)
+        if stripped.startswith("<"):  # JSX: keep any text, as a block of its own
+            parts.append("\n" + re.sub(r"<[^>]+>", " ", line) + "\n")
+            continue
+        if HEADING_RE.match(stripped):
+            parts.append("\n" + stripped + "\n")
+            continue
+        if LIST_MARKER_RE.match(line):
+            parts.append("\n" + LIST_MARKER_RE.sub("", line))
+            continue
+        parts.append(line)
+    body = " ".join(parts)
     body = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", body)
     body = re.sub(r"<[^>]+>", " ", body)
     return re.sub(r"[*_`#>]", " ", body)
@@ -240,7 +257,7 @@ def prose_body(text: str) -> str:
 
 def prose_sentences(text: str):
     """(normalized, original) for each sentence of DUPLICATE_MIN_WORDS+ words."""
-    for sentence in re.split(r"(?<=[.!?])\s+", prose_body(text)):
+    for sentence in re.split(r"(?<=[.!?])\s+|\s*\n\s*", prose_body(text)):
         normalized = " ".join(re.sub(r"[^a-z0-9 ]", "", sentence.lower()).split())
         if len(normalized.split()) >= DUPLICATE_MIN_WORDS:
             yield normalized, " ".join(sentence.split())
