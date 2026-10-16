@@ -1,6 +1,6 @@
 ---
 title: "Protocols: structured, versioned lab procedures"
-description: "Build lab protocols in Bower as sections of numbered steps with typed values, a customizable sidebar, capture steps, and versions that lock once approved."
+description: "Build lab protocols in Bower as sections of numbered steps with typed values, a customizable sidebar, capture steps and versions that lock once approved, then see every run with its step times and captures."
 ---
 
 A protocol in Bower is your lab's own step-by-step procedure for a method. Think "how we run PCR in this lab", not the published method. Protocols live in their own library, separate from your notes, and can be tagged, linked and searched like anything else in Bower.
@@ -12,6 +12,7 @@ A Bower protocol is built from parts, not written as one long document:
 - **Versions** that lock once approved, so a record of a run always matches what the protocol said at the time.
 - **A sidebar** beside the steps for materials, recipes, safety notes and anything else your lab wants to keep with the method.
 - **Capture steps** that say what the person running the protocol should record: a photo, a video or a voice note.
+- **Runs**, a record of each time the protocol was run: which version, when each step was done, and what was captured. See [Protocol runs](#protocol-runs).
 
 ## How do I create a protocol?
 
@@ -115,7 +116,50 @@ Approving a version can't be undone. Its values, step titles, step order and sid
 
 When you approve a version, you can name its state if your lab calls it something other than "approved". To change an approved protocol, click **New version**. Bower copies it into a new editable draft, and the approved version stays the one people run until the new one is approved.
 
-Once a protocol has more than one version, a **Versions** list appears beside the method. It marks the **current** version and the one you're **showing**; click any version to open it. You can also jump to the list from the protocol's menu with **Version history**.
+Once a protocol has more than one version, a **Versions** section appears in the sidebar. It marks the **current** version and the one you're **showing**; click any version to open it. You can also jump to it from the protocol's menu with **Version history**. See [Runs and versions on the protocol page](#runs-and-versions-on-the-protocol-page).
+
+## Protocol runs
+
+A run is one time someone worked through a protocol, usually hands-free with [Live](/ai-and-search/live-agent-mode#execution-mode-running-a-protocol). Bower records which version was run, when each step was marked done, and what was captured along the way. Anyone who can read a protocol can see its runs; only the person who ran a run can carry on with it.
+
+### What do the run labels mean?
+
+Labels state what Bower recorded, never a guess about whether someone is at the bench.
+
+| Label | What it means |
+| --- | --- |
+| **Open · step 3 of 6 · last activity 14:02** | Not finished. Step 3 is current; 14:02 is the last step change or check-in from a connected session. |
+| **Paused · step 3 of 6 · last activity 14:02** | Paused at step 3. |
+| **Completed · 6 of 6 (1 skipped)** | Every step was done or skipped. |
+| **Ended early · 2 of 6** | Closed before every step was done or skipped: ended, replaced by a new run, or closed by Bower after its live session was lost. |
+
+Each run is tagged with its version, such as **v2**, or **Earlier** for runs from before structured protocols.
+
+### Can a finished run change?
+
+No. A **Completed** or **Ended early** run is a fixed record; to do the protocol again, start a new run. The one exception is a misheard last step in Live, which you can [undo within 10 minutes](/ai-and-search/live-agent-mode#undoing-the-last-step).
+
+### How do I see the runs of a protocol?
+
+In the protocol library, click a protocol's **Runs** count, such as **3 runs · 1 open**, to show its runs as rows underneath. Protocols with an open run show them already. Runs are newest first, 10 at a time, with **Show 10 more** below. With a keyboard, the right arrow shows a protocol's runs and the left arrow hides them.
+
+Turn on **Open runs** in the toolbar to list only protocols with a run still going.
+
+### What is on a run record?
+
+Click a run to open its record. The header shows who ran it and when, its label, and a line such as **Ran Version 2 (draft) · 9 captures · 1 h 04 min** (**so far** while the run is open).
+
+- **Steps** lists the steps exactly as they were run, with **Done 10:06** for each step Bower recorded as done, or **Skipped**. Beside each step are the captures taken for it; click one to open it. Captures not tied to a step are listed together at the end. Steps are grouped by section only if the version was approved before the run started.
+- **Timeline** lists the start, each capture, each step done, and the end, in order.
+
+Notices tell you when a draft's steps have changed since the run, when the protocol has a newer version, or when the run is an **Earlier run** with no section or version detail. Runs from before Bower kept step times show which steps were done, but not when.
+
+### Runs and versions on the protocol page
+
+On a protocol's page, the sidebar has **Runs** above **Versions**. Click either header to open or fold it; the header shows a count, such as **4 · last Oct 14** or **2 · current v1**.
+
+- **Runs** lists up to five runs of the version you're viewing; turn on **All versions** for the rest, or click **View all in Protocols**. It's open when a run is open, and hidden when there are no runs.
+- **Versions** shows each version's run count, such as **· 5 runs**. Click it to show that version's runs in **Runs**.
 
 ## Can Bower answer questions about a protocol?
 
@@ -137,7 +181,7 @@ Some older protocols were written as a single document rather than as steps. To 
 
 ## The protocol library
 
-The protocol library lists every protocol in your workspace, with its title, collection, tags, who created it, and when it was created and last updated. Structured protocols carry a **Steps** badge. While an import runs, or if it found no steps or failed, the row says so.
+The protocol library lists every protocol in your workspace, with its title, collection, [runs](#how-do-i-see-the-runs-of-a-protocol), who created it, and when it was last modified. Tags and the created date are in the column picker. Structured protocols carry a **Steps** badge. While an import runs, or if it found no steps or failed, the row says so.
 
 Search, sort, and filter by collection, tag, or creator. Select several protocols to act on them together.
 
@@ -153,10 +197,9 @@ Protocols become more useful when linked to the notes they relate to. Use the [l
 
 The protocol library looks and works like the workspace's [List view](/organisation/organising-workspace#views).
 
-- **Two tabs.** The page heading has two tabs: **Protocols**, the library itself, and **Protocol runs**, every run of a protocol with the notes, photos and recordings captured during it. See [Protocol runs](/organisation/protocol-runs).
+- **Runs** open as rows beneath each protocol; there's no separate runs tab. The old `/capture-stream` link opens this page.
 - **The top bar** holds the workspace search and the **New protocol** button.
-- **The toolbar** under the heading holds the protocol search box, the **Collection**, **Tags** and **Created by** filters, and a **Sort** menu.
-- **Each row** shows the protocol's name, collection, tags, who created it, and when it was created and last modified.
+- **The toolbar** under the heading holds the protocol search box, the **Collection**, **Tags** and **Created by** filters, the **Open runs** filter, and a **Sort** menu.
 
 ### Finding your way back
 
@@ -164,7 +207,7 @@ When you open a protocol from the list, the top of its page shows a trail such a
 
 - **The back arrow** returns you to the list with your search, filters and sort as you left them.
 - **Closing or deleting** the protocol also returns you to the list.
-- **Opened from Protocol runs**, the trail starts at **Protocol runs** instead.
+- **A run record** shows a trail such as **Protocols / PCR setup / Run 3**.
 - **Opened from a workspace collection**, or from a link, search or chat, the trail shows the collection path, as it does for any other item.
 
 The trail appears on a computer. On a phone, protocol pages keep their usual navigation.
