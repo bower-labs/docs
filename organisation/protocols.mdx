@@ -133,7 +133,7 @@ Each run shows a label that states what Bower recorded, never a guess about whet
 | **Open · step 3 of 6 · last activity 14:02** | The run hasn't finished. Step 3 is the current step, and 14:02 is the last time a step changed or a connected session checked in. |
 | **Paused · step 3 of 6 · last activity 14:02** | The run was paused at step 3. |
 | **Completed · 6 of 6** | Every step was marked done or skipped. **Completed · 6 of 6 (1 skipped)** says how many were skipped. |
-| **Ended early · 2 of 6** | The run was ended, or replaced by a new run, before every step was closed. 2 of its 6 steps were done or skipped. |
+| **Ended early · 2 of 6** | The run was ended, or replaced by a new run, before every step was closed. Bower also closes a run this way when its live session was lost and nobody came back to it. 2 of its 6 steps were done or skipped. |
 
 Activity from today shows just the time; anything older shows the date too, such as **Oct 14, 14:02**. A run's version is tagged beside it, such as **v2**. Runs from before structured protocols are tagged **Earlier**.
 
@@ -147,7 +147,7 @@ There's one exception, for a misheard last step. When Live marks the last step d
 
 In the protocol library, each protocol with runs has a **Runs** count, such as **3 runs**, with **1 open** beside it when any run is still open. Click the count, or the arrow beside the protocol's name, to show its runs as rows underneath. Click it again to hide them. A protocol with an open run shows its runs straight away.
 
-Each run row shows its number and dates (for example **Run 3 · Oct 13-14**), its version, its label, who ran it, and its last activity. Runs are listed newest first, 10 at a time; click **Show 10 more** to load the next ones. When you scroll through a long list of runs, the protocol's own row stays pinned at the top so you know whose runs you're reading.
+Each run row shows its number and dates (for example **Run 3 · Oct 13-14**), its version, its label, who ran it, and its last activity. Runs are listed newest first, 10 at a time; click **Show 10 more**, which also says how many are left, to load the next ones. When you scroll through a long list of runs, the protocol's own row stays pinned at the top so you know whose runs you're reading.
 
 To list only protocols that have a run still going, turn on **Open runs** in the toolbar. It works with the search, the other filters and the sort.
 
@@ -159,7 +159,7 @@ On a protocol's own page, its runs are in the **Runs** section of the sidebar. S
 
 ### What is on a run record?
 
-Click a run to open its record. The top of the page shows the run number, who ran it and when, the protocol's title with **Open protocol**, the run's label, and a line such as **Ran Version 2 · 9 captures · 1 h 04 min**. For a run that's still open, the duration says **so far**.
+Click a run to open its record. The top of the page shows the run number, who ran it and when, the protocol's title with **Open protocol**, the run's label, and a line such as **Ran Version 2 · 9 captures · 1 h 04 min**. **Ran Version 2 (draft)** means the run used a version that was still a draft at the time. For a run that's still open, the duration says **so far**.
 
 The record has two tabs:
 
@@ -170,7 +170,7 @@ A summary beside the steps counts the steps done, the skipped steps and the capt
 
 Notices at the top tell you when the record needs reading with care:
 
-- **Ran Version 2 (draft)** means the run used a version that was still a draft at the time. If anyone has edited that draft's steps since, the page also says **Steps changed since this run. The steps below are the ones that were run.**
+- **Steps changed since this run. The steps below are the ones that were run.** appears for a run on a draft when anyone has edited that draft's steps since.
 - **The protocol is now Version 3.** means a newer version exists than the one this run used.
 - **Earlier run** marks a run recorded before structured protocols. Its steps are shown as they were saved, but its sections and version aren't available.
 
