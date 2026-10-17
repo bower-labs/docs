@@ -14,6 +14,8 @@ A Bower protocol is built from parts, not written as one long document:
 - **Capture steps** that say what the person running the protocol should record: a photo, a video or a voice note.
 - **Runs**, a record of each time the protocol was run: which version, when each step was done, and what was captured. See [Protocol runs](#protocol-runs).
 
+Every protocol in Bower is built this way. Bower writes a protocol's plain text from its steps, for search and for AI apps that read your workspace, so you never edit that text directly. To change a protocol, edit its steps in a draft version.
+
 ## How do I create a protocol?
 
 1. Click **Protocols** in the left rail to open the protocol library.
@@ -21,6 +23,12 @@ A Bower protocol is built from parts, not written as one long document:
 3. Choose how to start:
    - **Attach a file.** Pick a PDF or Word (.docx) document. Bower reads the steps out of it and lays them out as a protocol. You can correct anything it gets wrong afterward.
    - **Start from scratch.** You get an empty draft right away. Give it a title and add sections and steps yourself.
+
+Create and edit protocols on the web. The Bower app on your phone is for opening and running them.
+
+### Can I turn a note into a protocol?
+
+Yes. Open the note, click **⋮**, then **Convert to Protocol**. Bower lays the note's text out as steps, as it does for an imported document, and keeps your text as the protocol's source file, `Original note.md`. An empty note becomes an empty draft.
 
 ### What happens while Bower reads my document?
 
@@ -134,7 +142,7 @@ Labels state what Bower recorded, never a guess about whether someone is at the 
 | **Completed · 6 of 6 (1 skipped)** | Every step was done or skipped. |
 | **Ended early · 2 of 6** | Closed before every step was done or skipped: ended, replaced by a new run, or closed by Bower after its live session was lost. |
 
-Each run is tagged with its version, such as **v2**, or **Earlier** for runs from before structured protocols.
+Each run is tagged with its version, such as **v2**, or **Earlier** for runs recorded before the protocol had versions.
 
 ### Can a finished run change?
 
@@ -178,19 +186,21 @@ An import can miss things: a table it couldn't read, or a whole part of the prot
 
 If a protocol is longer than Bower can load at once, the page tells you it isn't the whole method.
 
-## What about older protocols written as a document?
+## What happened to protocols written as a document?
 
-Some older protocols were written as a single document rather than as steps. To convert one, open it and click **Structure it**. Bower reads the document and builds a structured version alongside it. When it's ready, click **Open it**. The original document isn't changed.
+Bower used to offer note protocols, written as one document. Each one has been converted: Bower generated its steps from the text, and kept your original note as a file named `Original note.md`. On the protocol's first version, **Imported from Original note.md** at the top of the page opens it, so you can check the steps against what you wrote.
+
+A few items that weren't protocols, such as test text, were kept as notes, with their content unchanged.
 
 ## The protocol library
 
-The protocol library lists every protocol in your workspace, with its title, collection, [runs](#how-do-i-see-the-runs-of-a-protocol), who created it, and when it was last modified. Tags and the created date are in the column picker. Structured protocols carry a **Steps** badge. While an import runs, or if it found no steps or failed, the row says so.
+The protocol library lists every protocol in your workspace, with its title, collection, [runs](#how-do-i-see-the-runs-of-a-protocol), who created it, and when it was last modified. Tags and the created date are in the column picker. While an import runs, or if it found no steps or failed, the row says so.
 
 Search, sort, and filter by collection, tag, or creator. Select several protocols to act on them together.
 
 ## Managing and exporting a protocol
 
-A structured protocol's **⋮** menu holds access, version history, moving, deleting, and export to PDF or Word. See [Protocol menu and export](/organisation/protocol-menu-and-export).
+A protocol's **⋮** menu holds access, version history, moving, deleting, and export to PDF or Word. See [Protocol menu and export](/organisation/protocol-menu-and-export).
 
 ## Linking protocols to notes
 
