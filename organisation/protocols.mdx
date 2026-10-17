@@ -121,7 +121,7 @@ Once a protocol has more than one version, a **Versions** section appears in the
 
 ## Protocol runs
 
-A run is one time someone worked through a protocol, usually hands-free with [Live](/ai-and-search/live-agent-mode#execution-mode-running-a-protocol). Bower records which version was run, when each step was marked done, and what was captured along the way. Anyone who can read a protocol can see its runs; only the person who ran a run can carry on with it.
+A run is one time someone worked through a protocol, usually hands-free with [Live](/ai-and-search/live-agent-mode#execution-mode-running-a-protocol). Bower records which version was run, when each step was marked done or skipped, and what was captured along the way. Anyone who can read a protocol can see its runs; only the person who ran a run can carry on with it.
 
 ### What do the run labels mean?
 
@@ -150,12 +150,12 @@ Turn on **Open runs** in the toolbar to list only protocols with a run still goi
 
 Click a run to open its record. The header shows who ran it and when, its label, and a line such as **Ran Version 2 (draft) · 9 captures · 1 h 04 min** (**so far** while the run is open).
 
-- **Steps** lists the steps exactly as they were run, with **Done 10:06** for each step Bower recorded as done, or **Skipped**. Beside each step are the captures taken for it; click one to open it. Captures not tied to a step are listed together at the end. Steps are grouped by section only if the version was approved before the run started.
+- **Steps** lists the steps exactly as they were run. Beside each step are the captures taken for it, such as **Photo · 10:06:12**; click one to open it. Under them, **Done · 10:06:41** or **Skipped · 10:07:05** shows when the step was marked, to the second. A step with nothing captured shows **No capture** above that line. A run that crosses midnight adds the date, as in **Done · Oct 14, 00:30:00**. Captures not tied to a step are listed together at the end. Steps are grouped by section only if the version was approved before the run started.
 - **Timeline** lists the start, each capture, each step done, and the end, in order.
 
 Every time on a run record is in your device's time zone, so colleagues in other time zones each see the run in their own local time. The **Summary** names the zone in its **Time zone** row, such as **AEDT, your device**, as it was when the run started.
 
-Notices tell you when a draft's steps have changed since the run, when the protocol has a newer version, or when the run is an **Earlier run** with no section or version detail. Runs from before Bower kept step times show which steps were done, but not when.
+Notices tell you when a draft's steps have changed since the run, when the protocol has a newer version, or when the run is an **Earlier run** with no section or version detail. Runs from before Bower kept step times show which steps were done or skipped, but not when.
 
 ### Runs and versions on the protocol page
 
