@@ -51,7 +51,7 @@ Every call runs with your own permissions in the workspace you picked. Items you
 A connected app can:
 
 - **Find** notes, protocols, files, images, and collections, by meaning or by exact words, names, and dates.
-- **Read** notes, structured protocols, attachments, collections, and recent workspace activity.
+- **Read** notes, protocols, attachments, collections, and recent workspace activity.
 - **Follow links** between items, including the captures made during a protocol run.
 - **Work with files and spreadsheets**: query an uploaded CSV, TSV, or XLSX file, read a Bower spreadsheet, transcribe audio and video, and turn attachments into notes.
 - **Look up lab equipment** and catalog new instruments.
@@ -72,7 +72,7 @@ Some AI apps run code in a sandbox that blocks Bower's file storage host, so you
 
 ### How do I read the steps in a protocol?
 
-Your app reads a [structured protocol](/organisation/protocols) with `get_protocol`: its sections, steps, and amounts in one call. It can change the protocol's title and tags, but not its steps. A structured protocol's text is generated from its steps, so an edit to that text is refused with `PROTOCOL_TEXT_IS_GENERATED`. Edit the steps in the Bower app.
+Your app reads a [protocol](/organisation/protocols) with `get_protocol`: its sections, steps, and amounts in one call. It can change the protocol's title and tags, but not its steps. A protocol's text is generated from its steps, so an edit to that text is refused with `PROTOCOL_TEXT_IS_GENERATED`. Edit the steps in the Bower app.
 
 ### How do I get something back from Trash?
 
