@@ -5,14 +5,7 @@ description: "Build lab protocols in Bower as sections of numbered steps with ty
 
 A protocol in Bower is your lab's own step-by-step procedure for a method. Think "how we run PCR in this lab", not the published method. Protocols live in their own library, separate from your notes, and can be tagged, linked and searched like anything else in Bower.
 
-A Bower protocol is built from parts, not written as one long document:
-
-- **Steps grouped in sections**, lettered and numbered so everyone refers to the same step.
-- **Typed values** in each step, such as temperatures, volumes and durations, that Bower can check.
-- **Versions** that lock once approved, so a record of a run always matches what the protocol said at the time.
-- **A sidebar** beside the steps for materials, recipes, safety notes and anything else your lab wants to keep with the method.
-- **Capture steps** that say what the person running the protocol should record: a photo, a video or a voice note.
-- **Runs**, a record of each time the protocol was run: which version, when each step was done, and what was captured. See [Protocol runs](#protocol-runs).
+A Bower protocol is built from parts rather than written as one document: lettered sections of numbered steps, typed values Bower can check, a sidebar for reference material, capture steps, and versions that lock once approved, so the record of each [run](#protocol-runs) matches what the protocol said at the time.
 
 ## How do I create a protocol?
 
@@ -105,8 +98,6 @@ While a version is a draft, the sidebar is yours to arrange:
 
 **Materials & equipment** and **Recipes** can be removed only when they're empty. Delete their entries first.
 
-Changes to the sidebar apply to the draft you're editing. An approved version keeps the sidebar it was approved with.
-
 ## How do versions and approval work?
 
 Every protocol keeps its versions. When a version is ready to use at the bench, click **Approve this version**.
@@ -182,27 +173,21 @@ If a protocol is longer than Bower can load at once, the page tells you it isn't
 
 Some older protocols were written as a single document rather than as steps. To convert one, open it and click **Structure it**. Bower reads the document and builds a structured version alongside it. When it's ready, click **Open it**. The original document isn't changed.
 
-## The protocol library
-
-The protocol library lists every protocol in your workspace, with its title, collection, [runs](#how-do-i-see-the-runs-of-a-protocol), who created it, and when it was last modified. Tags and the created date are in the column picker. Structured protocols carry a **Steps** badge. While an import runs, or if it found no steps or failed, the row says so.
-
-Search, sort, and filter by collection, tag, or creator. Select several protocols to act on them together.
-
 ## Managing and exporting a protocol
 
 A structured protocol's **⋮** menu holds access, version history, moving, deleting, and export to PDF or Word. See [Protocol menu and export](/organisation/protocol-menu-and-export).
 
 ## Linking protocols to notes
 
-Protocols become more useful when linked to the notes they relate to. Use the [link entity](/organisation/linked-entities) feature to connect a protocol to relevant notes, samples, or collections. This makes it easy to trace which protocol was followed for a given set of observations.
+Use [linked entities](/organisation/linked-entities) to connect a protocol to the notes, samples or collections it relates to, so you can trace which protocol was followed for a set of observations.
 
-## The Protocols page
+## The protocol library
 
-The protocol library looks and works like the workspace's [List view](/organisation/organising-workspace#views).
+The protocol library lists every protocol in your workspace and works like the workspace's [List view](/organisation/organising-workspace#views). Each row shows the title, collection, [runs](#how-do-i-see-the-runs-of-a-protocol), who created it, and when it was last modified; tags and the created date are in the column picker. Structured protocols carry a **Steps** badge. While an import runs, or if it found no steps or failed, the row says so.
 
 - **Runs** open as rows beneath each protocol; there's no separate runs tab. The old `/capture-stream` link opens this page.
 - **The top bar** holds the workspace search and the **New protocol** button.
-- **The toolbar** under the heading holds the protocol search box, the **Collection**, **Tags** and **Created by** filters, the **Open runs** filter, and a **Sort** menu.
+- **The toolbar** under the heading holds the protocol search box, the **Collection**, **Tags** and **Created by** filters, the **Open runs** filter, and a **Sort** menu. Select several protocols to act on them together.
 
 ### Finding your way back
 
