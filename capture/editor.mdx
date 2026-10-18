@@ -19,19 +19,15 @@ The toolbar at the top of the editor provides:
 | Highlight | Cmd+Shift+H |
 | Text color | Toolbar color picker |
 
-Select text to reveal a **floating toolbar** with quick access to all formatting options, including text color and font family.
-
-You can also set text alignment (left, center, right, justify) from the toolbar or via slash commands.
+Select text to reveal a **floating toolbar** with every formatting option, including text color and font family.
 
 ## Headings
 
-Use the heading dropdown in the toolbar to switch between paragraph text and three heading levels, or use the `/h1`, `/h2`, `/h3` slash commands.
-
-Headings are also used to generate the **Table of Contents** sidebar (see below).
+Use the heading dropdown in the toolbar, or `/h1`, `/h2` and `/h3`. Headings also build the [Table of Contents](#table-of-contents).
 
 ## Slash commands
 
-Type `/` at the start of a new line to open the command menu. This is the fastest way to insert blocks. You can search by typing after the slash -- for example, `/math` filters to math-related commands.
+Type `/` at the start of a new line to open the command menu, then keep typing to filter: `/math` shows the math commands.
 
 ### Style
 
@@ -60,9 +56,11 @@ Type `/` at the start of a new line to open the command menu. This is the fastes
 | `/image` | Image upload dialog |
 | `/diagram` | Open the diagram editor |
 | `/math` | Inline LaTeX equation |
-| `/equation` | Block LaTeX equation (centerd) |
+| `/equation` | Block LaTeX equation (centered) |
 
 ### Align
+
+Alignment is also in the toolbar.
 
 | Command | What it does |
 | --- | --- |
@@ -73,32 +71,15 @@ Type `/` at the start of a new line to open the command menu. This is the fastes
 
 ## Lists
 
-Three list types are available:
-
-- **Bullet list** -- unordered items
-- **Numbered list** -- ordered items
-- **Task list** -- items with checkboxes you can tick off
-
-Use the slash commands (`/bullet`, `/numbered`, `/task`) or the toolbar buttons to insert lists. Task lists support nesting -- press Tab to indent a task under another.
+Insert a bullet, numbered or task list with its slash command or the toolbar. Task lists nest: press Tab to indent a task under another.
 
 ## Callout boxes
 
-Callout boxes highlight important information with a colored left border and tinted background. Three types are available from the slash menu:
-
-- `/callout` -- **Info** (blue) -- general notes and information
-- `/warning` -- **Warning** (amber) -- cautions and important warnings
-- `/tip` -- **Tip** (green) -- helpful tips and suggestions
-
-Type inside the callout to add your content. Each type has distinct colors that adapt to light and dark mode.
+`/callout`, `/warning` and `/tip` insert an **Info**, **Warning** or **Tip** box with a colored left border and tinted background. Type inside it to add your content.
 
 ## Collapsible toggles
 
-Use `/toggle` to insert a collapsible section. Toggles have:
-
-- A **summary line** next to a triangle indicator
-- A **content area** below that appears when expanded
-
-Click the triangle to expand or collapse the section. Useful for hiding supplementary details, long method descriptions, or optional information.
+`/toggle` inserts a collapsible section: a summary line beside a triangle, and content below it that shows when you click the triangle.
 
 ## Tables
 
@@ -110,22 +91,16 @@ Insert a table with `/table` or Cmd+Shift+T. Tables start as 3x3 with a header r
   The quickest way to tame a wide or extracted table
 - **Banded rows** -- alternating row shading, from the table options menu or
   Cmd+Shift+K
-- **Add/remove rows and columns** -- use keyboard shortcuts:
-  - Cmd+Shift+Right / Left -- add column after/before
-  - Cmd+Shift+Down / Up -- add row after/before
-  - Cmd+Shift+Delete -- delete column
-  - Cmd+Alt+Delete -- delete row
 - **Select cells** -- click and drag across cells
 - **Act on several rows at once** -- select whole rows, then delete, insert or
   clear their contents; the action applies to everything you selected
-- **Merge/split cells** -- Cmd+Shift+M / Cmd+Shift+S
-- **Navigate** -- Tab / Shift+Tab to move between cells
 - **Scroll** -- a table wider than the editor scrolls horizontally, with a
   scrollbar above the table as well as below, so the right-hand columns stay
   reachable while you are reading the header
 
-The table controls stay visible while your cursor is anywhere in the table, and
-every handle carries a tooltip.
+Adding and deleting rows and columns, merging and splitting cells, and moving
+between cells all have [keyboard shortcuts](/capture/keyboard-shortcuts#tables).
+The table controls stay visible while your cursor is anywhere in the table.
 
 <Note>
   Banded rows are a screen and share-link feature. They are not carried into
@@ -142,16 +117,9 @@ import.
 Write mathematical equations using LaTeX syntax, rendered with KaTeX:
 
 - `/math` -- insert an **inline equation** that flows with surrounding text
-- `/equation` -- insert a **block equation** displayed as a centerd formula
+- `/equation` -- insert a **block equation** displayed as a centered formula
 
 Click on any rendered equation to edit the LaTeX source.
-
-Common examples:
-
-- Inline: `E = mc^2`, `\alpha + \beta = \gamma`
-- Block: `\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}`
-- Fractions: `\frac{a}{b}`
-- Matrices: `\begin{pmatrix} a & b \\ c & d \end{pmatrix}`
 
 ## Images
 
@@ -170,9 +138,7 @@ Click an inline image, then the **draw icon** in the floating toolbar, to draw o
 
 ## Diagrams
 
-Type `/diagram` or click the **draw icon** in the fixed toolbar to create a diagram from scratch. The drawing editor includes shapes, arrows, text, freehand tools, and a library of pre-made scientific shapes (biology, chemistry, circuits, maths, and more).
-
-See [Image Annotations & Diagrams](/capture/annotations-and-diagrams) for full details.
+Type `/diagram` or click the **draw icon** in the fixed toolbar to draw a diagram from scratch, with shapes, arrows, text, freehand tools and a library of scientific shapes. See [Image Annotations & Diagrams](/capture/annotations-and-diagrams).
 
 ## Code blocks
 
@@ -212,7 +178,7 @@ The **+** button next to the drag handle opens the slash command menu.
 
 ## Markdown input
 
-You can type Markdown syntax directly and it will convert to rich text:
+Markdown you type converts to rich text:
 
 - `# Heading` to H1, `## Heading` to H2
 - `- item` or `* item` to bullet list
@@ -222,7 +188,7 @@ You can type Markdown syntax directly and it will convert to rich text:
 - `` `code` `` to inline code
 - `---` to horizontal rule
 
-You can also **paste Markdown** from other sources and it will be parsed into rich content automatically.
+Pasted Markdown converts the same way.
 
 ## Undo and redo
 
@@ -230,7 +196,7 @@ Use **Cmd+Z** to undo and **Cmd+Shift+Z** to redo. The toolbar also has undo/red
 
 ## Page width
 
-By default, a note reads in a centered column. If you want more room, usually for wide tables or dense text, you can switch the page to full width instead. The choice is saved on the page, so everyone who opens it after you sees the same width.
+A note reads in a centered column. For wide tables or dense text, switch the page to full width. The choice is saved on the page, so everyone who opens it sees the same width.
 
 Switch it from either of two places:
 
@@ -267,7 +233,7 @@ Your work stays in the editor in the meantime, so you can keep typing. Carrying 
 
 ### Closing or reloading the page
 
-If you close or reload the page while a change is still saving, or has not saved, your browser asks you to confirm before you leave. Stay on the page and Bower finishes the save; the indicator shows when it is done. If the indicator is red, check your connection and choose **Save** first. Leaving anyway can lose that change.
+If you close or reload the page while a change is still saving, or has not saved, your browser asks you to confirm before you leave. Stay on the page and Bower finishes the save; the indicator shows when it is done. Leaving anyway can lose that change.
 
 ### Saving by hand
 
@@ -294,6 +260,8 @@ To help you tell which recording it is, the message shows:
 - The note the recording belongs to, or **A note you can no longer open** if that note has been deleted or you no longer have access to it.
 - When it was recorded (the date and time) and how long it is.
 - A player, so you can listen to it before you choose what to do.
+
+Then choose:
 
 - **Upload to note** adds the recording to the note it was recorded in. Keep the tab open until it finishes. The transcript appears in that note.
 - **Discard**, with the bin icon, asks you to confirm first. A discarded recording is deleted from this device and can't be recovered.
