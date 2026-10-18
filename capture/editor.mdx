@@ -1,6 +1,6 @@
 ---
 title: "The note editor"
-description: "Rich text editing with slash commands, formatting, tables, math equations, callouts, and more."
+description: "Rich text editing with slash commands, formatting, tables, math equations, callouts, Voice to Text recording, and more."
 ---
 
 Every note in Bower opens in a rich text editor. You can type freely, format text, insert tables and images, and use slash commands for quick block insertion.
@@ -272,6 +272,36 @@ If you close or reload the page while a change is still saving, or has not saved
 ### Saving by hand
 
 You rarely need to, but **Save** in the **&#8942;** menu, or **Cmd+S** (Ctrl+S on Windows and Linux), forces an immediate save. It is worth using before you close the tab on an unreliable connection. When nothing is pending, Cmd+S just confirms that everything is already saved.
+
+## Voice to Text
+
+Click **Voice to Text** on a note to record speech, such as a meeting or a spoken observation, and have Bower transcribe it into the note. When you're done, click **Stop & insert**. The transcript is inserted at your cursor.
+
+### Keep the tab open while it saves
+
+After you stop, Bower uploads the recording. While it does, you'll see **Saving your recording. Keep this tab open.** The transcript appears in the note once the recording has saved.
+
+While you record and while it saves, Bower keeps a copy of the recording in this browser on this device. If the upload doesn't finish, that copy is how you get the recording back.
+
+If you see **This recording isn't backed up on this device**, Bower couldn't keep that copy. Keep the tab open until the recording has saved: if the tab closes first, the recording can't be recovered.
+
+### If a recording wasn't saved
+
+If the tab closes, your laptop goes to sleep, the browser crashes, or you're signed out before a recording finishes saving, the next time you open Bower in that browser you'll see **A recording wasn't saved**. It tells you how long the recording was and when you started it. It can appear on any page, not only the note.
+
+- **Upload to note** adds the recording to the note it was recorded in. Keep the tab open until it finishes. The transcript appears in that note.
+- **Discard** asks you to confirm first. A discarded recording is deleted from this device and can't be recovered.
+- **Not now** closes the message. Bower asks again the next time you open it.
+
+If the upload fails, the message says so and offers **Try again**.
+
+If the message says **Only the first part of it was saved on this device**, Bower can upload what it kept, but the rest of the recording is lost.
+
+A few things to know:
+
+- Only the person who made the recording is offered it. Anyone else who signs in to Bower in the same browser won't see it.
+- The copy lives in the browser you recorded in. Opening Bower in a different browser or on a different device won't show it.
+- Unsaved recordings are deleted 7 days after you started recording, the next time you open Bower in that browser. Upload a recording within a week if you want to keep it.
 
 ## Export
 
