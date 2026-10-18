@@ -55,7 +55,6 @@
               "ai-and-search/workspace-instructions",
               "ai-and-search/live-agent-mode",
               "ai-and-search/voice-commands-by-device",
-              "ai-and-search/protocol-step-videos",
               "ai-and-search/visual-reference-sets",
               "ai-and-search/figures-and-diagrams",
               "ai-and-search/hybrid-search",
@@ -315,6 +314,10 @@
     ]
   },
   "redirects": [
+    {
+      "source": "/ai-and-search/protocol-step-videos",
+      "destination": "/ai-and-search/live-agent-mode#step-cards"
+    },
     {
       "source": "/integrations/mcp-server-reference",
       "destination": "/integrations/ai-app-access"
