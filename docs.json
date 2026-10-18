@@ -116,6 +116,7 @@
           {
             "group": "October 2026",
             "pages": [
+              "changelog/2026-10-17-every-protocol-is-structured",
               "changelog/2026-10-16-protocol-runs-in-protocols",
               "changelog/2026-10-13-delete-workspace",
               "changelog/2026-10-13-soc-2-and-hipaa-reports",
