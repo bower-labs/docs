@@ -3,210 +3,194 @@ title: "Protocols: structured, versioned lab procedures"
 description: "Build lab protocols in Bower as sections of numbered steps with typed values, a customizable sidebar, capture steps and versions that lock once approved, then see every run with its step times and captures."
 ---
 
-A protocol in Bower is your lab's own step-by-step procedure for a method. Think "how we run PCR in this lab", not the published method. Protocols live in their own library, separate from your notes, and can be tagged, linked and searched like anything else in Bower.
+A protocol in Bower is your lab's own step-by-step procedure for a method: "how we run PCR in this lab", not the published method. Protocols live in their own library, and you can tag, link and search them like anything else in Bower.
 
-A Bower protocol is built from parts, not written as one long document:
+A protocol is made of:
 
 - **Steps grouped in sections**, lettered and numbered so everyone refers to the same step.
 - **Typed values** in each step, such as temperatures, volumes and durations, that Bower can check.
-- **Versions** that lock once approved, so a record of a run always matches what the protocol said at the time.
-- **A sidebar** beside the steps for materials, recipes, safety notes and anything else your lab wants to keep with the method.
-- **Capture steps** that say what the person running the protocol should record: a photo, a video or a voice note.
-- **Runs**, a record of each time the protocol was run: which version, when each step was done, and what was captured. See [Protocol runs](#protocol-runs).
+- **Capture steps** that say what to record at that point: a photo, a video or a voice note.
+- **A sidebar** for materials, recipes, safety notes and other reference material.
+- **Versions** that lock once approved.
+- **Runs**, a record of each time someone worked through the protocol.
 
-Every protocol in Bower is built this way. Bower writes a protocol's plain text from its steps, for search and for AI apps that read your workspace, so you never edit that text directly. To change a protocol, edit its steps in a draft version.
+To change a protocol, edit its steps in a draft version. Bower writes the protocol's plain text from the steps, for search and for AI apps, so you never edit that text directly.
 
 ## How do I create a protocol?
 
-1. Click **Protocols** in the left rail to open the protocol library.
+1. Click **Protocols** in the left rail.
 2. Click **New protocol**, then **Structured protocol**.
 3. Choose how to start:
-   - **Attach a file.** Pick a PDF or Word (.docx) document. Bower reads the steps out of it and lays them out as a protocol. You can correct anything it gets wrong afterward.
-   - **Start from scratch.** You get an empty draft right away. Give it a title and add sections and steps yourself.
+   - **Attach a file.** Pick a PDF or Word (.docx) document. Bower reads the steps out of it, and you correct anything it gets wrong.
+   - **Start from scratch.** You get an empty draft to fill in.
 
 Create and edit protocols on the web. The Bower app on your phone is for opening and running them.
 
 ### Can I turn a note into a protocol?
 
-Yes. Open the note, click **⋮**, then **Convert to Protocol**. Bower lays the note's text out as steps, as it does for an imported document, and keeps your text as the protocol's source file, `Original note.md`. An empty note becomes an empty draft.
+Yes. Open the note, click **⋮**, then **Convert to Protocol**. Bower lays the note's text out as steps and keeps your text as the protocol's source file, `Original note.md`.
 
 ### What happens while Bower reads my document?
 
-The protocol page shows **Reading your document** while the import runs. A long protocol takes a few minutes, and you can leave the page while it works. In the library, the protocol shows **Importing** until it's done.
+The page shows **Reading your document**, and the library shows **Importing**. A long protocol takes a few minutes; you can leave the page while it works.
 
-If Bower can't find enough procedural detail to lay out as steps, the page says so and shows its reason. You can ask in the chat to try again and extract whatever it can. If the import fails partway, delete the protocol and import the document again.
+If Bower can't find enough procedural detail, the page says why. You can ask in the chat to try again and extract whatever it can. If the import fails partway, delete the protocol and import the document again.
 
 ## What's on a protocol page?
 
-At the top are the protocol's title and its **version bar**: the state of the version you're viewing (for example **draft** or **approved**) and its name. Click the name to give the version your lab's own name, like "Rev C". A protocol imported from a file links back to it from **Lineage**, at the top of the sidebar.
+At the top are the title and the **version bar**, which shows the version's state, such as **draft** or **approved**, and its name. Click the name to rename the version, for example "Rev C".
 
-Once a protocol has more than one version, the state and the version number become one control, such as **● v2 LGTM**. The dot's color shows the state: green for the version people run, blue for a draft, gray for an earlier version. A small ring after it means there's a draft you aren't viewing. A protocol opens on its newest version, so if there's a draft you see the draft; the line under the control then says which version runs use. On a phone in the browser, **Execute Protocol** appears on the version runs use, so if the protocol opens on a draft, pick the current version from the menu to run it. Click the control to see every version, with what's true of each (**in progress**, **runs use this**, or how many runs it has), and open any of them. On a version other than the current one, a line under it says which version new runs use, with a link back to it.
+Once a protocol has more than one version, the state and number become one control, such as **● v2 approved**. The dot is green for the version runs use, blue for a draft and gray for an earlier version. A ring after it means there's a draft you aren't viewing. Click the control to open any version.
 
-Below that:
+A protocol opens on its newest version, which may be a draft. **Execute Protocol** appears only on the version runs use, so on a draft, pick that version from the control first.
 
-- **Parameters** are the values your lab chooses each time you run the protocol. Each parameter has a type:
+Below the version bar:
+
+- **Parameters** are the values your lab chooses for each run:
   - **Options**: a list to choose from. Press an option to make it the default.
-  - **Range**: a number with a minimum, a maximum, a unit and a default.
-  - **Text**: anything you type, with an optional default.
-- **Method** holds the sections, lettered **A**, **B**, **C**, and their steps, numbered **A.1**, **A.2**, **B.1**. Steps that don't belong to a section are listed under **Other steps**. Use **Expand all** or **Collapse all** to open or close every section at once.
+  - **Range**: a number with a minimum, maximum, unit and default.
+  - **Text**: free text, with an optional default.
+- **Method** holds the sections (**A**, **B**, **C**) and their steps (**A.1**, **A.2**, **B.1**). Steps outside a section are under **Other steps**. **Expand all** and **Collapse all** open or close every section.
 - **The sidebar** sits beside the method. See [What goes in the protocol sidebar?](#what-goes-in-the-protocol-sidebar)
 
-Each step has an icon for its type (**Do**, **Wait**, **Hold**, **Check** or **Note**), its title, its text, and sometimes a short explanation of why it matters. Hover over the icon to see what the type means. Pictures, videos and files attached to the step appear below it.
+Each step has a type icon (**Do**, **Wait**, **Hold**, **Check** or **Note**), a title, its text, and sometimes a note on why it matters. Attached pictures, videos and files appear below the step.
 
 ## How do I edit steps and sections?
 
-While a version is a draft, you can edit it in place:
+In a draft:
 
 - Click **Add step** or **Add section**.
-- Drag a step by its handle to reorder it, or to move it into another section. **Move up**, **Move down** and **Move into** do the same without dragging.
+- Drag a step by its handle to reorder it or move it to another section, or use **Move up**, **Move down** and **Move into**.
 - Click a step's icon to change its type.
 - Hover over a step and click **Remove step** to delete it.
-- Use a section's actions to merge it into the one above, or to remove it.
-- Click **Add media** on a step to attach a picture, video or file. Removing it from the step keeps the file itself.
+- Use a section's actions to merge it into the one above, or remove it.
+- Click **Add media** to attach a picture, video or file to a step.
 
-Changes save automatically. Use **Undo** and **Redo** at the top of the page, or Cmd+Z and Shift+Cmd+Z.
+Changes save automatically. **Undo** and **Redo** are at the top of the page, or press Cmd+Z and Shift+Cmd+Z.
 
 ## What are typed values?
 
-A typed value is a quantity Bower understands, not just text: an amount with a unit, such as *37 °C*, *5 mL* or *10 min*, and how precise it is. Typed values appear as highlighted chips in the step.
+A typed value is an amount with a unit, such as *37 °C*, *5 mL* or *10 min*, and how precise it is. Typed values appear as highlighted chips in the step.
 
-When Bower imports a protocol, it marks each value it finds and records how confident it is in each one. A value it isn't sure about, that no one has checked yet, is highlighted in a warning color with a dashed underline. Check it against your source before you rely on it.
+When Bower imports a protocol, it marks the values it finds. A value it isn't sure about has a warning color and a dashed underline until someone checks it. Check it against your source before you rely on it.
 
-Click a value to see the wording it came from (**The document said …**) and correct its amount, unit and precision. Precision is one of **Exact**, **About**, **Range** or **Until**. Choose **Range** and a second amount appears after **to**. If no precision is selected, the document didn't state one. Click **Remove: not a value** if Bower marked something that isn't a value.
+Click a value to see the wording it came from (**The document said …**) and correct its amount, unit and precision: **Exact**, **About**, **Range** or **Until**. If no precision is selected, the document didn't state one. Click **Remove: not a value** if it isn't a value.
 
-To add a value by hand, click **Insert a typed value** in the step's toolbar, or type `/` and choose **Value**.
+To add a value, click **Insert a typed value** in the step's toolbar, or type `/` and choose **Value**.
 
 Reagents and equipment Bower recognizes are underlined. Hover over one to see what Bower took it to be.
 
 ## What are capture steps?
 
-A capture step tells the person running the protocol to record something at that point: a **photo**, a **video** or a **voice note**. Use one wherever your lab wants evidence of a step, such as a photo of a gel or a video of a technique.
+A capture step asks the person running the protocol to record a **photo**, **video** or **voice note** at that point, such as a photo of a gel.
 
-To make a step a capture step in a draft, hover over the step and click **Add capture**, then choose **Photo**, **Video** or **Voice note**. A step asks for one capture at most. Click the capture on the step to change it, or choose **Nothing** to clear it.
-
-When Bower imports a protocol, it marks the steps where your document asks for a photo, a video or a voice note. On an approved version, the capture shows on the step and can't be changed.
+In a draft, hover over a step, click **Add capture**, and choose the type. A step asks for one capture at most; choose **Nothing** to clear it. Bower also marks capture steps when your imported document asks for a photo, video or voice note.
 
 ## What goes in the protocol sidebar?
 
-The sidebar beside the method holds the reference material that goes with the steps. Bower has these built-in sections, in this default order:
+The sidebar holds reference material for the steps. The built-in sections are:
 
 - **Acceptance criteria**: what a successful run looks like.
 - **Materials & equipment**: what you need, with vendor and catalog number.
 - **Recipes**: buffers and mixes the steps refer to.
 - **Safety**: hazards and precautions.
-- **Troubleshooting**: what went wrong, and what to do about it.
-- **Review notes**: things Bower read in an imported document but thinks are worth checking.
+- **Troubleshooting**: problems and their fixes.
+- **Review notes**: things in an imported document Bower thinks are worth checking.
 - **Other details**: anything else, as a label and a value.
 
-You can also add sections of your own, such as "Storage" or "Waste disposal".
-
-Each entry in a section has a title, with details below it where the section uses them. A troubleshooting entry, for example, names the problem and then the fix.
-
-When you're reading a protocol, empty sections are hidden. While a version is a draft, every section it has shows, even an empty one, so you can fill it in. To add a section it doesn't have yet, such as **Safety** on a protocol you started from scratch, use **Add section**.
+You can add your own sections too, such as "Storage" or "Waste disposal". Empty sections are hidden except in a draft.
 
 ### How do I customize the sidebar?
 
-While a version is a draft, the sidebar is yours to arrange:
+In a draft:
 
-- **Add a section.** Click **Add section** at the foot of the sidebar. The menu lists the built-in sections this version doesn't have yet, then **Custom section…**. For a custom section, type its name and press Enter.
-- **Rename a custom section.** Click its name and type a new one.
-- **Reorder sections.** Drag a section by the handle on its header. With a keyboard, focus the handle, press Space, move it with the arrow keys, and press Space again.
-- **Remove a section.** Hover over the section's header and click **✕** (Remove). If the section has entries, Bower asks first and tells you how many entries go with it. An empty section is removed straight away.
-
-**Materials & equipment** and **Recipes** can be removed only when they're empty. Delete their entries first.
-
-Changes to the sidebar apply to the draft you're editing. An approved version keeps the sidebar it was approved with.
+- **Add a section.** Click **Add section** at the foot of the sidebar, then pick a built-in section or **Custom section…**.
+- **Rename a custom section.** Click its name.
+- **Reorder sections.** Drag a section by the handle on its header. With a keyboard, focus the handle, press Space, use the arrow keys, and press Space again.
+- **Remove a section.** Hover over its header and click **✕**. Bower asks first if it has entries. **Materials & equipment** and **Recipes** can be removed only when empty.
 
 ## How do versions and approval work?
 
-Every protocol keeps its versions. When a version is ready to use at the bench, click **Approve this version**.
+When a version is ready for the bench, click **Approve this version**. You can give the approved state your lab's own name.
 
 <Warning>
-Approving a version can't be undone. Its values, step titles, step order and sidebar are fixed from then on, so a run recorded against it always means what the page said at the time.
+Approval can't be undone. The version's values, steps and sidebar are fixed, so every run recorded against it matches what the page said at the time.
 </Warning>
 
-When you approve a version, you can name its state if your lab calls it something other than "approved". To change an approved protocol, click **New version**. Bower copies it into a new editable draft, and the approved version stays the one people run until the new one is approved.
+To change an approved protocol, click **New version**. Bower copies it into a draft, and runs keep using the approved version until you approve the new one.
 
-Once a protocol has more than one version, you can switch versions from the version bar at the top of the page. **Lineage**, at the top of the sidebar, lists every version, newest first, down to the file the protocol was imported from. Each version says where it came from (**From v2**, or **Imported** for the first one), who created it, and when. A version started from an older one names that one, so you can see that v4 came from v1 rather than from v3. Lineage marks the **current** version and the one you're **showing**; click any version to open it. You can also jump to it from the protocol's menu with **Version history**.
+**Lineage**, at the top of the sidebar, lists every version, newest first, with where each came from (**From v2**, or **Imported**), who created it and when. It ends with the file the protocol was imported from. Click a version to open it.
 
-To delete a version, open it and click **⋮**, then **Delete version**. You can delete a draft, or an earlier approved version nobody ran. A version a run followed can't be deleted, so every run record still matches what the protocol said; nor can the version new runs use, or a protocol's only version (delete the protocol instead). Deleted version numbers aren't reused: after deleting draft v3, the next new version is v4. A link to a deleted version opens the newest version instead. See [Runs and versions on the protocol page](#runs-and-versions-on-the-protocol-page).
+To delete a version, open it and click **⋮**, then **Delete version**. You can delete a draft, or an earlier approved version nobody ran. You can't delete a version that has runs, the version runs use, or a protocol's only version. Version numbers aren't reused.
 
 ## Protocol runs
 
-A run is one time someone worked through a protocol, usually hands-free with [Live](/ai-and-search/live-agent-mode#execution-mode-running-a-protocol). Bower records which version was run, when each step was marked done or skipped, and what was captured along the way. Anyone who can read a protocol can see its runs; only the person who ran a run can carry on with it.
+A run is one time someone worked through a protocol, usually hands-free with [Live](/ai-and-search/live-agent-mode#execution-mode-running-a-protocol). Bower records which version was run, when each step was marked done or skipped, and what was captured. Anyone who can read a protocol can see its runs. Only the person who started a run can continue it.
 
 ### What do the run labels mean?
 
-Labels state what Bower recorded, never a guess about whether someone is at the bench.
-
-| Label | What it means |
+| Label | Meaning |
 | --- | --- |
-| **Open · step 3 of 6 · last activity 14:02** | Not finished. Step 3 is current; 14:02 is the last step change or check-in from a connected session. |
+| **Open · step 3 of 6 · last activity 14:02** | In progress at step 3. 14:02 is the last recorded activity. |
 | **Paused · step 3 of 6 · last activity 14:02** | Paused at step 3. |
 | **Completed · 6 of 6 (1 skipped)** | Every step was done or skipped. |
-| **Ended early · 2 of 6** | Closed before every step was done or skipped: ended, replaced by a new run, or closed by Bower after its live session was lost. |
+| **Ended early · 2 of 6** | Closed before the last step: ended, replaced by a new run, or closed after Live lost the connection. |
 
-Each run is tagged with its version, such as **v2**, or **Earlier** for runs recorded before the protocol had versions.
+Each run also shows its version, such as **v2**, or **Earlier** for runs from before the protocol had versions.
 
 ### Can a finished run change?
 
-No. A **Completed** or **Ended early** run is a fixed record; to do the protocol again, start a new run. The one exception is a misheard last step in Live, which you can [undo within 10 minutes](/ai-and-search/live-agent-mode#undoing-the-last-step).
+No. A **Completed** or **Ended early** run is a fixed record; start a new run to do the protocol again. The one exception: in Live, you can [undo a misheard last step within 10 minutes](/ai-and-search/live-agent-mode#undoing-the-last-step).
 
 ### How do I see the runs of a protocol?
 
-In the protocol library, click a protocol's **Runs** count, such as **3 runs · 1 open**, to show its runs as rows underneath. Protocols with an open run show them already. Runs are newest first, 10 at a time, with **Show 10 more** below. With a keyboard, the right arrow shows a protocol's runs and the left arrow hides them.
+In the protocol library, click a protocol's run count, such as **3 runs · 1 open**, to show its runs underneath, newest first. Protocols with an open run show them already.
 
-Turn on **Active runs** in the toolbar to list only protocols with a run still going. To see one protocol's runs on their own, pick it in the **Protocol** filter; **View all in Protocols** on a protocol's page does the same. Clear the filter to see every protocol again.
+- **Active runs** in the toolbar lists only protocols with a run in progress.
+- The **Protocol** filter shows one protocol's runs. **View all in Protocols** on a protocol's page does the same.
 
 ### How do I see when a protocol was last run?
 
-The protocol library's **Last run** column shows when each protocol was last run, such as **Today, 09:12** or **Oct 15, 14:02**, in your local time. Hover over it for the full date and time. For a run that is still open, it's the run's last activity. It's empty for a protocol that has never been run. Under an expanded protocol, each run shows when it ended.
-
-Click the **Last run** header, or pick **Last run** in the **Sort** menu, to put the most recently run protocols first. Click it again for the oldest first. Protocols that have never been run stay at the bottom either way.
+The library's **Last run** column shows the most recent run in your local time, such as **Today, 09:12**. For an open run, it's the last activity. Click the column header to sort by it.
 
 ### What is on a run record?
 
-Click a run to open its record. The header shows who ran it and when, its label, and a line such as **Ran Version 2 (draft) · 9 captures · 1 h 04 min** (**so far** while the run is open).
+Click a run to open its record. The header shows who ran it, when, which version, how many captures and how long it took.
 
-- **Steps** lists the steps exactly as they were run. Beside each step are the captures taken for it, such as **Photo · 10:06:12**; click one to open it. Under them, **Done · 10:06:41** or **Skipped · 10:07:05** shows when the step was marked, to the second. A step with nothing captured shows **No capture** above that line. A run that crosses midnight adds the date, as in **Done · Oct 14, 00:30:00**. Captures not tied to a step are listed together at the end. Steps are grouped by section only if the version was approved before the run started.
+- **Steps** lists the steps as they were run. Each shows its captures (click one to open it) and when it was marked, such as **Done · 10:06:41** or **Skipped · 10:07:05**.
 - **Timeline** lists the start, each capture, each step done, and the end, in order.
 
-Every time on a run record is in your device's time zone, so colleagues in other time zones each see the run in their own local time. The **Summary** names the zone in its **Time zone** row, such as **AEDT, your device**, as it was when the run started.
-
-Notices tell you when a draft's steps have changed since the run, when the protocol has a newer version, or when the run is an **Earlier run** with no section or version detail. Runs from before Bower kept step times show which steps were done or skipped, but not when.
+Times are in your device's time zone; the **Summary** names it. A notice tells you if the protocol has changed since the run.
 
 ### Runs and versions on the protocol page
 
-On a protocol's page, the sidebar starts with the protocol's history: **Runs**, then **Versions**. A divider separates them from the method sections below, such as **Materials & equipment**, **Recipes** and **Safety**. Click the **Runs** or **Versions** header to open or fold it; the header shows a count, such as **4 · last Oct 14** or **2 · current v1**.
-
-- **Runs** lists up to five runs of the version you're viewing; turn on **All versions** for the rest, or click **View all in Protocols**. It's open when a run is open, and hidden when there are no runs.
-- **Versions** shows each version's run count, such as **· 5 runs**. Click it to show that version's runs in **Runs**.
+At the top of a protocol's sidebar, **Runs** lists up to five runs of the version you're viewing; turn on **All versions** for the rest. **Versions** shows each version's run count; click one to show that version's runs.
 
 ## Can Bower answer questions about a protocol?
 
-Yes. Ask Bower in the chat about a protocol and it reads the whole thing: its sections and steps, which steps ask for a capture, and every sidebar section, including the ones you added yourself. For example, ask "What are the safety notes for the PCR setup protocol?" or "What's in the Storage section?". See [Bower AI assistant](/ai-and-search/bower-ai-assistant).
+Yes. Ask Bower in the chat, for example "What are the safety notes for the PCR setup protocol?". It reads the steps, capture steps and every sidebar section. See [Bower AI assistant](/ai-and-search/bower-ai-assistant).
 
 ## What happens when two people edit the same step?
 
-If a colleague saves a change to a step while you're editing the same step, Bower doesn't overwrite either change. A banner appears on the step: click **Review** to compare the two, then **Keep mine** or **Use theirs**. Until you choose, your version isn't saved, and Bower asks before you leave the page.
+Bower keeps both changes. A banner appears on the step: click **Review** to compare them, then **Keep mine** or **Use theirs**.
 
 ## What if an import misses something?
 
-An import can miss things: a table it couldn't read, or a whole part of the protocol such as the materials list. When it does, a notice at the top of the page lists what's missing, with the page of the source where it knows it. Check those parts against your original document.
-
-If a protocol is longer than Bower can load at once, the page tells you it isn't the whole method.
+If an import misses something, such as a table or the materials list, a notice at the top of the page lists what's missing and where in the source, when Bower knows. Check those parts against your original document.
 
 ## What happened to protocols written as a document?
 
-Bower used to offer note protocols, written as one document. Each one has been converted: Bower generated its steps from the text, and kept your original note as a file named `Original note.md`. **Original note.md** at the bottom of the protocol's **Lineage** opens it, so you can check the steps against what you wrote.
-
-A few items that weren't protocols, such as test text, were kept as notes, with their content unchanged.
+Bower used to offer protocols written as a single note. Each one has been converted to steps, with your original text kept as `Original note.md`. Open it from the bottom of the protocol's **Lineage** to check the steps against what you wrote.
 
 ## The protocol library
 
-The protocol library lists every protocol in your workspace, with its title, collection, how many versions it has, [runs](#how-do-i-see-the-runs-of-a-protocol), when it was [last run](#how-do-i-see-when-a-protocol-was-last-run), who created it, and when it was last modified. Click the **Versions** header, or pick **Versions** in the **Sort** menu, to put the protocols with the most versions first. Tags and the created date are in the column picker. While an import runs, or if it found no steps or failed, the row says so.
+The library lists every protocol in your workspace and works like the workspace's [List view](/organisation/organising-workspace#views). Each row shows the title, collection, versions, [runs](#how-do-i-see-the-runs-of-a-protocol), [last run](#how-do-i-see-when-a-protocol-was-last-run), creator and last modified date. Tags and created date are in the column picker.
 
-Search, sort, and filter by collection, tag, or creator. Select several protocols to act on them together.
+Search, sort, and filter by collection, tag, creator or protocol. Select several protocols to act on them together.
+
+### Finding your way back
+
+On a computer, a protocol page shows a trail such as **Protocols / PCR setup**, with its collection beside it. The back arrow returns you to the list with your search, filters and sort as you left them.
 
 ## Managing and exporting a protocol
 
@@ -214,23 +198,4 @@ A protocol's **⋮** menu holds access, version history, moving, deleting, and e
 
 ## Linking protocols to notes
 
-Protocols become more useful when linked to the notes they relate to. Use the [link entity](/organisation/linked-entities) feature to connect a protocol to relevant notes, samples, or collections. This makes it easy to trace which protocol was followed for a given set of observations.
-
-## The Protocols page
-
-The protocol library looks and works like the workspace's [List view](/organisation/organising-workspace#views).
-
-- **Runs** open as rows beneath each protocol; there's no separate runs tab. The old `/capture-stream` link opens this page.
-- **The top bar** holds the workspace search and the **New protocol** button.
-- **The toolbar** under the heading holds the protocol search box, the **Collection**, **Tags**, **Created by** and **Protocol** filters, the **Active runs** filter, and a **Sort** menu.
-
-### Finding your way back
-
-When you open a protocol from the list, the top of its page shows a trail such as **Protocols / PCR setup**, with **in** and the protocol's collection beside it. Click the collection to open it in the workspace.
-
-- **The back arrow** returns you to the list with your search, filters and sort as you left them.
-- **Closing or deleting** the protocol also returns you to the list.
-- **A run record** shows a trail such as **Protocols / PCR setup / Run 3**.
-- **Opened from a workspace collection**, or from a link, search or chat, the trail shows the collection path, as it does for any other item.
-
-The trail appears on a computer. On a phone, protocol pages keep their usual navigation.
+To record which protocol a set of observations followed, [link](/organisation/linked-entities) the protocol to those notes, samples or collections.
