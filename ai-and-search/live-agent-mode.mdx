@@ -3,17 +3,9 @@ title: "Live agent mode"
 description: "A real-time voice and video conversation with Bower, from the Bower app, your phone's browser, or Bower Glasses."
 ---
 
-Live agent mode is a continuous, low-latency audio and video session with Bower. Unlike the standard chat interface — where you type a question and wait for a response — live mode is conversational. You can talk through an experiment, describe what's on an instrument display, or ask follow-up questions without stopping to type.
+Live agent mode is a spoken conversation with Bower while you work. Talk through an experiment, ask follow-up questions, or run a protocol step by step without typing. With video on, Bower sees what your camera sees, so you can ask *"What's the reading on that display?"* or *"Does this sample look contaminated to you?"* Bower responds to what it sees only when you ask, or when you've set a [visual watcher](#visual-watchers).
 
-Live mode runs on your phone and on [Bower Glasses](/bower-glasses/overview), not on a computer. With video enabled, Bower can see what your camera sees and respond to visual context: "What's the reading on that display?" or "Does this sample look contaminated to you?" are reasonable things to ask.
-
-## When to use it
-
-- You're mid-experiment and want to talk through your observations
-- You need to describe something visual that would be difficult to type
-- You want Bower to track key observations while you work
-- You want a real-time second opinion before moving to the next step
-- You want hands-free audio + video clips of a procedure as it happens
+Live runs on your phone and on [Bower Glasses](/bower-glasses/overview), not on a computer.
 
 ## How to start a live session
 
@@ -24,248 +16,122 @@ Live mode runs on your phone and on [Bower Glasses](/bower-glasses/overview), no
     Allow microphone and camera access when asked, then start talking.
   </Tab>
   <Tab title="Bower Glasses">
-    Press and hold the glasses button, or say *"Go live"*. Bower sees through the glasses camera and answers through the speakers. See [Live and protocols with Bower Glasses](/bower-glasses/live-and-protocols).
+    Press and hold the glasses button, or say *"Go live"*. See [Live and protocols with Bower Glasses](/bower-glasses/live-and-protocols).
   </Tab>
   <Tab title="Phone browser">
-    If you use Bower in your phone's browser instead of the app, open Bower chat and tap the waveform button beside the send (arrow) button. Its tooltip reads **Live conversation**.
+    In Bower chat, tap the waveform button beside the send (arrow) button. Its tooltip reads **Live conversation**.
 
     You can also tap **Go live with Bower** on the **Capture** tab in voice or video mode.
   </Tab>
 </Tabs>
 
 <Note>
-Live doesn't run on a computer. Get the [Bower app](/getting-started/mobile) on your phone, then start Live from its capture menu.
+On a computer, get the [Bower app](/getting-started/mobile) on your phone and start Live from its capture menu.
 </Note>
 
-## Video awareness
+## Capturing during a session
 
-With video enabled, Bower processes your camera feed in real time. It can:
+Bower saves something to your workspace only when you ask it to or take a photo yourself.
 
-- Read values from instrument displays you point the camera at
-- Describe what it sees when asked
-- Flag visual anomalies if you ask it to watch for them
+| Say or do | What is saved |
+| --- | --- |
+| *"Take a snapshot"* | The current camera frame, as an attachment |
+| *"Create a note from what we just discussed"* | A note with the key points of the conversation |
+| Tap **Take a photo** (app) or **Take photo** (browser) | A full camera frame, sharper than what Bower sees in conversation |
 
-Bower will not act on visual information unprompted — it responds when you ask.
-
-## Capturing notes during a session
-
-You can ask Bower to capture what it sees or hears at any point during a live session:
-
-- **"Take a snapshot"** — Bower captures the current camera frame and saves it as an attachment in your workspace.
-- **"Create a note from what we just discussed"** — Bower creates a note with the key points from your conversation.
-- You can also take a photo yourself with the shutter button (below).
+Everything you capture is searchable straight away.
 
 ### Taking a photo yourself
 
-In the Bower app, tap **Take a photo** on the live screen to save a photo yourself.
+In a phone-browser session, the round **Take photo** button sits above the controls while your camera is on, and hides in standby. It shows a spinner while the photo saves, then a check mark. If it fails, you'll see "Photo didn't save. Try again." and nothing is added.
 
-In a live session in your phone's browser, a round **Take photo** button appears just above the controls whenever your camera is on. It's hidden while Bower is in standby.
-
-1. Point the camera at what you want to keep.
-2. Tap **Take photo**. The button shows a spinner while the photo saves, then a check mark.
-
-The photo is saved as an attachment in your workspace. It's a full frame from your camera feed, so it's sharper than the smaller frames Bower sees during the conversation. If you're running a protocol, the photo is linked to that run.
-
-Bower is told about the photo without being asked to reply, so it doesn't stop to comment. It knows you took one and, during a protocol, which step you were on, so later in the session you can refer to it, for example *"which step was that last photo for?"*
-
-If the photo can't be saved, you'll see "Photo didn't save. Try again." and nothing is added to your workspace.
+During a protocol run, the photo is linked to the run. Bower knows you took it, and at which step, without stopping to comment, so you can later ask *"which step was that last photo for?"*
 
 ## Recording video clips
 
-You can ask Bower to record short audio + video clips of your bench work hands-free. While you're in a live session, just say what you want and Bower records it.
+Say *"Record this"*, *"Start recording"* or *"Film this for me"*. Bower replies "Recording now." and a red **REC** indicator stays on screen while it records.
 
-**To start recording**, say something like:
+To stop, say *"Stop recording"* or *"End the recording"*. The word "recording" is required: a bare "stop", "cut" or "that's enough" doesn't end the clip, because people say those while filming. Phrases such as *"recall the protocol"* or *"what's the record temperature"* don't start one.
 
-- *"Record this"*
-- *"Start recording"*
-- *"Capture a clip of this"*
-- *"Film this for me"*
+| Setting | Value |
+| --- | --- |
+| Maximum length | **2 minutes**; Bower stops automatically |
+| At a time | One recording per session |
+| Saved to | Workspace attachments, as MP4 that plays inline |
+| Storage | Counts toward your workspace storage |
+| Quality | 1–2 frames per second with full-quality audio, for bench observation rather than fast motion |
 
-Bower confirms ("Recording now.") and a red **REC** indicator appears on screen for as long as the recording is active.
-
-**To stop**, say:
-
-- *"Stop recording"*
-- *"Stop the recording"*
-- *"End the recording"*
-
-The word "recording" is required. A bare "stop", "cut" or "that's enough" doesn't end the clip, because people say those while filming.
-
-Bower confirms and the clip is saved to your workspace's attachments as MP4, where it plays back inline.
-
-| Setting               | Value                                                              |
-| --------------------- | ------------------------------------------------------------------ |
-| Maximum length        | **2 minutes** — Bower stops automatically if you don't              |
-| Concurrent recordings | One per session                                                    |
-| If your network drops | Saved up to the drop, on a best-effort basis (see below)            |
-| Where it's saved      | Workspace attachments, MIME type `video/mp4`                       |
-| Storage cost          | Counts against your standard workspace storage quota               |
-
-If the connection drops while a recording is open, Bower saves what it received up to that point to your attachments when the session ends. Bower can't confirm this out loud, because the session is already gone. The saved clip has a 60-second limit to finish processing; if it takes longer, that clip isn't saved. Check your attachments after reconnecting.
-
-<Note>
-**Recordings are intentionally slideshow-quality** (1–2 fps for the video track, full-quality audio). This keeps file sizes small for everyday lab observation — it's not for high-motion footage.
-</Note>
+If your connection drops mid-recording, Bower tries to save what it received up to the drop, but can't tell you whether it did. Check your attachments after reconnecting.
 
 <Info>
-**Privacy:** on your phone, the **REC indicator is visible on the live screen** for as long as a recording is active, both for your awareness and so colleagues nearby know they may be on camera. Bower Glasses have no display, so the indicator shows on the live screen in the Bower app when it's open. In a background *"Hey Bower"* session there's no on-screen indicator, so tell people nearby before you record. Clips are only visible to people who can already see your other workspace attachments.
+The **REC** indicator also tells colleagues nearby they may be on camera. Bower Glasses have no display, so it shows on the live screen in the Bower app when that is open. A background *"Hey Bower"* session shows no indicator, so tell people before you record. Clips are visible to anyone who can see your other workspace attachments.
 </Info>
-
-Bower is tuned to be conservative and only start recording when you explicitly ask. Phrases that mention "record" but mean something else — *"recall the protocol"*, *"record my thoughts in my notebook"*, *"what's the record temperature"* — won't trigger a recording.
 
 ## Standby mode
 
-Standby is available in live sessions in your phone's browser.
+Standby is available in phone-browser sessions. Use it for a private conversation, a call, or a long session where you want Bower available but not listening.
 
-When you need to pause — to have a private conversation, take a call, or step away — put Bower in standby.
+- **To enter standby:** tap the standby button, or say **"Standby Bower"**.
+- **To wake Bower:** say **"Hello Bower"**, or tap the standby button again.
 
-**In standby, Bower's servers receive no audio or video from your device.** The live stream to Bower is fully paused.
-
-- **To enter standby:** Tap the standby button, or say **"Standby Bower"**
-- **To wake Bower:** Say **"Hello Bower"**, or tap the standby button again to resume manually
-
-The wake word **"Hello Bower"** is detected by your browser's built-in speech recognition, so your microphone stays on in standby. In Chrome and Edge, the browser sends that audio to its own speech service (Google or Microsoft) to recognize the phrase. Bower's servers don't receive it. Only once the wake word is recognized does the live stream to Bower resume.
-
-That means you can leave Bower active without streaming to Bower the whole time: keep your phone in your pocket with headphones, or leave it on the lab bench while you take a call. Standby is useful for long lab sessions where you want Bower available but not always active.
+In standby, Bower's servers receive no audio or video. Your browser's own speech recognition listens for "Hello Bower", so the microphone stays on; in Chrome and Edge that audio goes to Google's or Microsoft's speech service, not to Bower.
 
 ## Execution mode (running a protocol)
 
-When you start a live session and ask Bower to run one of your saved protocols, the live agent enters a structured **execution mode**. Bower takes the protocol's steps as a checklist, walks you through it step by step, and tracks your progress so you can keep both hands on the bench.
-
-### Starting a protocol
-
-- *"Run the **&lt;name&gt;** protocol"*
-- *"Start the **&lt;name&gt;** protocol"*
-- *"Let's do the **&lt;name&gt;** protocol"*
-
-If multiple protocols match what Bower heard, it will list them and ask which one — voice transcription can flip a letter ("workstation" vs "workspace"), so Bower is deliberately generous when searching.
+Say *"Run the buffer prep protocol"* (or *"Start…"*, *"Let's do…"*), or tap **Execute Protocol** in the Bower app. Bower walks you through the steps and records the run on the protocol; see [Protocol runs](/organisation/protocols#protocol-runs). If more than one protocol matches what Bower heard, it lists them and asks which.
 
 ### Step cards
 
-Each step appears as a card at the bottom of the live screen. Swipe between cards to look ahead or back; the current step is centered as you advance. Tap **Mark done** to finish a step without speaking, or **Watch** to play that step in the protocol's reference video, when it has one.
+Each step appears as a card at the bottom of the live screen. Swipe to look ahead or back. Tap **Mark done** to finish a step without speaking, or **Watch** to play the step in the protocol's reference video, when it has one.
 
-Tap **Details** to open the full step: its formatted instructions (lists, tables, formulas), its materials, and any pictures, videos or files attached to it. Tap a picture or video to view it full screen. Files open in a new tab, so your run keeps going.
+Tap **Details** for the full step: formatted instructions, materials, and attached pictures, videos and files. Pictures and videos open full screen; files open in a new tab, so your run keeps going.
 
-### Advancing through steps
+### Voice commands during a run
 
-Bower marks the current step done when you tell it you're finished. Natural phrasings all work:
+| Say | What happens |
+| --- | --- |
+| *"Done"*, *"Next"*, *"Finished that"* | Marks the step done straight away, without asking you to confirm |
+| *"Skip this one"* | Skips the step |
+| *"Jump to step 5"* | Moves straight to step 5 |
+| *"Go back to the staining step"* | Reads back the step it found, such as *"Go to step 4, Set up gas lines?"*, and moves only after you say *"yes"* |
+| *"Pause for a sec"*, *"Hold on"* | Stops the run clock; Bower stays quiet |
+| *"Resume"*, *"Where were we?"* | Reads the current step again and carries on |
+| *"We're finished"* after the last step | Ends the run |
 
-- *"Done"* / *"That's done"* / *"Next"*
-- *"Move on"* / *"Finished that"*
-
-Your verbal confirmation is always an unconditional override — Bower won't ask you to confirm or wait to visually verify. You said it, it's done.
-
-You can also skip a step:
-
-- *"Skip this one"* / *"We don't need this step"*
-
-### Jumping to a specific step
-
-When you don't want the next step but a particular one — by number or by what it's about — just say so:
-
-- *"Jump to step 5"* / *"Go back to the staining step"* / *"Let's do the gas setup now"*
-
-A clear step number, such as *"Jump to step 5"*, moves the run straight there.
-
-Because landing on the wrong step mid-procedure is disruptive, **a jump to a step you name by what it's about is confirmed first**. Bower works out which step you meant and reads it back as a quick check, for example *"Go to step 4, Set up gas lines?"*, and waits. Say *"yes"*, *"do it"*, or *"go ahead"* and Bower makes the jump. Say no, or name a different step, and nothing jumps until you confirm.
-
-Marking a step done, skipping, and going back all stay instant. If Bower isn't sure which step you meant, it asks you to say which one rather than guessing.
-
-### Pausing and resuming
-
-- *"Pause for a sec"* / *"Hold on"* — Bower stops the running clock and stays quiet until you resume
-- *"Resume"* / *"Where were we?"* — Bower announces the current step again and continues
-- *"That's done"* / *"We're finished"* (after the last step) — Bower ends the run and returns to general live mode
+If Bower isn't sure which step you meant, it asks rather than guessing.
 
 ### Undoing the last step
 
 When you mark the last step done, Bower finishes the protocol. If that *"done"* was misheard, you have **10 minutes**, in the same live session, to take it back:
 
 1. Say *"Go back"* or *"Undo"*, or name a step, such as *"Go back to step 6"*.
-2. Bower always asks first, for example *"Reopen the finished protocol at step 6, Image the gel?"*
+2. Bower asks first, for example *"Reopen the finished protocol at step 6, Image the gel?"*
 3. Say *"yes"* and the run reopens at that step. Say no and it stays finished.
 
 Only your voice can reopen a run, not a tap. A reopened run you leave unfinished is recorded as **Ended early**. After 10 minutes, or for a run that ended early, start a new run.
 
 ### Timers
 
-Inside a protocol you can set a wall-clock timer for the current step:
-
-- *"Remind me in 30 minutes to take the gel out"*
-- *"Set a 5-minute timer"*
-- *"Buzz me when the incubation is done in 10 minutes"*
-
-Bower reads the duration back so you can catch a misheard time, then quietly waits. When the timer fires, Bower speaks the reminder.
-
-Timers are scoped to the **current step** — moving on clears them. If you want a multi-step reminder, set it on the step it should fire during.
+Say *"Remind me in 30 minutes to take the gel out"* or *"Set a 5-minute timer"*. Bower reads the duration back so you can catch a misheard time, then speaks the reminder when it's due. A timer belongs to the current step and is cleared when you move on, so set a long timer on the step it should fire during.
 
 ### Reporting deviations
 
-If something goes wrong or you do something differently than the protocol says, tell Bower. Examples:
+Tell Bower when you depart from the protocol: *"I used 50 µL, not 100"*, *"I waited 10 minutes instead of 30"*, *"That tube touched the bench"*. Bower records the deviation against the current step, with a category such as timing, parameter or sterile breach.
 
-- *"I skipped the centrifuge step"*
-- *"I used 50 microliters, not 100"*
-- *"I waited 10 minutes instead of 30"*
-- *"That tube touched the bench"*
+### Notes during a run
 
-Bower captures the deviation with the right category (timing, parameter, sterile breach, etc.) and the active step id, so you have a record of what actually happened — useful for troubleshooting a failed run later.
+Say *"remember that we use 50 µL here"* or *"make a note that the buffer was cold"*, and Bower writes it into a note on the run and tells you so. The note appears on the [run record](/organisation/protocols#what-is-on-a-run-record) straight away. Bower doesn't bring these notes up on later runs, so if a change should apply every time, edit the protocol. *"Take a note"* on its own starts a voice note for you to dictate.
 
-## Remembering something for next time
+Bower no longer keeps per-step tips between runs; the **Bower AI annotations** entry has been removed from the protocol menu.
 
-When you tell Bower something worth keeping during a protocol run, such as *"remember that we use 50 µL here"* or *"make a note that the buffer was cold"*, Bower writes it into a **note** anchored to that run and tells you so: *"Got it, putting that in a note for this run."* The note appears on that run's record straight away and is searchable like any other note. See [What is on a run record?](/organisation/protocols#what-is-on-a-run-record)
+## Visual watchers
 
-Bower does not carry these notes into future runs. It won't read a tip back to you when you reach the same step next time, so if a change should apply to every run, edit the protocol itself.
+Ask Bower to react when it sees something, in any live session: *"Let me know when the gel turns pink"*, *"Alert me if my hand touches the bench"*. Bower confirms, checks the camera every few seconds, and speaks your response when it sees a clear match. Nothing is saved when a watcher fires.
 
-If you ask for a note without saying what it should contain (*"take a note"*), Bower starts a voice note instead and records what you dictate next.
+- **Up to 3 watchers per session.** Clear one with *"stop watching for the gel"*.
+- **About 15 seconds between repeats** of the same watcher, so a cue that stays in view doesn't fire constantly.
+- **Watchers end with the session.** Set them again next time.
+- **Watchers add cost while active**, so clear them when you're done.
+- Ask *"what are you watching for?"* to hear the active watchers and how often each has fired.
 
-<Note>
-Bower AI annotations have been retired. Bower used to capture per-step tips while you ran a protocol and bring them up on later runs of the same protocol. It no longer captures or uses them, and the **Bower AI annotations** entry is gone from the Protocol detail menu.
-</Note>
-
-## Visual watchers — "every time you see X, say Y"
-
-You can ask Bower to react to specific visual cues during any live session. Tell Bower what to watch for and what to say when it sees the thing, and Bower will keep an eye on the camera in the background. This works in any mode — you don't need to be running a protocol.
-
-### How to set one up
-
-Just say it in plain words:
-
-- *"Every time you see a thumbs up, say 'cool, man.'"*
-- *"Let me know when the gel turns pink."*
-- *"Watch for the color change and tell me."*
-- *"Alert me if my hand touches the bench."*
-
-Bower confirms it's watching and the system starts checking camera frames every few seconds. When it spots a high-confidence match, Bower speaks the response you chose.
-
-### Limits
-
-- **Up to 3 watchers per session.** Past the limit, Bower tells you and asks you to clear one first. Voice-clear with *"forget about the thumbs up"* or *"stop watching for the gel"*.
-- **About a 15-second cooldown per watcher.** If the cue stays on camera, Bower won't repeat itself every time. Wait a bit before the next firing.
-- **Watchers reset on disconnect.** End the live session, and the watchers go with it. Re-register on the next session if you want them back.
-- **Each watcher costs a small amount.** Bower uses a separate AI model to check frames, so there's a per-session cost when watchers are active. Don't leave watchers running all day — clear them when you're done.
-
-### What works well
-
-Concrete, visually unambiguous cues:
-
-- ✅ *"a researcher's thumbs-up gesture"*
-- ✅ *"the centrifuge display reaching 10000 rpm"*
-- ✅ *"the gel turning pink"*
-
-What doesn't work as well — vague targets or things you can't see:
-
-- ❌ *"good things"* — too abstract; the model can't ground "good".
-- ❌ *"when I'm done"* — depends on your intent, not a visual.
-- ❌ *"the temperature reaching 37°C"* if the readout isn't on camera.
-
-### Asking Bower what it's watching for
-
-Just ask — *"what are you watching for?"* or *"what cues did I set up?"*. Bower lists the active watchers and how many times each has fired.
-
-## What's saved
-
-During a live session, notes, snapshots, and video clips are only saved when you explicitly ask Bower to capture them, or when you take a photo yourself with the shutter button.
-
-Visual watchers are also automatic in spirit — they fire whenever Bower sees the cue — but they live only for the duration of the live session. Nothing gets saved to your workspace from a watcher firing; Bower just speaks the response and continues.
-
-All captured notes, snapshots, and clips are searchable immediately and play back inline in the attachment viewer.
+Watchers work best with concrete, visible cues, such as *"the centrifuge display reaching 10000 rpm"*. They don't work for abstract targets (*"good things"*), your intentions (*"when I'm done"*), or a readout that isn't in view of the camera.
