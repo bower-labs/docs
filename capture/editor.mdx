@@ -3,319 +3,134 @@ title: "The note editor"
 description: "Rich text editing with slash commands, formatting, tables, math equations, callouts, Voice to Text recording, and more."
 ---
 
-Every note in Bower opens in a rich text editor. You can type freely, format text, insert tables and images, and use slash commands for quick block insertion.
+Every note in Bower opens in a rich text editor. Keyboard shortcuts for everything below are listed in [Keyboard shortcuts](/capture/keyboard-shortcuts).
 
 ## Text formatting
 
-The toolbar at the top of the editor provides:
+The toolbar at the top of the editor, and a floating toolbar that appears when you select text, offer bold, italic, underline, strikethrough, inline code, highlight, text color, font family, and alignment (left, center, right, justify).
 
-| Action | Shortcut |
-| --- | --- |
-| **Bold** | Cmd+B |
-| *Italic* | Cmd+I |
-| Underline | Cmd+U |
-| ~~Strikethrough~~ | Cmd+Shift+X |
-| `Code` | Cmd+E |
-| Highlight | Cmd+Shift+H |
-| Text color | Toolbar color picker |
-
-Select text to reveal a **floating toolbar** with quick access to all formatting options, including text color and font family.
-
-You can also set text alignment (left, center, right, justify) from the toolbar or via slash commands.
-
-## Headings
-
-Use the heading dropdown in the toolbar to switch between paragraph text and three heading levels, or use the `/h1`, `/h2`, `/h3` slash commands.
-
-Headings are also used to generate the **Table of Contents** sidebar (see below).
+Use the heading dropdown in the toolbar to switch between paragraph text and three heading levels.
 
 ## Slash commands
 
-Type `/` at the start of a new line to open the command menu. This is the fastest way to insert blocks. You can search by typing after the slash -- for example, `/math` filters to math-related commands.
-
-### Style
+Type `/` at the start of a new line, or click **+** beside a block, to open the command menu. Type after the slash to filter, for example `/math`.
 
 | Command | What it inserts |
 | --- | --- |
-| `/text` | Plain paragraph |
-| `/h1` | Heading 1 |
-| `/h2` | Heading 2 |
-| `/h3` | Heading 3 |
-| `/bullet` | Bullet list |
-| `/numbered` | Ordered list |
-| `/task` | Task list with checkboxes |
+| `/text`, `/h1`, `/h2`, `/h3` | Paragraph or heading |
+| `/bullet`, `/numbered`, `/task` | Bullet, numbered or task list |
 | `/quote` | Blockquote |
 | `/code` | Code block |
-| `/callout` | Info callout box (blue) |
-| `/warning` | Warning callout box (amber) |
-| `/tip` | Tip callout box (green) |
-| `/toggle` | Collapsible toggle section |
-
-### Insert
-
-| Command | What it inserts |
-| --- | --- |
-| `/table` | 3x3 table with header row |
+| `/callout`, `/warning`, `/tip` | Info (blue), warning (amber) or tip (green) callout |
+| `/toggle` | Collapsible section: click the triangle to expand or collapse it |
+| `/table` | 3×3 table with a header row |
 | `/hr` | Horizontal divider |
 | `/image` | Image upload dialog |
-| `/diagram` | Open the diagram editor |
+| `/diagram` | The diagram editor |
 | `/math` | Inline LaTeX equation |
-| `/equation` | Block LaTeX equation (centerd) |
-
-### Align
-
-| Command | What it does |
-| --- | --- |
-| `/align left` | Left-align text |
-| `/align center` | Center text |
-| `/align right` | Right-align text |
-| `/justify` | Justify text |
-
-## Lists
-
-Three list types are available:
-
-- **Bullet list** -- unordered items
-- **Numbered list** -- ordered items
-- **Task list** -- items with checkboxes you can tick off
-
-Use the slash commands (`/bullet`, `/numbered`, `/task`) or the toolbar buttons to insert lists. Task lists support nesting -- press Tab to indent a task under another.
-
-## Callout boxes
-
-Callout boxes highlight important information with a colored left border and tinted background. Three types are available from the slash menu:
-
-- `/callout` -- **Info** (blue) -- general notes and information
-- `/warning` -- **Warning** (amber) -- cautions and important warnings
-- `/tip` -- **Tip** (green) -- helpful tips and suggestions
-
-Type inside the callout to add your content. Each type has distinct colors that adapt to light and dark mode.
-
-## Collapsible toggles
-
-Use `/toggle` to insert a collapsible section. Toggles have:
-
-- A **summary line** next to a triangle indicator
-- A **content area** below that appears when expanded
-
-Click the triangle to expand or collapse the section. Useful for hiding supplementary details, long method descriptions, or optional information.
-
-## Tables
-
-Insert a table with `/table` or Cmd+Shift+T. Tables start as 3x3 with a header row.
-
-- **Resize columns** -- drag any column border, including the table's
-  right-hand edge
-- **Fit to width** -- in the table handle menu, beside duplicate and delete.
-  The quickest way to tame a wide or extracted table
-- **Banded rows** -- alternating row shading, from the table options menu or
-  Cmd+Shift+K
-- **Add/remove rows and columns** -- use keyboard shortcuts:
-  - Cmd+Shift+Right / Left -- add column after/before
-  - Cmd+Shift+Down / Up -- add row after/before
-  - Cmd+Shift+Delete -- delete column
-  - Cmd+Alt+Delete -- delete row
-- **Select cells** -- click and drag across cells
-- **Act on several rows at once** -- select whole rows, then delete, insert or
-  clear their contents; the action applies to everything you selected
-- **Merge/split cells** -- Cmd+Shift+M / Cmd+Shift+S
-- **Navigate** -- Tab / Shift+Tab to move between cells
-- **Scroll** -- a table wider than the editor scrolls horizontally, with a
-  scrollbar above the table as well as below, so the right-hand columns stay
-  reachable while you are reading the header
-
-The table controls stay visible while your cursor is anywhere in the table, and
-every handle carries a tooltip.
-
-<Note>
-  Banded rows are a screen and share-link feature. They are not carried into
-  Word or PDF export, so a banded table prints unbanded. Duplicate, sort and
-  alignment act on the row you are hovering rather than on a multi-row
-  selection.
-</Note>
-
-Table cell and header shading survives a round trip through Word export and
-import.
-
-## Mathematics (LaTeX)
-
-Write mathematical equations using LaTeX syntax, rendered with KaTeX:
-
-- `/math` -- insert an **inline equation** that flows with surrounding text
-- `/equation` -- insert a **block equation** displayed as a centerd formula
-
-Click on any rendered equation to edit the LaTeX source.
-
-Common examples:
-
-- Inline: `E = mc^2`, `\alpha + \beta = \gamma`
-- Block: `\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}`
-- Fractions: `\frac{a}{b}`
-- Matrices: `\begin{pmatrix} a & b \\ c & d \end{pmatrix}`
-
-## Images
-
-Insert images with `/image` or the toolbar button. You can also drag and drop images directly into the editor, or paste from your clipboard.
-
-Uploaded images support:
-
-- **Resizing** -- drag the corner handles
-- **Alignment** -- left, center, right via the floating toolbar
-- **Annotation** -- draw on images with shapes, arrows, and text
-- **Lightbox** -- click an image in read-only mode to expand it
-
-### Annotating images
-
-Click an inline image, then the **draw icon** in the floating toolbar, to draw on it. See [Image Annotations & Diagrams](/capture/annotations-and-diagrams).
-
-## Diagrams
-
-Type `/diagram` or click the **draw icon** in the fixed toolbar to create a diagram from scratch. The drawing editor includes shapes, arrows, text, freehand tools, and a library of pre-made scientific shapes (biology, chemistry, circuits, maths, and more).
-
-See [Image Annotations & Diagrams](/capture/annotations-and-diagrams) for full details.
-
-## Code blocks
-
-Insert a code block with `/code` or type ` ``` ` followed by Enter.
-
-## Block quotes
-
-Insert a block quote with `/quote` or type `>` followed by a space.
-
-## Links
-
-Select text and press Cmd+K to add a hyperlink. Click an existing link to edit or remove it.
-
-## Emoji
-
-Type `:` followed by the emoji name (e.g. `:wave:`) to insert an emoji. Standard emoticons like `:)` and `:D` are auto-converted.
-
-## Table of Contents
-
-On wide screens (1280px+), a **Table of Contents** appears at the right edge of the editor:
-
-- Small **dash indicators** show each heading at a glance
-- **Hover** to expand a full heading outline panel
-- **Click** any heading to scroll to that section
-- The **active heading** is highlighted as you scroll
-
-The Table of Contents updates automatically as you add, remove, or rename headings.
-
-## Drag and drop blocks
-
-Every block has a **drag handle** (six-dot icon) in the left gutter on hover:
-
-- **Click** the handle to select the entire block (for copy/cut)
-- **Drag** the handle to reorder blocks
-
-The **+** button next to the drag handle opens the slash command menu.
+| `/equation` | Centered block LaTeX equation |
+| `/align left`, `/align center`, `/align right`, `/justify` | Text alignment |
 
 ## Markdown input
 
-You can type Markdown syntax directly and it will convert to rich text:
+Markdown you type or paste converts to rich text as you go:
 
-- `# Heading` to H1, `## Heading` to H2
-- `- item` or `* item` to bullet list
-- `1. item` to numbered list
-- `> quote` to block quote
-- `**bold**` to bold, `*italic*` to italic
-- `` `code` `` to inline code
-- `---` to horizontal rule
+| Type | To get |
+| --- | --- |
+| `#`, `##` and a space | Heading 1, heading 2 |
+| `-` or `*` and a space | Bullet list |
+| `1.` and a space | Numbered list |
+| `>` and a space | Blockquote |
+| ` ``` ` and Enter | Code block |
+| `**bold**`, `*italic*`, `` `code` `` | Bold, italic, inline code |
+| `---` | Horizontal divider |
 
-You can also **paste Markdown** from other sources and it will be parsed into rich content automatically.
+Type `:` and a name to insert an emoji; `:)` and `:D` convert automatically.
 
-## Undo and redo
+## Lists
 
-Use **Cmd+Z** to undo and **Cmd+Shift+Z** to redo. The toolbar also has undo/redo buttons.
+Bullet, numbered and task lists come from the slash menu or the toolbar. Task list items have checkboxes; press Tab to nest a task under another.
+
+## Tables
+
+Insert a table with `/table`. Tables start as 3×3 with a header row.
+
+- **Resize columns** by dragging any column border, including the right-hand edge.
+- **Fit to width**, in the table handle menu beside duplicate and delete, is the quickest way to tame a wide or extracted table.
+- **Banded rows** shade alternate rows, from the table options menu.
+- **Select cells** by dragging across them; merge and split them from the keyboard.
+- **Select whole rows** to delete, insert or clear them together. Duplicate, sort and alignment act on the row you are hovering, not on a multi-row selection.
+- A table wider than the editor scrolls sideways, with a scrollbar above the table as well as below.
+
+The table controls stay visible while your cursor is in the table, and every handle has a tooltip. For what tables keep in Word and PDF, see [Exporting notes](/organisation/export).
+
+## Mathematics (LaTeX)
+
+`/math` inserts an inline equation and `/equation` a centered block equation, both rendered with KaTeX. Click a rendered equation to edit its LaTeX, for example `\frac{a}{b}` or `\begin{pmatrix} a & b \\ c & d \end{pmatrix}`.
+
+## Images
+
+Insert an image with `/image` or the toolbar button, or drag and drop or paste one into the note. Drag the corner handles to resize it, set its alignment from the floating toolbar, and click it in read-only mode to view it full size.
+
+To draw on an image, click it, then the **draw icon** in the floating toolbar. For drawing on images and creating diagrams with `/diagram`, see [Image annotations and diagrams](/capture/annotations-and-diagrams).
+
+## Links
+
+Select text and press Cmd+K to add a link. Click a link to edit or remove it.
+
+## Table of Contents
+
+On screens 1280 px wide or more, a **Table of Contents** sits at the right edge of the editor. Each heading shows as a dash; hover to see the outline, and click a heading to scroll to it. The heading you're reading is highlighted.
+
+## Moving blocks
+
+Hover a block to show its drag handle (six dots) in the left margin. Click the handle to select the block for copying or cutting, or drag it to move the block.
 
 ## Page width
 
-By default, a note reads in a centered column. If you want more room, usually for wide tables or dense text, you can switch the page to full width instead. The choice is saved on the page, so everyone who opens it after you sees the same width.
+A note reads in a centered column by default. For wide tables or dense text, switch the page to full width with either:
 
-Switch it from either of two places:
+- the **width icon** at the right end of the toolbar, or
+- the **Full width** switch in the **&#8942;** menu, below Version history.
 
-- The **width icon** at the right end of the toolbar row, next to undo, redo, image, diagram and attach.
-- The **Full width** switch in the **&#8942;** (kebab) menu, just below Version history.
-
-Only an editor can change the width. Viewers and guests see the saved width, but the switch in the kebab menu is disabled for them.
-
-The width toggle isn't offered on small screens (roughly under 1024px wide), where the reading column already fills the available space.
-
-Version history and exports to PDF and Word always use the standard reading width, regardless of the page's current setting.
+The setting is saved on the page, so everyone sees the same width. Only members who can edit the page can change it. The switch isn't offered on screens narrower than about 1024 px. Version history and PDF and Word exports always use the standard width.
 
 ## Autosave
 
-Your content is saved automatically as you type, within seconds of your last edit. You do not need to save.
+Bower saves within seconds of your last edit. If you can edit the page, a cloud icon left of the **&#8942;** menu shows where your work stands; hover or tap it to see the time of the last save.
 
-### The save indicator
+| Icon | Meaning |
+| ---- | ------- |
+| Cloud with a tick | Saved |
+| Cloud with arrows | Saving your latest edit |
+| Crossed-out cloud, in red | Not saved |
 
-A small cloud icon sits in the top bar of every note and protocol, just left of the **&#8942;** (kebab) menu, so you can see where your work stands without opening anything. Hover it, or tap it on a touchscreen, for the detail, including the time of the last save.
+**If the icon is red**, your latest changes haven't reached Bower and closing the page will lose them. Check your connection, then choose **Save** from the **&#8942;** menu. You can keep typing; your work stays in the editor, and the next edit tries again.
 
-| Icon | What it means |
-| ---- | ------------- |
-| Cloud with a tick | Saved. |
-| Cloud with arrows | Saving. Your most recent edit is on its way. |
-| Crossed-out cloud, in red | Not saved. See below. |
+If you close or reload the page while a change is unsaved, your browser asks you to confirm. Stay on the page to let the save finish.
 
-The indicator only appears if you can edit the page. A read-only viewer has nothing to save.
-
-### If the indicator turns red
-
-Your most recent changes have not reached Bower, and **closing the page will lose them**. Check your internet connection, then choose **Save** from the **&#8942;** menu to try again.
-
-Your work stays in the editor in the meantime, so you can keep typing. Carrying on will start a fresh save attempt on its own.
-
-### Closing or reloading the page
-
-If you close or reload the page while a change is still saving, or has not saved, your browser asks you to confirm before you leave. Stay on the page and Bower finishes the save; the indicator shows when it is done. If the indicator is red, check your connection and choose **Save** first. Leaving anyway can lose that change.
-
-### Saving by hand
-
-You rarely need to, but **Save** in the **&#8942;** menu, or **Cmd+S** (Ctrl+S on Windows and Linux), forces an immediate save. It is worth using before you close the tab on an unreliable connection. When nothing is pending, Cmd+S just confirms that everything is already saved.
+**Save** in the **&#8942;** menu, or Cmd+S, saves immediately. It's worth using before closing a tab on an unreliable connection.
 
 ## Voice to Text
 
-Click **Voice to Text** on a note to record speech, such as a meeting or a spoken observation, and have Bower transcribe it into the note. When you're done, click **Stop & insert**. The transcript is inserted at your cursor.
+Click **Voice to Text** on a note to record speech, such as a meeting or a spoken observation, and have Bower transcribe it. Click **Stop & insert** when you're done; the transcript is inserted at your cursor once the recording has uploaded.
 
-### Keep the tab open while it saves
-
-After you stop, Bower uploads the recording. While it does, you'll see **Saving your recording. Keep this tab open.** The transcript appears in the note once the recording has saved.
-
-While you record and while it saves, Bower keeps a copy of the recording in this browser on this device. If the upload doesn't finish, that copy is how you get the recording back.
-
-If you see **This recording isn't backed up on this device**, Bower couldn't keep that copy. Keep the tab open until the recording has saved: if the tab closes first, the recording can't be recovered.
+While it uploads you'll see **Saving your recording. Keep this tab open.** Until then, Bower keeps a copy of the recording in this browser on this device. If you see **This recording isn't backed up on this device**, there is no copy, so keep the tab open until the save finishes or the recording is lost.
 
 ### If a recording wasn't saved
 
-If the tab closes, your laptop goes to sleep, the browser crashes, or you're signed out before a recording finishes saving, the next time you open Bower in that browser you'll see **A recording wasn't saved**. It can appear on any page, not only the note.
+If the tab closes, the computer sleeps, the browser crashes or you're signed out before a recording saves, the next time you open Bower in that browser you'll see **A recording wasn't saved**, on any page. It shows the note the recording belongs to (or **A note you can no longer open**), when it was recorded, its length, and a player.
 
-To help you tell which recording it is, the message shows:
+| Choose | What happens |
+| --- | --- |
+| **Upload to note** | Adds the recording to its note and transcribes it. Keep the tab open until it finishes. If it fails, choose **Try again**. |
+| **Discard** | After you confirm, deletes the recording from this device for good |
+| **X** | Closes the message; Bower asks again next time |
 
-- The note the recording belongs to, or **A note you can no longer open** if that note has been deleted or you no longer have access to it.
-- When it was recorded (the date and time) and how long it is.
-- A player, so you can listen to it before you choose what to do.
+If the message says **Only the first part of it was saved on this device**, you can upload what was kept; the rest is lost.
 
-- **Upload to note** adds the recording to the note it was recorded in. Keep the tab open until it finishes. The transcript appears in that note.
-- **Discard**, with the bin icon, asks you to confirm first. A discarded recording is deleted from this device and can't be recovered.
-- The **X** in the top right closes the message without choosing. Bower asks again the next time you open it. You can't close the message while a recording is uploading.
-
-If the upload fails, the message says so and offers **Try again**.
-
-If the message says **Only the first part of it was saved on this device**, Bower can upload what it kept, but the rest of the recording is lost.
-
-A few things to know:
-
-- Only the person who made the recording is offered it. Anyone else who signs in to Bower in the same browser won't see it.
-- The copy lives in the browser you recorded in. Opening Bower in a different browser or on a different device won't show it.
-- Unsaved recordings are deleted 7 days after you started recording, the next time you open Bower in that browser. Upload a recording within a week if you want to keep it.
+The saved copy is only offered to the person who recorded it, and only in the browser they recorded in. It is deleted 7 days after recording started, so upload it within a week.
 
 ## Export
 
-Notes can be exported from the note menu in multiple formats:
-
-- **Word** (.docx) -- headings, lists, tables with their cell colors, images and code blocks, built in your browser without the note leaving it
-- **Markdown** (.md)
-- **Plain text** (.txt)
-- **PDF** (via browser print)
-
-**Cmd+P** prints the whole note, not just the part on screen, and the print dialog can save it as a PDF.
+Export a note from the note menu as Word, Markdown, plain text or PDF, or print it with Cmd+P. See [Exporting notes](/organisation/export).
