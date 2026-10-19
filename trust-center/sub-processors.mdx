@@ -13,7 +13,7 @@ This page covers services that process data **inside Bower**. Cookies and tags o
 
 For most providers, the DPA is **incorporated by reference** into the vendor's commercial terms: when we accept those terms to use the service, the DPA's data-protection obligations (including GDPR Standard Contractual Clauses for international transfers, UK/Swiss equivalents, and CCPA/CPRA) apply automatically, with no separate signature required. Where a provider offers a separately executed DPA, we link it next to the service below.
 
-Separately, **HIPAA** protections require a signed Business Associate Agreement (BAA). Only providers with a signed BAA (currently Google Cloud and Google Workspace) may process data for workspaces in **[Restricted mode](/trust-center/hipaa-compliance)**; every other provider on this page is blocked server-side for those workspaces.
+Separately, **HIPAA** protections require a signed Business Associate Agreement (BAA). Only providers with a signed BAA (currently Google Cloud, Google Workspace, and Langfuse in its HIPAA region) may process content for workspaces in **[Restricted mode](/trust-center/hipaa-compliance)**; every other provider on this page is blocked server-side for those workspaces. PostHog also signed a BAA with us in October 2026. We keep it as an extra safeguard rather than rely on it: PostHog receives no research content from any workspace, Restricted or not.
 
 ## Infrastructure & hosting
 
@@ -84,7 +84,7 @@ The [Stripe Data Processing Agreement](https://stripe.com/au/legal/dpa) applies 
 
 | Service | Purpose | Data processed | Location |
 |---------|---------|---------------|----------|
-| [PostHog](https://posthog.com/privacy) ([DPA](https://posthog.com/privacy#data-processing-agreement), separately executed July 2026) | Product analytics, feature flags (consent required in the EU, EEA, UK, and Switzerland; see the [cookie policy](/trust-center/cookies)) | Usage events and feature flag evaluations. No research content | US |
+| [PostHog](https://posthog.com/privacy) ([DPA](https://posthog.com/privacy#data-processing-agreement), separately executed July 2026; **BAA** signed 19 October 2026) | Product analytics, feature flags (consent required in the EU, EEA, UK, and Switzerland; see the [cookie policy](/trust-center/cookies)) | Usage events and feature flag evaluations. No research content | US |
 | [Langfuse](https://langfuse.com/privacy) ([DPA](https://clickhouse.com/legal/agreements/data-processing-addendum), incorporated by reference; **BAA** signed 14 September 2026) | AI response quality monitoring | AI request and response **text**, which is not de-identified, plus token counts and latency | US (Oregon) |
 | [Google Cloud Trace](https://cloud.google.com/terms/cloud-privacy-notice) | Distributed tracing and performance monitoring | Trace spans, identifiers, request metadata | US |
 | [Google Analytics 4](https://policies.google.com/privacy) | Marketing-site analytics and signup-funnel attribution. In the app it fires only on an allowlist of pre-sign-in pages and stops permanently once you sign in. | Page paths, referrer, GA client id, approximate geography, device and browser. **No research content.** | US |
