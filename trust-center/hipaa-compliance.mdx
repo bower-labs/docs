@@ -42,7 +42,7 @@ Each of these sends content to a third party that has not signed a BAA, so the w
 | **Biology database lookups in Bower** (UniProt, NCBI Gene, ChEMBL, RCSB PDB, Ensembl) | Unavailable. A lookup would send your query to a public biology database. |
 | **Embedded images in Word (.docx) imports** | The document still imports, converted inside Bower, but embedded images are not brought across. See below. |
 | **AI quality monitoring** | Available. Request and response text is retained, at a provider covered by our signed BAA and named on the [sub-processor list](/trust-center/sub-processors). **This changed in September 2026**; previously nothing was sent from a Restricted-mode workspace. |
-| **Session replay, autocapture, and heatmaps** (PostHog) | Disabled for the workspace regardless of cookie consent. The plain analytics events that remain carry only event names and metadata, never content. |
+| **Session replay, autocapture, and heatmaps** (PostHog) | Disabled for the workspace regardless of cookie consent. PostHog has signed a BAA with us, but we do not rely on it: the plain analytics events that remain carry only event names and metadata, never content. |
 | Any other AI route not covered by the Google BAA | Blocked at the API level. |
 
 If you try to use a blocked feature, Bower tells you it is unavailable in this workspace rather than failing quietly.
