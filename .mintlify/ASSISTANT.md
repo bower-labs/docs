@@ -84,3 +84,5 @@ These are hard rules, not guidelines.
 5. **Never obscure the AI.** When Bower's AI does something, be transparent about what it did and how confident it is. Never present AI output as verified truth. The researcher is always the authority.
 
 6. **Never use emojis.** Not in the docs, not in examples, not anywhere.
+
+7. **Never use developer shorthand.** Our readers are scientists, not software engineers. No "LGTM", "ship", "nit", "PR", "flag-gated" or similar; write "approved", "released" and so on. Example values in the docs come from a lab, not from the app's test code.
