@@ -10,7 +10,7 @@ A protocol is made of:
 - **Steps grouped in sections**, lettered and numbered so everyone refers to the same step.
 - **Typed values** in each step, such as temperatures, volumes and durations, that Bower can check.
 - **Capture steps** that say what to record at that point: a photo, a video or a voice note.
-- **A sidebar** for materials, recipes, safety notes and other reference material.
+- **A sidebar** for parameters, materials, recipes, safety notes and other reference material.
 - **Versions** that lock once approved.
 - **Runs**, a record of each time someone worked through the protocol.
 
@@ -46,10 +46,6 @@ A protocol opens on its newest version, which may be a draft. **Execute Protocol
 
 Below the version bar:
 
-- **Parameters** are the values your lab chooses for each run:
-  - **Options**: a list to choose from. Press an option to make it the default.
-  - **Range**: a number with a minimum, maximum, unit and default.
-  - **Text**: free text, with an optional default.
 - **Method** holds the sections (**A**, **B**, **C**) and their steps (**A.1**, **A.2**, **B.1**). Steps outside a section are under **Other steps**. **Expand all** and **Collapse all** open or close every section.
 - **The sidebar** sits beside the method. See [What goes in the protocol sidebar?](#what-goes-in-the-protocol-sidebar)
 
@@ -88,7 +84,13 @@ In a draft, hover over a step, click **Add capture**, and choose the type. A ste
 
 ## What goes in the protocol sidebar?
 
-The sidebar holds reference material for the steps. The built-in sections are:
+The sidebar holds reference material for the steps. Below **Lineage** and **Runs**, it starts with **Parameters**, the values your lab chooses for each run:
+
+- **Options**: a list to choose from. Press an option to make it the default.
+- **Range**: a number with a minimum, maximum, unit and default.
+- **Text**: free text, with an optional default.
+
+Parameters stay at the top of that group and can't be moved or removed as a section. The built-in sections below them are:
 
 - **Acceptance criteria**: what a successful run looks like.
 - **Materials & equipment**: what you need, with vendor and catalog number.
