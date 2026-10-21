@@ -22,7 +22,17 @@ You can also press **Cmd+K** (Mac) or **Ctrl+K** (Windows/Linux) and type `visua
 - **Solid lines** are explicit relationships: links you or a teammate made, and ones Bower records automatically, such as who created an item or which collection it's in.
 - **Dashed lines** are relationships [inferred by Bower's AI](/ai-and-search/inferred-links). They're suggestions, not confirmed links, and are drawn differently so you can tell them apart. This is the same convention as the link chips on a note.
 
-The visualizer only shows what you're allowed to read. Items you don't have access to are left out before the graph reaches your browser, using the same permission checks as opening the item itself.
+The visualizer only shows what you're allowed to read. Items you don't have access to are left out before the graph reaches your browser, using the same permission checks as opening the item itself. A protocol's versions and runs appear only when you can read the protocol.
+
+### Protocol versions and runs
+
+A protocol brings its history with it:
+
+- **Versions** hang off their protocol, labeled with their number and state, for example `v4 · approved`. The version people run is marked `current`. A line joins each version to the one it was copied from, so you can follow the chain from v1 to today.
+- **Runs** hang off the version they ran, labeled with their run number and status, for example `Run 12 · completed`. A run from before versions were recorded hangs off the protocol itself.
+- **Captures** taken during a run (photos, recordings and notes) hang off that run, the same ones you see on the run's page.
+
+**Open** on a version opens the protocol at that version. **Open** on a run opens its run page. A busy protocol can add dozens of nodes; untick **Protocol version** or **Protocol run** in the filter panel to hide them.
 
 ## Exploring the graph
 
@@ -52,7 +62,7 @@ The list view is the text alternative to the graph. A screen reader can read eve
 
 ## Limits
 
-The visualizer draws up to 5,000 items. In a larger workspace, it shows the 5,000 most-connected items, and the list view says so.
+The visualizer draws up to 5,000 items, counting protocol versions and runs. In a larger workspace, it shows the 5,000 most-connected items, and the list view says so.
 
 ## Related docs
 
