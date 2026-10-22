@@ -1,37 +1,42 @@
 ---
 title: "Live run transcripts: save the spoken conversation of a protocol run"
-description: "Bower can save everything you and Bower said during a Live protocol run as a transcript note on the run. Off until you turn it on with the Transcript switch during a run."
+description: "Bower can save everything you and Bower said during a Live protocol run as a transcript note on the run. Off by default; a workspace admin or owner turns it on."
 sidebarTitle: "Live run transcripts"
 ---
 
 When you run a protocol in [Live](/ai-and-search/live-agent-mode#execution-mode-running-a-protocol), Bower can save the whole spoken conversation as a transcript note on the run: what you said and what Bower said. It works in the Bower app, in your phone's browser, and on Bower Glasses through the Bower app.
 
 <Note>
-Live run transcripts are rolling out gradually. If you don't see the **Transcript** switch during a run, it hasn't reached your workspace yet.
+Live run transcripts are rolling out gradually. If you don't see the setting, it hasn't reached your workspace yet.
 </Note>
 
 ## How do I turn on Live run transcripts?
 
-Transcripts are a personal choice, and they're off until you turn them on. During a protocol run, use the **Transcript** switch, which reads **On** or **Off**:
+Transcripts are off by default. A workspace **Admin** or **Owner** turns them on for the whole workspace:
+
+<Steps>
+  <Step title="Go to Settings > Workspace" />
+  <Step title="Turn on Live run transcripts">
+    The setting reads "Save the spoken conversation of Live protocol runs as a transcript note on the run. Off by default."
+  </Step>
+</Steps>
+
+Members see the setting but can't change it. See [workspace roles](/workspaces-and-account/permissions-overview).
+
+## When does saving start?
+
+Once the protocol run starts. The sentence that asks Bower to start the run isn't included.
+
+## How do I pause the transcript during a run?
+
+Use the **Transcript** switch, which reads **On** or **Off**:
 
 | Where | Switch |
 | --- | --- |
 | Phone browser | In the Live protocol header, next to the step progress |
 | Bower app, on your phone or with Bower Glasses | In the Live settings (cog) |
 
-Bower remembers your choice for your next runs. The person who starts a run decides whether it has a transcript.
-
-### Can my workspace turn transcripts off?
-
-Yes. A workspace **Admin** or **Owner** can turn off **Live run transcripts** in **Settings > Workspace**. While it's off, nobody in the workspace can save a transcript, and the **Transcript** switch is unavailable during runs. See [workspace roles](/workspaces-and-account/permissions-overview).
-
-## When does saving start?
-
-Once the protocol run starts. The sentence that asks Bower to start the run isn't included.
-
-## Can I pause the transcript during a run?
-
-Yes. Turn the **Transcript** switch off to pause saving from that moment. Lines said before the pause are kept, and the transcript shows **Transcript paused for 4 min** (with the actual length) where the gap is. Turn it back on to resume.
+Turning it off pauses saving from that moment. Lines said before the pause are kept, and the transcript shows **Transcript paused for 4 min** (with the actual length) where the gap is. Turn it back on to resume. Your choice lasts for that Live session.
 
 ## Where do I find a run's transcript?
 
