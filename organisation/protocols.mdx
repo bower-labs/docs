@@ -167,9 +167,12 @@ Click a run to open its record. The header shows who ran it, when, which version
 - **Steps** lists the steps as they were run, under the protocol page's own headings (**Section A**, **Section B**) and labels (**A.1**, **A.2**, **B.1**). Each shows its captures (click one to open it) and when it was marked, such as **Done · 10:06:41** or **Skipped · 10:07:05**.
   - A finished step shows how long it took, such as **took 3 min 05 s**. Once the version has at least three other completed runs, it adds the usual time, such as **usually 45 s**, in amber when the step took at least twice as long and a minute or more over.
   - The step's amounts, such as **5 mL** or **37 °C**, show as small chips, leaving out any the step title already says. After six, the rest are counted, such as **+2 more**.
-- **Add a note**, under the steps, adds your own note to the run, in the same editor and formatting as any note. Click **Add note** to save it as an ordinary note linked to the run, with its own [version history](/capture/version-history). It appears with the run's captures under **Notes and other captures**. A note added by someone other than the person who ran it shows who added it. Anyone who can edit in the workspace can add a note; guests can only read them.
+- **Run analysis**, at the foot of the record, holds the run's notes and captures that belong to no step, in the order they were taken. **View analysis** in the **Summary** jumps there.
+  - A note reads in place: who wrote it, when, **Edited** and the time if it changed later, then its text, with **Show more** on a long one. Images show as a count, such as **2 images**; open the note to see them. Edits made elsewhere show here straight away.
+  - **Add a note** adds your own note to the run as a whole, never to the step the run is on, in the same editor and formatting as any note. Click **Add note** to save it as an ordinary note linked to the run, with its own [version history](/capture/version-history). An image or a table alone is enough; a note with no words is titled **Note**. A note added by someone other than the person who ran it shows who added it. Anyone who can edit in the workspace can add a note; guests can only read them.
   - **Dictate** records you; Bower transcribes it and adds the text when you stop.
   - Add images with the toolbar, the slash menu, paste or drag. They upload into the note when you click **Add note**. If one fails, Bower tells you and saves the note without it, so open the note to add it again. Diagrams can be added once the note is saved.
+- **Steps done** in the **Summary** counts the steps marked, such as **2 of 3 (1 skipped)**.
 - **Transcript** in the **Summary** opens the run's [Live run transcript](/ai-and-search/live-run-transcripts), or reads **Not saved** when there isn't one.
 - **Timeline** lists the start, each capture, each step done, and the end, in order.
 
@@ -212,3 +215,5 @@ A protocol's **⋮** menu holds access, version history, moving, deleting, and e
 ## Linking protocols to notes
 
 To record which protocol a set of observations followed, [link](/organisation/linked-entities) the protocol to those notes, samples or collections.
+
+A note or file captured during a run already shows where it came from, such as **Run 3 · PCR setup**; click it to open that run. Captures from before runs were recorded show **Captured during · PCR setup** and open the protocol.
