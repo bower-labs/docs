@@ -54,6 +54,7 @@
               "ai-and-search/personal-preferences",
               "ai-and-search/workspace-instructions",
               "ai-and-search/live-agent-mode",
+              "ai-and-search/live-run-transcripts",
               "ai-and-search/voice-commands-by-device",
               "ai-and-search/visual-reference-sets",
               "ai-and-search/figures-and-diagrams",
@@ -115,6 +116,7 @@
           {
             "group": "October 2026",
             "pages": [
+              "changelog/2026-10-22-live-run-transcripts",
               "changelog/2026-10-17-every-protocol-is-structured",
               "changelog/2026-10-16-protocol-runs-in-protocols",
               "changelog/2026-10-15-spreadsheets-you-can-edit",
