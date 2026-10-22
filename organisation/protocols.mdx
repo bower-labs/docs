@@ -126,7 +126,7 @@ Approval can't be undone. The version's values, steps and sidebar are fixed, so 
 
 To change an approved protocol, click **New version**. Bower copies it into a draft, and runs keep using the approved version until you approve the new one.
 
-**Lineage**, at the top of the sidebar, lists every version, newest first, with where each came from (**From v2**, or **Imported**), who created it and when. It ends with the file the protocol was imported from. Click a version to open it.
+**Lineage**, at the top of the sidebar, lists every version, newest first, with where each came from (**From v2**, or **Imported**), who created it and when. It ends with the file the protocol was imported from. Click a version to open it. A long history shows the newest three versions, the version runs use and the one you're viewing, with a **Show 5 earlier versions** row that opens the rest in place.
 
 To delete a version, open it and click **⋮**, then **Delete version**. You can delete a draft, or an earlier approved version nobody ran. You can't delete a version that has runs, the version runs use, or a protocol's only version. Version numbers aren't reused.
 
@@ -164,7 +164,9 @@ The library's **Last run** column shows the most recent run in your local time, 
 
 Click a run to open its record. The header shows who ran it, when, which version, how many captures and how long it took.
 
-- **Steps** lists the steps as they were run. Each shows its captures (click one to open it) and when it was marked, such as **Done · 10:06:41** or **Skipped · 10:07:05**.
+- **Steps** lists the steps as they were run, under the protocol page's own headings (**Section A**, **Section B**) and labels (**A.1**, **A.2**, **B.1**). Each shows its captures (click one to open it) and when it was marked, such as **Done · 10:06:41** or **Skipped · 10:07:05**.
+  - A finished step shows how long it took, such as **took 3 min 05 s**. Once the version has at least three other completed runs, it adds the usual time, such as **usually 45 s**, in amber when the step took at least twice as long and a minute or more over.
+  - The step's amounts, such as **5 mL** or **37 °C**, show as small chips, leaving out any the step title already says. After six, the rest are counted, such as **+2 more**.
 - **Timeline** lists the start, each capture, each step done, and the end, in order.
 
 Times are in your device's time zone; the **Summary** names it. A notice tells you if the protocol has changed since the run.
