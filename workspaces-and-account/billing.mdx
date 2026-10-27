@@ -57,11 +57,13 @@ refresh.
 
 ## When a free trial ends without a card
 
-If the 30-day trial runs out and no card has been added, your workspace moves
-to the Starter plan, so paid features turn off. (Trials started before early
-September 2026 are paused instead. Those workspaces see a Billing tab banner,
-**Paid features are off**, with "Your subscription is paused or unpaid.
-Choose a plan below to turn paid features back on.")
+If the 30-day trial runs out and no card has been added, the trial is canceled
+and your workspace moves to the Starter plan, so paid features turn off. The
+Billing tab then shows the Starter plan.
+
+Some older trials are paused instead of ending. Those workspaces see a Billing
+tab banner, **Paid features are off**, with "Your subscription is paused or
+unpaid. Choose a plan below to turn paid features back on."
 
 On Starter:
 
@@ -143,13 +145,11 @@ credit before confirming.
 If a payment fails, your workspace enters a **past due** state. You'll see a
 warning banner in the Billing tab asking you to update your payment method.
 Stripe automatically retries failed payments several times over the following
-weeks. If all retries fail, your workspace is downgraded to the Starter plan,
-and the Billing tab shows **Paid features are off**, with "Your subscription is paused or unpaid.
-Choose a plan below to turn paid features back on."
+weeks. If all retries fail, your workspace is downgraded to the Starter plan.
+To resume, choose a plan on the Billing tab and check out with a card.
 
 While in past-due state, your existing data is preserved; nothing is deleted.
-Features gated behind your paid plan may become restricted until payment is
-resolved.
+Paid features stay on while the payment is retried.
 
 ## Cancellation
 
