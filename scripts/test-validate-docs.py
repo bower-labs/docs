@@ -4,6 +4,10 @@ blind and stay green (check 7 did once: headings fused with the next
 sentence hid 18% of sentences). Run: python3 scripts/test-validate-docs.py"""
 
 import importlib.util
+import shutil
+import subprocess
+import sys
+import tempfile
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -23,6 +27,25 @@ PLANTED = {
     "in a table cell": f"| Setting | Value |\n| --- | --- |\n| Timeout | {TARGET} |\n",
     "in a title attribute": f'<Step title="{TARGET}">\n',
 }
+
+
+def planted_site_failures() -> list[str]:
+    """Run the real validator on a copy of the site with a second command table
+    planted, so the check's wiring into main() is held, not just its helper."""
+    with tempfile.TemporaryDirectory() as tmp:
+        site = Path(tmp) / "site"
+        shutil.copytree(vd.ROOT, site, ignore=shutil.ignore_patterns(".git", ".claude", "node_modules"))
+        capture = site / "bower-glasses" / "capture.mdx"
+        capture.write_text(
+            capture.read_text(encoding="utf-8") + "\n| Say | What happens |\n| --- | --- |\n| *\"Go live\"* | Starts. |\n",
+            encoding="utf-8",
+        )
+        run = subprocess.run(
+            [sys.executable, str(site / "scripts" / "validate-docs.py")], capture_output=True, text=True
+        )
+    if run.returncode == 0 or "written by hand" not in run.stdout + run.stderr:
+        return ["validate-docs.py passes a site with a second command table: check_voice_commands is not run"]
+    return []
 
 
 def main() -> None:
@@ -49,6 +72,44 @@ def main() -> None:
         failures.append("README.md should be ignored by Mintlify by default")
     if vd.mintignored(vd.ROOT / "ASSISTANT.md"):
         failures.append("a root ASSISTANT.md is published by Mintlify and must count for check 8")
+
+    body = "| Say | What happens |\n| --- | --- |\n| *\"Take a photo\"* | Takes a photo. |"
+    good = "\n\n".join(
+        f"{{/* VOICE_COMMANDS:{table} START sha256={vd.hashlib.sha256(body.encode()).hexdigest()} x */}}\n"
+        f"{body}\n{{/* VOICE_COMMANDS:{table} END */}}"
+        for table in vd.VOICE_COMMANDS_TABLES
+    )
+    doubled = good + "\n\n" + good.split("\n\n", 1)[0]
+    if not any("appears twice" in p for p in vd.voice_block_problems(doubled)):
+        failures.append("a second copy of a generated voice table is not caught")
+    if vd.voice_block_problems(good):
+        failures.append(f"generated voice tables are flagged: {vd.voice_block_problems(good)}")
+    edited = good.replace("Takes a photo.", "Takes a picture.", 1)
+    if not any("edited by hand" in p for p in vd.voice_block_problems(edited)):
+        failures.append("a hand edit inside a generated voice table is not caught")
+    if not any("missing" in p for p in vd.voice_block_problems(good.split("\n\n", 1)[1])):
+        failures.append("a missing generated voice table is not caught")
+    page = vd.VOICE_COMMANDS_PAGE
+    if vd.voice_page_problems(page, good):
+        failures.append(f"the generated Voice commands page is flagged: {vd.voice_page_problems(page, good)}")
+    say = "| Say | What happens |\n| --- | --- |\n| *\"Go live\"* | Starts. |\n"
+    second_copies = {
+        "on another page": (Path("bower-glasses/capture.mdx"), f"Intro.\n\n{say}"),
+        "indented in a <Tab>": (
+            Path("bower-glasses/capture.mdx"),
+            "<Tabs>\n  <Tab title=\"Glasses\">\n    " + say.replace("\n", "\n    ") + "</Tab>\n</Tabs>\n",
+        ),
+        "with a bold header": (Path("bower-glasses/capture.mdx"), say.replace("| Say |", "| **Say** |")),
+        "in a snippet": (Path("snippets/glasses-visual-guide.mdx"), say),
+        "on the Voice commands page outside the markers": (page, f"{good}\n\n{say}"),
+        "as a glasses Press table": (Path("bower-glasses/capture.mdx"), "| Press | What |\n| --- | --- |\n"),
+    }
+    for case, (rel, text) in second_copies.items():
+        if not any("written by hand" in p for p in vd.voice_page_problems(rel, text)):
+            failures.append(f"a hand-written command table {case} is not caught")
+    if vd.voice_page_problems(Path("changelog/2026-03-22-wake-word-standby.mdx"), say):
+        failures.append("a changelog entry quoting an old command table is flagged")
+    failures.extend(planted_site_failures())
 
     if failures:
         print("\n".join(f"✖ {f}" for f in failures))

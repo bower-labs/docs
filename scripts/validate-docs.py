@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Validate the Mintlify docs site before it ships.
 
-Four checks, all of which can genuinely fail on a realistic mistake:
+Nine checks, all of which can genuinely fail on a realistic mistake:
 
 1. `docs.json` parses as JSON.
 2. Every page listed in `navigation` resolves to an `.mdx`/`.md` file on disk.
@@ -31,6 +31,9 @@ Four checks, all of which can genuinely fail on a realistic mistake:
    are a reviewer's job (AGENTS.md, "Concise, with one source of truth").
 8. Every published page, `.mdx` or `.md`, is in the navigation. A page outside
    it has no sidebar entry, so readers and search engines reach it only by luck.
+9. The Voice commands tables are as generated in bower-labs/bower (no hand
+   edit, none missing or doubled), and no other page carries its own voice
+   command or glasses button table.
 
 It also prints the longest pages (not a failure): long pages are where
 repetition and drift collect, so they are the first to trim.
@@ -313,6 +316,76 @@ def check_duplicates(pages: list[Path], problems: list[str]) -> None:
             )
 
 
+# --- Voice commands -----------------------------------------------------------
+#
+# Every voice phrase and glasses button press lives in one list in
+# bower-labs/bower (packages/shared/src/constants/voiceCommands.ts, decision
+# 0013 there), rendered into VOICE_COMMANDS_PAGE between generated markers by
+# `pnpm docs:voice:generate`. Each START marker carries the sha256 of the table
+# it wraps, so a hand edit inside the markers fails here; the fix is to change
+# the list in bower and regenerate. A "Say" or glasses "Press" table on any
+# other page is a second copy of the list, which is how the help center ended
+# up documenting timers that never existed (2026-10-27).
+
+VOICE_COMMANDS_PAGE = Path("ai-and-search/voice-commands-by-device.mdx")
+VOICE_COMMANDS_TABLES = ("glassesIdle", "glassesButton", "live", "browserStandby", "protocolRun")
+VOICE_BLOCK_RE = re.compile(
+    r"^\{/\* VOICE_COMMANDS:(\w+) START sha256=([0-9a-f]{64})[^\n]*\*/\}\n(.*?)\n\{/\* VOICE_COMMANDS:\1 END \*/\}$",
+    re.MULTILINE | re.DOTALL,
+)
+# A command table's header row, also when indented inside a component (<Tab>)
+# or bolded. Only changelog entries may quote old command tables: they record
+# what shipped then. Snippets are checked, since pages import them. A single
+# example phrase in a sentence that links to the Voice commands page is allowed
+# (the one-line mention the single-source rule permits); a table is a copy.
+VOICE_TABLE_HEADER_RE = re.compile(r"^[ \t]*\|\s*\**(Say|Press)\**\s*\|", re.MULTILINE)
+VOICE_TABLE_EXEMPT_DIRS = ("changelog",)
+
+
+def voice_block_problems(text: str) -> list[str]:
+    """What is wrong with the generated blocks on the Voice commands page."""
+    problems = []
+    found = {}
+    for match in VOICE_BLOCK_RE.finditer(text):
+        table, expected, body = match.groups()
+        if table in found:
+            # The generator rewrites only the first copy, so a second one goes stale.
+            problems.append(f"{VOICE_COMMANDS_PAGE}: the generated '{table}' table appears twice; keep one.")
+        found[table] = True
+        if hashlib.sha256(body.encode("utf-8")).hexdigest() != expected:
+            problems.append(
+                f"{VOICE_COMMANDS_PAGE}: the '{table}' table was edited by hand. Change "
+                "packages/shared/src/constants/voiceCommands.ts in bower-labs/bower and run "
+                "`pnpm docs:voice:generate` instead."
+            )
+    for table in VOICE_COMMANDS_TABLES:
+        if table not in found:
+            problems.append(f"{VOICE_COMMANDS_PAGE}: the generated '{table}' table or its markers are missing.")
+    return problems
+
+
+def voice_page_problems(rel: Path, text: str) -> list[str]:
+    """What is wrong with one page: on the Voice commands page, its generated
+    tables and anything written outside them; elsewhere, a command table."""
+    problems = []
+    if rel == VOICE_COMMANDS_PAGE:
+        problems.extend(voice_block_problems(text))
+        text = VOICE_BLOCK_RE.sub("", text)
+    elif rel.parts[0] in VOICE_TABLE_EXEMPT_DIRS:
+        return problems
+    if VOICE_TABLE_HEADER_RE.search(text):
+        problems.append(
+            f"{rel} has a voice command or button table written by hand. Link to "
+            f"/{VOICE_COMMANDS_PAGE.with_suffix('')} instead, where the one list is generated."
+        )
+    return problems
+
+
+def check_voice_commands(pages: list[Path], problems: list[str]) -> None:
+    for path in pages:
+        problems.extend(voice_page_problems(path.relative_to(ROOT), path.read_text(encoding="utf-8")))
+
+
 # --- Brand ------------------------------------------------------------------
 #
 # Bower's identity renders in three places that deploy independently: this help
@@ -554,6 +627,9 @@ def main() -> None:
     # --- Check 7: no sentence repeated across pages ---------------------------
     check_duplicates(content_pages, problems)
 
+    # --- Check 9: voice commands are the generated list, written once ---------
+    check_voice_commands(content_pages, problems)
+
     # --- Check 8: every page is in the navigation ------------------------------
     # Mintlify also publishes .md files (a root ASSISTANT.md was live at
     # /ASSISTANT), except the ones it ignores by default or by .mintignore.
@@ -587,7 +663,7 @@ def main() -> None:
         f"✔ docs.json valid · {len(nav_pages)} navigation pages resolve · "
         f"internal links across {len(known_pages)} pages resolve · "
         f"brand assets and colors match the 2026-08 identity · anchors and "
-        f"{len(redirects)} redirects resolve · no sentence repeated across pages · every page in the navigation"
+        f"{len(redirects)} redirects resolve · no sentence repeated across pages · every page in the navigation · voice commands written once"
     )
 
 
