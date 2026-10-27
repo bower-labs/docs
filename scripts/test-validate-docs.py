@@ -50,6 +50,22 @@ def main() -> None:
     if vd.mintignored(vd.ROOT / "ASSISTANT.md"):
         failures.append("a root ASSISTANT.md is published by Mintlify and must count for check 8")
 
+    body = "| Say | What happens |\n| --- | --- |\n| *\"Take a photo\"* | Takes a photo. |"
+    good = "\n\n".join(
+        f"{{/* VOICE_COMMANDS:{table} START sha256={vd.hashlib.sha256(body.encode()).hexdigest()} x */}}\n"
+        f"{body}\n{{/* VOICE_COMMANDS:{table} END */}}"
+        for table in vd.VOICE_COMMANDS_TABLES
+    )
+    if vd.voice_block_problems(good):
+        failures.append(f"generated voice tables are flagged: {vd.voice_block_problems(good)}")
+    edited = good.replace("Takes a photo.", "Takes a picture.", 1)
+    if not any("edited by hand" in p for p in vd.voice_block_problems(edited)):
+        failures.append("a hand edit inside a generated voice table is not caught")
+    if not any("missing" in p for p in vd.voice_block_problems(good.split("\n\n", 1)[1])):
+        failures.append("a missing generated voice table is not caught")
+    if not vd.VOICE_TABLE_HEADER_RE.search("Intro.\n\n| Say | What happens |\n| --- | --- |\n"):
+        failures.append("a second Say table on another page is not caught")
+
     if failures:
         print("\n".join(f"✖ {f}" for f in failures))
         raise SystemExit(1)
