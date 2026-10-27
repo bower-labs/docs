@@ -1,6 +1,6 @@
 ---
 title: "Plans & billing"
-description: "Manage your workspace subscription, upgrade your plan, and update payment methods."
+description: "Manage your workspace subscription, start a 30-day free trial with no card on your first subscription, upgrade your plan, and update payment methods."
 ---
 
 ## Plans and pricing
@@ -19,7 +19,7 @@ subscription itself.
 ## Who can manage billing
 
 Only **Owners** and **Admins** can view or change anything in the Billing tab.
-Members and Guests don't see the tab at all — they can use the workspace
+Members and Guests don't see the tab at all. They can use the workspace
 normally, but they can't see the plan, change it, update the payment method,
 add seats, or cancel.
 
@@ -47,9 +47,53 @@ billing date, and usage bars for storage, members, and owned workspaces. Click
   <Step title="Complete payment via Stripe Checkout" />
 </Steps>
 
-All paid plans include a 30-day free trial, no credit card required to start.
-You can pay with a credit or debit card. After payment (or during the trial),
-your workspace is upgraded immediately — no need to sign out or refresh.
+The first subscription on a workspace includes a 30-day free trial, and you
+don't need a card to start it. If the workspace has had a subscription before,
+checkout skips the trial and asks for a card, even with a 100%-off promo code.
+
+You can pay with a credit or debit card. After payment (or when the trial
+starts), your workspace is upgraded immediately, with no need to sign out or
+refresh.
+
+## When a free trial ends without a card
+
+When a 30-day free trial ends with no card on file, Bower cancels the trial and
+moves the workspace to the free Starter plan. Paid features turn off, and the
+Billing tab then shows the Starter plan. See
+[What changes on Starter](#what-changes-on-starter) for what that means for your
+data, members and limits.
+
+If your trial started on or before September 8, 2026, it may have been paused
+instead of canceled. Those workspaces see a Billing tab banner, **Paid features
+are off**, with "Your subscription is paused or unpaid. Choose a plan below to
+turn paid features back on." Choose a plan and check out with a card to
+continue. The same banner can also appear for a subscription that is unpaid.
+
+If the Billing tab shows **Payment failed** after a trial ended without a card,
+contact [hello@bowerlabs.ai](mailto:hello@bowerlabs.ai) and we'll sort out the
+workspace's plan with you.
+
+To turn paid features back on, choose a plan on the Billing tab and enter a
+card at checkout. There's no second free trial. Checkout starts with a seat
+for each paid member and pending paid invite, and you can't go below that
+number there. To pay for fewer seats, remove members or revoke pending invites
+in **Settings > Members** before you check out. You can add seats at checkout
+or later.
+
+## What changes on Starter
+
+A workspace moves to the Starter plan when a free trial ends without a card,
+when a cancellation reaches its end date, or when every retry of a failed
+payment fails. On Starter:
+
+- Your data is preserved; nothing is deleted
+- Members aren't removed, but Starter includes one paid seat, so you can't add
+  paid members until you choose a plan
+- Storage, AI usage, member, workspace, and audit-retention limits revert to
+  Starter levels
+- Existing public share links keep working, but you can't create new ones
+- If your workspace uses
+  [Restricted mode](/trust-center/hipaa-compliance), those protections stay on
 
 ## Add or remove Team seats
 
@@ -63,7 +107,7 @@ for how guest access works.
 Open **Settings > Members** and invite a teammate as an Admin or Member.
 If the invite would take you above your current seat count, Bower shows a
 preview of the prorated charge for the remainder of the current billing period
-before anything is charged. Confirm to proceed — the seat is added to your
+before anything is charged. Confirm to proceed; the seat is added to your
 subscription and Stripe issues a prorated invoice immediately. The new seat is
 held for the invitee until they accept.
 
@@ -71,9 +115,9 @@ Bower does not silently top up your subscription. A seat is only added when an
 admin reviews the preview and confirms the charge.
 
 <Note>
-If your workspace is still in the 30-day free trial and you haven't added a
-payment method yet, the invite flow will ask you to add a card before the seat
-can be purchased.
+During the 30-day free trial, a workspace without a card can have up to 10
+paid seats. Adding an 11th asks you to add a card before the seat can be
+purchased, unless a discount makes the seat free.
 </Note>
 
 ### Revoking a pending invite
@@ -85,7 +129,7 @@ current period. The credit is applied to your next invoice automatically.
 ### Removing an existing member
 
 Removing a paid member from **Settings > Members** drops your seat count for
-the next billing cycle. The current period is not prorated — you've already
+the next billing cycle. The current period is not prorated, since you've already
 paid for it, and the member retains no access after removal. Your next monthly
 or annual invoice reflects the lower seat count.
 
@@ -111,39 +155,36 @@ anniversary of the original purchase. Annual saves up to 20% per month versus
 monthly on Team.
 
 To switch cycles, open **Manage Billing** and choose the new cycle on the same
-plan. The switch is prorated through Stripe — you'll see the exact charge or
+plan. The switch is prorated through Stripe, and you'll see the exact charge or
 credit before confirming.
 
 ## What happens if payment fails
 
 If a payment fails, your workspace enters a **past due** state. You'll see a
-warning banner in the Billing tab asking you to update your payment method.
-Stripe automatically retries failed payments several times over the following
-weeks. If all retries fail, your workspace is downgraded to the Starter plan.
+**Payment failed** banner in the Billing tab asking you to update your payment
+method. Stripe automatically retries failed payments several times over the
+following weeks, and paid features stay on while the payment is retried.
 
-While in past-due state, your existing data is preserved — nothing is deleted.
-Features gated behind your paid plan may become restricted until payment is
-resolved.
+If all retries fail, your workspace is downgraded to the Starter plan (see
+[What changes on Starter](#what-changes-on-starter)). To resume, choose a plan on
+the Billing tab and check out with a card.
 
 ## Cancellation
 
-To cancel, go to **Settings > Billing** and click **Downgrade to Free**. You
+To cancel, go to **Settings > Billing** and click **Downgrade to Starter**. You
 don't need to open the Stripe portal. After confirmation:
 
 - You keep access to your paid plan until the end of the current billing
-  period — monthly cancellations run out at the end of the month, annual
-  cancellations at the end of the year
+  period (monthly cancellations run out at the end of the month, annual
+  cancellations at the end of the year)
 - The Billing tab shows a banner with your end date
 - No further charges are made; Bower does not refund the unused portion of the
   current period
-- At period end, your workspace moves to the Starter plan
-- Your data is preserved — nothing is deleted
-- Storage, member, workspace, and audit-retention limits revert to Starter
-  levels
-- Public share links will no longer be accessible
+- At period end, your workspace moves to the Starter plan (see
+  [What changes on Starter](#what-changes-on-starter))
 
-You can reactivate at any time before the end date by clicking **Reactivate
-plan** in the same banner. Reactivation is instant, doesn't trigger a new
+You can reactivate at any time before the end date by clicking **Reactivate**
+in the same banner. Reactivation is instant, doesn't trigger a new
 charge, and leaves your existing billing cycle untouched.
 
 ## Student discount
@@ -152,10 +193,11 @@ Full-time students at accredited institutions can request a **free Team seat**.
 Click **Free for students** below the plan cards on the Billing tab, or email
 [hello@bowerlabs.ai](mailto:hello@bowerlabs.ai) directly.
 
-Include your institution, course, and something that confirms your enrolment:
-a student ID, an enrolment letter, or a message from your institution-issued
+Include your institution, course, and something that confirms your enrollment:
+a student ID, an enrollment letter, or a message from your institution-issued
 address. We verify every request by hand and usually reply within one business
-day with a discount code.
+day with a discount code. If the workspace has had a subscription before,
+checkout asks for a card even with the student code.
 
 ## Workspace deletion and billing
 
