@@ -1,6 +1,6 @@
 ---
 title: "Plans & billing"
-description: "Manage your workspace subscription, start your first 30-day free trial, upgrade your plan, and update payment methods."
+description: "Manage your workspace subscription, start a 30-day free trial with no card, upgrade your plan, and update payment methods."
 ---
 
 ## Plans and pricing
@@ -57,11 +57,11 @@ refresh.
 
 ## When a free trial ends without a card
 
-If the 30-day trial ends and no card has been added, the trial ends and your
-workspace moves to the Starter plan, so paid features turn off. (Trials started
-before September 2026 are paused instead. Only those workspaces see **Paid
-features are off. Your subscription is paused or unpaid. Choose a plan below to
-turn paid features back on.** on the Billing tab.)
+If the 30-day trial runs out and no card has been added, your workspace moves
+to the Starter plan, so paid features turn off. (Trials started before early
+September 2026 are paused instead. Those workspaces see a Billing tab banner,
+**Paid features are off**, with "Your subscription is paused or unpaid.
+Choose a plan below to turn paid features back on.")
 
 On Starter:
 
@@ -95,9 +95,9 @@ Bower does not silently top up your subscription. A seat is only added when an
 admin reviews the preview and confirms the charge.
 
 <Note>
-If your workspace is still in the 30-day free trial and you haven't added a
-payment method yet, the invite flow will ask you to add a card before the seat
-can be purchased.
+During the 30-day free trial, a workspace without a card can have up to 10
+paid seats. Adding an 11th asks you to add a card before the seat can be
+purchased.
 </Note>
 
 ### Revoking a pending invite
@@ -143,7 +143,9 @@ credit before confirming.
 If a payment fails, your workspace enters a **past due** state. You'll see a
 warning banner in the Billing tab asking you to update your payment method.
 Stripe automatically retries failed payments several times over the following
-weeks. If all retries fail, your workspace is downgraded to the Starter plan.
+weeks. If all retries fail, your workspace is downgraded to the Starter plan,
+and the Billing tab shows **Paid features are off**, with "Your subscription is paused or unpaid.
+Choose a plan below to turn paid features back on."
 
 While in past-due state, your existing data is preserved; nothing is deleted.
 Features gated behind your paid plan may become restricted until payment is
@@ -176,8 +178,8 @@ Full-time students at accredited institutions can request a **free Team seat**.
 Click **Free for students** below the plan cards on the Billing tab, or email
 [hello@bowerlabs.ai](mailto:hello@bowerlabs.ai) directly.
 
-Include your institution, course, and something that confirms your enrolment:
-a student ID, an enrolment letter, or a message from your institution-issued
+Include your institution, course, and something that confirms your enrollment:
+a student ID, an enrollment letter, or a message from your institution-issued
 address. We verify every request by hand and usually reply within one business
 day with a discount code. If your workspace has had a subscription before,
 checkout asks for a card even with the student code.
