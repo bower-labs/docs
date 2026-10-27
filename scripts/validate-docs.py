@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Validate the Mintlify docs site before it ships.
 
-Four checks, all of which can genuinely fail on a realistic mistake:
+Nine checks, all of which can genuinely fail on a realistic mistake:
 
 1. `docs.json` parses as JSON.
 2. Every page listed in `navigation` resolves to an `.mdx`/`.md` file on disk.
@@ -31,6 +31,9 @@ Four checks, all of which can genuinely fail on a realistic mistake:
    are a reviewer's job (AGENTS.md, "Concise, with one source of truth").
 8. Every published page, `.mdx` or `.md`, is in the navigation. A page outside
    it has no sidebar entry, so readers and search engines reach it only by luck.
+9. The Voice commands tables are as generated in bower-labs/bower (no hand
+   edit, none missing or doubled), and no other page carries its own voice
+   command or glasses button table.
 
 It also prints the longest pages (not a failure): long pages are where
 repetition and drift collect, so they are the first to trim.
@@ -345,6 +348,9 @@ def voice_block_problems(text: str) -> list[str]:
     found = {}
     for match in VOICE_BLOCK_RE.finditer(text):
         table, expected, body = match.groups()
+        if table in found:
+            # The generator rewrites only the first copy, so a second one goes stale.
+            problems.append(f"{VOICE_COMMANDS_PAGE}: the generated '{table}' table appears twice; keep one.")
         found[table] = True
         if hashlib.sha256(body.encode("utf-8")).hexdigest() != expected:
             problems.append(
@@ -620,6 +626,8 @@ def main() -> None:
 
     # --- Check 7: no sentence repeated across pages ---------------------------
     check_duplicates(content_pages, problems)
+
+    # --- Check 9: voice commands are the generated list, written once ---------
     check_voice_commands(content_pages, problems)
 
     # --- Check 8: every page is in the navigation ------------------------------
@@ -655,7 +663,7 @@ def main() -> None:
         f"✔ docs.json valid · {len(nav_pages)} navigation pages resolve · "
         f"internal links across {len(known_pages)} pages resolve · "
         f"brand assets and colors match the 2026-08 identity · anchors and "
-        f"{len(redirects)} redirects resolve · no sentence repeated across pages · every page in the navigation"
+        f"{len(redirects)} redirects resolve · no sentence repeated across pages · every page in the navigation · voice commands written once"
     )
 
 

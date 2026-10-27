@@ -79,6 +79,9 @@ def main() -> None:
         f"{body}\n{{/* VOICE_COMMANDS:{table} END */}}"
         for table in vd.VOICE_COMMANDS_TABLES
     )
+    doubled = good + "\n\n" + good.split("\n\n", 1)[0]
+    if not any("appears twice" in p for p in vd.voice_block_problems(doubled)):
+        failures.append("a second copy of a generated voice table is not caught")
     if vd.voice_block_problems(good):
         failures.append(f"generated voice tables are flagged: {vd.voice_block_problems(good)}")
     edited = good.replace("Takes a photo.", "Takes a picture.", 1)
