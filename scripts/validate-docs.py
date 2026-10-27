@@ -330,7 +330,13 @@ VOICE_BLOCK_RE = re.compile(
     r"^\{/\* VOICE_COMMANDS:(\w+) START sha256=([0-9a-f]{64})[^\n]*\*/\}\n(.*?)\n\{/\* VOICE_COMMANDS:\1 END \*/\}$",
     re.MULTILINE | re.DOTALL,
 )
-VOICE_TABLE_HEADER_RE = re.compile(r"^\|\s*(Say|Press)\s*\|", re.MULTILINE)
+# A command table's header row, also when indented inside a component (<Tab>)
+# or bolded. Only changelog entries may quote old command tables: they record
+# what shipped then. Snippets are checked, since pages import them. A single
+# example phrase in a sentence that links to the Voice commands page is allowed
+# (the one-line mention the single-source rule permits); a table is a copy.
+VOICE_TABLE_HEADER_RE = re.compile(r"^[ \t]*\|\s*\**(Say|Press)\**\s*\|", re.MULTILINE)
+VOICE_TABLE_EXEMPT_DIRS = ("changelog",)
 
 
 def voice_block_problems(text: str) -> list[str]:
@@ -352,17 +358,26 @@ def voice_block_problems(text: str) -> list[str]:
     return problems
 
 
+def voice_page_problems(rel: Path, text: str) -> list[str]:
+    """What is wrong with one page: on the Voice commands page, its generated
+    tables and anything written outside them; elsewhere, a command table."""
+    problems = []
+    if rel == VOICE_COMMANDS_PAGE:
+        problems.extend(voice_block_problems(text))
+        text = VOICE_BLOCK_RE.sub("", text)
+    elif rel.parts[0] in VOICE_TABLE_EXEMPT_DIRS:
+        return problems
+    if VOICE_TABLE_HEADER_RE.search(text):
+        problems.append(
+            f"{rel} has a voice command or button table written by hand. Link to "
+            f"/{VOICE_COMMANDS_PAGE.with_suffix('')} instead, where the one list is generated."
+        )
+    return problems
+
+
 def check_voice_commands(pages: list[Path], problems: list[str]) -> None:
     for path in pages:
-        rel = path.relative_to(ROOT)
-        text = path.read_text(encoding="utf-8")
-        if rel == VOICE_COMMANDS_PAGE:
-            problems.extend(voice_block_problems(text))
-        elif rel.parts[0] not in DUPLICATE_EXEMPT_DIRS and VOICE_TABLE_HEADER_RE.search(text):
-            problems.append(
-                f"{rel} has its own voice command or button table. Link to "
-                f"/{VOICE_COMMANDS_PAGE.with_suffix('')} instead, where the one list is generated."
-            )
+        problems.extend(voice_page_problems(path.relative_to(ROOT), path.read_text(encoding="utf-8")))
 
 
 # --- Brand ------------------------------------------------------------------
