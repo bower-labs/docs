@@ -74,6 +74,10 @@ Some AI apps run code in a sandbox that blocks Bower's file storage host, so you
 
 Your app reads a [protocol](/organisation/protocols) with `get_protocol`: its sections, steps, and amounts in one call. It can change the protocol's title and tags, but not its steps. A protocol's text is generated from its steps, so an edit to that text is refused with `PROTOCOL_TEXT_IS_GENERATED`. Edit the steps in the Bower app.
 
+### How do I see who ran a protocol?
+
+Your app reads a protocol's runs with `get_protocol_runs`: who ran each one, when, its status, and how far it got. Name a step and it also counts, per person and per protocol version, the runs that reached that step, the photos, videos, and notes taken on it, and any requested captures that never arrived. Your app asks about one step per call.
+
 ### How do I get something back from Trash?
 
 Your app restores an item with `restore_artifact` and the ID it got when it deleted the item. Items in Trash don't show up in search, so ask your app to keep that ID. Restores follow the same rules as in the app (see [Trash](/organisation/organising-workspace#trash)):
