@@ -1,76 +1,92 @@
 ---
-title: "Voice commands by device"
-description: "What you can say to Bower hands-free on your phone and on Bower Glasses, with a pointer to other supported glasses."
+title: "Voice commands"
+description: "Every phrase Bower responds to, on your phone and on Bower Glasses, plus what the glasses button does."
 ---
 
-Bower's [live agent mode](/ai-and-search/live-agent-mode) is voice-driven, but **what you can ask for depends on the device**. Your phone has a screen and a touchscreen. [Bower Glasses](/bower-glasses/overview) have a camera, microphones, and speakers but no display, so anything Bower shows you opens on your phone. This page is the quick reference for which commands work where.
+This is the one list of what you can say to Bower, and what the Bower Glasses button does. Other pages link here rather than repeating it.
 
-You don't need to memorize exact phrases. Bower understands intent, so paraphrases of the examples below work too. The phrases are just reliable starting points.
+There are two kinds of commands:
 
-## At a glance
+- **Bower Glasses commands** work while you're not in a live session. Your phone recognizes them, so say them close to the way they're written below.
+- **Live commands** work in a [live session](/ai-and-search/live-agent-mode) on any device. Bower understands what you mean, so you don't need the exact words. The phrases below are reliable starting points.
 
-| What you want to do | Phone | Bower Glasses |
-| --- | :---: | :---: |
-| Run a protocol and step through it by voice | ✓ | ✓ |
-| Ask questions, talk through your work | ✓ | ✓ |
-| Take a snapshot or create a note | ✓ | ✓ |
-| Start and stop recording a clip | ✓ | ✓ (REC shows on the Bower app's live screen) |
-| **Show** an image or reference video | ✓ (overlay) | ✓ (on your phone) |
-| Capture without going live | | ✓ (*"Take a photo"*, *"Start recording"*) |
+## Bower Glasses, outside a live session
+
+Voice commands are off until you turn them on during [setup](/bower-glasses/set-up). They work while the Bower app is open on your phone, not while it's in the background.
+
+| Say | What happens |
+| --- | --- |
+| *"Take a photo"* · *"Take a picture"* · *"Take a snapshot"* | Takes a photo. |
+| *"Start recording"* · *"Take a video"* · *"Record a video"* | Starts recording video. |
+| *"Stop recording"* · *"Stop the video"* | Stops the video, or the voice note if one is recording. |
+| *"Take a voice note"* · *"Start voice memo"* | Starts an audio recording. |
+| *"Stop the note"* · *"Stop voice memo"* | Stops and saves the audio recording. |
+| *"Go live"* · *"Start live"* | Starts a [live session](/bower-glasses/live-and-protocols). |
+| *"Hey Bower"*, then your question | Bower answers out loud in a background conversation, which ends after 3 minutes without activity. |
+
+While a voice note records, only the stop phrases count, so you can say anything else into it.
 
 <Note>
-**Jumping to a step by name is confirmed first.** On any device, *"go to step 3"* jumps straight there. When you name a step instead, such as *"go to the vortex step"*, Bower reads back the step it found and waits for a *"yes"* before moving. Marking a step done, skipping, and going back stay instant. See [execution mode](/ai-and-search/live-agent-mode#execution-mode-running-a-protocol) for details.
+Hearing **"Bower"** on its own is enough to start a *"Hey Bower"* conversation, so saying the name near your glasses can wake it. With the glasses disconnected, *"Hey Bower"* still works through your phone's microphone, and the capture commands don't.
 </Note>
 
-## Commands by device
+### The glasses button
 
-<Tabs>
-  <Tab title="Bower Glasses">
-    Bower Glasses listen for commands whenever the Bower app is open, even before you go live. Turn them on during [setup](/bower-glasses/set-up) or with **Idle voice commands** in **Profile → Settings → Communication**.
+| Press | Outside a live session | In a live session |
+| --- | --- | --- |
+| **Press** | Takes a photo. Stops a video that's recording. | Shows **Capture busy**. Say *"Take a photo"* instead. |
+| **Double-press** | Starts recording video. Press again to stop. | Shows **Capture busy**. Say *"Start recording"* instead. |
+| **Press and hold** | Starts a live session, or ends a *"Hey Bower"* conversation. | Ends the session straight away. |
 
-    **Capture without going live**
-    - *"Take a photo"* · *"Take a picture"*
-    - *"Start recording"* / *"Stop recording"*
-    - *"Start voice memo"* / *"Stop microphone"*
+## In any live session
 
-    **Go live**
-    - *"Go live"* · *"Start live"*
-    - *"Hey Bower"*, then ask your question
+These work in the Bower app, in your phone's browser, and on Bower Glasses.
 
-    **In a live session**
-    - *"Run the buffer prep protocol"* · *"Next step"* · *"Mark this done"* · *"Go back"*
-    - *"Take a snapshot"* · *"Make a note that the sample looked cloudy"*
-    - *"Start recording"* / *"Stop recording"*. The **REC** indicator shows on the live screen in the Bower app when it's open.
-    - *"Show me the video for this protocol"* opens on your phone
-    - Ask anything: *"How much sodium chloride does this step need?"*, *"Is 4 °C okay for this?"*
+| Say | What happens |
+| --- | --- |
+| *"Take a photo"* · *"Take a snapshot"* | Saves what the camera sees. |
+| *"Record this"* · *"Start recording"* | Records a clip. See [Recording video clips](/ai-and-search/live-agent-mode#recording-video-clips). |
+| *"Stop recording"* · *"End the recording"* | Stops the clip. Say the word "recording": a bare *"stop"* or *"that's enough"* doesn't end it, because people say those while filming. |
+| *"Note, the pellet is loose"* · *"Make a note that the buffer was cold"* | Saves what you said after the word "note", in your own words, as a note. Start with the note request. *"Take a note"* on its own makes Bower ask what to write. |
+| *"Write a summary of this run as a note"* | Bower writes the note for you. |
+| *"Show me the gel from last week"* · *"Show me the video for this protocol"* | Shows it on your phone. |
+| *"Let me know when the gel turns pink"* | Sets a [visual watcher](/ai-and-search/live-agent-mode#visual-watchers). |
 
-    You can also use the glasses button: press for a photo, double-press for video, press and hold to go live. See [Capture hands-free](/bower-glasses/capture).
-  </Tab>
+Anything else, you can just ask: *"What's the reading on that display?"*, *"Is 4 °C okay for this?"*
 
-  <Tab title="Phone">
-    Live mode in the Bower app or in Bower chat in your phone's browser: voice plus an on-screen overlay and your phone's camera. See [Live agent mode](/ai-and-search/live-agent-mode) for the full walkthrough.
+On Bower Glasses, the outside-a-session commands are off during a live session, with one exception: if Bower can't be reached for a few seconds, your phone still takes a photo or starts and stops a recording when you ask.
 
-    **Run and step through a protocol**
-    - *"Run the PCR setup protocol"* · *"Next step"* · *"Mark this done"* · *"Skip to step 3"*
+### Standby (phone browser)
 
-    **Show media on screen**
-    - *"Show me the gel from last week"* (or any saved image) appears as an overlay
-    - *"Show me the video for this protocol"* · *"Skip to step 2"* to seek it
-    - Close the overlay by **tapping the ×** (or tapping outside it)
+| Say | What happens |
+| --- | --- |
+| *"Go to standby"* · *"Standby mode"* · *"Go to sleep"* · *"Goodbye Bower"* | Puts Bower in [standby](/ai-and-search/live-agent-mode#standby-mode). |
+| *"Hey Bower"* · *"Hello Bower"* · *"Hi Bower"* | Wakes Bower. |
 
-    **Capture and record**
-    - *"Take a snapshot"* saves the current camera frame
-    - *"Create a note from what we just discussed"*
-    - *"Start recording"* / *"Stop recording"* saves a short clip ([details](/ai-and-search/live-agent-mode#recording-video-clips)). To stop, say the word "recording": a bare "stop" or "that's enough" doesn't end the clip, because people say those while filming.
+A standby phrase works as a short command, not inside a longer sentence.
 
-    **Video awareness**
-    - With video on, point your camera and ask: *"What's the reading on that display?"*
-  </Tab>
-</Tabs>
+## Running a protocol
 
-For glasses from other makers, see [Other glasses](/bower-glasses/other-glasses).
+| Say | What happens |
+| --- | --- |
+| *"Run the buffer prep protocol"* | Starts the run. |
+| *"Done"* · *"Next"* · *"Finished that"* | Marks the step done straight away. |
+| *"Skip this one"* | Skips the step. |
+| *"Go back"* · *"I wasn't finished"* | Reopens the previous step. |
+| *"Go to step 5"* | Moves straight to step 5. |
+| *"Go back to the staining step"* | Reads back the step it found and moves only after you say *"yes"*. |
+| *"Pause"* · *"Hold on"* | Stops the run clock. Bower stays quiet. |
+| *"Resume"* | Reads the current step again and carries on. |
+| *"What's next?"* · *"Which step is this?"* | Tells you, without changing anything. |
+| *"I used 50 µL, not 100"* | Records a [deviation](/ai-and-search/live-agent-mode#reporting-deviations) on the current step. |
+| *"End the protocol"* · *"We're finished"* | Ends the run once every step is done. With steps still open, Bower says how many and keeps the run going. |
+| *"Start over"* | Starts the protocol again from step 1. If steps are already done, Bower asks first. |
+| *"Go back"* or *"Undo"* just after the last step | Reopens a finished run. See [Undoing the last step](/ai-and-search/live-agent-mode#undoing-the-last-step). |
+
+Bower can't time steps yet, so use your phone's timer for incubations and waits.
 
 ## Related
 
-- [Bower Glasses](/bower-glasses/overview): pairing, the button, and hands-free capture
-- [Live agent mode](/ai-and-search/live-agent-mode): how to start a live session
+- [Live agent mode](/ai-and-search/live-agent-mode): starting a session, recording, standby and running protocols
+- [Bower Glasses](/bower-glasses/overview): pairing and hands-free capture
+- [Other glasses](/bower-glasses/other-glasses): commands for heads-up displays
