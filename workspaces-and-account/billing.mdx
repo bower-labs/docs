@@ -61,9 +61,11 @@ If the 30-day trial runs out and no card has been added, the trial is canceled
 and your workspace moves to the Starter plan, so paid features turn off. The
 Billing tab then shows the Starter plan.
 
-Some older trials are paused instead of ending. Those workspaces see a Billing
-tab banner, **Paid features are off**, with "Your subscription is paused or
-unpaid. Choose a plan below to turn paid features back on."
+If your trial ended before September 2026, it may have been paused instead of
+canceled. Those workspaces see a Billing tab banner, **Paid features are off**,
+with "Your subscription is paused or unpaid. Choose a plan below to turn paid
+features back on." The same banner can appear for a subscription that is
+unpaid.
 
 On Starter:
 
@@ -72,10 +74,12 @@ On Starter:
   paid members until you choose a plan
 - Storage, AI usage, member, workspace, and audit-retention limits revert to
   Starter levels
+- Existing public share links keep working, but you can't create new ones
 - If your workspace uses Restricted mode, those protections stay on
 
 To turn paid features back on, choose a plan on the Billing tab and enter a
-card at checkout. There's no second free trial.
+card at checkout. There's no second free trial. Checkout starts with a seat
+for each current paid member.
 
 ## Add or remove Team seats
 
@@ -143,7 +147,8 @@ credit before confirming.
 ## What happens if payment fails
 
 If a payment fails, your workspace enters a **past due** state. You'll see a
-warning banner in the Billing tab asking you to update your payment method.
+**Payment failed** banner in the Billing tab asking you to update your payment
+method.
 Stripe automatically retries failed payments several times over the following
 weeks. If all retries fail, your workspace is downgraded to the Starter plan.
 To resume, choose a plan on the Billing tab and check out with a card.
@@ -164,9 +169,9 @@ don't need to open the Stripe portal. After confirmation:
   current period
 - At period end, your workspace moves to the Starter plan
 - Your data is preserved; nothing is deleted
-- Storage, member, workspace, and audit-retention limits revert to Starter
-  levels
-- Public share links will no longer be accessible
+- Storage, AI usage, member, workspace, and audit-retention limits revert to
+  Starter levels
+- Existing public share links keep working, but you can't create new ones
 
 You can reactivate at any time before the end date by clicking **Reactivate
 plan** in the same banner. Reactivation is instant, doesn't trigger a new
