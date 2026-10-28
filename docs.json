@@ -51,6 +51,7 @@
             "group": "AI & Search",
             "pages": [
               "ai-and-search/bower-ai-assistant",
+              "ai-and-search/editing-notes-with-bower",
               "ai-and-search/personal-preferences",
               "ai-and-search/workspace-instructions",
               "ai-and-search/live-agent-mode",
