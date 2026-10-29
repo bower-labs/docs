@@ -1,6 +1,6 @@
 ---
 title: "The note editor"
-description: "Rich text editing with slash commands, formatting, tables, math equations, callouts, Voice to Text recording, and more."
+description: "Rich text editing with slash commands, formatting, tables, math equations, callouts, Voice to text, Image to text, and more."
 ---
 
 Every note in Bower opens in a rich text editor. Keyboard shortcuts for everything below are listed in [Keyboard shortcuts](/capture/keyboard-shortcuts). To have Bower make a change for you, such as filling a table cell or ticking a task, see [Ask Bower to edit a note](/ai-and-search/editing-notes-with-bower).
@@ -111,9 +111,9 @@ If you close or reload the page while a change is unsaved, your browser asks you
 
 **Save** in the **&#8942;** menu, or Cmd+S, saves immediately. It's worth using before closing a tab on an unreliable connection.
 
-## Voice to Text
+## Voice to text
 
-Click **Voice to Text** on a note to record speech, such as a meeting or a spoken observation, and have Bower transcribe it. Click **Stop & insert** when you're done; the transcript is inserted at your cursor once the recording has uploaded.
+Click **Voice to text** on a note to record speech, such as a meeting or a spoken observation, and have Bower transcribe it. Click **Stop & insert** when you're done; the transcript is inserted at your cursor once the recording has uploaded.
 
 While it uploads you'll see **Saving your recording. Keep this tab open.** Until then, Bower keeps a copy of the recording in this browser on this device. If you see **This recording isn't backed up on this device**, there is no copy, so keep the tab open until the save finishes or the recording is lost.
 
@@ -130,6 +130,25 @@ If the tab closes, the computer sleeps, the browser crashes or you're signed out
 If the message says **Only the first part of it was saved on this device**, you can upload what was kept; the rest is lost.
 
 The saved copy is only offered to the person who recorded it, and only in the browser they recorded in. It is deleted 7 days after recording started, so upload it within a week.
+
+## Image to text
+
+Click **Image to text** on a note and choose an image, such as a page of a lab notebook or a printed label. Bower attaches the image to the note, reads the text in it, and adds that text to the note. You can keep working while it reads, and add more images.
+
+If Bower can't read an image, the image stays attached to the note. To try again, open **Attachments**, click the **&#8942;** menu on the image and choose **Image to text**.
+
+## What the Voice to text and Image to text buttons show
+
+Both buttons keep the same shape the whole time. Their color, icon and label tell you what is happening.
+
+| The button shows | What it means |
+| --- | --- |
+| **Voice to text** or **Image to text** | Ready |
+| Red, with a pulsing dot and **Recording 0:03** | The microphone is on. Stop it with **Stop & insert** in the recording panel |
+| Blue, with a spinner: **Uploading…**, **Transcribing…** or **Reading image…** | Bower is turning your recording or image into text. The text appears in the note when it's done |
+| Red, with **Retry upload**, **Upload failed**, **No transcript** or **Couldn't read** | The recording or image, or its text, didn't reach the note. Hover over the button to see why. **Retry upload** tries again, and after **Upload failed** click the button to choose the image again; to read or transcribe a saved file again, use its **&#8942;** menu under **Attachments** |
+
+On a phone the buttons show only their icon.
 
 ## Export
 
