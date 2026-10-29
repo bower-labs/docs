@@ -35,6 +35,8 @@ For **Word, Markdown, and plain text**, the file downloads directly. Word export
 - Table cell and header shading, in Word export and import. A header cell with no color exports light gray, and importing that file back into Bower keeps the gray as the cell's color.
 - In Word, tables with grid lines and bold, shaded header rows
 - In Word, callouts as colored boxes with their label; lists and tables inside a callout stay inside the box
+- In Word, the meeting summary card as a light gray box led by its title line
+- In Markdown, the meeting summary card between a `:::meetingSummary` line (with its length and who took part) and a closing `:::` line, so Bower reads it back as the same card
 - A numbered list's own starting number, in Word, Markdown and plain text
 
 Printing a note (Cmd+P) and PDF export both produce the whole note, not just
