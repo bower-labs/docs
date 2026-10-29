@@ -1,6 +1,6 @@
 ---
 title: "The note editor"
-description: "Rich text editing with slash commands, formatting, tables, math equations, callouts, Voice to Text recording, and more."
+description: "Rich text editing with slash commands, formatting, tables, math equations, callouts, Voice to text, Image to text, and more."
 ---
 
 Every note in Bower opens in a rich text editor. Keyboard shortcuts for everything below are listed in [Keyboard shortcuts](/capture/keyboard-shortcuts). To have Bower make a change for you, such as filling a table cell or ticking a task, see [Ask Bower to edit a note](/ai-and-search/editing-notes-with-bower).
@@ -88,12 +88,9 @@ Hover a block to show its drag handle (six dots) in the left margin. Click the h
 
 ## Page width
 
-A note reads in a centered column by default. For wide tables or dense text, switch the page to full width with either:
+A note reads in a centered column by default. For wide tables or dense text, switch the page to full width with the **width icon** at the right end of the toolbar.
 
-- the **width icon** at the right end of the toolbar, or
-- the **Full width** switch in the **&#8942;** menu, below Version history.
-
-The setting is saved on the page, so everyone sees the same width. Only members who can edit the page can change it. The switch isn't offered on screens narrower than about 1024 px. Version history and PDF and Word exports always use the standard width.
+The setting is saved on the page, so everyone sees the same width. Only members who can edit the page can change it. The width icon isn't shown on screens narrower than about 1024 px. Version history and PDF and Word exports always use the standard width.
 
 ## Autosave
 
@@ -105,15 +102,15 @@ Bower saves within seconds of your last edit. If you can edit the page, a cloud 
 | Cloud with arrows | Saving your latest edit |
 | Crossed-out cloud, in red | Not saved |
 
-**If the icon is red**, your latest changes haven't reached Bower and closing the page will lose them. Check your connection, then choose **Save** from the **&#8942;** menu. You can keep typing; your work stays in the editor, and the next edit tries again.
+**If the icon is red**, your latest changes haven't reached Bower and closing the page will lose them. Check your connection, then click the red icon, which is the **Retry save** button. You can keep typing; your work stays in the editor, and the next edit tries again.
 
 If you close or reload the page while a change is unsaved, your browser asks you to confirm. Stay on the page to let the save finish.
 
-**Save** in the **&#8942;** menu, or Cmd+S, saves immediately. It's worth using before closing a tab on an unreliable connection.
+Cmd+S (Ctrl+S on Windows) saves immediately. It's worth using before closing a tab on an unreliable connection.
 
-## Voice to Text
+## Voice to text
 
-Click **Voice to Text** on a note to record speech, such as a meeting or a spoken observation, and have Bower transcribe it. Click **Stop & insert** when you're done; the transcript is inserted at your cursor once the recording has uploaded.
+Click **Voice to text** on a note to record speech, such as a meeting or a spoken observation, and have Bower transcribe it. Click **Stop & insert** when you're done; the transcript is inserted at your cursor once the recording has uploaded.
 
 When a recording has more than one speaker, Bower puts a **meeting summary** card above the transcript: a title line with the meeting's length and who took part, a one-sentence summary, the key points, and the action items as checkboxes, each with its owner and any due date. The card is ordinary note content, so you can edit it, tick its action items, or ask Bower about it. It shows the same way in the mobile app and on a shared link.
 
@@ -132,6 +129,25 @@ If the tab closes, the computer sleeps, the browser crashes or you're signed out
 If the message says **Only the first part of it was saved on this device**, you can upload what was kept; the rest is lost.
 
 The saved copy is only offered to the person who recorded it, and only in the browser they recorded in. It is deleted 7 days after recording started, so upload it within a week.
+
+## Image to text
+
+Click **Image to text** on a note and choose an image, such as a page of a lab notebook or a printed label. Bower attaches the image to the note, reads the text in it, and adds that text to the note. You can keep working while it reads, and add more images.
+
+If Bower can't read an image, the image stays attached to the note. To try again, open **Attachments**, click the **&#8942;** menu on the image and choose **Image to text**.
+
+## What the Voice to text and Image to text buttons show
+
+Both buttons keep the same shape the whole time. Their color, icon and label tell you what is happening.
+
+| The button shows | What it means |
+| --- | --- |
+| **Voice to text** or **Image to text** | Ready |
+| Red, with a pulsing dot and **Recording 0:03** | The microphone is on. Stop it with **Stop & insert** in the recording panel |
+| Blue, with a spinner: **Uploading…**, **Transcribing…** or **Reading image…** | Bower is turning your recording or image into text. The text appears in the note when it's done |
+| Red, with **Retry upload**, **Upload failed**, **No transcript** or **Couldn't read** | The recording or image, or its text, didn't reach the note. Hover over the button to see why. **Retry upload** tries again, and after **Upload failed** click the button to choose the image again; to read or transcribe a saved file again, use its **&#8942;** menu under **Attachments** |
+
+On a phone the buttons show only their icon, with a small badge for the state: a spinner while Bower works, a red dot when something failed, and a pulsing dot while recording.
 
 ## Export
 

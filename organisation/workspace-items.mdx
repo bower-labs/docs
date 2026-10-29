@@ -10,7 +10,7 @@ Create any of them from **Create** (the **+** button):
 | Item | What it is | In the **Create** menu |
 | --- | --- | --- |
 | **Collection** | A group of items, like a folder | **Collection** |
-| **Note** | Editable text: typed, dictated, or extracted from a file | **Text note**, **Voice note**, **Photo → text** |
+| **Note** | Editable text: typed, dictated, or extracted from a file | **Text note**, **Voice note**, **Image to text** |
 | **Spreadsheet** | An editable workbook. See [Spreadsheets](/organisation/spreadsheets) | **Spreadsheet** |
 | **File** | An uploaded file kept as it is, such as a PDF, image, or instrument data | **Import files**, or drop files on the page |
 | **Protocol** | A step-by-step procedure your lab follows | **Protocol** |
@@ -24,6 +24,22 @@ For moving, renaming, and deleting items, see [Organizing your workspace](/organ
 A collection groups notes, spreadsheets, files, protocols, and other collections. Use them by experiment, sample batch, or date range. Collections can be nested.
 
 Everyone in the workspace can see a new collection unless you tick **Private to me** when you create it. You can restrict an existing collection from the **Share** dialog. See [Sharing](/organisation/sharing-artifacts).
+
+### Suggested collections
+
+A new workspace starts with five collections, each with a short guide that shows while it is empty:
+
+| Collection | What goes in it |
+| --- | --- |
+| **Protocols** | Your lab's methods. A new protocol is saved here when no collection is open. Protocols saved anywhere also appear under **Protocols** in the main menu. |
+| **Meeting notes** | Recorded meetings, with their summaries and action items. |
+| **Live sessions** | One collection per Live session from your phone or [glasses](/bower-glasses/overview), with what it captured. |
+| **Lab equipment** | Your instruments. New equipment is saved here when no collection is open. |
+| **Literature** | The papers your work builds on. |
+
+They are ordinary collections: rename, move, share, or delete them like any other. Bower recognizes them by what they are for, not by their name, so a renamed one keeps working. When Bower saves something to one of them, the Create dialog shows **Saving to** with the collection's name; click **Change** to save it somewhere else. If you delete one, new items go to the top level instead, and Bower does not recreate it.
+
+Workspaces created before these existed show an owner or admin a **Set up suggested collections** card on the home page. **Set up collections** adds the missing ones. It skips any name you already use at the top level and never moves existing items. **No thanks** hides the card for everyone in the workspace.
 
 ## Notes
 
@@ -40,11 +56,11 @@ When you import a file, Bower decides what to make from it:
 | CSV, Excel | A [spreadsheet](/organisation/spreadsheets), with some exceptions |
 | PDF, video, code, archive, instrument data, other | The file, kept as it is. Bower extracts text from PDFs so search can find them |
 
-Bower never discards the original. To make a note from a PDF, image, audio file, or Word document that stayed a file, open it and choose **Convert to Note** from its menu.
+Bower never discards the original. To make a note from a PDF, image, audio file, or Word document that stayed a file, open it and choose **Convert to note** from its menu.
 
 ### Files attached to a note
 
-A note's **Attachments** pill lists its files. Bower transcribes recordings and reads text from photos in the background, so you can leave the page while it works. The line under each file shows its state:
+A note's **Attachments** pill lists its files. Bower transcribes recordings and reads text from images in the background, so you can leave the page while it works. The line under each file shows its state:
 
 | What you see | What it means |
 | --- | --- |
@@ -52,7 +68,7 @@ A note's **Attachments** pill lists its files. Bower transcribes recordings and 
 | The file type, size, and date | Done. The text is in the note |
 | An alert, such as **Couldn't read text** | It didn't finish. The file is still saved |
 
-To retry, click the **⋮** menu on the file and choose **Image to Text**, **Transcribe as dictation**, or **Transcribe as meeting**. If the text is already in the note, Bower asks before adding a second copy. Check extracted text against the source before you rely on it.
+To retry, click the **⋮** menu on the file and choose **Image to text**, **Transcribe as dictation**, or **Transcribe as meeting**. If the text is already in the note, Bower asks before adding a second copy. Check extracted text against the source before you rely on it.
 
 ## Protocols
 
