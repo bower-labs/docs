@@ -13,7 +13,7 @@ Each event records:
 - **What** they did, such as created, updated, deleted, restored, viewed, downloaded, exported, or changed who has access
 - **Which record** was affected
 - **When** it happened
-- **Where it came from**: the web app, the mobile app, glasses, Bower, a connector, or an external AI app
+- **Where it came from**: the web app, the mobile app, glasses, Bower, a connector, or an external client
 - **What changed**: field-by-field before and after values
 
 Tracked records include notes, attachments, protocols and their steps and versions, spreadsheets, collections, equipment, tags, and version snapshots. Workspace changes are tracked too: members, invitations, roles, sharing and access, connectors, and the subscription.
@@ -46,16 +46,16 @@ Upgrading widens the window over events that were already recorded.
 
 ## Integrity check
 
-Bower seals each new event into a hash chain within minutes of recording it. Each sealed event's hash covers its contents and the hash of the event before it, so editing, deleting, or reordering a sealed event breaks the chain.
+Bower seals each new event into a hash chain within about 20 minutes of recording it. Each sealed event's hash covers its contents and the hash of the event before it, so editing, deleting, or reordering a sealed event breaks the chain.
 
-Bower checks every workspace's chain once a day. The result shows next to the page title:
+Bower checks every workspace's chain once a day. The result shows under the page title:
 
 - **Audit trail verified**: every sealed event matched the chain at the last check. Hover to see when that was.
 - **Audit trail check failed**: the last check found a mismatch, and Bower's team has been alerted.
 
 A new workspace shows neither until its first check has run.
 
-When a person deletes their Bower account, the events they performed show a deleted user instead of them and lose their IP address and user agent. Events about the person lose their name and email. The events themselves stay, so the record of what was done remains, and the check still verifies everything that was not erased.
+When a person deletes their Bower account, the events they performed show **Deleted user** instead of them and lose their IP address and user agent. Events about the person lose their name, email, and change details. The events themselves stay, so the record of what was done remains, and the check still verifies everything that was not erased.
 
 ## Filtering
 
@@ -88,10 +88,10 @@ Each row is one event, with these columns:
 | Changed Fields | Before and after values |
 | IP Address, User Agent | Where the request came from |
 | Bower Client | The app or service it came from; empty for events recorded before Bower tracked this |
-| Chain Position, Chain Hash | The event's place in the hash chain; empty for an event recorded in the last few minutes, before it is sealed |
+| Chain Position, Chain Hash | The event's place in the hash chain; empty for an event recorded in about the last 20 minutes, before it is sealed |
 | User ID, Entity ID | Stable IDs for the person and the record, which don't change when a name does |
 
-An export holds up to 10,000 events. When your filters match more, the newest 10,000 are exported and a final row reading `TRUNCATED` gives the date of the oldest event included. Narrow the date range to export the rest.
+An export holds up to 10,000 events. When your filters match more, the newest 10,000 are exported and a final row starting `TRUNCATED:` gives the date of the oldest event included. Narrow the date range to export the rest.
 
 ## What's shown in change details
 
