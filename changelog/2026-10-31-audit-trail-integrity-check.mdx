@@ -1,0 +1,26 @@
+---
+title: "A daily integrity check on your audit trail"
+description: "Bower now seals every audit log event into a hash chain and checks it daily, and the CSV export carries each event's chain position and stable IDs."
+sidebarTitle: "Audit trail integrity check"
+---
+
+**2026-10-31 · Trust & compliance**
+
+The audit log recorded every change, but nothing showed that the record itself
+had not been changed. Now it does.
+
+## What's new
+
+- **Hash chain.** Each new event is sealed into a chain within minutes, so
+  editing, deleting, or reordering a sealed event breaks the chain.
+- **Daily check.** The audit log page shows **Audit trail verified** once
+  Bower has checked your workspace's chain, or **Audit trail check failed**
+  if it found a mismatch.
+- **Fuller CSV export.** Each row now carries its chain position and hash,
+  plus the person's and the record's IDs, so you can follow one record or one
+  member across renames.
+- **Deleted accounts keep their history.** When someone deletes their
+  account, their events stay in the log with their identity removed, instead
+  of being deleted.
+
+See [Audit logs](/trust-center/audit-logs#integrity-check) for the details.
