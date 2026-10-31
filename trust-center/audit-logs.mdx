@@ -1,32 +1,30 @@
 ---
 title: "Audit logs"
-description: "Track every change in your workspace: who did what, when, and to which entity."
+description: "Track every change in your workspace: who did what, when, from where, and to which record, with a daily check that the trail has not been altered."
 ---
 
-Audit logs give you a complete record of every create, update, and delete action in your workspace. Useful for compliance, troubleshooting, or simply understanding what changed and when.
+Audit logs record who did what, when, and to which record in your workspace. Use them for compliance reviews, troubleshooting, or to see what changed and when.
 
 ## What's tracked
 
-Every action on notes, attachments, and collections is logged with:
+Each event records:
 
 - **Who** performed the action
-- **What** they did (created, updated, or deleted)
-- **Which entity** was affected
+- **What** they did, such as created, updated, deleted, restored, viewed, downloaded, exported, or changed who has access
+- **Which record** was affected
 - **When** it happened
+- **Where it came from**: the web app, the mobile app, glasses, Bower, a connector, or an external client
 - **What changed**: field-by-field before and after values
 
-Tracked entity types:
-
-| Entity type | Actions tracked |
-| --- | --- |
-| Collection | Create, update, delete |
-| Artifact (notes, attachments, protocols) | Create, update, delete |
+Tracked records include notes, attachments, protocols and their steps and versions, spreadsheets, collections, equipment, tags, and version snapshots. Workspace changes are tracked too: members, invitations, roles, sharing and access, connectors, and the subscription.
 
 ## Viewing audit logs
 
-Click **Audit log** in the sidebar (near the bottom, just above Trash), or navigate directly to [app.bowerlabs.ai/audit](https://app.bowerlabs.ai/audit).
+Open **Settings > Security**, then **Audit logs** under **History**, or go directly to [app.bowerlabs.ai/audit](https://app.bowerlabs.ai/audit). You can also search for "Audit logs" in the command palette.
 
-Each entry shows a human-readable description, for example "Jane Doe updated Note 'Sample batch 14'." Expand any entry to see the specific fields that changed, with before and after values.
+Owners, admins, and members can open audit logs; guests can't. You see events only for records you can open, so a private note's events stay hidden from members who don't have access to it.
+
+Each entry shows a readable description, for example "Jane Doe updated Note 'Sample batch 14'." Expand any entry to see the specific fields that changed, with before and after values.
 
 Times show in your device's time zone. Hover over or tab to a time to see the zone's name and the exact time in UTC.
 
@@ -34,29 +32,72 @@ Times show in your device's time zone. Hover over or tab to a time to see the zo
 Bulk operations performed within a few seconds are grouped together, with a count badge showing how many items were affected.
 </Info>
 
+## How far back you can see
+
+Bower keeps audit events for 7 years on every plan. Your plan sets how far back you can view and export them:
+
+| Plan | View and export |
+| --- | --- |
+| Free | Last 30 days |
+| Pro | Last year |
+| Team | Last 7 years |
+
+Upgrading widens the window over events that were already recorded.
+
+## Integrity check
+
+Bower seals each new event into a hash chain within about 20 minutes of recording it. Each sealed event's hash covers its contents and the hash of the event before it, so editing, deleting, or reordering a sealed event breaks the chain.
+
+Bower checks every workspace's chain once a day. The result shows under the page title:
+
+- **Audit trail verified**: every sealed event matched the chain at the last check. Hover to see when that was.
+- **Audit trail check failed**: the last check found a mismatch, and Bower's team has been alerted.
+
+A new workspace shows neither until its first check has run.
+
+When a person deletes their Bower account, the events they performed show **Deleted user** instead of them and lose their IP address and user agent. Events about the person lose their name, email, and change details. The events themselves stay, so the record of what was done remains, and the check still verifies everything that was not erased.
+
 ## Filtering
 
 Use the filter controls at the top of the page to narrow results:
 
-- **Entity type**: show only collections or only artifacts
-- **Action**: show only creates, updates, or deletes
-- **User**: show only changes made by a specific workspace member
-- **Date range**: use presets (last 7, 30, or 90 days) or set custom start and end dates
-- **Search**: filter by entity name or description
+- **Date range**: presets for the last 7, 30, or 90 days, or custom start and end dates
+- **Type**: the kind of record, such as note, protocol, or collection
+- **Action**: what was done, such as created, deleted, or access granted
+- **Created by**: the workspace member who performed the action
+- **Performed from**: where the action came from, such as the web app, the mobile app, glasses, Bower, or an external client
+- **Search**: filter by record name or description
 
-Filters combine, so you can search for all artifacts deleted by a specific user in the last 30 days.
+Filters combine, so you can find every note a specific member deleted from the mobile app in the last 30 days.
 
 ## Exporting to CSV
 
-Click **Export CSV** in the top right to download the current filtered view as a CSV file. The export respects whatever filters you have active, so narrow your view first if you only need a subset.
+Click **Export CSV** in the top right to download the current filtered view. The export respects the filters you have active, so narrow your view first if you only need a subset. The file is named `audit-logs-{timestamp}.csv`.
 
-The downloaded file is named `audit-logs-{timestamp}.csv`.
+Each row is one event, with these columns:
+
+| Column | What it holds |
+| --- | --- |
+| Event ID | The event's unique ID |
+| Timestamp (UTC) | When it happened, in UTC |
+| User | The name or email of the person who acted |
+| Action | What was done |
+| Entity Type | The kind of record |
+| Entity Name | The record's name at the time |
+| Summary | The readable description |
+| Changed Fields | Before and after values |
+| IP Address, User Agent | Where the request came from |
+| Bower Client | The app or service it came from; empty for events recorded before Bower tracked this |
+| Chain Position, Chain Hash | The event's place in the hash chain; empty for an event recorded in about the last 20 minutes, before it is sealed |
+| User ID, Entity ID | Stable IDs for the person and the record, which don't change when a name does |
+
+An export holds up to 10,000 events. When your filters match more, the newest 10,000 are exported and a final row starting `TRUNCATED:` gives the date of the oldest event included. Narrow the date range to export the rest.
 
 ## What's shown in change details
 
 When you expand an audit log entry, you see exactly what changed:
 
-- **Name, title**: the entity's display name
+- **Name, title**: the record's display name
 - **Content**: shows "Content was edited" (full diffs are not displayed for privacy)
 - **Tags**: added tags shown with a plus, removed tags shown with strikethrough
 - **File metadata**: file name, size, type, dimensions, duration
