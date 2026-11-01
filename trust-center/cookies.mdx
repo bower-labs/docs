@@ -7,16 +7,16 @@ Bower uses a small number of cookies and browser storage items to keep you signe
 
 ## Cookie consent
 
-What you see in the Bower app depends on where you are, based on your IP address. **This starts on 16 November 2026.** Until then, everyone sees the banner and analytics stay off until you choose.
+What you see in the Bower app depends on where you are, based on your IP address. **This starts on 16 November 2026.** Until then, everyone sees the banner and browser analytics stay off until you choose.
 
-**In the EU, the EEA, the UK, or Switzerland** (including Guernsey, Jersey, the Isle of Man, Gibraltar, and EU territories with their own country codes), and wherever your location is unknown, you'll see a consent banner and analytics stay off until you choose:
+**In the EU, the EEA, the UK, or Switzerland** (including Guernsey, Jersey, the Isle of Man, Gibraltar, and EU territories with their own country codes), and wherever your location is unknown, you'll see a consent banner and browser analytics stay off until you choose:
 
 - **Accept all**: enables analytics cookies alongside essential ones.
 - **Essential only**: only the cookies Bower needs to function. No analytics cookies, session replay, or click tracking in your browser. This does not switch off [server-side product events](#not-a-cookie-server-side-product-events).
 
-**Everywhere else,** analytics are on by default. The banner may flash briefly while Bower checks your location. You can switch analytics off at any time in **Settings > Security**.
+**Everywhere else,** browser analytics are on by default. The banner may flash briefly while Bower checks your location. You can switch them off at any time in **Settings > Security**.
 
-Your explicit choice always wins and is never overridden. If you're on the default and later open Bower from one of the regions above, analytics switch off and the banner returns. This applies to the app only; on bowerlabs.ai, analytics wait for consent everywhere.
+Your explicit choice always wins and is never overridden. If you're on the default and later open Bower from one of the regions above, browser analytics switch off and the banner returns. This applies to the app only; on bowerlabs.ai, analytics wait for consent everywhere.
 
 ## Cookie categories
 
@@ -60,7 +60,7 @@ When you use Bower, our servers record events about your own actions in the prod
 
 Two things go beyond IDs:
 
-- **Request details.** Events from a request your device makes carry its IP address and browser or device type, which we use to estimate your country and region.
+- **Request details.** Events from a request your device makes carry its IP address and browser or device type. PostHog keeps the IP address and uses it to derive your approximate location (country, region, and city).
 - **Email addresses, on a few events.** Your sign-up and profile updates, billing and trial notices for the workspace owner, and invitations to a paid seat (the inviter's and the invitee's address) include an email address so our team can follow up. When the server checks whether a feature is turned on for you, it sends your email address for that check only, and PostHog does not store it.
 
 A few events about failed sign-in attempts are recorded before you are signed in.
