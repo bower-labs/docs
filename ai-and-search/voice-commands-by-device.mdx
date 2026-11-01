@@ -34,11 +34,11 @@ Hearing **"Bower"** on its own is enough to start a *"Hey Bower"* conversation, 
 
 ### The glasses button
 
-{/* VOICE_COMMANDS:glassesButton START sha256=86f83082831f418a83fb9519a07bd4e5df26a23a0dd60ae9fe40049e014667a2 (generated in bower-labs/bower by pnpm docs:voice:generate; do not edit) */}
+{/* VOICE_COMMANDS:glassesButton START sha256=eba2c324326329fdc69687e8d40c2f1138cf4458c2726721172de52e93f8d981 (generated in bower-labs/bower by pnpm docs:voice:generate; do not edit) */}
 | Press | Outside a live session | In a live session |
 | --- | --- | --- |
-| **Press** | Takes a photo. Stops a video that's recording. | Shows **Capture busy**. Say *"Take a photo"* instead. |
-| **Double-press** | Starts recording video. Press again to stop. | Shows **Capture busy**. Say *"Start recording"* instead. |
+| **Press** | Takes a photo. Stops a video that's recording. | Takes a photo. |
+| **Double-press** | Starts recording video. Press again to stop. | Goes to the next step during a protocol run. |
 | **Press and hold** | Starts a live session, or ends a *"Hey Bower"* conversation. | Ends the session straight away. |
 {/* VOICE_COMMANDS:glassesButton END */}
 
@@ -46,7 +46,7 @@ Hearing **"Bower"** on its own is enough to start a *"Hey Bower"* conversation, 
 
 These work in the Bower app, in your phone's browser, and on Bower Glasses.
 
-{/* VOICE_COMMANDS:live START sha256=d66910ef43e6d7694699738c986fcbda7e44139e97bc5891d864a35ef1a94686 (generated in bower-labs/bower by pnpm docs:voice:generate; do not edit) */}
+{/* VOICE_COMMANDS:live START sha256=4413cd5d1e545c65fef67237158b7f6a99f7be388a272507724eeadf32ef6cc3 (generated in bower-labs/bower by pnpm docs:voice:generate; do not edit) */}
 | Say | What happens |
 | --- | --- |
 | *"Take a photo"* · *"Take a snapshot"* | Saves what the camera sees. |
@@ -56,13 +56,15 @@ These work in the Bower app, in your phone's browser, and on Bower Glasses.
 | *"Write a summary of this run as a note"* | Bower writes the note for you. |
 | *"Show me the gel from last week"* · *"Show me the video for this protocol"* | Shows it on your phone. |
 | *"Let me know when the gel turns pink"* | Sets a [visual watcher](/ai-and-search/live-agent-mode#visual-watchers). |
+| *"Bower, standby"* · *"Go to sleep"* · *"Goodbye Bower"* (Bower app and Bower Glasses) | Puts Bower in standby. The session ends after 2 minutes in standby. |
+| *"Hey Bower"* · *"Wake up"* (Bower app and Bower Glasses) | Wakes Bower from standby. |
 {/* VOICE_COMMANDS:live END */}
 
 Anything else, you can just ask: *"What's the reading on that display?"*, *"Is 4 °C okay for this?"*
 
 On Bower Glasses, the outside-a-session commands are off during a live session, with one exception: if Bower can't be reached for a few seconds, your phone still takes a photo or starts and stops a recording when you ask.
 
-### Standby (phone browser)
+### Standby
 
 {/* VOICE_COMMANDS:browserStandby START sha256=1029fb7cf42d6836b81deeb3cfc38d40ab301b63deb01e67b3838cd57d12fa4d (generated in bower-labs/bower by pnpm docs:voice:generate; do not edit) */}
 | Say | What happens |
@@ -71,11 +73,11 @@ On Bower Glasses, the outside-a-session commands are off during a live session, 
 | *"Hey Bower"* · *"Hello Bower"* · *"Hi Bower"* | Wakes Bower. |
 {/* VOICE_COMMANDS:browserStandby END */}
 
-A standby phrase works as a short command, not inside a longer sentence.
+These work in the Bower app, on Bower Glasses and in your phone's browser. In the app and on the glasses, *"Wake up"* on its own also wakes Bower. A standby phrase works as a short command, not inside a longer sentence.
 
 ## Running a protocol
 
-{/* VOICE_COMMANDS:protocolRun START sha256=c10d610a72481b83ab9b0dce67496954c2395251834f2babf0801c1b52fbe94b (generated in bower-labs/bower by pnpm docs:voice:generate; do not edit) */}
+{/* VOICE_COMMANDS:protocolRun START sha256=549abbc46baaf4b76edccc47b682d468a69525c2bdf879ebc429e8344acf02eb (generated in bower-labs/bower by pnpm docs:voice:generate; do not edit) */}
 | Say | What happens |
 | --- | --- |
 | *"Run the buffer prep protocol"* | Starts the run. |
@@ -88,9 +90,10 @@ A standby phrase works as a short command, not inside a longer sentence.
 | *"Resume"* | Reads the current step again and carries on. |
 | *"What's next?"* · *"Which step is this?"* | Tells you, without changing anything. |
 | *"I used 50 µL, not 100"* | Records a [deviation](/ai-and-search/live-agent-mode#reporting-deviations) on the current step. |
-| *"End the protocol"* · *"We're finished"* | Ends the run once every step is done. With steps still open, Bower says how many and keeps the run going. |
+| *"End the protocol"* · *"We're finished"* | Ends the run once every step is done. With steps still open, Bower says how many and asks you to confirm before it ends the run early. |
 | *"Start over"* | Starts the protocol again from step 1. If steps are already done, Bower asks first. |
 | *"Go back"* · *"Undo"* just after the last step | Reopens a finished run. See [Undoing the last step](/ai-and-search/live-agent-mode#undoing-the-last-step). |
+| *"Yes"*, when Bower asks to end or start over (Bower Glasses) | Confirms it. A press of the glasses button confirms too. |
 {/* VOICE_COMMANDS:protocolRun END */}
 
 Bower can't time steps yet, so use your phone's timer for incubations and waits.
