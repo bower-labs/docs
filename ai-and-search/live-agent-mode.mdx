@@ -64,7 +64,7 @@ Phrases such as *"recall the protocol"* or *"what's the record temperature"* don
 
 | Setting | Value |
 | --- | --- |
-| Maximum length | **2 minutes** in the Bower app and on Bower Glasses; Bower stops automatically |
+| Maximum length | **2 minutes** on Bower Glasses and **10 minutes** in your phone's browser; the recording stops automatically |
 | At a time | One recording per session |
 | Saved to | Workspace attachments, as MP4 that plays inline |
 | Storage | Counts toward your workspace storage |
@@ -90,7 +90,7 @@ On standby, Bower stays silent and does nothing it hears asked, such as taking a
 What Bower receives on standby depends on the device:
 
 - **Phone browser:** Bower's servers receive no audio or video. Your browser's own speech recognition listens for the wake phrase, so the microphone stays on; in Chrome and Edge that audio goes to Google's or Microsoft's speech service, not to Bower.
-- **Bower app and Bower Glasses:** the microphone stays on and its audio still goes to Bower, which is how Bower hears the wake phrase. Bower's replies don't play until you wake it.
+- **Bower app and Bower Glasses:** the microphone stays on and its audio still goes to Bower, which is how Bower hears the wake phrase. If the camera is on, its video still goes to Bower too. Bower's replies don't play until you wake it.
 
 ## Execution mode (running a protocol)
 
