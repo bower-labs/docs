@@ -37,6 +37,17 @@ Everything you capture is searchable straight away.
 
 You can also ask Bower to [enter values in a spreadsheet](/organisation/spreadsheets#live-agent-mode) or [edit a note](/ai-and-search/editing-notes-with-bower), such as filling a table cell or ticking a task.
 
+### How captures are named
+
+Every photo and clip from a live session is named in one pattern:
+
+| When | Name | Example |
+| --- | --- | --- |
+| During a protocol run | Protocol · Run number · Step · Kind and count | **Cell Viability · Run 3 · A.4 · Photo 2** |
+| Outside a run | Live · Date and time taken · Kind and count | **Live · 26 Oct 15:11 · Video 1** |
+
+The step is labeled as it is on the run record. The count is per kind: in a run, the photos or clips on that step; outside a run, those from the session. If you name a photo when you ask for it, it keeps your name.
+
 ### Taking a photo yourself
 
 In a phone-browser session, the round **Take photo** button sits above the controls while your camera is on, and hides in standby. It shows a spinner while the photo saves, then a check mark. If it fails, you'll see "Photo didn't save. Try again." and nothing is added.
@@ -45,17 +56,18 @@ During a protocol run, the photo is linked to the run. Bower knows you took it, 
 
 ## Recording video clips
 
-Ask Bower to record ([phrases](/ai-and-search/voice-commands-by-device#in-any-live-session)). It replies "Recording. Say stop recording when you're done." and a red **REC** indicator stays on screen while it records. Ask to start again while it records and Bower tells you it is already recording.
+Ask Bower to record ([phrases](/ai-and-search/voice-commands-by-device#in-any-live-session)). It replies "Recording. Say stop recording when you're done." and a red **REC** indicator stays on screen while it records. Ask to start again while it records and Bower says "You're already recording. Say stop recording to end it."
 
-When you stop it, Bower replies "Recording stopped." and tells you if the clip doesn't save, or if it stays on your glasses to come over after the session. Phrases such as *"recall the protocol"* or *"what's the record temperature"* don't start one.
+When you stop it, Bower says "Recording stopped." That doesn't promise the clip is saved yet. If it is already saved, Bower says so, and if it doesn't save, Bower tells you. A clip that stays on your glasses comes over after the session, and Bower says "The clip is still on your glasses. I'll bring it over after the session."
+
+Phrases such as *"recall the protocol"* or *"what's the record temperature"* don't start one.
 
 | Setting | Value |
 | --- | --- |
-| Maximum length | **2 minutes**; Bower stops automatically |
+| Maximum length | **2 minutes** in the Bower app and on Bower Glasses; Bower stops automatically |
 | At a time | One recording per session |
 | Saved to | Workspace attachments, as MP4 that plays inline |
 | Storage | Counts toward your workspace storage |
-| Quality | 1–2 frames per second with full-quality audio, for bench observation rather than fast motion |
 
 If your connection drops mid-recording, Bower tries to save what it received up to the drop, but can't tell you whether it did. Check your attachments after reconnecting.
 
@@ -65,13 +77,20 @@ The **REC** indicator also tells colleagues nearby they may be on camera. Bower 
 
 ## Standby mode
 
-Standby is available in phone-browser sessions. Use it for a private conversation, a call, or a long session where you want Bower available but not listening.
+Standby works in the Bower app, on Bower Glasses and in your phone's browser. Use it for a private conversation, a call, or a long session where you want Bower available but not listening.
 
-- **To enter or leave standby:** tap the standby button, or say a [standby or wake phrase](/ai-and-search/voice-commands-by-device#standby-phone-browser).
-- **Auto-standby:** after 30 seconds of quiet, Bower goes into standby on its own. Turn it off in **Live settings** (the cog at the top right).
-- **Time limit:** a session left in standby for 2 minutes ends.
+- **To enter standby:** say a [standby phrase](/ai-and-search/voice-commands-by-device#standby), or tap the moon button at the top of the live screen (app) or the standby button (browser).
+- **To wake Bower:** say *"Hey Bower"*, or tap the sun button or the standby notice (app) or the standby button (browser). On Bower Glasses, any press of the glasses button wakes Bower and does nothing else.
+- **Chimes:** in the app, a chime plays when Bower goes on standby and when it wakes, on your phone or through your glasses.
+- **Auto-standby (browser only):** after 30 seconds of quiet, Bower goes into standby on its own. Turn it off in **Live settings** (the cog at the top right). The Bower app doesn't go into standby on its own.
+- **Time limit:** a session left in standby for 2 minutes ends. In the app, a chime plays first.
 
-In standby, Bower's servers receive no audio or video. Your browser's own speech recognition listens for the wake phrase, so the microphone stays on; in Chrome and Edge that audio goes to Google's or Microsoft's speech service, not to Bower.
+On standby, Bower stays silent and does nothing it hears asked, such as taking a photo or ending a run, until you wake it. Wake it with a request, such as *"Hey Bower, take a photo"*, and it does that.
+
+What Bower receives on standby depends on the device:
+
+- **Phone browser:** Bower's servers receive no audio or video. Your browser's own speech recognition listens for the wake phrase, so the microphone stays on; in Chrome and Edge that audio goes to Google's or Microsoft's speech service, not to Bower.
+- **Bower app and Bower Glasses:** the microphone stays on and its audio still goes to Bower, which is how Bower hears the wake phrase. Bower's replies don't play until you wake it.
 
 ## Execution mode (running a protocol)
 
@@ -88,6 +107,20 @@ Tap **Details** for the full step: formatted instructions, materials, and attach
 ### Moving through the steps
 
 Tell Bower when a step is done, or ask to skip, go back, jump, pause or end; the phrases, and which ones Bower checks with you first, are in [Voice commands](/ai-and-search/voice-commands-by-device#running-a-protocol). If Bower isn't sure which step you meant, it asks rather than guessing.
+
+### Ending early or starting over
+
+Two commands lose work, so Bower asks you to confirm them first:
+
+- **Ending a run with steps still open.** Say *"End the protocol"* and Bower tells you how many steps are open. If you confirm, the open steps stay open and the run is recorded as **Ended early**.
+- **Starting over with steps already done.** Say *"Start over"* and Bower tells you how far you are. If you confirm, a new run starts from step 1 and the old run is kept with its finished steps.
+
+| Where | To confirm | To keep going |
+| --- | --- | --- |
+| Bower app and phone browser | Tap **End protocol** on the **End the protocol now?** card, or **Start over** on the **Start over from step 1?** card | Close the card (**Cancel** in the app) |
+| Bower Glasses | Within 30 seconds, say *"yes"* or press the glasses button | Say *"no"*, or say nothing |
+
+On your phone, a spoken *"yes"* never ends or restarts a run, so a misheard word can't cost you one. On the glasses, a *"yes"* with *"no"* or *"wait"* in it doesn't count. With nothing to lose (every step done, or none done yet), Bower ends or starts over without asking.
 
 ### Undoing the last step
 
