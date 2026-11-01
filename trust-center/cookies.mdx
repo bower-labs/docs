@@ -12,7 +12,7 @@ What you see in the Bower app depends on where you are, based on your IP address
 **In the EU, the EEA, the UK, or Switzerland** (including Guernsey, Jersey, the Isle of Man, Gibraltar, and EU territories with their own country codes), and wherever your location is unknown, you'll see a consent banner and analytics stay off until you choose:
 
 - **Accept all**: enables analytics cookies alongside essential ones.
-- **Essential only**: only the cookies Bower needs to function. No analytics or tracking.
+- **Essential only**: only the cookies Bower needs to function. No analytics cookies, session replay, or click tracking in your browser. This does not switch off [server-side product events](#not-a-cookie-server-side-product-events).
 
 **Everywhere else,** analytics are on by default. The banner may flash briefly while Bower checks your location. You can switch analytics off at any time in **Settings > Security**.
 
@@ -52,6 +52,21 @@ These cookies help us understand how Bower is used so we can improve it. In the 
 
 **In [Restricted mode](/trust-center/hipaa-compliance) workspaces,** session replay, heatmaps, and click tracking are off entirely, enforced in the browser.
 
+### Not a cookie: server-side product events
+
+When you use Bower, our servers record events about your own actions in the product, such as signing up, sending a chat message, or a file finishing processing, and send them to PostHog. We use them to run and improve Bower, to keep our usage figures complete, and to find failures. **This is server-side.** It sets no cookie and reads no browser or device storage, so it does not depend on the consent banner or the **Analytics cookies** setting, in any region.
+
+**What these events contain:** the action name, internal user and workspace IDs, counts, durations, and whether the action succeeded. Like every analytics event, they never include the content of your notes, files, or chats, or their titles and names. This applies in every workspace, including [Restricted mode](/trust-center/hipaa-compliance) workspaces, where these events continue.
+
+Two things go beyond IDs:
+
+- **Request details.** Events from a request your device makes carry its IP address and browser or device type, which we use to estimate your country and region.
+- **Email addresses, on a few events.** Your sign-up and profile updates, billing and trial notices for the workspace owner, and invitations to a paid seat (the inviter's and the invitee's address) include an email address so our team can follow up. When the server checks whether a feature is turned on for you, it sends your email address for that check only, and PostHog does not store it.
+
+A few events about failed sign-in attempts are recorded before you are signed in.
+
+**Lawful basis:** our legitimate interest in running, securing, and improving Bower, and performance of our contract with you for account and billing events. You can object by writing to [privacy@bowerlabs.ai](mailto:privacy@bowerlabs.ai). The [Privacy Policy](https://bowerlabs.ai/privacy) governs.
+
 ### Not a cookie: AI quality monitoring
 
 Bower retains AI request and response text in a third-party observability service for quality monitoring. **This is server-side.** It sets no cookie and no browser storage, so it is not covered by the consent banner above and cannot be changed from this page. It is disclosed in full on [AI & your data](/trust-center/ai-data-handling#ai-quality-monitoring-and-what-it-retains), and the provider is named on the [sub-processor list](/trust-center/sub-processors).
@@ -63,7 +78,7 @@ Bower uses the following third-party services that may set cookies or process da
 | Service | Purpose | Privacy policy |
 |---------|---------|---------------|
 | Firebase Authentication | Sign-in and identity verification | [Firebase Privacy](https://firebase.google.com/support/privacy) |
-| PostHog | Product analytics and feature flags | [PostHog Privacy](https://posthog.com/privacy) |
+| PostHog | Product analytics, server-side product events, and feature flags | [PostHog Privacy](https://posthog.com/privacy) |
 | Cloudflare Turnstile | Bot protection during sign-up | [Cloudflare Privacy](https://www.cloudflare.com/privacypolicy/) |
 | Google Analytics 4 | Marketing-site and pre-sign-in analytics | [Google Privacy](https://policies.google.com/privacy) |
 
@@ -72,7 +87,7 @@ For a complete list of services that process your data, see [Data privacy](/trus
 ## Managing your cookies
 
 - **On first visit:** use the consent banner if you see one. Otherwise analytics are on by default.
-- **After sign-in:** go to **Settings > Security** to change your analytics preference. Switching off stops further collection but does not delete Google Analytics cookies already set.
+- **After sign-in:** go to **Settings > Security** to change your analytics preference. Switching off stops further collection in your browser but does not delete Google Analytics cookies already set. [Server-side product events](#not-a-cookie-server-side-product-events) continue.
 - **In your browser:** clear Bower's cookies and localStorage at any time. This signs you out and resets your consent preference.
 
 ## Questions
