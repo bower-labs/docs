@@ -54,16 +54,18 @@ These cookies help us understand how Bower is used so we can improve it. In the 
 
 ### Not a cookie: server-side product events
 
-When you use Bower, our servers record events about your own actions in the product, such as signing up, sending a chat message, or a file finishing processing, and send them to PostHog. We use them to run and improve Bower, to keep our usage figures complete, and to find failures. **This is server-side.** It sets no cookie and reads no browser or device storage, so it does not depend on the consent banner or the **Analytics cookies** setting, in any region.
+When you use Bower, our servers record events about your own actions in the product, such as signing up, sending a chat message, or a file finishing processing, and send them to PostHog. We use them to run and improve Bower, to keep our usage figures complete, and to find failures. **This is server-side.** Apart from the sign-up details described below, it sets no cookie and reads no browser or device storage. It does not depend on the consent banner or the **Analytics cookies** setting, in any region.
 
-**What these events contain:** the action name, internal user and workspace IDs, counts, durations, and whether the action succeeded. Like every analytics event, they never include the content of your notes, files, or chats, or their titles and names. This applies in every workspace, including [Restricted mode](/trust-center/hipaa-compliance) workspaces, where these events continue.
+**What these events contain:** the action name, internal user and workspace IDs, counts, durations, and whether the action succeeded. Like every analytics event, they never include the content of your notes, files, or chats, or the titles and file names of those items. This applies in every workspace, including [Restricted mode](/trust-center/hipaa-compliance) workspaces, where these events continue.
 
-Two things go beyond IDs:
+Four things go beyond IDs:
 
 - **Request details.** Events from a request your device makes carry its IP address and browser or device type. PostHog keeps the IP address and uses it to derive your approximate location (country, region, and city).
 - **Email addresses, on a few events.** Your sign-up and profile updates, billing and trial notices for the workspace owner, and invitations to a paid seat (the inviter's and the invitee's address) include an email address so our team can follow up. When the server checks whether a feature is turned on for you, it sends your email address for that check only, and PostHog does not store it.
+- **Your name and ORCID iD.** Your sign-up and profile updates include your display name, and your ORCID iD if you add one.
+- **Details from your browser, at sign-up.** On your first page load, whatever your cookie choice, the app saves a first-visit record in your browser's local storage: a random visitor ID, the referring site, the landing page, and campaign and ad click IDs. The sign-up event includes that record and details the sign-up page reads from your browser: screen and window size, color depth, language, time zone, processor core count, graphics hardware, and how the form was filled in (time on the form, mouse movement, whether anything was pasted, and a keystroke count, never the keys). We use these to attribute sign-ups and to detect abuse.
 
-A few events about failed sign-in attempts are recorded before you are signed in.
+A few events about failed sign-in attempts are recorded before you are signed in. Opening a shared link records an event with the viewer's IP address and browser or device type, even if the viewer has no Bower account.
 
 **Lawful basis:** our legitimate interest in running, securing, and improving Bower, and performance of our contract with you for account and billing events. You can object by writing to [privacy@bowerlabs.ai](mailto:privacy@bowerlabs.ai). The [Privacy Policy](https://bowerlabs.ai/privacy) governs.
 
