@@ -97,7 +97,7 @@ A failed call carries a code, such as `NOT_FOUND`, `LINK_CAP_EXCEEDED`, or `REST
 - Bower never sees your AI app's credentials. The app and Bower exchange only OAuth tokens, issued and rotated by WorkOS AuthKit, Bower's identity partner.
 - Access tokens last about an hour. Apps that support MCP refresh tokens renew them without asking you to sign in again.
 - A token for one workspace never returns data from another, even if you belong to both.
-- Your app is never given where a photo was taken, whatever the workspace's [photo location](/workspaces-and-account/photo-locations) setting.
+- Your app is never given the location Bower shows for a photo, whatever the workspace's setting. It can still read a location saved inside a photo's original file when it downloads one; [Photo locations](/workspaces-and-account/photo-locations#do-downloaded-photos-include-the-location) lists which files keep it.
 - You can revoke access at any time by disconnecting Bower in your app.
 
 ## How do I switch workspaces?
