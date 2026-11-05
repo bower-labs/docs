@@ -51,6 +51,7 @@
             "group": "AI & Search",
             "pages": [
               "ai-and-search/bower-ai-assistant",
+              "ai-and-search/editing-notes-with-bower",
               "ai-and-search/personal-preferences",
               "ai-and-search/workspace-instructions",
               "ai-and-search/live-agent-mode",
@@ -94,6 +95,7 @@
               "workspaces-and-account/create-workspace",
               "workspaces-and-account/invite-team-members",
               "workspaces-and-account/permissions-overview",
+              "workspaces-and-account/photo-locations",
               "workspaces-and-account/switch-workspaces",
               "workspaces-and-account/delete-workspace",
               "workspaces-and-account/manage-account",
@@ -116,6 +118,7 @@
           {
             "group": "October 2026",
             "pages": [
+              "changelog/2026-10-31-audit-trail-integrity-check",
               "changelog/2026-10-24-live-spreadsheet-edits",
               "changelog/2026-10-22-live-run-transcripts",
               "changelog/2026-10-17-every-protocol-is-structured",

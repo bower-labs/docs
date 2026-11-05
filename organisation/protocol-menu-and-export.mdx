@@ -9,24 +9,27 @@ Every protocol has a **⋮** menu at the top right of the page. It's where you m
 
 | Item | What it does |
 | --- | --- |
-| **Manage access** | Choose who in the workspace can see or edit the protocol. Needs manage access to the protocol. |
-| **Version history** | Scrolls to **Lineage** beside the steps, where you can see where each version came from and open any earlier one. Unavailable until the protocol has a second version. |
-| **Show in visualizer** | Opens the [Workspace visualizer](/organisation/workspace-visualizer) centered on this protocol. |
 | **View runs** | Opens the [Runs](/organisation/protocols#runs-and-versions-on-the-protocol-page) section in the sidebar. Unavailable until the protocol has been run. |
-| **Move** | Moves the protocol to another collection, or to the top of the workspace. |
+| **Copy link** | Copies a link to the protocol's page. |
+| **Manage access** | Choose who in the workspace can see or edit the protocol. Needs manage access to the protocol. |
+| **Move to...** | Moves the protocol to another collection, or to the top of the workspace. |
+| **Add to favorites** | Adds the protocol to **Favorites** in the page tree. Reads **Remove from favorites** once it's there. |
+| **Version history** | Scrolls to **Lineage** beside the steps, where you can see where each version came from and open any earlier one. Unavailable until the protocol has a second version. |
+| **Approve this version** | Approves the draft you're viewing, the same as the button on the version bar. See [How do versions and approval work?](/organisation/protocols#how-do-versions-and-approval-work). Unavailable, with the reason on hover, when the version is already approved. |
+| **New version** | Copies the approved version you're viewing into a new draft and opens it. Unavailable, with the reason on hover, when you're viewing a draft or another draft already exists. |
 | **Export** | Downloads the version you're viewing as **PDF** or **Word (.docx)**. See [Exporting a protocol](#exporting-a-protocol). |
-| **Delete version** | Deletes the version you're viewing, after you confirm. Unavailable, with the reason on hover, for a version a run followed, the version new runs use, and a protocol's only version. See [How do versions and approval work?](/organisation/protocols#how-do-versions-and-approval-work). |
-| **Delete protocol** | Moves the protocol to the trash. |
+| **Delete version** | Shown with the version's number, for example **Delete version 3**. Deletes the version you're viewing, after you confirm. Unavailable, with the reason on hover, for a version a run followed, the version new runs use, and a protocol's only version. See [How do versions and approval work?](/organisation/protocols#how-do-versions-and-approval-work). |
+| **Delete** | Moves the protocol to the trash. Shown in red. |
 
-Below the actions, the menu shows who created the protocol, the version you're viewing and its state (for example **v3 · Rev C · draft**), and when it was created and last updated.
+The items are grouped by what they do, with a line between groups. Below them, the menu shows who created the protocol, the version you're viewing and its state (for example **v3 · Rev C · draft**), and when it was created and last updated.
 
-**Move**, **Delete version** and **Delete protocol** need edit access. If you can only view the protocol, they're shown but unavailable, and hovering explains why. You can still export.
+**Move to...**, **Approve this version**, **New version**, **Delete version** and **Delete** need edit access. If you can only view the protocol, they're shown but unavailable, and hovering explains why. You can still copy its link, add it to your favorites, and export it.
 
-The menu has no **Copy**. To copy a protocol, select it in the protocol library and click **Copy to...**. The copy starts as a draft of the protocol's current version, to approve before anyone runs it. A protocol with no steps yet can't be copied.
+The menu has no **Copy to...**. To copy a protocol, select it in the protocol library and click **Copy to...**. The copy starts as a draft of the protocol's current version, to approve before anyone runs it. A protocol with no steps yet can't be copied.
 
 ## Deleting a protocol
 
-1. Click **⋮**, then **Delete protocol**.
+1. Click **⋮**, then **Delete**.
 2. Confirm **Move to Trash**.
 
 Bower saves any step edit still in progress first, then moves the protocol to the trash and takes you back to the page you opened it from, or to the protocol library if you opened it from a link. Click **Undo** in the message that appears to bring it straight back, versions and all. Otherwise it stays in the trash for 30 days before it's permanently deleted.

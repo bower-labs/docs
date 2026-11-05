@@ -133,7 +133,7 @@ For now, they remain in the database as orphans — no one has access (not even 
 
 **Does the workspace Owner know I have Just-me notes?**
 
-The Owner sees metadata in the audit log — that you created a note, when it was edited, when its privacy mode changed. They cannot see the title, content, tags, or any of the actual work.
+Not from the audit log. It shows events only for records the reader can open, so the events for your Just-me notes are hidden from the Owner too. See [Audit logs](/trust-center/audit-logs#viewing-audit-logs).
 
 **Can I share a Just-me note with one person privately?**
 
@@ -146,3 +146,7 @@ No. The Owner always has access on Workspace-mode and Only-specific-people entit
 **Can the access list be inherited?**
 
 Yes. If a collection is in **Only specific people** mode, all notes inside it inherit that access (unless they have their own privacy settings). The Share dialog shows where access is inherited from with a clickable link, so you can navigate up and edit the source of truth.
+
+**What happens to privacy when I copy a note or collection?**
+
+A copy is never visible to more people than the original. If the original is private, or sits inside a collection that is, the copy keeps the most private setting on that path: **Just me** if any of it is Just me, otherwise **Only specific people**. The access list itself is not copied, so at first only you (and the workspace Owner, for Only specific people) can see the copy. Share it from the **Share** dialog if others should see it. A copy you make inside the same private collection simply follows that collection, like any other note in it.

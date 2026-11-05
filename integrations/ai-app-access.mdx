@@ -74,6 +74,10 @@ Some AI apps run code in a sandbox that blocks Bower's file storage host, so you
 
 Your app reads a [protocol](/organisation/protocols) with `get_protocol`: its sections, steps, and amounts in one call. It can change the protocol's title and tags, but not its steps. A protocol's text is generated from its steps, so an edit to that text is refused with `PROTOCOL_TEXT_IS_GENERATED`. Edit the steps in the Bower app.
 
+### How do I see who ran a protocol?
+
+Your app reads a protocol's runs with `get_protocol_runs`: who ran each one, when, its status, and how far it got. Name a step and it also counts, per person and per protocol version, the runs that reached that step, the photos, videos, and notes taken on it, and any requested captures that never arrived. Your app asks about one step per call.
+
 ### How do I get something back from Trash?
 
 Your app restores an item with `restore_artifact` and the ID it got when it deleted the item. Items in Trash don't show up in search, so ask your app to keep that ID. Restores follow the same rules as in the app (see [Trash](/organisation/organising-workspace#trash)):
@@ -93,6 +97,7 @@ A failed call carries a code, such as `NOT_FOUND`, `LINK_CAP_EXCEEDED`, or `REST
 - Bower never sees your AI app's credentials. The app and Bower exchange only OAuth tokens, issued and rotated by WorkOS AuthKit, Bower's identity partner.
 - Access tokens last about an hour. Apps that support MCP refresh tokens renew them without asking you to sign in again.
 - A token for one workspace never returns data from another, even if you belong to both.
+- Your app sees where a photo was taken only while the workspace's [Show where photos were taken](/workspaces-and-account/photo-locations) setting is on. It can still read a location saved inside a photo's original file when it downloads one; [Photo locations](/workspaces-and-account/photo-locations#do-downloaded-photos-include-the-location) lists which files keep it.
 - You can revoke access at any time by disconnecting Bower in your app.
 
 ## How do I switch workspaces?

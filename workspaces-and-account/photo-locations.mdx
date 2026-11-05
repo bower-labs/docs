@@ -1,0 +1,44 @@
+---
+title: "Photo locations"
+description: "Choose whether members, Bower and connected AI apps see where photos were taken. Workspace owners and admins control it in Settings > Workspace. Turn it off to hide locations everywhere, though some photo files still contain one."
+---
+
+A photo can carry the place it was taken: the camera's GPS position, or for a [Live](/ai-and-search/live-agent-mode) capture, your phone's location. **Show where photos were taken** decides whether anyone sees it: members, Bower, and AI apps connected to Bower.
+
+## Can I hide where my photos were taken?
+
+Yes. A workspace owner or admin can turn it off for the whole workspace:
+
+<Steps>
+  <Step title="Go to Settings > Workspace" />
+  <Step title="Find Privacy and compliance" />
+  <Step title="Turn off Show where photos were taken" />
+</Steps>
+
+The switch is on by default. Members see it but can't change it. It applies to every photo in the workspace, not one at a time.
+
+## What the setting changes
+
+| | On | Off |
+|---|---|---|
+| Location pin under a photo's title | Shown | Hidden |
+| Bower, the in-app assistant | Sees the location | Doesn't see it |
+| Asking Bower for photos by place | Works | Doesn't work |
+| [AI apps connected to Bower](/integrations/ai-app-access) | See the location, and can search by place | Don't see it |
+
+Turning the switch off hides locations, it doesn't delete them. Turn it back on and they reappear.
+
+Anyone who can download a photo's original file, a connected AI app included, can still read a location saved inside it. [Some files keep one](#do-downloaded-photos-include-the-location).
+
+## Do downloaded photos include the location?
+
+It depends on the file:
+
+| File | Location inside the file |
+|---|---|
+| Photo up to 32 MB | Removed when Bower stores it |
+| Photo larger than 32 MB | Kept |
+| Video | Kept |
+| Photo stored before Bower began removing locations | Kept |
+
+Where the location is kept, anyone who can download the file can read it, including through a [share link](/organisation/sharing-artifacts) or a connected AI app. The switch doesn't change what's inside a file.

@@ -10,13 +10,14 @@ Bower is the AI assistant built into your workspace. It can read, search, create
 | Ask Bower to | For example |
 | --- | --- |
 | **Find** anything in your workspace, including voice transcripts, text extracted from photos, and imported files | *"Show me pH readings from last month"*, *"Find my notes on sample batch 14"* |
-| **Find photos by place**, using where they were taken, even untitled ones | *"Find the photos I took at the field site in Bali"* |
+| **Find photos by place**, using where they were taken, even untitled ones ([unless locations are hidden](/workspaces-and-account/photo-locations)) | *"Find the photos I took at the field site in Bali"* |
 | **Search the literature and the web**, across the [13 public sources](/integrations/connectors#13-always-on-sources-no-setup) | *"What's the latest research on coral alkalinity tolerance?"*, *"What did Jane Smith publish in 2025?"* |
 | **Look up a record** for a gene, protein, compound or structure in public biology databases | *"What's the resolution of PDB 1TUP?"* |
 | **Follow a citation trail** from papers you already know: the papers they cite and the papers that cite them, ranked by how closely connected they are | *"I'm reading these three papers. What else should I be reading?"* |
 | **Summarize** one or more notes | *"Summarize this week's observations"* |
 | **Compare** related notes side by side | *"Compare my alkalinity readings from this week and last week"* |
 | **Create** notes, protocols and collections | *"Make a new collection called February Field Samples"* |
+| **Edit a note**: fill table cells, tick tasks, change headings or formatting; see [Ask Bower to edit a note](/ai-and-search/editing-notes-with-bower) | *"Put 0.42 in the OD600 column for sample B3"* |
 | **Organize**: move notes, link related items, add tags, rename | *"Move all my alkalinity notes into the Field Samples collection"* |
 | **Process files**: extract text from images, transcribe audio, read PDFs and documents | *"Transcribe the audio from Tuesday's meeting"* |
 | **Draft a run plan** from a set of notes and a protocol, for a formal experimental record | *"Draft a plan to run the PCR protocol on these samples"* |
@@ -42,6 +43,8 @@ Bower chat is in the right-hand panel. Ask in plain language. To focus Bower on 
 
 While Bower works, a line above the reply describes what it is doing, such as *Searching notes…* or *Looking up your publications on ORCID…*, so you can tell whether it is still searching or waiting on an outside service.
 
+You don't have to wait for a reply to finish. While Bower is answering, you can open an earlier conversation with **Previous conversations** or start one with **New conversation**. A message tells you Bower is still answering in the conversation you left; the reply is there when you go back. The one exception is while files you attached are still uploading: both controls stay unavailable until your message has been sent.
+
 ### Attaching files
 
 Attach a file to a message with the paperclip button, by dropping it on the chat input, or by pasting it, for example a screenshot. Attached files show as chips above the input; remove one with its **×**. Each file goes with that message only.
@@ -59,6 +62,8 @@ For a spoken back-and-forth with video, use [live agent mode](/ai-and-search/liv
 ## What Bower won't do
 
 - Act on your data without permission. It suggests; you confirm.
+- Open a web link without asking after its safety check blocked something. Bower usually opens the links it finds straight away. But if, earlier in the same answer, it blocked a source that tried to give it instructions (see below), it shows you the full address of any link it then wants and waits for **Open link** before visiting it. The Bower mobile app can't show this prompt yet, so there Bower tells you which link it wanted instead: paste it into a new message, or approve it from Bower on the web.
+- Go online in a [Restricted mode](/trust-center/hipaa-compliance) workspace. There, Bower doesn't search the web, look up public research databases or open links, and it tells you so. It answers from your workspace instead.
 - Present AI-extracted values as verified fact. It shows confidence where relevant.
 - Interrupt a capture in progress. It waits until you've stopped recording before offering observations.
 
