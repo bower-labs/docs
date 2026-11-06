@@ -5,6 +5,8 @@ description: "Ask Bower anything about your workspace: search, summarize, compar
 
 Bower is the AI assistant built into your workspace. It can read, search, create and organize your notes, collections and attachments, and search the literature and the web. Every answer cites its sources.
 
+What Bower can change for you depends on your [workspace role](/workspaces-and-account/permissions-overview#workspace-roles). Guests can ask it questions but can't have it change anything.
+
 ## What Bower can do
 
 | Ask Bower to | For example |
@@ -32,7 +34,7 @@ The **Public sources** switch in the [connector picker](/integrations/connectors
 
 ## Citations
 
-Bower places a numbered marker such as **[1]** after each claim it draws from a source. Click the marker for the source details. A collapsible **Sources** section at the end of each reply lists every source used:
+Bower places a numbered marker such as **[1]** after each claim it draws from a source. Click the marker for the source details. A collapsible **Sources** section at the end of each reply counts and lists the sources the reply cites. Other sources Bower consulted sit behind **Show N more consulted**, and a reply that cites nothing lists every source it consulted:
 
 - **Workspace sources** link to the notes, protocols or attachments Bower used.
 - **Web sources** show the page title and site icon, and link to the article, paper or record.
@@ -44,6 +46,15 @@ Bower chat is in the right-hand panel. Ask in plain language. To focus Bower on 
 While Bower works, a line above the reply describes what it is doing, such as *Searching notes…* or *Looking up your publications on ORCID…*, so you can tell whether it is still searching or waiting on an outside service.
 
 You don't have to wait for a reply to finish. While Bower is answering, you can open an earlier conversation with **Previous conversations** or start one with **New conversation**. A message tells you Bower is still answering in the conversation you left; the reply is there when you go back. The one exception is while files you attached are still uploading: both controls stay unavailable until your message has been sent.
+
+### Using a run as a template
+
+A protocol run can be a context chip too, so you can ask for something modeled on it, such as "write up today's run like this one" or "draft the run report for run 4 based on this run". Bower reads the run (its steps, the values recorded at each step, its captures and notes) and follows it for what you asked.
+
+- **On a run's page**, the run is already in context, named after its protocol and run number, for example *Soil DNA Extraction QC · Run 2*.
+- **In the chat input**, choose **Add context**, search for the protocol, then choose **Choose a run…** under it and pick a run. Runs are listed newest first with their status; **Show older runs** loads more.
+
+Select the run's chip to open the run.
 
 ### Attaching files
 
