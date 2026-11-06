@@ -1,6 +1,6 @@
 ---
 title: "Live agent mode"
-description: "A real-time voice and video conversation with Bower, from the Bower app, your phone's browser, or Bower Glasses."
+description: "A real-time voice and video conversation with Bower, from the Bower app, your phone's browser, or Bower Glasses, and where the notes and captures you make in it are saved."
 ---
 
 Live agent mode is a spoken conversation with Bower while you work. Talk through an experiment, ask follow-up questions, or run a protocol step by step without typing. With video on, Bower sees what your camera sees, so you can ask *"What's the reading on that display?"* or *"Does this sample look contaminated to you?"* Bower responds to what it sees only when you ask, or when you've set a [visual watcher](#visual-watchers).
@@ -34,6 +34,29 @@ On a computer, get the [Bower app](/getting-started/mobile) on your phone and st
 Bower saves something to your workspace only when you ask it to or take a photo yourself. Ask for a photo, a clip or a note in your own words; the phrases are in [Voice commands](/ai-and-search/voice-commands-by-device#in-any-live-session). Tapping **Take a photo** (app) or **Take photo** (browser) saves a full camera frame, sharper than what Bower sees in conversation.
 
 Everything you capture is searchable straight away.
+
+### Where are my Live notes and captures saved?
+
+Notes, photos and clips from a Live session are saved in a collection for that run or session, inside your workspace's **Live sessions** collection.
+
+| What you were doing | Where it's saved | Example name |
+| --- | --- | --- |
+| Running a protocol | One collection for the run, shared by everyone who works on that run | **Soil DNA Extraction QC · Run 4** |
+| A Live session with no protocol run | One collection for your session. Each person gets their own | The session's name, or **Live session** |
+
+- A run that spans several Live sessions, days or devices still saves into its one collection. A note you add on the [run record](/organisation/protocols#what-is-on-a-run-record) goes there too.
+- Bower keeps track of the collection by its run or session, not its name, so you can rename or move it and new items still go there.
+- If you delete a run's collection, Bower makes a new one the next time something is saved for that run.
+- If you tell Bower where to save something, it saves it there instead.
+
+#### When are Live notes saved at the top of the workspace?
+
+Bower saves at the top level of your workspace instead when:
+
+- The workspace has no **Live sessions** collection. It is one of the [suggested collections](/organisation/workspace-items#suggested-collections), which an owner or admin can add with **Set up suggested collections**. Bower does not recreate it if it was deleted.
+- You can't add items to the **Live sessions** collection, for example because it is shared with only some members.
+
+When this happens, Bower tells you where the note went.
 
 You can also ask Bower to [enter values in a spreadsheet](/organisation/spreadsheets#live-agent-mode) or [edit a note](/ai-and-search/editing-notes-with-bower), such as filling a table cell or ticking a task.
 
@@ -152,7 +175,7 @@ Tell Bower when you depart from the protocol: *"I used 50 µL, not 100"*, *"I wa
 
 ### Notes during a run
 
-Ask for a note during a run ([phrases](/ai-and-search/voice-commands-by-device#in-any-live-session)) and Bower saves your words into a note on the run and tells you so. The note appears on the [run record](/organisation/protocols#what-is-on-a-run-record) straight away. Bower doesn't bring these notes up on later runs, so if a change should apply every time, edit the protocol.
+Ask for a note during a run ([phrases](/ai-and-search/voice-commands-by-device#in-any-live-session)) and Bower saves your words into a note on the run and tells you so. The note is saved in [the run's collection](#where-are-my-live-notes-and-captures-saved) and appears on the [run record](/organisation/protocols#what-is-on-a-run-record) straight away: on its step if you made it on a step, or under **Run analysis** if it is about the run as a whole. Bower doesn't bring these notes up on later runs, so if a change should apply every time, edit the protocol.
 
 Bower no longer keeps per-step tips between runs; the **Bower AI annotations** entry has been removed from the protocol menu.
 
