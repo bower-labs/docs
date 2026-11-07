@@ -13,7 +13,7 @@ This page covers services that process data **inside Bower**. Cookies and tags o
 
 For most providers, the DPA is **incorporated by reference** into the vendor's commercial terms: when we accept those terms to use the service, the DPA's data-protection obligations (including GDPR Standard Contractual Clauses for international transfers, UK/Swiss equivalents, and CCPA/CPRA) apply automatically, with no separate signature required. Where a provider offers a separately executed DPA, we link it next to the service below.
 
-Separately, **HIPAA** protections require a signed Business Associate Agreement (BAA). Only providers with a signed BAA (currently Google Cloud, Google Workspace, and Langfuse in its HIPAA region) may process content for workspaces in **[Restricted mode](/trust-center/hipaa-compliance)**; every other provider on this page is blocked server-side for those workspaces. PostHog also signed a BAA with us in October 2026. We keep it as an extra safeguard rather than rely on it: PostHog receives no research content from any workspace, Restricted or not.
+Separately, **HIPAA** protections require a signed Business Associate Agreement (BAA). Only providers with a signed BAA (currently Google Cloud, Google Workspace, and Langfuse in its HIPAA region) may process content for workspaces in **[Restricted mode](/trust-center/hipaa-compliance)**; every other provider on this page is blocked server-side for those workspaces. PostHog also signed a BAA with us in October 2026. We keep it as an extra safeguard rather than rely on it: PostHog receives no research content from any workspace, Restricted or not. A BAA with Amazon Web Services has been in place since November 2026 and covers account email, which carries no research content either.
 
 ## Infrastructure & hosting
 
@@ -22,6 +22,14 @@ Separately, **HIPAA** protections require a signed Business Associate Agreement 
 | [Google Cloud Platform](https://cloud.google.com/terms/cloud-privacy-notice) | Infrastructure, database, file storage, async job processing | All user data, files, database records | US (us-central1) |
 | [Firebase Authentication](https://firebase.google.com/support/privacy) | User authentication (email/password, Google OAuth) | Email addresses, authentication tokens | US |
 | [Cloudflare Turnstile](https://www.cloudflare.com/privacypolicy/) ([Turnstile Privacy Addendum](https://www.cloudflare.com/turnstile-privacy-policy/)) | Bot protection during sign-up | IP addresses, browser fingerprint data | Global (edge) |
+
+## Account email
+
+| Service | Purpose | Data processed | Location |
+|---------|---------|---------------|----------|
+| [Amazon Web Services (Amazon SES)](https://aws.amazon.com/privacy/) ([DPA](https://d1.awsstatic.com/legal/aws-dpa/aws-dpa.pdf), incorporated by reference; **BAA** in place since 8 November 2026) | Transactional account email: invites, email verification, password reset | Recipient name and email address, and the message content | US (us-east-1) |
+
+**Added 8 November 2026, Amazon Web Services.** Bower is starting to send account email through Amazon SES. These messages carry an account action, such as a link to accept an invite or reset a password, and never the content of your workspace. The AWS Data Processing Addendum applies through the AWS Service Terms with no separate signature. A Business Associate Addendum, and the Australian Notifiable Data Breach Addendum, were accepted for Bower's AWS organization on 8 November 2026.
 
 ## AI processing
 
