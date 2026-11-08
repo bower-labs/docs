@@ -1,0 +1,128 @@
+---
+title: "Electronic signatures"
+description: "Sign finished protocol runs with your Bower password, ask a colleague to review or witness, and lock, unlock and export a signed record."
+---
+
+Electronic signatures let members sign a finished [protocol run](/organisation/protocols#protocol-runs). A signed run is locked, so its record can't change, until it's [reopened](#withdraw-reject-or-unlock). Every signature, request and unlock is kept in the record's audit trail.
+
+<Note>
+Electronic signatures are being tried with a small group of workspaces first. If **Electronic signatures** isn't in your settings, your workspace doesn't have it yet.
+</Note>
+
+## Turn on electronic signatures
+
+Owners and Admins turn signing on for the whole workspace.
+
+<Steps>
+  <Step title="Open Settings > Electronic signatures" />
+  <Step title="Switch on Electronic signatures">
+    Finished protocol runs can now be signed by anyone with a [signing privilege](#choose-who-can-sign).
+  </Step>
+  <Step title="Choose whether runs need a review signature">
+    With **Runs need a review signature** on, a finished run counts as closed only once the person who ran it and a reviewer have both signed. Until then it shows **Awaiting signature** in the protocol library.
+  </Step>
+</Steps>
+
+Turning signing off later keeps every signed run locked and visible. Unlock a run to change it.
+
+## Choose who can sign
+
+There are two signing privileges:
+
+| Privilege | What it allows |
+| --- | --- |
+| **Can sign** | Sign a run they performed, as its performer. |
+| **Can review** | Sign someone else's run as a reviewer or witness. |
+
+Owners and Admins have both unless someone turns them off. Members have only what an Owner or Admin gives them, under **Signing members** in **Settings > Electronic signatures**. You can't change your own privileges. If an Owner or Admin becomes a Member, they keep only the privileges they were given explicitly.
+
+Before a privilege is granted, Bower asks you to **Confirm their identity**. Click **I verified their identity** only once you know the person is who their account says. Bower records your name and the date with the grant.
+
+Guests can't sign, so their switches are unavailable.
+
+### Find a member in a long list
+
+- **Search by name or email** narrows the list as you type.
+- The filter next to it shows only members who **Can sign**, members who **Can review**, or members with **No Bower password**. Choose **Clear selection** to show everyone again.
+
+The list shows 50 members at a time. When there are more, a line under it says how many are shown; search to find the others.
+
+### Members with no Bower password
+
+A **No Bower password** label means the member signs in only with another account, such as Google or Microsoft, and hasn't set a Bower password yet. They can't sign until they do. Ask them to [set a Bower password](#set-your-bower-password) before their first signature.
+
+If Bower can't check every member's password, the filter says the list may be incomplete.
+
+## Your Bower password
+
+You sign with your **Bower password**, the same password you can sign in with. There's no separate signing password.
+
+### Set your Bower password
+
+If you sign in with Google or Microsoft, you may not have a Bower password yet. You can set one in either place:
+
+- **Settings > Security**: see [Change your email or password](/workspaces-and-account/manage-account#change-your-email-or-password).
+- The first time you sign a run: the signing dialog asks you to set one first, with **New Bower password** and **Confirm password**, then **Set password**. It works the same way as in **Settings > Security**.
+
+### If your password is refused several times
+
+After 5 wrong passwords within 15 minutes, you can't sign, withdraw, reject or unlock for 30 minutes, in any workspace. Every Owner and Admin of the workspace where it happened is told.
+
+## Sign a run
+
+Signing works only in the Bower web app, not in the mobile app.
+
+<Steps>
+  <Step title="Open the run's record">
+    Click the run in the protocol library. The **Signatures** section is below the record's **Summary**.
+  </Step>
+  <Step title="Click Sign">
+    Each kind of signature has its own row, such as **Performed by** or **Reviewed by**, with a **Sign** button on the rows you can sign. The person who performed the run signs first.
+  </Step>
+  <Step title="Enter your Bower password and click Sign">
+    The first time you sign a run in a workspace, Bower also asks for **Your full name**. It prints on your signatures in that workspace and becomes your profile name.
+  </Step>
+</Steps>
+
+The dialog shows a **Content fingerprint**: a short code for the exact content you're signing. It also shows the statement you agree to by signing: "Your electronic signature is the legally binding equivalent of your handwritten signature."
+
+### When can a run be signed?
+
+A run can be signed once it's **Completed** and Bower has everything from it:
+
+- Usually, signing opens 15 minutes after the run finishes, so late photos and videos can arrive. A run that recorded a missing capture can be signed without the wait.
+- Every capture has finished uploading and processing.
+- The run's transcript, if it has one, is finished.
+
+A run that **Ended early** can't be signed.
+
+## Ask someone to review or witness
+
+Once the performer has signed, the performer, an Owner or an Admin can ask a colleague for a second signature. Click the person icon on the **Reviewed by** or **Witnessed by** row, then pick a member in the dialog that opens. The person you ask needs **Can review**. The person who performed the run can't also review or witness it.
+
+The person asked can sign, or decline the request with a reason. Declining leaves the run and its signatures as they are. A request expires after 30 days.
+
+## Withdraw, reject or unlock
+
+These are in the record's actions menu, at the top of the **Signatures** section. Each asks for your Bower password and a reason of at least 10 characters, which is kept in the audit trail.
+
+| Action | Who | What happens |
+| --- | --- | --- |
+| **Withdraw my signature** | The person who signed, as long as nobody has signed after them | **Performer:** the run unlocks and any open requests for signatures are canceled. **Reviewer or witness:** the run stays locked, and you can't sign it again until it's reopened. Either way, your signature stays in the audit trail as **Withdrawn**. |
+| **Reject** | The person asked to review it | The run goes back to the performer for correction. Signatures in this round are marked **Superseded** and stay in the audit trail. |
+| **Unlock** | An Owner or Admin with **Can review** who hasn't signed this round | The run reopens for changes and must be signed again. Its signatures are marked **Superseded** and stay in the audit trail. |
+
+## See what was signed
+
+If a signed run changes after it was signed, the **Signatures** section says **Record changed after signing**. Open **What was signed** to see the signed version and **Changes since signing**: captures added, changed or removed.
+
+## Export a signed record
+
+Choose **Export signed record** from the actions menu to download a ZIP file. It holds:
+
+- the signed content of every signing round, as it was signed;
+- every signature and request;
+- the record's audit trail, as a CSV file;
+- a page you can open without Bower, showing every signature.
+
+You need to be able to open every item in the run to export it.
