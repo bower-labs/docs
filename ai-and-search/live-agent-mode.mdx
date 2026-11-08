@@ -55,8 +55,14 @@ Bower saves at the top level of your workspace instead when:
 
 - The workspace has no **Live sessions** collection. It is one of the [suggested collections](/organisation/workspace-items#suggested-collections), which an owner or admin can add with **Set up suggested collections**. Bower does not recreate it if it was deleted.
 - You can't add items to the **Live sessions** collection, for example because it is shared with only some members.
+- Bower can't look up the run's or session's collection at that moment.
 
-When this happens, Bower tells you where the note went.
+When a note is saved there, Bower says *"Note saved, at the top of your workspace."* instead of *"Note saved."*
+
+### How Bower takes a spoken note
+
+- **Each remark is its own note.** To add to a note you just made, say *"Put in that note that the pellet was loose"*.
+- **Announce a note first if you like.** Say *"I want to make a note on the buffer"* and Bower answers *"Go ahead."* Your next words are the note; the announcement is not saved.
 
 You can also ask Bower to [enter values in a spreadsheet](/organisation/spreadsheets#live-agent-mode) or [edit a note](/ai-and-search/editing-notes-with-bower), such as filling a table cell or ticking a task.
 
@@ -175,7 +181,15 @@ Tell Bower when you depart from the protocol: *"I used 50 µL, not 100"*, *"I wa
 
 ### Notes during a run
 
-Ask for a note during a run ([phrases](/ai-and-search/voice-commands-by-device#in-any-live-session)) and Bower saves your words into a note on the run and tells you so. The note is saved in [the run's collection](#where-are-my-live-notes-and-captures-saved) and appears on the [run record](/organisation/protocols#what-is-on-a-run-record) straight away: on its step if you made it on a step, or under **Run analysis** if it is about the run as a whole. Bower doesn't bring these notes up on later runs, so if a change should apply every time, edit the protocol.
+Ask for a note during a run ([phrases](/ai-and-search/voice-commands-by-device#in-any-live-session)) and Bower saves your words into a note on the run and tells you so. The note is saved in [the run's collection](#where-are-my-live-notes-and-captures-saved) and appears on the [run record](/organisation/protocols#what-is-on-a-run-record) straight away. Which part of the record it goes on depends on what you say:
+
+| You say | The note goes on |
+| --- | --- |
+| A note with no step named | The step you are on |
+| A step's name, such as *"Note on the 24-hour sampling: two plates were contaminated"* | That step. If Bower can't tell which step you mean, the step you are on |
+| That the note is about the run as a whole, such as *"A note on the whole run: the incubator ran warm all week"* | **Run analysis** |
+
+Bower doesn't bring these notes up on later runs, so if a change should apply every time, edit the protocol.
 
 Bower no longer keeps per-step tips between runs; the **Bower AI annotations** entry has been removed from the protocol menu.
 
