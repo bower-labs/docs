@@ -159,6 +159,26 @@ Two commands lose work, so Bower asks you to confirm them first:
 
 On your phone, a spoken *"yes"* never ends or restarts a run, so a misheard word can't cost you one. On the glasses, a *"yes"* with *"no"* or *"wait"* in it doesn't count. With nothing to lose (every step done, or none done yet), Bower ends or starts over without asking.
 
+### Leaving a run and coming back later
+
+A run you don't end is kept for you. When you leave Live, close the app, lose signal or stop talking to Bower for 8 hours, the run is **paused**, not ended, and it stays paused for as long as it takes you to come back, days later included. Only **End protocol**, or a **Discard** on the Paused runs list, ends it for good.
+
+To pick it up again by voice, start Live and say *"Resume my run"*, or name the protocol, such as *"Resume the buffer prep protocol"*.
+
+- With paused runs of more than one protocol, Bower names up to three, newest first, with how long ago each was paused, and asks which one. Answer with the protocol's name.
+- When the run resumes, Bower says how long it was paused and where you are, for example *"It was paused 2 days ago. You're on step 4 of 9, with 3 recorded."*
+- If the protocol has since been moved to the trash, deleted, or you no longer have access to it, Bower says so and leaves the run paused.
+
+You can also see every paused run on the **Protocols** page, under **Paused runs**, newest first, each with its protocol, its step and how long ago it was paused.
+
+| Where | What you can do |
+| --- | --- |
+| Phone browser | Tap **Resume** to open Live on that run, at the step where you stopped. |
+| Computer | See your paused runs. Resume one from Live on your phone. |
+| Both | Tap **Discard**, then **Discard run**, to end a run you won't finish. What it recorded stays in its run record. |
+
+A run whose protocol you can no longer open shows as **A protocol you can no longer open**, with **Discard** only.
+
 ### Undoing the last step
 
 When you mark the last step done, Bower finishes the protocol. If that *"done"* was misheard, you have **10 minutes**, in the same live session, to take it back:
