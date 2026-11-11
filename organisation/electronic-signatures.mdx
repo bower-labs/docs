@@ -118,6 +118,12 @@ These are in the record's actions menu, at the top of the **Signatures** section
 | **Reject** | The person asked to review it | The run goes back to the performer for correction. Signatures in this round are marked **Superseded** and stay in the audit trail. |
 | **Unlock** | An Owner or Admin with **Can review** who hasn't signed this round | The run reopens for changes and must be signed again. Its signatures are marked **Superseded** and stay in the audit trail. |
 
+## What a signature covers
+
+A signature covers the run's content and every capture signed with it, including the exact bytes of each photo, video and file. A photo or recording taken under a note during the run is covered too: while the run is locked, it can't be edited, replaced or deleted.
+
+A run signed with an earlier version of Bower is the exception. Its signature covers each note but not the photos and recordings under it, and its export says **hashVersion 1: attachments nested under notes are not covered**. Bower still stops those photos and recordings from being edited, replaced or deleted while the run is locked. To bring them under the signature, unlock the run and sign it again.
+
 ## See what was signed
 
 If a signed run changes after it was signed, the **Signatures** section says **Record changed after signing**. Open **What was signed** to see the signed version and **Changes since signing**: captures added, changed or removed.
