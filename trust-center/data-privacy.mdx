@@ -63,7 +63,7 @@ What this changes in the file:
 
 What it doesn't cover:
 
-- Excel set to a language that separates columns with `;` uses `,` as its decimal point. In that setting, a negative number in a spreadsheet export followed by a text value that starts with a digit can be read together as one formula. We leave negative numbers unguarded so they stay numbers. If you use such a setting and the sheet holds text you don't trust, bring the file in with **Data > From Text/CSV** instead of opening it directly.
+- Excel set to a language that separates columns with `;` uses `,` as its decimal point. In that setting, a number with a sign (`-5`, `+5`) in a spreadsheet export followed by a value that starts with a digit can be read together as one formula. We leave signed numbers unguarded so they stay numbers. If you use such a setting and the sheet holds text you don't trust, bring the file in with **Data > From Text/CSV** instead of opening it directly.
 - Spreadsheet apps set to split columns on another character, such as `|` or a space.
 
 ## AI processing
