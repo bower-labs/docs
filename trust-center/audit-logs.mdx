@@ -95,7 +95,7 @@ Each row is one event, with these columns:
 
 An export holds up to 10,000 events. When your filters match more, the newest 10,000 are exported and a final row starting `TRUNCATED:` gives the date of the oldest event included. Narrow the date range to export the rest.
 
-A value that starts with `=`, `+`, `-`, `@`, a tab or a carriage return, and is not a plain number, is written with a leading `'`, so a spreadsheet shows it as text instead of running it as a formula. The same goes for any part of a value that follows a `;` or a line break, because a spreadsheet that uses `;` to separate columns starts a new cell there.
+A value that a spreadsheet could run as a formula is written with a leading `'`, so it shows as text instead. See [Formula-safe CSV exports](/trust-center/data-privacy#formula-safe-csv-exports) for exactly what changes and what it doesn't cover.
 
 ## What's shown in change details
 
