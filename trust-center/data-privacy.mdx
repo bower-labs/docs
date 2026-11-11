@@ -50,6 +50,22 @@ This scoping is applied automatically in that shared layer, so it isn't somethin
 
 Every change in your workspace is logged with who made it, what changed, when, and where the request came from. Bower checks daily that the trail has not been altered, and you can export it to CSV. See [Audit logs](/trust-center/audit-logs) for what is recorded, how far back you can see, and how the check works.
 
+## Formula-safe CSV exports
+
+Three places in Bower give you a CSV file: **Export CSV** on the [audit log](/trust-center/audit-logs#exporting-to-csv), **CSV (this sheet)** in a spreadsheet's export menu, and **Download CSV** on a table or chart in a Bower conversation. A spreadsheet app runs a cell that looks like a formula when it opens a CSV, so a value someone typed, or one that came in from an imported file, could otherwise run as a formula on your computer.
+
+All three exports write a leading `'` before `=`, `+`, `-`, `@`, a tab or a carriage return when it starts a value, and when it follows a comma, a semicolon, a tab, a line break or a quote inside a value. Your spreadsheet then shows the value as text instead of running it. A value that holds a comma, a semicolon, a quote or a line break is wrapped in quotes. This holds whether your spreadsheet splits columns on commas, on semicolons (Excel in many European languages) or on tabs.
+
+What this changes in the file:
+
+- Text that looks like a number, such as a sample ID `-007` or a phone number `+61 412`, gets the `'` too. Excel shows it as text, so leading zeros are kept.
+- In a spreadsheet export, a number keeps its sign (`-5`, `-1,234.50`), so you can still add up an exported column. The one exception is a signed number that starts a row when the next value that is not empty or a plain number starts with a digit, a space, a math symbol or an exponent such as `e1`: Excel set to a language that separates columns with `;` uses `,` as its decimal point, so it would read that row as one formula. That number gets the `'` and comes in as text, so a sum over its column skips it without a warning.
+- The audit log and a table from a conversation make no exception for numbers: a negative number there always gets the `'`.
+
+What it doesn't cover:
+
+- Spreadsheet apps set to split columns on another character, such as `|` or a space.
+
 ## AI processing
 
 When Bower processes your data (voice transcription, photo text extraction, or Bower conversations), the content is sent to AI model providers for inference.
