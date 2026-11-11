@@ -59,7 +59,7 @@ All three exports write a leading `'` before `=`, `+`, `-`, `@`, a tab or a carr
 What this changes in the file:
 
 - Text that looks like a number, such as a sample ID `-007` or a phone number `+61 412`, gets the `'` too. Excel shows it as text, so leading zeros are kept.
-- In a spreadsheet export, a number keeps its sign (`-5`, `-1,234.50`), so you can still add up an exported column. The one exception is a signed number that starts a row when the next value (skipping empty cells and other signed numbers) starts with a digit, a space or a math symbol: Excel set to a language that separates columns with `;` uses `,` as its decimal point, so it would read that row as one formula. That number gets the `'` and comes in as text, so a sum over its column skips it without a warning.
+- In a spreadsheet export, a number keeps its sign (`-5`, `-1,234.50`), so you can still add up an exported column. The one exception is a signed number that starts a row when the next value that is not empty or a plain number starts with a digit, a space or a math symbol: Excel set to a language that separates columns with `;` uses `,` as its decimal point, so it would read that row as one formula. That number gets the `'` and comes in as text, so a sum over its column skips it without a warning.
 - The audit log and a table from a conversation make no exception for numbers: a negative number there always gets the `'`.
 
 What it doesn't cover:
