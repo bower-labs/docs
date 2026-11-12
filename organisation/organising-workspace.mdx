@@ -77,23 +77,26 @@ Two actions are in the action bar only:
 
 ### Downloading several items
 
-In some workspaces, **Download** takes any mix of notes, spreadsheets, files, links and collections, and saves them as one ZIP file. This is being turned on for a few workspaces first.
+In some workspaces, **Download** takes any mix of items and collections, of every kind, and saves them as one ZIP file. This is being turned on for a few workspaces first.
 
 1. Select the items and collections you want.
 2. Click **Download** in the action bar, or right-click the selection and choose **Download**. To download one collection with everything in it, open it and choose **Download** from its **⋮** menu.
 3. A message at the bottom of the screen says Bower is preparing the download. You can keep working.
-4. When it's ready, the ZIP file saves to your computer.
+4. When it's ready, the ZIP file saves to your computer. One collection on its own saves under the collection's name, and one item on its own under the item's name (one uploaded file on its own downloads as the file itself, not a ZIP). Any other selection saves as `bower-download-` followed by the date.
 
-The ZIP file keeps your collections as folders. Inside it:
+The ZIP file keeps your collections as folders, like a download from a cloud drive. Inside it:
 
 - **Notes** are PDFs.
+- **Protocols** are PDFs of their current version, with the protocol's notes as a separate PDF beside each one.
+- **Equipment** is a PDF of its details: make, model, serial number, location, description, specifications and what Bower knows about it.
 - **Spreadsheets** are Excel (.xlsx) files.
 - **Uploaded files** are exactly as you uploaded them.
 - **Links** are listed in `links.csv`, with each link's title, address and collection.
-- `manifest.json` lists every file with a checksum, so you can confirm nothing changed after it was downloaded.
-- `EXPORT-NOTES.txt` lists any content that couldn't be printed and is shown as a placeholder in the PDF. The message tells you how many documents have one.
+- If some content couldn't be printed and shows as a placeholder in a PDF, `EXPORT-NOTES.txt` lists where. The message tells you how many documents have one.
 
-A collection only includes the items you can see. One download holds up to 50 items once collections are opened, and up to 2 GB of uploaded files. If your selection is too large, or includes something that can't be downloaded, Bower tells you which items and nothing is downloaded. Spreadsheets download only if you can edit them. Protocols and equipment can't be downloaded this way yet, including inside a collection; open a protocol to [export](/organisation/protocol-menu-and-export) it.
+Bower adds nothing else, so the ZIP file holds only your own content.
+
+A collection only includes the items you can see. One download holds up to 50 items once collections are opened, and up to 2 GB of uploaded files. If your selection is too large, or includes something that can't be downloaded, Bower tells you which items and nothing is downloaded. Spreadsheets download for anyone who can view them, except in workspaces where spreadsheets are turned off. To export a protocol on its own in other formats, open it and use [export](/organisation/protocol-menu-and-export).
 
 If an item can't be prepared, for example a very long note that takes too long, the message names it and nothing is downloaded. A finished download is available for a day.
 
