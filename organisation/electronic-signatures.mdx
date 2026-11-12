@@ -1,13 +1,9 @@
 ---
 title: "Electronic signatures"
-description: "Sign finished protocol runs with your Bower password, ask a colleague to review or witness, and lock, unlock and export a signed record."
+description: "Sign finished protocol runs and whole collections with your Bower password, ask a colleague to review or witness, and lock, unlock and export a signed record."
 ---
 
-Electronic signatures let members sign a finished [protocol run](/organisation/protocols#protocol-runs). A signed run is locked, so its record can't change, until it's [reopened](#withdraw-reject-or-unlock). Every signature, request and unlock is kept in the record's audit trail.
-
-<Note>
-Electronic signatures are being tried with a small group of workspaces first. If **Electronic signatures** isn't in your settings, your workspace doesn't have it yet.
-</Note>
+Electronic signatures let members sign a finished [protocol run](/organisation/protocols#protocol-runs), or a whole [collection](#sign-a-collection) as one record. A signed run is locked, so its record can't change, until it's [reopened](#withdraw-reject-or-unlock). Every signature, request and unlock is kept in the record's audit trail.
 
 ## Turn on electronic signatures
 
@@ -95,6 +91,35 @@ A run can be signed once it's **Completed** and Bower has everything from it:
 - The run's transcript, if it has one, is finished.
 
 A run that **Ended early** can't be signed.
+
+## Sign a collection
+
+You can sign a collection as one record: its name and description, and every note, file, link and protocol in it and in its sub-collections. Signing a collection locks everything in it, so nothing in it can be edited, moved or deleted until it's [unlocked](#withdraw-reject-or-unlock).
+
+<Steps>
+  <Step title="Open the collection and click Signatures">
+    **Signatures** is at the top of the collection. It reads **Signed** once the collection is signed.
+  </Step>
+  <Step title="Click Sign as performer">
+    The person who created the collection signs first. Others then review or witness it, as for a run.
+  </Step>
+  <Step title="Check what you are signing">
+    The dialog lists every item the signature covers, under **What you are signing**. Anything that stops the collection from being signed is listed first, with the reason.
+  </Step>
+  <Step title="Enter your Bower password and click Sign" />
+</Steps>
+
+### What can't be signed in a collection
+
+A collection can't be signed while it holds:
+
+- a spreadsheet;
+- equipment;
+- a file that is still uploading or processing;
+- a protocol with no approved version yet;
+- a protocol run's folder. Sign the run itself instead.
+
+A collection with more than 2,000 items can't be signed either. To sign a collection, you need to be able to open everything in it.
 
 ## Ask someone to review or witness
 
