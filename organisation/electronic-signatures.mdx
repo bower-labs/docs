@@ -149,6 +149,19 @@ A signature covers the run's content and every capture signed with it, including
 
 A run signed with an earlier version of Bower is the exception. Its signature covers each note but not the photos and recordings under it, and its export says **hashVersion 1: attachments nested under notes are not covered**. Bower still stops those photos and recordings from being edited, replaced or deleted while the run is locked. To bring them under the signature, unlock the run and sign it again.
 
+## A signed record is read-only, and so is everything in it
+
+While a run or collection is signed and locked, nobody can change what was signed, Owners and Admins included, and neither can Bower's assistant or a connected app. For a run, that covers the run itself and every note, photo, video and file signed with it. For a collection, it covers everything in it and in its sub-collections. You can still open, read, search, download and export all of it.
+
+A note or file in a signed record opens with a **Signed and locked** banner and a link to the record: **Open signed run** or **Open signed collection**. You can't edit, move or delete it. If something tries anyway, Bower says the record is signed and locked, never that you don't have access.
+
+What you can still do:
+
+- **Add late evidence to a run.** A photo or recording added to the run after it was signed is kept as an addendum, outside the signed content, so the signature stays valid.
+- **Change it.** Unlock the run or collection first (see [Withdraw, reject or unlock](#withdraw-reject-or-unlock)), make the change, then sign it again.
+
+If a member's account is deleted, the notes they wrote in a signed record pass to another member of the workspace, as their other notes do. The signed content doesn't change, and the workspace's [audit log](/trust-center/audit-logs) records the change of author.
+
 ## See what was signed
 
 If a signed run changes after it was signed, the **Signatures** section says **Record changed after signing**. Open **What was signed** to see the signed version and **Changes since signing**: captures added, changed or removed.
