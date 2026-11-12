@@ -130,11 +130,13 @@ If a signed run changes after it was signed, the **Signatures** section says **R
 
 ## Export a signed record
 
-Choose **Export signed record** from the actions menu to download a ZIP file. It holds:
+Choose **Export signed record** from the actions menu. Bower builds the export in the background, which takes a few seconds for most runs, then downloads a ZIP file. It holds:
 
-- the signed content of every signing round, as it was signed;
-- every signature and request;
-- the record's audit trail, as a CSV file;
-- a page you can open without Bower, showing every signature.
+- **record.pdf**, the signed record to print or file: every signature first (name, email, meaning, the time in UTC and in the signer's time zone, how they confirmed who they were, and any comment), then the run and its steps, the files in the export, the run's history, and last anything added after signing, marked as outside the signature;
+- **record.html**, the same page to open in a browser without Bower;
+- a **files** folder with every note captured during the run and its transcript as a PDF, the protocol as a PDF at the version the run used, and every photo, video and file exactly as it was uploaded;
+- **manifest.json**, which lists every item and file in the export with its fingerprint (a SHA-256 hash). For an uploaded file it gives both the fingerprint the signature covers and the fingerprint of the file in the ZIP, so you can confirm they match;
+- **VERIFY.txt**, which explains how to check the export yourself, with a short script that does it;
+- the signed content of every signing round as it was signed, every signature and request, and the record's audit trail as a CSV file.
 
-You need to be able to open every item in the run to export it.
+You need to be able to open every item in the run to export it. An export is never partial: if a run has more than 2,000 captures or more than 2 GB of files, or an item can't be included, Bower says so and doesn't download anything.
