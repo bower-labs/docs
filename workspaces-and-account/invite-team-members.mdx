@@ -1,9 +1,9 @@
 ---
 title: "Invite team members"
-description: "Add paid members or free guests to your workspace — Bower hands you a link, you share it however you like."
+description: "Add paid members or free guests to your workspace. Bower emails the invitation, and you can also copy the link and share it yourself."
 ---
 
-Add colleagues to your workspace so they can capture, search, and collaborate on shared notes and collections. Bower invites are a **link you copy and share** — we don't email the invitee for you. That's deliberate: it keeps each invite traceable to a real conversation, lets you pick the channel (email, Slack, WhatsApp, in-person), and avoids triggering inbox-security filters on outreach mail.
+Add colleagues to your workspace so they can capture, search, and collaborate on shared notes and collections. When you invite someone, Bower emails them the invitation from `notifications@notify.bowerlabs.ai`. Bower also shows you the invite link, so you can share it yourself in Slack, WhatsApp or in person, or send it again if the email lands in a spam folder.
 
 ## How to invite someone
 
@@ -14,17 +14,20 @@ Add colleagues to your workspace so they can capture, search, and collaborate on
   <Step title="Enter the invitee's email and pick a role">
     The email is what the invite is bound to — the recipient must sign in or sign up with that exact address to accept. Pick **Guest** (free, read-only) or **Paid member** (Admin or Member).
   </Step>
-  <Step title="Copy the link Bower generates">
-    Bower creates a unique invite link and shows it on the next screen. The link is auto-selected so **Cmd+C** / **Ctrl+C** just works. Share it however you like.
+  <Step title="Bower emails the invitee">
+    The email names you, the workspace and the role, and says when the invitation expires. Its **Join workspace** button opens the invite.
+  </Step>
+  <Step title="Or copy the link yourself">
+    Bower also shows the unique invite link on the next screen. The link is auto-selected so **Cmd+C** / **Ctrl+C** just works. Share it however you like.
   </Step>
   <Step title="The invitee accepts">
-    They open the link, sign in (or create an account) with the invited email, and land in your workspace.
+    They open the email's button or the link, sign in (or create an account) with the invited email, and land in your workspace.
   </Step>
 </Steps>
 
 The link is the bearer token — anyone holding it can attempt to accept. But Bower enforces a **strict email match** at accept time: the verified account email must match the address the invite was created for. If it doesn't, the accept is refused with a clear "this invitation is for a different email address" message, and the invite stays open for the right person. A stale or forwarded link can't be redeemed by anyone else.
 
-Invite links expire after **30 days**. If a link expires, revoke it from **Settings → Members** and generate a new one.
+Invite links, and the button in the email, expire after **30 days**. If a link expires, revoke it from **Settings → Members** and generate a new one.
 
 ## Roles
 
@@ -65,6 +68,7 @@ Within the paid class, you can change roles freely between Member and Admin. Own
 
 Open **Settings → Members** to see invites that haven't been accepted yet. From there you can:
 
+- **Resend the email** if the invitee can't find it. You can resend an invitation once every 10 minutes; it goes to the same address with the same link.
 - **Copy the link again** if the invitee lost it.
 - **Revoke** a pending invite. For a guest, the slot is freed immediately. For a pending paid seat, the seat is released and Stripe issues a prorated credit on your next invoice.
 
