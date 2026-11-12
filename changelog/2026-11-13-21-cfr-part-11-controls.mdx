@@ -1,0 +1,36 @@
+---
+title: "21 CFR Part 11: the controls behind Bower's electronic signatures"
+description: "The controls in Bower that support labs working under FDA 21 CFR Part 11: signature manifestation, signature-to-record linking, password re-entry, signing privileges, lockouts, a sealed audit trail and verifiable exports."
+sidebarTitle: "21 CFR Part 11 controls"
+---
+
+**2026-11-13 · Trust & compliance**
+
+Bower's [electronic signatures](/organisation/electronic-signatures) come with controls that support labs working under FDA 21 CFR Part 11. This page lists each control and the part of the regulation it relates to.
+
+Bower is not certified for Part 11, and we don't describe it as Part 11 compliant. Compliance depends on how your organization validates, configures and uses a system, not on the software alone.
+
+## The controls
+
+| Control | What Bower does | Part 11 |
+| --- | --- | --- |
+| **Signature manifestation** | Each signature shows the signer's printed name, the date and time, and its meaning, such as **Performed by**, **Reviewed by** or **Witnessed by**, on the record and in its [export](/organisation/electronic-signatures#export-a-signed-record). | 11.50 |
+| **Signature linked to its record** | A signature covers a fingerprint of the exact content signed, including the bytes of each file. A signed record is locked, and Bower shows [what changed](/organisation/electronic-signatures#see-what-was-signed) if anything is added after signing. | 11.70 |
+| **Password at every signing** | Every signature, withdrawal, rejection and unlock asks for your [Bower password](/organisation/electronic-signatures#your-bower-password), checked each time for the signed-in account. If you sign in with Google or Microsoft, Bower asks you to sign in with them again before it saves a new Bower password. | 11.200(a) |
+| **Attempted misuse is flagged** | Repeated wrong passwords [lock signing](/organisation/electronic-signatures#if-your-password-is-refused-several-times) for a while, and the workspace's Owners and Admins are told. | 11.300(d) |
+| **Only authorized people sign** | Owners and Admins grant **Can sign** and **Can review**, and confirm each person's identity before the grant. Bower records who confirmed it and when. See [Choose who can sign](/organisation/electronic-signatures#choose-who-can-sign). | 11.10(g), 11.100(b) |
+| **Signing in order** | The performer signs first, and a reviewer or witness signs after. The performer can't also review or witness the same record. | 11.10(f) |
+| **Reasons on every reversal** | Withdrawing, rejecting and unlocking each need a reason, and earlier signatures stay in the record's history as withdrawn or superseded. See [Withdraw, reject or unlock](/organisation/electronic-signatures#withdraw-reject-or-unlock). | 11.10(e) |
+| **An audit trail you can check** | The [audit log](/trust-center/audit-logs) records who did what, when and to which record, with before and after values. Events are sealed into a hash chain that Bower checks daily, so a changed, removed or reordered event shows up. | 11.10(e) |
+| **Copies for inspection** | A signed record exports as a printable PDF and an HTML page, with every file as uploaded, a manifest of SHA-256 fingerprints and instructions for checking it without Bower. | 11.10(b) |
+
+## What stays with your organization
+
+Part 11 also asks things of the organization that uses a system. These are yours to put in place:
+
+- validating Bower for your intended use;
+- written procedures, training and policies that hold people accountable for their electronic signatures;
+- deciding who gets a signing privilege, and verifying their identity before you grant it;
+- certifying to the FDA that your electronic signatures are the legally binding equivalent of handwritten ones.
+
+For control documentation or a security questionnaire, email [privacy@bowerlabs.ai](mailto:privacy@bowerlabs.ai). Our [SOC 2 and HIPAA reports](/trust-center/soc-2-and-hipaa) cover the wider platform.
