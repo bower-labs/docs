@@ -73,7 +73,29 @@ Two actions are in the action bar only:
 | Action | What it does |
 | --- | --- |
 | **Merge** | Combine 2 to 20 selected notes into one. Their links carry across; a merge that would give the note more than 20 links is refused until you remove some |
-| **Download** | Download the original files *(uploaded files only; open a note to [export](/organisation/export) it)* |
+| **Download** | Download the original files *(uploaded files only; open a note to [export](/organisation/export) it)*. In workspaces with [downloading several items](#downloading-several-items) turned on, any mix of items and collections downloads as one ZIP file |
+
+### Downloading several items
+
+In some workspaces, **Download** takes any mix of notes, spreadsheets, files, links and collections, and saves them as one ZIP file. This is being turned on for a few workspaces first.
+
+1. Select the items and collections you want.
+2. Click **Download** in the action bar.
+3. A message at the bottom of the screen says Bower is preparing the download. You can keep working.
+4. When it's ready, the ZIP file saves to your computer.
+
+The ZIP file keeps your collections as folders. Inside it:
+
+- **Notes** are PDFs.
+- **Spreadsheets** are Excel (.xlsx) files.
+- **Uploaded files** are exactly as you uploaded them.
+- **Links** are listed in `links.csv`, with each link's title, address and collection.
+- `manifest.json` lists every file with a checksum, so you can confirm nothing changed after it was downloaded.
+- `EXPORT-NOTES.txt` lists any content that couldn't be printed and is shown as a placeholder in the PDF. The message tells you how many documents have one.
+
+A collection only includes the items you can see. One download holds up to 50 items once collections are opened, and up to 2 GB of uploaded files. If your selection is too large, or includes something that can't be downloaded, Bower tells you which items and nothing is downloaded. Spreadsheets download only if you can edit them. Protocols and equipment can't be downloaded this way yet, including inside a collection; open a protocol to [export](/organisation/protocol-menu-and-export) it.
+
+If an item can't be prepared, for example a very long note that takes too long, the message names it and nothing is downloaded. A finished download is available for a day.
 
 ### Copy, cut, and paste
 
