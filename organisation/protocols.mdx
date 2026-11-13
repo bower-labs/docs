@@ -1,6 +1,6 @@
 ---
 title: "Protocols: structured, versioned lab procedures"
-description: "Build lab protocols in Bower as sections of numbered steps with typed values, a customizable sidebar, capture steps and versions that lock once approved, then see every run with its step times and captures."
+description: "Build lab protocols as numbered steps with typed values and versions that lock once approved. Review each run's step times and captures, save it as a PDF, or resume it on your phone."
 ---
 
 A protocol in Bower is your lab's own step-by-step procedure for a method: "how we run PCR in this lab", not the published method. Protocols live in their own library, and you can tag, link and search them like anything else in Bower.
@@ -140,6 +140,12 @@ A run is one time someone worked through a protocol, usually hands-free with [Li
 
 Runs start on your phone, at the bench. Open the protocol's version runs use and tap **Execute Protocol**. On a computer, that version shows **Run on your phone** instead: click it for a QR code that gets the Bower app, or click **Use Bower in your phone's browser instead** for one that opens this protocol in your phone's browser. Guests can see runs but can't start one.
 
+### How do I continue a run on my phone from my computer?
+
+Open the run on your computer and click **Resume on your phone** in its **Summary**. Scan the QR code with your phone's camera: it opens this run in your phone's browser, in this run's workspace, even if your phone was in another one. Tap **Execute protocol** there to open Live and pick the run up where it stopped.
+
+The button shows only on a computer, on an open run, paused or in progress, that you started. The QR code holds only the run's address, so your phone asks you to sign in if it isn't already.
+
 ### What do the run labels mean?
 
 | Label | Meaning |
@@ -188,6 +194,25 @@ Click a run to open its record. The header shows who ran it, when, which version
 - **Timeline** lists the start, each capture, each step done, and the end, in order.
 
 Times are in your device's time zone; the **Summary** names it. A notice tells you if the protocol has changed since the run.
+
+### The run menu
+
+A run record has a **⋮** menu at the top right of the page.
+
+| Item | What it does |
+| --- | --- |
+| **Open protocol** | Opens the run's protocol. |
+| **Copy link** | Copies a link to the run record. Opening it needs access to the workspace and the protocol. |
+| **Export** | Choose **PDF** to print the run record or save it as a PDF. See [How do I print or save a run as a PDF?](#how-do-i-print-or-save-a-run-as-a-pdf) |
+| **Discard run** | Ends your own paused run, after you confirm **Discard run**. It can't be resumed afterwards; what it recorded stays in its run record. Shown in red, and only on a paused run you started. |
+
+### How do I print or save a run as a PDF?
+
+1. Open the run record.
+2. Click **⋮**, then **Export**, then **PDF**.
+3. In your browser's print dialog, print it, or choose "Save as PDF".
+
+The printout is laid out for paper, in the record's order: the protocol title and run number with a link back to Bower, the **Summary** facts as a table, every step with its status, time, amounts, written method and captures (photos as pictures, notes as their text, a video, voice note or file by its name, linked to it in Bower; a note with pictures says how many, with a link to see them), **Run analysis**, and the run's signatures. A link in a note or written method prints its address after its text, since paper can't be clicked. It holds only what you can see on the record. A signed run's printout is a reading copy. For the signed record itself, see [Export a signed record](/organisation/electronic-signatures#export-a-signed-record).
 
 ### Where are a run's notes saved?
 
