@@ -155,7 +155,7 @@ If a signed run changes after it was signed, the **Signatures** section says **R
 
 ## Export a signed record
 
-Choose **Export signed record** from the actions menu. Bower builds the export in the background, which takes a few seconds for most runs, then downloads a ZIP file. It holds:
+You can export a signed run or a signed collection. Choose **Export signed record** from the actions menu. Bower builds the export in the background, which takes a few seconds for most records, then downloads a ZIP file. For a run, it holds:
 
 - **record.pdf**, the signed record to print or file: every signature first (name, email, meaning, the time in UTC and in the signer's time zone, how they confirmed who they were, and any comment), then the run and its steps, the files in the export, the run's history, and last anything added after signing, marked as outside the signature;
 - **record.html**, the same page to open in a browser without Bower;
@@ -164,4 +164,11 @@ Choose **Export signed record** from the actions menu. Bower builds the export i
 - **VERIFY.txt**, which explains how to check the export yourself, with a short script that does it;
 - the signed content of every signing round as it was signed, every signature and request, and the record's audit trail as a CSV file.
 
-You need to be able to open every item in the run to export it. An export is never partial: if a run has more than 2,000 captures or more than 2 GB of files, or an item can't be included, Bower says so and doesn't download anything.
+For a signed collection, the ZIP holds the same files, with two differences:
+
+- **record.pdf** shows the collection's name and description and lists every item the signature covers, with its place in the collection and its fingerprint. A collection can't have anything added after signing, so there is no section for that;
+- the **files** folder keeps the collection's layout, with a folder for each sub-collection. Notes are PDFs, protocols are PDFs at the version that was signed, uploads are exactly as they were uploaded, and links are listed in **links.csv**.
+
+Every item in the export is the item as it was signed. If the collection was unlocked and changed afterwards, the export still holds what was signed, not what is in the collection now.
+
+You need to be able to open every item in the run or collection to export it. An export is never partial: if a record has more than 2,000 items or more than 2 GB of files, or an item can't be included, Bower says so and doesn't download anything.
