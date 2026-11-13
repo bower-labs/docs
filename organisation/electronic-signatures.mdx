@@ -77,7 +77,7 @@ Signing works only in the Bower web app, not in the mobile app.
     Click the run in the protocol library. The **Signatures** section is below the record's **Summary**.
   </Step>
   <Step title="Click Sign">
-    Each kind of signature has its own row, such as **Performed by** or **Reviewed by**, with a **Sign** button on the rows you can sign. The person who performed the run signs first.
+    Each kind of signature has its own row, such as **Performed by** or **Reviewed by**, and every row open for signing shows its button to everyone: **Sign** for the performer, and **Sign as reviewer** or **Sign as witness** once the performer has signed (**Sign** when you were asked). The person who performed the run signs first. If you can't sign a row, its button is grayed out: hover over it, move to it with the keyboard or tap it to see why, for example who has to sign first.
   </Step>
   <Step title="Enter your Bower password and click Sign">
     The first time you sign a run in a workspace, Bower also asks for **Your full name**. It prints on your signatures in that workspace and becomes your profile name.
@@ -94,7 +94,7 @@ A run can be signed once it has ended, **Completed** or **Ended early**, and Bow
 - Every capture has finished uploading and processing.
 - The run's transcript, if it has one, is finished.
 
-A run that **Ended early** can be signed too, so a run stopped part way, by a failed sample or an instrument that went down, still gets a signed record. Before you enter your password, the dialog warns you that the run ended early and how many of its steps were completed. The signed record and its PDF say so plainly, for example "Abandoned, 3 of 5 steps completed (1 skipped)", so no one can take it for a completed run. A run that ended early stays as it stopped: unlocking or rejecting its record does not reopen it for changes.
+A run that **Ended early** can be signed too, so a run stopped part way, by a failed sample or an instrument that went down, still gets a signed record. Before you enter your password, the dialog warns you that the run ended early and how many of its steps were done. The signed record and its PDF say so plainly, for example "Abandoned, 2 of 5 steps done (1 skipped)", so no one can take it for a completed run. A run that ended early stays as it stopped: unlocking or rejecting its record does not reopen it for changes.
 
 ## Sign a collection
 
@@ -139,7 +139,7 @@ A row goes away once you sign or decline, or when the request is canceled or exp
 
 ## Withdraw, reject or unlock
 
-These are in the **⋯** menu at the top of the record's **Signatures** section. Each asks for your Bower password and a reason of at least 10 characters, which is kept in the audit trail.
+Once a record is signed, these are buttons in a row at the bottom of the **Signatures** section, next to **Export signed record**. A button you can't use is grayed out: hover over it, move to it with the keyboard or tap it to see why, for example who signed after you. Each asks for your Bower password and a reason of at least 10 characters, which is kept in the audit trail.
 
 | Action | Who | What happens |
 | --- | --- | --- |
@@ -159,7 +159,7 @@ If a signed run changes after it was signed, the **Signatures** section says **R
 
 ## Export a signed record
 
-You can export a signed run or a signed collection. In the record's signatures, click **⋯**, then **Export signed record**. Bower builds the export in the background, which takes a few seconds for most records, then downloads a ZIP file. For a run, it holds:
+You can export a signed run or a signed collection. Click **Export signed record** at the bottom of the **Signatures** section. Bower builds the export in the background, which takes a few seconds for most records, then downloads a ZIP file. For a run, it holds:
 
 - **record.pdf**, the signed record to print or file: every signature first (name, email, meaning, the time in UTC and in the signer's time zone, how they confirmed who they were, and any comment), then the run and its steps, the files in the export, the run's history, and last anything added after signing, marked as outside the signature;
 - **record.html**, the same page to open in a browser without Bower;
