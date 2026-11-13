@@ -5,9 +5,13 @@ description: "Sign finished protocol runs and whole collections with your Bower 
 
 Electronic signatures let members sign a finished [protocol run](/organisation/protocols#protocol-runs), or a whole [collection](#sign-a-collection) as one record. A signed run is locked, so its record can't change, until it's [reopened](#withdraw-reject-or-unlock). Every signature, request and unlock is kept in the record's audit trail.
 
+<Note>
+  Electronic signatures are available to workspaces they are enabled for. If **Settings** doesn't list **Electronic signatures**, they aren't enabled for your workspace yet. [Contact us](mailto:support@bowerlabs.ai) to ask about them.
+</Note>
+
 ## Turn on electronic signatures
 
-Owners and Admins turn signing on for the whole workspace.
+In a workspace electronic signatures are enabled for, Owners and Admins turn signing on for the whole workspace.
 
 <Steps>
   <Step title="Open Settings > Electronic signatures" />
@@ -84,13 +88,13 @@ The dialog shows a **Content fingerprint**: a short code for the exact content y
 
 ### When can a run be signed?
 
-A run can be signed once it's **Completed** and Bower has everything from it:
+A run can be signed once it has ended, **Completed** or **Ended early**, and Bower has everything from it:
 
 - Usually, signing opens 15 minutes after the run finishes, so late photos and videos can arrive. A run that recorded a missing capture can be signed without the wait.
 - Every capture has finished uploading and processing.
 - The run's transcript, if it has one, is finished.
 
-A run that **Ended early** can't be signed.
+A run that **Ended early** can be signed too, so a run stopped part way, by a failed sample or an instrument that went down, still gets a signed record. Before you enter your password, the dialog warns you that the run ended early and how many of its steps were completed. The signed record and its PDF say so plainly, for example "Abandoned, 3 of 5 steps completed (1 skipped)", so no one can take it for a completed run. A run that ended early stays as it stopped: unlocking or rejecting its record does not reopen it for changes.
 
 ## Sign a collection
 
@@ -155,7 +159,7 @@ If a signed run changes after it was signed, the **Signatures** section says **R
 
 ## Export a signed record
 
-Choose **Export signed record** from the actions menu. Bower builds the export in the background, which takes a few seconds for most runs, then downloads a ZIP file. It holds:
+You can export a signed run or a signed collection. In the record's signatures, click **⋯**, then **Export signed record**. Bower builds the export in the background, which takes a few seconds for most records, then downloads a ZIP file. For a run, it holds:
 
 - **record.pdf**, the signed record to print or file: every signature first (name, email, meaning, the time in UTC and in the signer's time zone, how they confirmed who they were, and any comment), then the run and its steps, the files in the export, the run's history, and last anything added after signing, marked as outside the signature;
 - **record.html**, the same page to open in a browser without Bower;
@@ -164,4 +168,11 @@ Choose **Export signed record** from the actions menu. Bower builds the export i
 - **VERIFY.txt**, which explains how to check the export yourself, with a short script that does it;
 - the signed content of every signing round as it was signed, every signature and request, and the record's audit trail as a CSV file.
 
-You need to be able to open every item in the run to export it. An export is never partial: if a run has more than 2,000 captures or more than 2 GB of files, or an item can't be included, Bower says so and doesn't download anything.
+For a signed collection, the ZIP holds the same files, with two differences:
+
+- **record.pdf** shows the collection's name and description and lists every item the signature covers, with its place in the collection and its fingerprint. A collection can't have anything added after signing, so there is no section for that;
+- the **files** folder keeps the collection's layout, with a folder for each sub-collection. Notes are PDFs, protocols are PDFs at the version that was signed, uploads are exactly as they were uploaded, and links are listed in **links.csv**.
+
+Every item in the export is the item as it was signed. If the collection was unlocked and changed afterwards, the export still holds what was signed, not what is in the collection now.
+
+You need to be able to open every item in the run or collection to export it. An export is never partial: if a record has more than 2,000 items or more than 2 GB of files, or an item can't be included, Bower says so and doesn't download anything.
