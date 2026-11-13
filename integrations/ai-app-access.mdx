@@ -72,7 +72,7 @@ Some AI apps run code in a sandbox that blocks Bower's file storage host, so you
 
 ### How does our system fetch a file after a Bower webhook?
 
-A Bower webhook carries ids only, never a file or a link to one. When a capture is ready, the webhook names the capture, the run and the protocol. Your system then connects to the Bower MCP server with its own OAuth sign-in and calls `read_file_content` with the capture id. It gets a download link that lasts about an hour. Download the file within that hour, or call again for a fresh link. The sign-in needs access to the capture, as any reader would.
+A Bower webhook never carries a file or a download link. When a capture is ready, it names the capture, the run and the protocol by id, with a link to the capture's page in Bower, which needs a sign-in. Your system then connects to the Bower MCP server with its own OAuth sign-in and calls `read_file_content` with the capture id. It gets a download link that lasts about an hour. Download the file within that hour, or call again for a fresh link. The sign-in needs access to the capture, as any reader would.
 
 ### How do I read the steps in a protocol?
 
