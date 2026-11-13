@@ -72,7 +72,7 @@ Some AI apps run code in a sandbox that blocks Bower's file storage host, so you
 
 ### How does our system fetch a file after a Bower webhook?
 
-A Bower webhook never carries a file or a download link. When a capture is ready, it names the capture, the run and the protocol by id, with a link to the capture's page in Bower, which needs a sign-in. Your system then connects to the Bower MCP server with its own OAuth sign-in and calls `read_file_content` with the capture id. It gets a download link that lasts about an hour. Download the file within that hour, or call again for a fresh link. The sign-in needs access to the capture, as any reader would.
+A Bower webhook never carries a file or a download link. When a capture is ready, it names the capture, the run and the protocol by id, with a link to the capture's page in Bower, which needs a sign-in. Your system then connects to the Bower MCP server with its own OAuth sign-in and calls `read_file_content` with the capture id. It gets a download link that lasts up to 24 hours. Download the file within that time, or call again for a fresh link. The sign-in needs access to the capture, as any reader would.
 
 ### How do I read the steps in a protocol?
 
@@ -99,7 +99,7 @@ A failed call carries a code, such as `NOT_FOUND`, `LINK_CAP_EXCEEDED`, or `REST
 ## Privacy and security
 
 - Bower never sees your AI app's credentials. The app and Bower exchange only OAuth tokens, issued and rotated by WorkOS AuthKit, Bower's identity partner.
-- A download link for a file lasts about an hour. Bower records each link it gives your app in the workspace [audit log](/trust-center/audit-logs): who asked, which file, when, and when the link expires. The link itself is never stored.
+- A download link for a file is time-limited. Bower records each link it gives your app in the workspace [audit log](/trust-center/audit-logs): who asked, which file, when, and when the link expires. The link itself is never stored.
 - Access tokens last about an hour. Apps that support MCP refresh tokens renew them without asking you to sign in again.
 - A token for one workspace never returns data from another, even if you belong to both.
 - Your app sees where a photo was taken only while the workspace's [Show where photos were taken](/workspaces-and-account/photo-locations) setting is on. It can still read a location saved inside a photo's original file when it downloads one; [Photo locations](/workspaces-and-account/photo-locations#do-downloaded-photos-include-the-location) lists which files keep it.
