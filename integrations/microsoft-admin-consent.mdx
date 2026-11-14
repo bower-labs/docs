@@ -1,0 +1,77 @@
+---
+title: "Microsoft admin consent"
+description: "For IT admins: what Bower's Microsoft Workspace connector reads, why Microsoft asks an admin to approve it, and how to grant consent or let people request it."
+---
+
+If someone in your organization tried to connect **Microsoft Workspace** in Bower and saw **Need admin approval**, Microsoft is waiting for an admin to approve Bower for your organization. This page is for that admin. One approval covers everyone in your Microsoft 365 organization, and each person still connects their own account afterwards.
+
+## What Bower asks for
+
+The Microsoft Workspace connector lets a researcher search and read their own OneDrive and SharePoint files from Bower, and import OneNote notebooks into Bower when they choose to. Every permission is **delegated** and **read-only**: Bower acts as the signed-in person and can only reach what that person can already open.
+
+| Permission | What it's used for |
+|------------|--------------------|
+| `Files.Read.All` | Search and read the files the person can open in OneDrive and SharePoint |
+| `Sites.Read.All` | Find SharePoint sites and pages the person can open |
+| `Notes.Read.All` | Read OneNote notebooks the person chooses to import |
+| `User.Read`, `openid`, `profile`, `email` | Identify the signed-in person and show which account is connected |
+| `offline_access` | Keep the connection working without signing in again on every search |
+
+Bower requests no write permissions and no application (app-only) permissions, so it can't create, change, or delete anything in Microsoft 365, and it can't read anyone's data without that person signing in. OAuth tokens are held by our managed connector gateway, not stored in Bower.
+
+## Why an admin has to approve it
+
+Microsoft's default consent setting lets people approve only permissions Microsoft classes as low impact. `Files.Read.All` and `Sites.Read.All` read across everything a person can open, so Microsoft holds them for an admin even when the app comes from a verified publisher. Until an admin grants consent for the organization, nobody can finish connecting, however many times they try.
+
+## Grant consent
+
+You need one of these Microsoft Entra roles: Privileged Role Administrator, Cloud Application Administrator, Application Administrator, AI Administrator, or a custom role that can grant permissions to applications.
+
+<Tabs>
+  <Tab title="Approval link">
+    Open this link, sign in with your admin account, review the permissions, and select **Accept**:
+
+    ```text
+    https://login.microsoftonline.com/organizations/adminconsent?client_id=4323dbd6-dae4-486e-8698-bac67aac9068&redirect_uri=https://app.bowerlabs.ai/connectors/microsoft-admin-consent
+    ```
+
+    It's the same link for every organization: signing in picks your organization. Bower shows this link to people whose connection didn't complete, so it may be the one a colleague sent you. When you accept, Microsoft returns you to a Bower page confirming the approval.
+  </Tab>
+
+  <Tab title="Microsoft Entra admin center">
+    This works once Bower appears in your organization's enterprise applications, which usually happens after someone has tried to connect.
+
+    1. Sign in to the [Microsoft Entra admin center](https://entra.microsoft.com).
+    2. Go to **Entra ID** > **Enterprise apps** > **All applications** and search for **Bower**.
+    3. Under **Security**, select **Permissions**.
+    4. Review the permissions, then select **Grant admin consent for** your organization.
+
+    If Bower isn't listed yet, use the approval link instead.
+  </Tab>
+</Tabs>
+
+After you approve, tell the person who asked to go back to **Account Settings → Connectors** in Bower and click **Connect** on **Microsoft Workspace** again. Each person signs in with their own account and Bower reads only what they can already open.
+
+<Note>
+  Granting consent lets everyone in your organization connect by default. To limit Bower to some people, turn on **Assignment required** for Bower in **Enterprise apps** and assign the users or groups who should have it.
+</Note>
+
+## Let people request approval
+
+Microsoft's **admin consent workflow** replaces the dead end of "Need admin approval" with a request form. People can explain why they need an app, and the reviewers you choose get an email and approve or deny it in the Entra admin center. It needs a Global Administrator to turn on:
+
+1. In the [Microsoft Entra admin center](https://entra.microsoft.com), go to **Entra ID** > **Enterprise apps** > **Consent and permissions** > **Admin consent settings**.
+2. Set **Users can request admin consent to apps they are unable to consent to** to **Yes**.
+3. Choose who reviews requests, whether they get email notifications and expiry reminders, and how many days a request stays open.
+4. Select **Save**. Microsoft says the workflow can take up to an hour to start working.
+
+A reviewer still needs one of the roles above to approve the request.
+
+## Remove Bower
+
+To withdraw consent for everyone, go to **Entra ID** > **Enterprise apps**, open **Bower**, and delete it, or remove the granted permissions under **Permissions**. Connections stop working on their next search. A person can also disconnect their own account at any time from **Account Settings → Connectors** in Bower.
+
+## Related
+
+- [Connectors](/integrations/connectors): what connecting a tool does in Bower
+- Microsoft: [Grant tenant-wide admin consent](https://learn.microsoft.com/entra/identity/enterprise-apps/grant-admin-consent) and [Configure the admin consent workflow](https://learn.microsoft.com/entra/identity/enterprise-apps/configure-admin-consent-workflow)
