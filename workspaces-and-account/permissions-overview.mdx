@@ -100,6 +100,8 @@ When a workspace member follows a direct link to a note or collection they don't
 * Shows the **owner's name and email** so the user knows who to ask.
 * Offers a **Request access** button that opens an email pre-filled with a polite request.
 
+In a workspace with [Restricted mode](/trust-center/hipaa-compliance) turned on, the page shows the owner's name but not their email or the note's title, since a title can hold patient details. Instead of the email, an **Ask in workspace chat** button opens Bower chat so you can ask there.
+
 This is intentionally Notion-style: not an alarming "Access denied" but a polite handoff to the human who can grant access. If the entity actually doesn't exist (or belongs to another workspace), Bower returns a generic "not found" instead — it never confirms the existence of an entity to someone outside the workspace.
 
 ## Compliance: disable "Just me" for the whole workspace
