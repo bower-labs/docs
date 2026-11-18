@@ -92,6 +92,16 @@ Two people always retain a baseline level of access:
 * **The entity creator** — whoever made the note or collection always retains Full (Manage) access on it. You can mark your own work **Only specific people** without locking yourself out.
 * **The workspace Owner** — retains access on **Workspace** and **Only specific people** entities (admin oversight). The Owner does **not** retain access on **Just me** entities — that's the structural difference that makes "Just me" actually private.
 
+### When the creator leaves the workspace
+
+If someone is removed from a workspace, or deletes their Bower account, the **Just me** notes and collections they created in that workspace are not deleted and do not become unreachable. Each one is handed to the workspace Owner (or, if the workspace has no Owner, to its first Admin) and switched to **Only specific people**.
+
+* The workspace Owner can then read, manage, or delete them.
+* Anyone the creator had already added to the list keeps their access.
+* Nobody else gains access. Other members still can't see them.
+
+The change is recorded in the workspace's activity history.
+
 ## Restricted content the user can't see
 
 When a workspace member follows a direct link to a note or collection they don't have access to, Bower shows a calm splash page that:
