@@ -332,7 +332,7 @@
   "redirects": [
     {
       "source": "/ai-and-search/protocol-step-videos",
-      "destination": "/ai-and-search/live-agent-mode#step-cards"
+      "destination": "/organisation/protocols#how-do-i-edit-steps-and-sections"
     },
     {
       "source": "/integrations/mcp-server-reference",
