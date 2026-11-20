@@ -70,6 +70,7 @@
             "group": "Integrations",
             "pages": [
               "integrations/connectors",
+              "integrations/microsoft-admin-consent",
               "integrations/ai-app-access"
             ]
           },
@@ -114,6 +115,13 @@
             "group": "What's new",
             "pages": [
               "changelog/index"
+            ]
+          },
+          {
+            "group": "November 2026",
+            "pages": [
+              "changelog/2026-11-13-download-several-items-as-one-zip",
+              "changelog/2026-11-11-memories-about-you"
             ]
           },
           {
