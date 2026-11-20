@@ -98,7 +98,7 @@ A run that **Ended early** can be signed too, so a run stopped part way, by a fa
 
 ## Sign a collection
 
-You can sign a collection as one record: its name and description, and every note, file, link and protocol in it and in its sub-collections. Signing a collection locks everything in it, so nothing in it can be edited, moved or deleted until it's [unlocked](#withdraw-reject-or-unlock).
+You can sign a collection as one record: its name and description, and every note, file, link, protocol and spreadsheet in it and in its sub-collections. Signing a collection locks everything in it, so nothing in it can be edited, moved or deleted until it's [unlocked](#withdraw-reject-or-unlock).
 
 <Steps>
   <Step title="Open the collection and click Signatures">
@@ -172,7 +172,7 @@ You can export a signed run or a signed collection. Click **Export signed record
 For a signed collection, the ZIP holds the same files, with two differences:
 
 - **record.pdf** shows the collection's name and description and lists every item the signature covers, with its place in the collection and its fingerprint. A collection can't have anything added after signing, so there is no section for that;
-- the **files** folder keeps the collection's layout, with a folder for each sub-collection. Notes are PDFs, protocols are PDFs at the version that was signed, uploads are exactly as they were uploaded, and links are listed in **links.csv**.
+- the **files** folder keeps the collection's layout, with a folder for each sub-collection. Notes are PDFs, protocols are PDFs at the version that was signed, uploads are exactly as they were uploaded, and links are listed in **links.csv**. Each spreadsheet has a folder of its own with its data exactly as it was signed and, when one can be made, an Excel copy that Bower checks against that data.
 
 Every item in the export is the item as it was signed. If the collection was unlocked and changed afterwards, the export still holds what was signed, not what is in the collection now.
 
