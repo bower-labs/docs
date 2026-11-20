@@ -1,19 +1,22 @@
 ---
-title: "Live run transcripts: save the spoken conversation of a protocol run"
-description: "Bower can save everything you and Bower said during a Live protocol run as a transcript note on the run. On by default; a workspace admin or owner can turn it off."
-sidebarTitle: "Live run transcripts"
+title: "Live transcripts: save the spoken conversation of Live sessions and protocol runs"
+description: "Bower can save what you and Bower say in Live as transcript notes: one for each Live session, private to you, and one for each protocol run. On by default; a workspace admin or owner can turn it off."
+sidebarTitle: "Live transcripts"
 ---
 
-When you run a protocol in [Live](/ai-and-search/live-agent-mode#execution-mode-running-a-protocol), Bower can save the whole spoken conversation as a transcript note on the run: what you said and what Bower said. It works in the Bower app, in your phone's browser, and on Bower Glasses through the Bower app.
+Bower can save the spoken conversation in [Live](/ai-and-search/live-agent-mode) as transcript notes: what you said and what Bower said. It works in the Bower app, in your phone's browser, and on Bower Glasses through the Bower app. Two kinds of transcript are saved:
 
-## How do I turn Live run transcripts on or off?
+- **A Live session transcript**: what you and Bower said in one Live session outside protocol runs, with a line for each run that links to it. Private to you.
+- **A run transcript**: the conversation during one [protocol run](/ai-and-search/live-agent-mode#execution-mode-running-a-protocol), saved on the run.
 
-Transcripts are on by default. A workspace **Admin** or **Owner** can turn them off, or back on, for the whole workspace:
+## How do I turn Live transcripts on or off?
+
+Transcripts are on by default. A workspace **Admin** or **Owner** can turn them off, or back on, for the whole workspace. One setting covers both kinds:
 
 <Steps>
   <Step title="Go to Settings > Workspace" />
-  <Step title="Switch Live run transcripts off or on">
-    The setting reads "Save the spoken conversation of Live protocol runs as a transcript note on the run. On by default."
+  <Step title="Switch **Save Live transcripts** off or on">
+    The setting reads "Save what you and Bower say in Live sessions and protocol runs as transcript notes. On by default."
   </Step>
 </Steps>
 
@@ -21,34 +24,42 @@ Members see the setting but can't change it. See [workspace roles](/workspaces-a
 
 ## When does saving start?
 
-Once the protocol run starts. The sentence that asks Bower to start the run isn't included.
+A Live session transcript starts with the session. A run transcript starts once the protocol run starts; the sentence that asks Bower to start the run isn't in the run transcript, but it is in the Live session transcript.
 
-## How do I pause the transcript during a run?
+## How do I pause a transcript?
 
 Use the **Transcript** switch, which reads **On** or **Off**:
 
 | Where | Switch |
 | --- | --- |
-| Phone browser | In the Live protocol header, next to the step progress, or in the Live settings (cog) |
+| Phone browser | In the Live settings (cog), or during a run in the Live protocol header, next to the step progress |
 | Bower app, on your phone or with Bower Glasses | In the Live settings (cog) |
 
-Turning it off pauses saving from that moment. Lines said before the pause are kept, and the transcript shows **Transcript paused for 4 min** (with the actual length) where the gap is. Turn it back on to resume. Your choice lasts for that Live session.
+Turning it off pauses saving from that moment, during a run or outside one, until you turn it back on. Outside a run, the switch reads "Save this Live session's conversation as a transcript note. Off pauses it; earlier lines are kept." During a run, it describes the run's transcript. Lines said before the pause are kept, and the transcript shows **Transcript paused for 4 min** (with the actual length) where the gap is. Turn it back on to resume. Your choice lasts for that Live session.
 
 In the Bower app, a small document icon after the run clock shows that the transcript is being saved. It disappears while saving is paused.
+
+## Where do I find a Live session transcript?
+
+In the session's collection inside **Live sessions**, as a note titled with the collection's name followed by **· Transcript**, such as **Live session · Transcript**. When Bower can't file it there, it's saved at the top of the workspace; see [when that happens](/ai-and-search/live-agent-mode#when-are-live-notes-saved-at-the-top-of-the-workspace).
+
+A protocol run inside the session appears in the session transcript as one line, such as **Protocol run: Buffer prep · Run 5 · 12 min · View run**. The run's own lines are in its run transcript, and **View run** opens the run.
 
 ## Where do I find a run's transcript?
 
 On the [run record](/organisation/protocols#what-is-on-a-run-record), the **Summary** panel shows **Transcript: View transcript**. If the run has no transcript, the row reads **Not saved**. Either way, the info icon beside it explains that transcripts can be paused during a Live session or turned off for the workspace in settings. The transcript is a note titled with the protocol, version and run, such as **Buffer prep · Version 2 · Run 5 · Transcript**. It appears in workspace search like any other note.
 
+When you ran the protocol in a Live session that saved a transcript, the **Summary** also shows **Live session: View** once the run or the session has ended, which opens that session's transcript. A run that spanned several sessions lists them as **Session 1**, **Session 2**, oldest first. You see only the session transcripts you can open.
+
 ## Does Bower change what I said?
 
-After the run ends, Bower tidies your lines lightly: punctuation, capital letters, and filler words such as "um" and "uh". It changes no other word, and never changes what Bower said.
+Shortly after the run or the Live session ends, Bower tidies your lines lightly: punctuation, capital letters, and filler words such as "um" and "uh". It changes no other word, and never changes what Bower said. If you've already edited the note, your text is left as it is.
 
 The original lines are always available: open the note's menu and choose **View original transcript**.
 
 ## Can I edit a transcript?
 
-Yes, like any note. If you edit it while the run is still going, new lines from the run are added below your edits, and nothing you wrote is changed.
+Yes, like any note. If you edit it while the run or session is still going, new lines are added below your edits, and nothing you wrote is changed.
 
 ## Is any extra audio recorded?
 
@@ -56,4 +67,7 @@ No. The transcript comes from the speech recognition Live already uses to unders
 
 ## Who can see a transcript?
 
-Anyone who can see the note, under your workspace's normal [permissions](/workspaces-and-account/permissions-overview). The spoken text is stored in the note only, not in the workspace's activity history.
+- **A Live session transcript** is saved as **Just me** (see [permissions](/workspaces-and-account/permissions-overview)): only you can open it or find it in search, until you share it. If your workspace has turned off **Just me**, it's saved as **Only specific people** instead, which the workspace Owner can also open.
+- **A run transcript** is visible to anyone who can see the note, under your workspace's normal [permissions](/workspaces-and-account/permissions-overview).
+
+The spoken text is stored in the note only, not in the workspace's activity history.
