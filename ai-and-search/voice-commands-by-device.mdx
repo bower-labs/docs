@@ -66,14 +66,15 @@ On Bower Glasses, the outside-a-session commands are off during a live session, 
 
 ### Standby
 
-{/* VOICE_COMMANDS:browserStandby START sha256=1029fb7cf42d6836b81deeb3cfc38d40ab301b63deb01e67b3838cd57d12fa4d (generated in bower-labs/bower by pnpm docs:voice:generate; do not edit) */}
+{/* VOICE_COMMANDS:browserStandby START sha256=01b85e880485ba9ea1f53510eabaf11ff06c2bf80946e61763ac8a20854fc9c7 (generated in bower-labs/bower by pnpm docs:voice:generate; do not edit) */}
 | Say | What happens |
 | --- | --- |
 | *"Go to standby"* · *"Standby mode"* · *"Go to sleep"* · *"Goodbye Bower"* | Puts Bower in [standby](/ai-and-search/live-agent-mode#standby-mode). |
-| *"Hey Bower"* · *"Hello Bower"* · *"Hi Bower"* | Wakes Bower. |
+| *"Bower"* · *"Hey Bower"*, then your question | Wakes Bower. Say "Bower" after a pause, or "Hey Bower". In wake word mode, Bower answers one question and its follow-ups, then waits for its name again. |
+| *"Thank you"* · *"That's all"* | In wake word mode, ends the follow-up and puts Bower on standby straight away. |
 {/* VOICE_COMMANDS:browserStandby END */}
 
-These work in the Bower app, on Bower Glasses and in your phone's browser. In the app and on the glasses, *"Wake up"* on its own also wakes Bower. A standby phrase works as a short command, not inside a longer sentence.
+The standby phrases work in the Bower app, on Bower Glasses and in your phone's browser. Waking on *"Bower"* alone, and *"Thank you"* or *"That's all"* to end a follow-up, work in your phone's browser; in the app and on the glasses, say *"Hey Bower"* or *"Wake up"*. A standby phrase works as a short command, not inside a longer sentence.
 
 ## Running a protocol
 

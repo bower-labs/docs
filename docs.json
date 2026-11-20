@@ -70,6 +70,7 @@
             "group": "Integrations",
             "pages": [
               "integrations/connectors",
+              "integrations/microsoft-admin-consent",
               "integrations/ai-app-access"
             ]
           },
