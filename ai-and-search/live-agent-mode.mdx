@@ -47,13 +47,14 @@ Notes, photos and clips from a Live session are saved in a collection for that r
 - A run that spans several Live sessions, days or devices still saves into its one collection. A note you add on the [run record](/organisation/protocols#what-is-on-a-run-record) goes there too.
 - Bower keeps track of the collection by its run or session, not its name, so you can rename or move it and new items still go there.
 - If you delete a run's collection, Bower makes a new one the next time something is saved for that run.
+- If your workspace has never had a **Live sessions** collection, Bower uses a top-level collection already called **Live sessions** (for example, one the Bower app made), or makes one, the first time something is saved from Live.
 - If you tell Bower where to save something, it saves it there instead.
 
 #### When are Live notes saved at the top of the workspace?
 
 Bower saves at the top level of your workspace instead when:
 
-- The workspace has no **Live sessions** collection. It is one of the [suggested collections](/organisation/workspace-items#suggested-collections), which an owner or admin can add with **Set up suggested collections**. Bower does not recreate it if it was deleted.
+- The workspace's **Live sessions** collection was deleted. Bower does not recreate it. It is one of the [suggested collections](/organisation/workspace-items#suggested-collections).
 - You can't add items to the **Live sessions** collection, for example because it is shared with only some members.
 - Bower can't look up the run's or session's collection at that moment.
 
@@ -123,23 +124,23 @@ When you're finished, open the protocol on the web to review the draft and appro
 Standby works in the Bower app, on Bower Glasses and in your phone's browser. Use it for a private conversation, a call, or a long session where you want Bower available but not listening.
 
 - **To enter standby:** say a [standby phrase](/ai-and-search/voice-commands-by-device#standby), or tap the moon button at the top of the live screen (app) or the standby button (browser).
-- **To wake Bower:** say *"Hey Bower"*, or tap the sun button or the standby notice (app) or the standby button (browser). On Bower Glasses, any press of the glasses button wakes Bower and does nothing else.
+- **To wake Bower:** say *"Hey Bower"*, or tap the sun button or the standby notice (app) or the standby button (browser). In your phone's browser, *"Bower"* on its own after a pause also wakes it, and your question can follow straight on: *"Bower, which tray is next?"* On Bower Glasses, any press of the glasses button wakes Bower and does nothing else.
 - **Chimes:** in the app, a chime plays when Bower goes on standby and when it wakes, on your phone or through your glasses.
-- **Auto-standby (browser only):** after 30 seconds of quiet, Bower goes into standby on its own. Turn it off in **Live settings** (the cog at the top right). The Bower app doesn't go into standby on its own.
+- **Wake word mode (browser only):** on by default. Bower answers your question and any follow-up, then goes back into standby 8 seconds after its answer finishes. Say *"Thank you"* or *"That's all"* to put it on standby straight away. To have Bower answer everything it hears instead, turn off **Wake word mode** in **Live settings** (the cog at the top right). The Bower app doesn't go into standby on its own.
 - **Time limit:** a session left in standby for 2 minutes ends. In the app, a chime plays first.
 
 On standby, Bower stays silent and does nothing it hears asked, such as taking a photo or ending a run, until you wake it. Wake it with a request, such as *"Hey Bower, take a photo"*, and it does that.
 
 What Bower receives on standby depends on the device:
 
-- **Phone browser:** Bower's servers receive no audio or video. Your browser's own speech recognition listens for the wake phrase, so the microphone stays on; in Chrome and Edge that audio goes to Google's or Microsoft's speech service, not to Bower.
+- **Phone browser:** Bower's servers receive no audio or video. Your browser's own speech recognition listens for the wake word, so the microphone stays on. Where Chrome can recognize speech on your device, the audio stays on your device; otherwise, in Chrome and Edge, it goes to Google's or Microsoft's speech service, not to Bower. Chrome downloads its on-device speech model when you tap to start Live or wake Bower.
 - **Bower app and Bower Glasses:** the microphone stays on and its audio still goes to Bower, which is how Bower hears the wake phrase. If the camera is on, its video still goes to Bower too. Bower's replies don't play until you wake it.
 
 ## Execution mode (running a protocol)
 
 Say *"Run the buffer prep protocol"* (or *"Start…"*, *"Let's do…"*), or tap **Execute Protocol** in the Bower app. Bower walks you through the steps and records the run on the protocol; see [Protocol runs](/organisation/protocols#protocol-runs). If more than one protocol matches what Bower heard, it lists them and asks which.
 
-If your workspace has [Live run transcripts](/ai-and-search/live-run-transcripts) turned on, Bower also saves the spoken conversation as a transcript note on the run.
+If your workspace has [Live transcripts](/ai-and-search/live-run-transcripts) turned on, Bower also saves the spoken conversation as a transcript note on the run.
 
 ### Step cards
 
