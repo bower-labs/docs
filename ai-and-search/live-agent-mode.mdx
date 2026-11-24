@@ -228,9 +228,9 @@ Watchers work best with concrete, visible cues, such as *"the centrifuge display
 
 While you run a protocol, Bower also checks the camera against what the current step asks for, without being asked. It speaks only when both are true:
 
-- **The step states it.** Gloves, eye protection, a lab coat, or a piece of equipment or hazard the step names, such as *"Work in the fume hood"*. Bower never adds a requirement the step doesn't state, so a phenol step that doesn't mention a lab coat is never checked for one.
+- **The step states it.** Gloves, eye protection or a lab coat, such as *"Wear nitrile gloves"*. Bower checks only this protective gear, and never adds a requirement the step doesn't state, so a phenol step that doesn't mention a lab coat is never checked for one.
 - **The camera clearly shows it isn't met.** If Bower can't tell, because no hands are in view or the frame is blurry, it says nothing.
 
-When it speaks, it names the step, for example *"Heads up, step 3 calls for gloves."*, once per step. It never comments on your surroundings, such as food on the bench or whether you're in a lab. It waits about 30 seconds after a step starts, and after you wake Bower or resume a run, before it checks. On Bower Glasses the camera can't see your own face or clothes, so only gloves, equipment and hazards are checked.
+When it speaks, it names the step, for example *"Heads up, step 3 calls for gloves."*, once per step. It never comments on your surroundings, such as food on the bench or whether you're in a lab. It waits about 30 seconds after a step starts, and after you wake Bower or resume a run, before it checks. On Bower Glasses the camera can't see your own face or clothes, so only gloves are checked.
 
 To get a check, write the requirement into the step. A step that names nothing is never checked.
