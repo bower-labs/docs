@@ -3,7 +3,7 @@ title: "Live agent mode"
 description: "A real-time voice and video conversation with Bower, from the Bower app, your phone's browser, or Bower Glasses, and where the notes and captures you make in it are saved."
 ---
 
-Live agent mode is a spoken conversation with Bower while you work. Talk through an experiment, ask follow-up questions, or run a protocol step by step without typing. With video on, Bower sees what your camera sees, so you can ask *"What's the reading on that display?"* or *"Does this sample look contaminated to you?"* Bower responds to what it sees only when you ask, when you've set a [visual watcher](#visual-watchers), or when a protocol step [calls for something it can see](#safety-checks-from-the-step).
+Live agent mode is a spoken conversation with Bower while you work. Talk through an experiment, ask follow-up questions, or run a protocol step by step without typing. With video on, Bower sees what your camera sees, so you can ask *"What's the reading on that display?"* or *"Does this sample look contaminated to you?"* Bower responds to what it sees only when you ask, when you've set a [visual watcher](#visual-watchers), or when it plainly sees a protocol step [not being followed](#checks-against-the-step).
 
 Live runs on your phone and on [Bower Glasses](/bower-glasses/overview), not on a computer.
 
@@ -224,13 +224,13 @@ Ask Bower to react when it sees something, in any live session: *"Let me know wh
 
 Watchers work best with concrete, visible cues, such as *"the centrifuge display reaching 10000 rpm"*. They don't work for abstract targets (*"good things"*), your intentions (*"when I'm done"*), or a readout that isn't in view of the camera.
 
-### Safety checks from the step
+### Checks against the step
 
-While you run a protocol, Bower also checks the camera against what the current step asks for, without being asked. It speaks only when both are true:
+While you run a protocol, Bower also checks the camera against the current step's own instructions, without being asked. It speaks only when both are true:
 
-- **The step states it.** Gloves, eye protection or a lab coat, such as *"Wear nitrile gloves"*. Bower checks only this protective gear, and never adds a requirement the step doesn't state, so a phenol step that doesn't mention a lab coat is never checked for one.
-- **The camera clearly shows it isn't met.** If Bower can't tell, because no hands are in view or the frame is blurry, it says nothing.
+- **The step says it.** Any instruction in the step counts, such as *"Wear nitrile gloves"* or *"Use the blue tube"*. Bower never adds an instruction the step doesn't give, and never comments on your surroundings, such as food on the bench or whether you're in a lab, even when the step says where to work.
+- **The camera clearly shows the opposite, twice in a row.** Bower needs two new frames that both plainly show the same instruction not being followed. If it can't tell, because no hands are in view, the frame is blurry, or you haven't started yet, it says nothing.
 
-When it speaks, it names the step, for example *"Heads up, step 3 calls for gloves."*, once per step. It never comments on your surroundings, such as food on the bench or whether you're in a lab. It waits about 30 seconds after a step starts, and after you wake Bower or resume a run, before it checks. On Bower Glasses the camera can't see your own face or clothes, so only gloves are checked.
+When it speaks, it says *"That doesn't look like what step 3 says. Want me to read it?"* Say yes and Bower reads the step to you. It says this at most once per instruction on each step. It only looks at what the camera sees after a step starts, and after you wake Bower or resume a run, so it never reacts to an old view. On Bower Glasses the camera can't see your own face or clothes, so Bower never judges what you're wearing there.
 
-To get a check, write the requirement into the step. A step that names nothing is never checked.
+To get a check, write the instruction into the step.
