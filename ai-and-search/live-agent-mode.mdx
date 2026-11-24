@@ -3,7 +3,7 @@ title: "Live agent mode"
 description: "A real-time voice and video conversation with Bower, from the Bower app, your phone's browser, or Bower Glasses, and where the notes and captures you make in it are saved."
 ---
 
-Live agent mode is a spoken conversation with Bower while you work. Talk through an experiment, ask follow-up questions, or run a protocol step by step without typing. With video on, Bower sees what your camera sees, so you can ask *"What's the reading on that display?"* or *"Does this sample look contaminated to you?"* Bower responds to what it sees only when you ask, or when you've set a [visual watcher](#visual-watchers).
+Live agent mode is a spoken conversation with Bower while you work. Talk through an experiment, ask follow-up questions, or run a protocol step by step without typing. With video on, Bower sees what your camera sees, so you can ask *"What's the reading on that display?"* or *"Does this sample look contaminated to you?"* Bower responds to what it sees only when you ask, when you've set a [visual watcher](#visual-watchers), or when a protocol step [calls for something it can see](#safety-checks-from-the-step).
 
 Live runs on your phone and on [Bower Glasses](/bower-glasses/overview), not on a computer.
 
@@ -223,3 +223,14 @@ Ask Bower to react when it sees something, in any live session: *"Let me know wh
 - Ask *"what are you watching for?"* to hear the active watchers and how often each has fired.
 
 Watchers work best with concrete, visible cues, such as *"the centrifuge display reaching 10000 rpm"*. They don't work for abstract targets (*"good things"*), your intentions (*"when I'm done"*), or a readout that isn't in view of the camera.
+
+### Safety checks from the step
+
+While you run a protocol, Bower also checks the camera against what the current step asks for, without being asked. It speaks only when both are true:
+
+- **The step states it.** Gloves, eye protection, a lab coat, or a piece of equipment or hazard the step names, such as *"Work in the fume hood"*. Bower never adds a requirement the step doesn't state, so a phenol step that doesn't mention a lab coat is never checked for one.
+- **The camera clearly shows it isn't met.** If Bower can't tell, because no hands are in view or the frame is blurry, it says nothing.
+
+When it speaks, it names the step, for example *"Heads up, step 3 calls for gloves."*, once per step. It never comments on your surroundings, such as food on the bench or whether you're in a lab. It waits about 30 seconds after a step starts, and after you wake Bower or resume a run, before it checks. On Bower Glasses the camera can't see your own face or clothes, so only gloves, equipment and hazards are checked.
+
+To get a check, write the requirement into the step. A step that names nothing is never checked.
