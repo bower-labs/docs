@@ -5,11 +5,13 @@
 - This is the public-facing help center for [Bower](https://bowerlabs.ai), built on [Mintlify](https://mintlify.com)
 - Pages are MDX files with YAML frontmatter
 - Configuration lives in `docs.json`
-- Run `mint dev` to preview locally (auto-selects an available port if 3000 is in use)
-- Run `mint broken-links` to check links
+- Run `npx mint@4.3.22 dev` to preview locally (auto-selects an available port if 3000 is in use). Call it through `npx` with the version pinned: a globally installed `mint` may not start.
+- Run `npx mint@4.3.22 broken-links` to check links. CI does not run it; `scripts/validate-docs.py` is the gate.
 - Hosted at `docs.bowerlabs.ai`
 - This repo is **public** — treat every file as publicly visible. Never commit API keys, internal URLs, secrets, or system architecture details.
 - Run `python3 scripts/validate-docs.py` before opening a PR — it is what CI runs
+- Turn on the pre-commit hook once per clone: `git config core.hooksPath .githooks`. It runs CI's checks in a few seconds; fix a failure rather than skipping the hook.
+- `.claude/settings.json` wires `.claude/hooks/guard-git.sh` into every agent's Bash calls. It blocks force-push, `reset --hard`, `clean -f`, `checkout`/`restore` of paths, `stash clear`, `branch -D` and skipped hooks. Commit a WIP instead of discarding work. Its tests are `python3 .claude/hooks/test-guard-git.py`.
 
 ## Brand and assets
 
@@ -71,6 +73,13 @@ someone updates only one copy. So:
   restating them, because they are what changes.
 - **Before writing, grep** for the feature's name and its UI labels across the
   repo. Fold what you find into the owning page or turn it into a link.
+- **Reuse before you add.** Extend an existing page, `snippets/` file or
+  Mintlify component before writing a new page or a custom component. Add no
+  npm package, script or `.js`/`.css` file for what a built-in component or a
+  few lines of MDX does; Mintlify loads every `.js` and `.css` on every page.
+- **When you change a fact, a heading or a page, find everything that points at
+  it**: grep for the page path, the `#anchor` and the old wording, here and in
+  the app repo, and update each hit in the same PR.
 - **Say it once on the page too.** No intro that previews the sections, no
   closing summary, no "as mentioned above". A table or a list replaces a
   paragraph that walks through cases.
@@ -91,3 +100,9 @@ That only catches copy-paste; a reworded repeat is the reviewer's to catch.
 - Do not expose API keys, internal URLs, or system architecture details
 - Do not document features that are not yet available to users. Docs for a flag-gated feature open as a **draft** PR and merge when the flag widens, or earlier with David's OK
 - Do not include screenshots of internal tools or admin panels
+
+## Pull requests
+
+- Say in the PR body what you did not check: a page you could not preview, a
+  label you could not confirm in the app, a check you skipped. Unstated means
+  verified.

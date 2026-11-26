@@ -50,3 +50,6 @@ jobs:
 
       - name: Verify help-centre prose uses American house spelling
         run: python3 scripts/check-house-spelling.py
+
+      - name: Prove the agent git guard blocks what it should and nothing else
+        run: python3 .claude/hooks/test-guard-git.py
