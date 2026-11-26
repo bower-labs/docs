@@ -1,16 +1,18 @@
 {
   "_header": [
-    "Shared git guard cases. Byte-identical in bower-labs/website, bower-internal-apps, docs and",
-    "bower-mobile-app: copy this file whole, never edit it in one repo. A repo's intentional",
-    "differences go in .claude/hooks/guard-git.cases.local.json (overrides + local cases).",
-    "Source: bower-labs/website 1e1548d785196683cca8ba821d25bbcc44401f3e (.claude/hooks/test-guard-git.py, PR #40).",
-    "Each case runs in a scratch repo holding scratch_files, on branch claude/test ('branch') or main ('main').",
-    "{branch_repo} and {main_repo} are replaced by those repos' paths. expect: block = exit 2, allow = exit 0.",
-    "guard_sha256 pins .claude/hooks/guard-git.py: change the guard and this file together, in every repo.",
-    "Copying between repos is by hand; the pins make a partial or local edit fail CI, nothing more."
+    "Shared git guard cases. Byte-identical in every repo that runs .claude/hooks/guard-git.py:",
+    "copy this file whole, never edit it in one repo. General cases are added to the canonical copy",
+    "first and then copied; a repo's own cases go in .claude/hooks/guard-git.cases.local.json.",
+    "guard_sha256 pins guard-git.py: change the guard and this file together, everywhere.",
+    "Copying between repos is by hand; the pins make a partial or local edit fail CI, nothing more.",
+    "Each case runs in a scratch repo holding scratch_files and scratch_config, on branch claude/test",
+    "('branch') or main ('main', which also gets scratch_config_main), with an empty HOME.",
+    "{branch_repo} and {main_repo} are replaced by those repos' paths; an optional cwd is sent as the",
+    "payload's cwd. expect: block = exit 2, allow = exit 0. policy_cases run against a copy of the",
+    "guard with that guard-git.policy.json beside it (null: none; a string: the file's raw text)."
   ],
-  "source": "bower-labs/website@1e1548d785196683cca8ba821d25bbcc44401f3e",
-  "guard_sha256": "cb00803a54b87e0269f4e75361a2315ff2539ada09d06b83020635d114b17726",
+  "source": "shared guard cases v2",
+  "guard_sha256": "4d2a315aeae11c3d8fb0900076c7305a99faba6143bfc85527694cbc418c40cf",
   "scratch_files": [
     "AGENTS.md",
     "package.json",
@@ -21,6 +23,20 @@
     "refs/heads/feat/x",
     "refs/remotes/origin/claude/remote-only"
   ],
+  "scratch_config": {
+    "alias.fp": "push --force",
+    "alias.rh": "reset --hard",
+    "alias.sh": "!git push -f",
+    "alias.st": "status",
+    "alias.status": "reset --hard",
+    "alias.loop": "loop",
+    "alias.fwl": "push --force-with-lease"
+  },
+  "scratch_config_main": {
+    "alias.mainfp": "push --force",
+    "alias.mainfp2": "mainfp",
+    "alias.shmainfp": "!git mainfp"
+  },
   "cases": [
     {
       "command": "git push --force origin x",
@@ -1243,7 +1259,7 @@
       "on": "branch"
     },
     {
-      "command": "git commit -F - <<M\nBower's guard: git push --force is blocked\nM\ngit push -u origin claude/x",
+      "command": "git commit -F - <<M\nThis repo's guard: git push --force is blocked\nM\ngit push -u origin claude/x",
       "expect": "allow",
       "on": "branch"
     },
@@ -1701,6 +1717,846 @@
       "command": "git -C {main_repo} push origin HEAD",
       "expect": "block",
       "on": "branch"
+    },
+    {
+      "command": "git fp origin claude/x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git rh",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git sh",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git loop",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git st",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git log -1",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git -C {main_repo} mainfp origin claude/x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git mainfp origin claude/x",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cd {main_repo} && git mainfp origin claude/x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git --git-dir={main_repo}/.git mainfp",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "GIT_DIR={main_repo}/.git git mainfp",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -C \"$PWD\" fp",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c alias.a=b -c 'alias.b=push --force' a",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c alias.a=a a",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cd {main_repo} && git status",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "GIT_DIR=.git git log -1",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git -C {main_repo} mainfp2 origin claude/x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cd {main_repo} && bash -c \"git mainfp\"",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "GIT_DIR={main_repo}/.git bash -c \"git mainfp\"",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cd {main_repo} && echo \"git mainfp\" | bash",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "eval 'cd {main_repo}' && git mainfp",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -C {main_repo}* mainfp",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -C ../no-such-repo mainfp",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ a; git push --force origin main",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git add . && git log -1",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "GIT_PAGER=cat git log -1",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git mainfp origin claude/x",
+      "expect": "block",
+      "on": "branch",
+      "cwd": "{main_repo}"
+    },
+    {
+      "command": "git -C {main_repo} shmainfp",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c 'alias.b=push --force' -c 'alias.a=!git b' a",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": ". ./env.sh && git mainfp",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git add . && git status",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "echo a#b; git reset --hard",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "open https://x.test/#a; git reset --hard",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo x\\ #; git reset --hard",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "[ ${#f[@]} -gt 0 ] && git reset --hard",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git status # don't push --force",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cat <<EOF\n$(git reset --hard)\nEOF",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cat <<EOF\n`git reset --hard`\nEOF",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git commit -m \"$(cat <<EOF\nhi $(git reset --hard)\nEOF\n)\"",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cat <<'EOF'\n$(git reset --hard)\nEOF",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "echo $'\\'' ; git reset --hard #'",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "printf $'it\\'s\\n'; git status",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "HOME=/tmp/h git commit -m x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "XDG_CONFIG_HOME=/tmp/x git commit -m x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "HOME=/tmp/h git status",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "HUSKY=0 bash -c \"git commit -m x\"",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo x;(git reset --hard)",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo $((1<<N))\ngit reset --hard",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git commit -m 'why $(git push --force) is refused'",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "bash -c 'echo $(git reset --hard)'",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "bash -c 'H=--hard; git reset $H'",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c 'alias.x=!git reset $H' x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "\"$(git rev-parse --show-toplevel)\"/scripts/sim acquire ios",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git commit -uno -m x",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "echo $(true)#; git reset --hard",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo `true`#; git reset --hard",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "x=$(true)#; git clean -fdx",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo $'a'#; git reset --hard",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo \"$(echo \" #\")\"; git reset --hard",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo \"$(printf '%s' \" #\")\"; git push --force",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "# note <<END\ngit reset --hard\nEND",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo hi # x <<END\ngit reset --hard\nEND",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo '<<END'\ngit reset --hard\nEND",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git log --format='<<%an' -1\ngit push --force\n%an",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "(( x <<2 ))\ngit reset --hard\n2",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cat <<<EOF\ngit reset --hard\nEOF",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git commit -F - <<< \"fix it\"",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cat <<-EOF\n\tbody\n\tEOF\ngit reset --hard",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "G=git; $G fp",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "$(printf 'g%s' it) fp",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "$'\\x67it' fp",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "$'\\147it' fp",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "$'\\u0067it' fp",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo \"$(bash -c \"git push --force\")\"",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git commit -m \"$(cat <<'EOF'\nit's done\nEOF\n)\"",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git commit -m \"$(cat <<EOF\nwhy $(git push --force origin x)\nEOF\n)\"",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo `echo \\`git reset --hard\\``",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo `echo \\$(git reset --hard)`",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo HOME=/x; git commit -m y",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cat <<\\EOF\n$(git reset --hard)\nEOF",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "echo \"\\$(git push --force)\"",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "bash -c \"echo \\$(git reset --hard)\"",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "bash -c $'git push --force origin x'",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "eval $'git push --force origin x'",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "sh -c $'cd /tmp\\ngit reset --hard'",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "ssh host $'git push --force origin x'",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "GIT_SEQUENCE_EDITOR=$'git push --force origin x' git rebase -i HEAD~1",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c alias.co=checkout -c alias.x='co .' x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git config alias.m merge",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git config alias.pl pull",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "find . -name a -exec grep -q x {} + -exec git push --force origin x \\;",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "sudo -u grep git push --force origin x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "find . -name a -exec grep -l 'git push --force' {} +",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "xargs grep 'git push --force' < files.txt",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "C='git push --force origin x'; $C",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "C='git push --force origin x'; bash -c \"$C\"",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "C='git push --force origin x'; eval \"$C\"",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "C='git status'; $C",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cd {main_repo} && git push origin HEAD",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cd {main_repo} && git push",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "GIT_DIR={main_repo}/.git git push origin HEAD",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cd \"$D\" && git push origin HEAD",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -C \"$M\" push origin HEAD",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git --git-dir={main_repo}/.git push origin HEAD",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cd {branch_repo} && git push -u origin HEAD",
+      "expect": "allow",
+      "on": "main"
+    },
+    {
+      "command": "(cd {main_repo}); git push -u origin HEAD",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "F=--reset; git read-tree $F -u HEAD",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "F=-f; git checkout-index $F -a",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "G=git; $G read-tree --reset -u HEAD",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git grep -O\"sh -c 'git push --force origin x'\" x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git grep --open-files-in-pager=vi x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git difftool -y --extcmd=\"sh -c 'git reset --hard'\" HEAD",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git difftool -y -x true HEAD",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git send-pack --force origin +HEAD:refs/heads/main",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git grep -n x",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "gh pr comment 5 -b \"$(cat <<'EOF'\nrun git push --force? no\nEOF\n)\"",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "gh api repos/o/r/issues/1/comments -f body=\"$(cat <<'EOF'\ngit push --force\nEOF\n)\"",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "echo \"head: $(cat .git/HEAD)\"",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git commit --fixup=$SHA",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "$(printf %s g)it push --force origin x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cat <<'X'\nfoo\\\nX\ngit push --force",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo ${x/<<X/}\ngit push --force",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cat <<$'X'\ny\nX\ngit push --force",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cat <<$\"X\"\ny\nX\ngit push --force",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git status # see \\\ngit reset --hard",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo a \\\n  b; git status",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cat <<EOF\nno end, so read as commands\ngit reset --hard",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo ${x:-$(git reset --hard)}",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo ${x/<<X/}\ngit push --force\nX/}",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cat <<$'X'\nit's fine\nX\ngit status",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cat <<$\"X\"\nit's fine\nX\ngit status",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "bash<<'X'\ngit push --force\nX",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": ". /dev/stdin <<'X'\ngit push --force\nX",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "source /dev/stdin <<'X'\ngit push --force\nX",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cat <<X |\ngit push --force\nX\nbash",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cat <<'EOF' > notes.md\nRun `cat a.txt | git apply` by hand.\nEOF",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "bash -c $'echo hi\\cJgit reset --hard'",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "env -C {main_repo} git push origin HEAD",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "=git push --force origin x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "printf -v C 'git push --force origin x'; $C",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "sudo --user grep git push --force origin x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git fwl origin claude/x",
+      "expect": "allow",
+      "on": "branch"
+    }
+  ],
+  "policy_cases": [
+    {
+      "command": "git push --force-with-lease origin claude/x",
+      "expect": "allow",
+      "on": "branch",
+      "policy": null
+    },
+    {
+      "command": "git push --force-with-lease origin claude/x",
+      "expect": "allow",
+      "on": "branch",
+      "policy": {
+        "deny_force_with_lease": false
+      }
+    },
+    {
+      "command": "git push --force-with-lease origin claude/x",
+      "expect": "block",
+      "on": "branch",
+      "policy": {
+        "_header": [
+          "this repo also blocks --force-with-lease"
+        ],
+        "deny_force_with_lease": true
+      }
+    },
+    {
+      "command": "git push --force-with-lease=main:abc123 origin claude/x",
+      "expect": "block",
+      "on": "branch",
+      "policy": {
+        "_header": [
+          "this repo also blocks --force-with-lease"
+        ],
+        "deny_force_with_lease": true
+      }
+    },
+    {
+      "command": "gpf origin claude/x",
+      "expect": "block",
+      "on": "branch",
+      "policy": {
+        "_header": [
+          "this repo also blocks --force-with-lease"
+        ],
+        "deny_force_with_lease": true
+      }
+    },
+    {
+      "command": "git push -u origin claude/x",
+      "expect": "allow",
+      "on": "branch",
+      "policy": {
+        "_header": [
+          "this repo also blocks --force-with-lease"
+        ],
+        "deny_force_with_lease": true
+      }
+    },
+    {
+      "command": "git push --force-with origin claude/x",
+      "expect": "block",
+      "on": "branch",
+      "policy": {
+        "_header": [
+          "this repo also blocks --force-with-lease"
+        ],
+        "deny_force_with_lease": true
+      }
+    },
+    {
+      "command": "git fwl origin claude/x",
+      "expect": "block",
+      "on": "branch",
+      "policy": {
+        "_header": [
+          "this repo also blocks --force-with-lease"
+        ],
+        "deny_force_with_lease": true
+      }
+    },
+    {
+      "command": "git status",
+      "expect": "allow",
+      "on": "branch",
+      "policy": {
+        "_header": [
+          "this repo also blocks --force-with-lease"
+        ],
+        "deny_force_with_lease": true
+      }
+    },
+    {
+      "command": "git push --force origin claude/x",
+      "expect": "block",
+      "on": "branch",
+      "policy": {
+        "deny_force_with_lease": false
+      }
+    },
+    {
+      "command": "git status",
+      "expect": "block",
+      "on": "branch",
+      "policy": "{not json"
+    },
+    {
+      "command": "git status",
+      "expect": "block",
+      "on": "branch",
+      "policy": {
+        "deny_force": true
+      }
+    },
+    {
+      "command": "git status",
+      "expect": "block",
+      "on": "branch",
+      "policy": {
+        "deny_force_with_lease": "yes"
+      }
+    },
+    {
+      "command": "git status",
+      "expect": "block",
+      "on": "branch",
+      "policy": "[]"
     }
   ]
 }

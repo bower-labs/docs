@@ -2,33 +2,33 @@
 
 Run: python3 .claude/hooks/test-guard-git.py (CI runs it through pnpm test).
 Cases come from two files next to this one:
-- guard-git.cases.json: shared across the Bower repos, byte-identical, never
-  edited in one repo (its header names its source repo and commit).
-- guard-git.cases.local.json: this repo's intentional differences, as
-  `overrides` (command -> "allow" or "block", replacing a shared verdict) and
-  extra local `cases`, and `shared_sha256`, the hash of the shared file it
-  was copied at. An override for a command the shared file lacks, or has more
-  than once (on a branch and on main), is an error.
-The shared file pins guard-git.py by hash too, so editing the guard, or the
-shared file, in one repo alone fails here. Copying across repos stays manual.
-Each verdict runs in a scratch repo holding the shared file's scratch_files,
-on branch claude/test ("branch") or main ("main"). Exit 1 on any mismatch.
-Standard library only, so other repos can copy this runner unchanged.
+- guard-git.cases.json: shared by every repo that runs this guard, byte for
+  byte, never edited in one repo. It pins guard-git.py by SHA-256.
+- guard-git.cases.local.json: this repo's own. `overrides` (command -> "allow"
+  or "block") replace a shared verdict, for a repo whose guard-git.policy.json
+  is stricter; extra `cases`; and `shared_sha256`, the hash of the shared file
+  it was copied at. An override for a command the shared file lacks, or has
+  more than once (on a branch and on main), is an error.
+Each case runs in a scratch repo holding the shared file's scratch_files and
+scratch_config, on branch claude/test ("branch") or main ("main", which also
+gets scratch_config_main), with HOME pointed at an empty directory so the
+developer's own git config cannot change a verdict. A case's optional `cwd`
+is sent as the payload's cwd. `policy_cases` run against a copy of the guard
+with that policy file beside it (or none), so both the default and a stricter
+policy are tested in every repo. Exit 1 on any mismatch.
+Standard library only, so every repo can copy this runner unchanged.
 """
 
 import hashlib
 import json
 import os
+import shutil
 import subprocess
 import sys
 import tempfile
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-HOOK = HERE / "guard-git.sh"
-# Run from a git hook, git exports GIT_INDEX_FILE and friends; the scratch
-# repos and the guard must not write into the outer commit's index.
-ENV = {k: v for k, v in os.environ.items() if not k.startswith("GIT_")}
 EXIT = {"block": 2, "allow": 0}
 
 
@@ -41,11 +41,20 @@ def load(name):
         return json.load(f)
 
 
-def scratch_repo(path, branch, files, refs):
-    """A repo with known files and refs on a known branch, so the verdicts do not
-    depend on which branch CI or a developer happens to have checked out."""
+def isolated_env(home):
+    """No GIT_* from an outer git hook (GIT_INDEX_FILE would aim the scratch
+    repos at the outer commit's index), no system or user git config."""
+    env = {k: v for k, v in os.environ.items()
+           if not k.startswith("GIT_") and k != "XDG_CONFIG_HOME"}
+    env.update({"HOME": str(home), "GIT_CONFIG_NOSYSTEM": "1"})
+    return env
+
+
+def scratch_repo(path, branch, files, refs, config, env):
+    """A repo with known files, refs and config on a known branch, so the verdicts
+    do not depend on which branch CI or a developer happens to have checked out."""
     def git(*args):
-        subprocess.run(["git", "-C", str(path), *args], check=True, capture_output=True, env=ENV)
+        subprocess.run(["git", "-C", str(path), *args], check=True, capture_output=True, env=env)
     path.mkdir(parents=True)
     git("init", "-q", "-b", branch)
     for name in files:
@@ -56,12 +65,18 @@ def scratch_repo(path, branch, files, refs):
         "-c", "commit.gpgsign=false", "commit", "-qm", "init")
     for ref in refs:
         git("update-ref", ref, "HEAD")
+    for key, value in config.items():
+        git("config", key, value)
     return path
 
 
-def verdict(payload, cwd):
-    return subprocess.run(["bash", str(HOOK)], input=payload, capture_output=True, text=True,
-                          cwd=cwd, env=ENV).returncode
+def verdict(hook, payload, cwd, env):
+    return subprocess.run(["bash", str(hook)], input=payload, capture_output=True, text=True,
+                          cwd=cwd, env=env).returncode
+
+
+def payload_for(command, cwd):
+    return json.dumps({"tool_name": "Bash", "tool_input": {"command": command}, "cwd": str(cwd)})
 
 
 def main():
@@ -90,25 +105,51 @@ def main():
     cases = [{**c, "expect": overrides.get(c["command"], c["expect"])} for c in shared["cases"]]
     cases += local.get("cases", [])
     files = sorted(set(shared["scratch_files"]) | set(local.get("scratch_files", [])))
+    config = shared.get("scratch_config", {})
     with tempfile.TemporaryDirectory() as tmp:
-        repos = {on: scratch_repo(Path(tmp, on), b, files, shared["scratch_refs"])
-                 for on, b in (("branch", "claude/test"), ("main", "main"))}
-        for c in cases:
-            on = c.get("on", "branch")
-            cmd = c["command"].replace("{branch_repo}", str(repos["branch"])).replace(
+        home = Path(tmp, "home")
+        home.mkdir()
+        env = isolated_env(home)
+        repos = {
+            "branch": scratch_repo(Path(tmp, "branch"), "claude/test", files, shared["scratch_refs"],
+                                   config, env),
+            "main": scratch_repo(Path(tmp, "main"), "main", files, shared["scratch_refs"],
+                                 {**config, **shared.get("scratch_config_main", {})}, env),
+        }
+
+        def fill(text):
+            return text.replace("{branch_repo}", str(repos["branch"])).replace(
                 "{main_repo}", str(repos["main"]))
-            payload = json.dumps({"tool_name": "Bash", "tool_input": {"command": cmd}})
-            if verdict(payload, repos[on]) != EXIT.get(c["expect"]):
-                failures.append(f"should {c['expect']} (on {on}): {c['command']!r}")
+
+        def run(hook, c, label=""):
+            on = c.get("on", "branch")
+            cwd = fill(c["cwd"]) if "cwd" in c else repos[on]
+            got = verdict(hook, payload_for(fill(c["command"]), cwd), repos[on], env)
+            if got != EXIT.get(c["expect"]):
+                failures.append(f"should {c['expect']} (on {on}{label}): {c['command']!r}")
+
+        for c in cases:
+            run(HERE / "guard-git.sh", c)
+        # A copy of the guard with only the case's policy beside it (none if null).
+        for n, c in enumerate(shared.get("policy_cases", [])):
+            hooks = Path(tmp, f"policy-{n}")
+            hooks.mkdir()
+            for name in ("guard-git.sh", "guard-git.py"):
+                shutil.copy2(HERE / name, hooks / name)
+            if c["policy"] is not None:
+                text = c["policy"] if isinstance(c["policy"], str) else json.dumps(c["policy"])
+                (hooks / "guard-git.policy.json").write_text(text)
+            run(hooks / "guard-git.sh", c, f", policy {json.dumps(c['policy'])}")
         for raw in ("{not json", '{"tool_name":"Bash","tool_input":{"command":42}}'):
-            if verdict(raw, repos["branch"]) != 2:
+            if verdict(HERE / "guard-git.sh", raw, repos["branch"], env) != 2:
                 failures.append(f"should block unreadable hook input: {raw!r}")
     for f in failures:
         print(f, file=sys.stderr)
-    total = len(cases) + 2
+    total = len(cases) + len(shared.get("policy_cases", [])) + 2
     print(f"guard-git: {total - len(failures)} passed, {len(failures)} failed "
-          f"({len(shared['cases'])} shared from {shared['source']}, {len(overrides)} overridden, "
-          f"{len(local.get('cases', []))} local)")
+          f"({len(shared['cases'])} shared, {len(shared.get('policy_cases', []))} policy, "
+          f"{len(overrides)} overridden, {len(local.get('cases', []))} local; "
+          f"shared source: {shared['source']})")
     return 1 if failures else 0
 
 
