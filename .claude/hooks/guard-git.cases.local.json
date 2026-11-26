@@ -6,7 +6,7 @@
     "overrides: command -> allow|block, replacing that shared case's verdict (none today).",
     "shared_sha256: the hash of guard-git.cases.json as last copied; update it with each copy."
   ],
-  "shared_sha256": "4363152fc811b8419ed71c35ce709d2a32d009e7ea59a160f348794177575d4c",
+  "shared_sha256": "b319a0797373387453b14cf9215f9bd687704ece536795fe2f4d8a76cd67a1f9",
   "scratch_files": [
     "docs.json",
     "index.mdx"

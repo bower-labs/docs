@@ -9,14 +9,16 @@
     "('branch') or main ('main', which also gets scratch_config_main), with an empty HOME.",
     "{branch_repo} and {main_repo} are replaced by those repos' paths; an optional cwd is sent as the",
     "payload's cwd. expect: block = exit 2, allow = exit 0. policy_cases run against a copy of the",
-    "guard with that guard-git.policy.json beside it (null: none; a string: the file's raw text)."
+    "guard with that guard-git.policy.json beside it (null: none; a string: the file's raw text).",
+    "scratch_repos: more scratch repos (branch, extra refs, config) a case's 'on' can name."
   ],
-  "source": "shared guard cases v2",
-  "guard_sha256": "4d2a315aeae11c3d8fb0900076c7305a99faba6143bfc85527694cbc418c40cf",
+  "source": "shared guard cases v3",
+  "guard_sha256": "73585459ad04902605a58770d1c817e8d0488eeed34ea1524d4c7e5be3571dac",
   "scratch_files": [
     "AGENTS.md",
     "package.json",
-    "src/pages/index.astro"
+    "src/pages/index.astro",
+    "bare/HEAD"
   ],
   "scratch_refs": [
     "refs/heads/main",
@@ -30,12 +32,42 @@
     "alias.st": "status",
     "alias.status": "reset --hard",
     "alias.loop": "loop",
-    "alias.fwl": "push --force-with-lease"
+    "alias.fwl": "push --force-with-lease",
+    "alias.here": "log --oneline -1"
   },
   "scratch_config_main": {
     "alias.mainfp": "push --force",
     "alias.mainfp2": "mainfp",
-    "alias.shmainfp": "!git mainfp"
+    "alias.shmainfp": "!git mainfp",
+    "alias.here": "push --force"
+  },
+  "scratch_repos": {
+    "upstream": {
+      "branch": "claude/test",
+      "refs": [
+        "refs/remotes/origin/main"
+      ],
+      "config": {
+        "remote.origin.url": "/nonexistent/remote.git",
+        "remote.origin.fetch": "+refs/heads/*:refs/remotes/origin/*",
+        "branch.claude/test.remote": "origin",
+        "branch.claude/test.merge": "refs/heads/main",
+        "push.default": "upstream"
+      }
+    },
+    "matching": {
+      "branch": "claude/test",
+      "config": {
+        "push.default": "matching"
+      }
+    },
+    "pushrefspec": {
+      "branch": "claude/test",
+      "config": {
+        "remote.origin.url": "/nonexistent/remote.git",
+        "remote.origin.push": "refs/heads/*:refs/heads/*"
+      }
+    }
   },
   "cases": [
     {
@@ -1755,7 +1787,7 @@
     },
     {
       "command": "git mainfp origin claude/x",
-      "expect": "allow",
+      "expect": "block",
       "on": "branch"
     },
     {
@@ -2426,6 +2458,462 @@
     },
     {
       "command": "git fwl origin claude/x",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git push origin :",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git push origin ':'",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git push origin +:",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git push origin : claude/x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git push --repo=origin :",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git push origin claude/x:claude/x",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git push origin HEAD:claude/y",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git push -u origin claude/x",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git push",
+      "expect": "block",
+      "on": "upstream"
+    },
+    {
+      "command": "git push origin",
+      "expect": "block",
+      "on": "upstream"
+    },
+    {
+      "command": "git push origin claude/test",
+      "expect": "allow",
+      "on": "upstream"
+    },
+    {
+      "command": "git push",
+      "expect": "block",
+      "on": "matching"
+    },
+    {
+      "command": "git push",
+      "expect": "block",
+      "on": "pushrefspec"
+    },
+    {
+      "command": "git push origin claude/test",
+      "expect": "allow",
+      "on": "matching"
+    },
+    {
+      "command": "git push",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git push origin",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "printf '[alias]\\n\\tzz = push --force\\n' >> .git/config && git zz origin claude/x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "printf '[alias]\\n\\tzz = push --force\\n' >> .git/config; git zz origin claude/x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "printf '[alias]\\n\\tzz = push --force\\n' >> .git/config\ngit zz origin claude/x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "printf '[alias]\\n\\tst = push --force\\n' >> .git/config && git st origin claude/x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo '[alias] zz = push -f' >> ~/.gitconfig",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cat >> ~/.config/git/config <<'EOF'\n[alias]\n\tzz = push -f\nEOF",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "printf '[core]\\nhooksPath = /dev/null\\n' >> .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "printf x | tee -a .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "sed -i.bak 's/a/b/' .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "perl -pi -e 's/a/b/' .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp /tmp/x .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp /tmp/config .git/",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "ln -sf /tmp/x .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "dd of=.git/config if=/tmp/x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cd .git && echo x >> config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo x > \"$(git rev-parse --git-dir)/config\"",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "bash -c 'echo x >> .git/config'",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cat .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "grep -n alias .git/config ~/.gitconfig",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cp .git/config /tmp/config-backup",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "echo x > .github/config.yml",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "echo x > src/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git config --list > /tmp/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git zz origin claude/x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git zz",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git config alias.zz status && git zz",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git config alias.lg 'log --oneline' && git lg -5",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git config alias.zz status && git config alias.zz 'push --force'; git zz",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git here origin claude/x",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git here origin claude/x",
+      "expect": "block",
+      "on": "main"
+    },
+    {
+      "command": "git here origin claude/x",
+      "expect": "allow",
+      "on": "main",
+      "cwd": "{branch_repo}"
+    },
+    {
+      "command": "git help push",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git version",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git stage x",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git rm -rf src",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git rm -f AGENTS.md",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git rm --force AGENTS.md",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git rm --cached -f AGENTS.md",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git rm -r --cached src",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git rm AGENTS.md",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git rm -r src",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git reflog expire --expire=now --all",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git reflog delete HEAD@{1}",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git reflog",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git reflog show main",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git gc",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git tag -d v0",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git config --get alias.fp status; git fp origin claude/x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git config --type=bool alias.fp status; git fp origin claude/x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git config --file /tmp/x alias.fp status && git fp origin claude/x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -C /tmp config alias.fp status; git fp origin claude/x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git config alias.fp status && git fp origin claude/x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git config alias.zz status && git ZZ",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "echo x > .git/worktrees/w/config.worktree",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo x >> bare/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo x >> bare/description",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cp -t .git /tmp/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp --target-directory=.git /tmp/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "truncate -s0 .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cd \"$D\" && echo x > config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c gc.reflogExpireUnreachable=now gc --prune=now",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git config gc.reflogExpireUnreachable now && git gc --prune=now",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git config gc.pruneExpire now",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git config gc.auto 0",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "ed -s .git/config <<< $'1d\\nw\\nq'",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "vim -es -c 'normal dd' -c wq .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "awk -i inplace '{print}' .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "patch .git/config < /tmp/p.diff",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "tar -xf /tmp/a.tar -C .git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "unzip -o /tmp/a.zip -d .git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "tar -xf /tmp/a.tar -C /tmp/out",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "awk '{print}' .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "patch -p1 < /tmp/p.diff",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git rm -f AGENTS.md -- --cached",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git rm --cached -- -f",
       "expect": "allow",
       "on": "branch"
     }
