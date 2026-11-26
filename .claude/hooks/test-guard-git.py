@@ -1,6 +1,6 @@
 """Feeds guard-git.sh the payload Claude Code sends and checks every verdict.
 
-Run: python3 .claude/hooks/test-guard-git.py (CI runs it through pnpm test).
+Run: python3 .claude/hooks/test-guard-git.py (each repo wires it into its own CI).
 Cases come from two files next to this one:
 - guard-git.cases.json: shared by every repo that runs this guard, byte for
   byte, never edited in one repo. It pins guard-git.py by SHA-256.
@@ -12,7 +12,8 @@ Cases come from two files next to this one:
 Each case runs in a scratch repo holding the shared file's scratch_files and
 scratch_config, on branch claude/test ("branch") or main ("main", which also
 gets scratch_config_main), with HOME pointed at an empty directory so the
-developer's own git config cannot change a verdict. A case's optional `cwd`
+developer's own git config cannot change a verdict. `scratch_repos` adds more
+(name -> branch, extra refs and config), for a case's `on` to name. A case's optional `cwd`
 is sent as the payload's cwd. `policy_cases` run against a copy of the guard
 with that policy file beside it (or none), so both the default and a stricter
 policy are tested in every repo. Exit 1 on any mismatch.
@@ -30,6 +31,9 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 EXIT = {"block": 2, "allow": 0}
+# Hook input that names no command to check: blocked, never waved through.
+UNREADABLE = ("{not json", '{"tool_name":"Bash","tool_input":{"command":42}}', "{}",
+              '{"tool_name":"Bash","tool_input":{}}', '{"tool_name":"Bash"}', "[]")
 
 
 def sha256(path):
@@ -116,6 +120,10 @@ def main():
             "main": scratch_repo(Path(tmp, "main"), "main", files, shared["scratch_refs"],
                                  {**config, **shared.get("scratch_config_main", {})}, env),
         }
+        for name, spec in shared.get("scratch_repos", {}).items():
+            repos[name] = scratch_repo(Path(tmp, name), spec["branch"], files,
+                                       shared["scratch_refs"] + spec.get("refs", []),
+                                       {**config, **spec.get("config", {})}, env)
 
         def fill(text):
             return text.replace("{branch_repo}", str(repos["branch"])).replace(
@@ -140,12 +148,12 @@ def main():
                 text = c["policy"] if isinstance(c["policy"], str) else json.dumps(c["policy"])
                 (hooks / "guard-git.policy.json").write_text(text)
             run(hooks / "guard-git.sh", c, f", policy {json.dumps(c['policy'])}")
-        for raw in ("{not json", '{"tool_name":"Bash","tool_input":{"command":42}}'):
+        for raw in UNREADABLE:
             if verdict(HERE / "guard-git.sh", raw, repos["branch"], env) != 2:
                 failures.append(f"should block unreadable hook input: {raw!r}")
     for f in failures:
         print(f, file=sys.stderr)
-    total = len(cases) + len(shared.get("policy_cases", [])) + 2
+    total = len(cases) + len(shared.get("policy_cases", [])) + len(UNREADABLE)
     print(f"guard-git: {total - len(failures)} passed, {len(failures)} failed "
           f"({len(shared['cases'])} shared, {len(shared.get('policy_cases', []))} policy, "
           f"{len(overrides)} overridden, {len(local.get('cases', []))} local; "

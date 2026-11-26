@@ -5,7 +5,10 @@ core.hooksPath, another config file), running an arbitrary program through
 git (--upload-pack, --receive-pack, --exec), and the commands that throw work
 away (reset --hard, clean -f, checkout/switch/restore that discard edits or
 reset a branch with -B/-C, stash clear, branch -D, update-ref -d, worktree
-remove --force).
+remove --force, rm -f, reflog expire/delete). A push of the refspec `:`, or
+a bare push whose config pushes more than the branch (push.default=matching,
+remote.*.push, an upstream of main), counts as pushing main. A git config
+file written by hand (printf >> .git/config) is blocked: use git config.
 
 The command is split the way the shell splits it (quotes, &&, ;, |, newlines,
 redirects), so a quoted flag is still a flag, a commit message is never read
@@ -28,7 +31,8 @@ by the branch where it runs, following a literal cd; after a cd this cannot
 follow, GIT_DIR or --git-dir, it must name the branch.
 
 An alias saved in a config file (`alias.fp = push --force`) is checked as
-what it expands to. A repo can be stricter, never looser, with an optional
+what it expands to; a subcommand that is neither a git command nor an alias
+is blocked, since this command may have just written it. A repo can be stricter, never looser, with an optional
 guard-git.policy.json next to this file (see load_policy); without one the
 rules here apply as they are.
 
@@ -556,14 +560,15 @@ def is_rev(arg, cwd=None):
 
 
 def config_key_is_dangerous(key):
-    """Config that skips the hooks, runs a program, lets clean delete files or
-    changes what a push does. One list for -c, `git config` and GIT_CONFIG_*."""
+    """Config that skips the hooks, runs a program, lets clean delete files,
+    changes what a push does or lets gc expire the reflog that recovers work. One list for -c, `git config` and GIT_CONFIG_*."""
     key = key.lower()
     return (key.startswith(("core.hookspath", "include", "core.sshcommand", "clean.requireforce"))
             or key.startswith(PROGRAM_KEYS)
             or key.endswith((".textconv", ".command", ".uploadpack", ".receivepack", ".driver",
                              ".program", ".helper", ".cmd"))
             or bool(re.match(r"^remote\..+\.(mirror|push)$", key))
+            or bool(re.match(r"^gc\..*(reflogexpire|reflogexpireunreachable|pruneexpire)$", key))
             or key.startswith("push.default"))
 
 
@@ -618,26 +623,40 @@ def alias_names():
     return _ALIASES[0]
 
 
-def saved_alias(sub, repo_dir, ctx):
+# Aliases an earlier part of this command may set with `git config alias.x
+# ...` (already checked there). Read from the command's text, not from what git
+# wrote (a --get, --file or a failed write saves nothing here), so they are
+# checked as well as the saved value, never instead of it.
+DEFINED = {}
+
+
+def saved_aliases(sub, repo_dir, ctx):
     """An alias saved in a config file (`alias.fp = push --force`
     in ~/.gitconfig) is what `git fp` runs. git ignores an alias that shares a
     command's name, so only a name git does not know as a command counts. When
     the command changes where git looks (cd, --git-dir, GIT_DIR, HOME, a -C the
-    shell expands), the alias cannot be read from here, so it is blocked."""
+    shell expands), the alias cannot be read from here, so it is blocked. A
+    name that is neither a command nor a saved alias is blocked too: git would
+    fail on it, unless this same command writes the alias first (printf ... >>
+    a config file, a script), and then it runs something nobody checked.
+    Returns every value `git sub` may run: the saved one and the one this
+    command defines (DEFINED)."""
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]*", sub):
-        return None
+        return []
+    if sub in git_commands():
+        return []
+    defined = [DEFINED[sub.lower()]] if sub.lower() in DEFINED else []
     unreadable = (f"git {sub} may be an alias in a repo or config this cannot read; "
                   "spell the git command out")
     if MOVED[0] or ctx["moved"] or (repo_dir and re.search(r"[$~`*?\[{]", repo_dir)):
-        if sub not in git_commands():
-            block(unreadable)
-        return None
+        block(unreadable)
     found = run_git((["-C", repo_dir] if repo_dir else []) + ["config", "--get", "alias." + sub])
-    if sub in git_commands():
-        return None
     if found.returncode not in (0, 1):  # 128: a -C or repo git cannot open
         block(unreadable)
-    return found.stdout.strip() if found.returncode == 0 else None
+    if found.returncode == 1 and not defined:
+        block(f"git {sub} is neither a git command nor a saved alias; if this command "
+              "defines it, spell out what it runs instead")
+    return defined + ([found.stdout.strip()] if found.returncode == 0 else [])
 
 
 def check_alias(value, rest, ctx, depth, configs=(), repo_dir=None):
@@ -716,10 +735,9 @@ def check_git(args, ctx, depth=0, via_xargs=False):
             inline_alias = True
             check_alias(value, rest, ctx, depth, configs, repo_dir)
         if config_key_is_dangerous(key) and not key.lower().startswith("core.hookspath"):
-            block(f"-c {key} can run a program, let clean delete files or change what push does")
+            block(f"-c {key} can run a program, change what push does or let clean/gc delete work")
     if not inline_alias:
-        value = saved_alias(sub, repo_dir, ctx)
-        if value is not None:
+        for value in saved_aliases(sub, repo_dir, ctx):
             if depth > 4:
                 block("an alias expands to another alias too many times")
             check_alias(value, rest, ctx, depth, configs, repo_dir)
@@ -754,7 +772,7 @@ def check_git(args, ctx, depth=0, via_xargs=False):
             ):
                 block("changing core.hooksPath skips the hooks")
             if config_key_is_dangerous(a) and a.lower() != "core.hookspath" and n + 1 < len(rest):
-                block(f"setting {a} can run a program, let clean delete files or change what push does")
+                block(f"setting {a} can run a program, change what push does or let clean/gc delete work")
             if (a in ("remove-section", "rename-section") or is_prefix(a, "--remove-section", "--rem")
                     or is_prefix(a, "--rename-section", "--ren")):
                 block("removing or renaming a config section can drop core.hooksPath")
@@ -765,6 +783,7 @@ def check_git(args, ctx, depth=0, via_xargs=False):
                     block("an alias for a shell command or for git " + value.split()[0].lstrip("!")
                           + " hides what later runs; spell the command out")
                 check_alias(value, [], ctx, depth)
+                DEFINED[a.lower().removeprefix("alias.")] = value
     if sub == "push":
         for a in rest:
             if a in SAFE_EXPANSIONS:
@@ -803,6 +822,8 @@ def check_git(args, ctx, depth=0, via_xargs=False):
         refspecs = positional if has_repo else positional[1:]  # after the remote
         if any("*" in r for r in refspecs):
             block("a wildcard refspec pushes main too; push your branch by name")
+        if any(r.lstrip("+") == ":" for r in refspecs):
+            block("the refspec : pushes every matching branch, main too; push your branch by name")
         # git resolves `heads/main` and `refs/heads/main` to main as well.
         dsts = [r.rsplit(":", 1)[-1].removeprefix("refs/").removeprefix("heads/")
                 for r in refspecs]
@@ -812,11 +833,24 @@ def check_git(args, ctx, depth=0, via_xargs=False):
             if CWD[0] == UNKNOWN or git_dir:
                 block("cannot tell which branch this pushes (a cd, GIT_DIR or --git-dir this cannot "
                       "follow); push the branch by name")
-            code, branch = git_out("branch", "--show-current",
-                                   cwd=os.path.join(CWD[0] or "", repo_dir or ""))
+            where = os.path.join(CWD[0] or "", repo_dir or "")
+            code, branch = git_out("branch", "--show-current", cwd=where)
             if code != 0:
                 block("could not tell which branch this pushes; push the branch by name")
             dsts.append(branch)
+        if not refspecs:
+            # A bare push follows the config: push.default=matching or a
+            # remote.*.push refspec pushes more than this branch, and an
+            # upstream (push.default=upstream) can be main.
+            _, default = git_out("config", "--get", "push.default", cwd=where)
+            _, pushes = git_out("config", "--get-regexp", r"^remote\..*\.push$", cwd=where)
+            if default.lower() == "matching" or pushes:
+                block("this repo's push config (push.default=matching or remote.*.push) pushes more "
+                      "than your branch; push the branch by name")
+            code, target = git_out("rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{push}",
+                                   cwd=where)
+            if code == 0:
+                dsts.append(target.partition("/")[2])
         if any(d in PROTECTED for d in dsts):
             block("pushing to main is not allowed; push a branch and open a PR")
     if sub == "commit":
@@ -892,6 +926,12 @@ def check_git(args, ctx, depth=0, via_xargs=False):
     if sub == "checkout-index" and any("f" in short_flags(a) or is_prefix(a, "--force", "--fo")
                                        for a in rest):
         block("git checkout-index -f overwrites local changes")
+    opts = rest[:rest.index("--")] if "--" in rest else rest  # after --, paths
+    if sub == "rm" and not is_prefix_any(opts, "--cached", "--c") and any(
+            is_prefix(a, "--force", "--f") or "f" in short_flags(a) for a in opts):
+        block("git rm -f deletes uncommitted changes; commit a WIP first, or use --cached")
+    if sub == "reflog" and rest[:1] in (["expire"], ["delete"]):
+        block(f"git reflog {rest[0]} drops the history that recovers lost commits")
     if sub == "stash" and rest[:1] == ["drop"]:
         block("git stash drop deletes a stash, and the stash is shared by all worktrees")
     if sub == "stash" and rest[:1] == ["clear"]:
@@ -963,6 +1003,63 @@ def assignments(toks):
         if n < len(seg) and os.path.basename(seg[n]) in WRAPPERS | DECLARE:
             found += [t for t in seg[n + 1:] if ASSIGN_RE.match(t)]
     return found
+
+
+def written_files(seg):
+    """The files a segment writes: redirect targets, tee and truncate's files,
+    sed/perl/ruby -i's and awk -i inplace's files, the files an editor (ed, ex,
+    vi, vim, nvim) or patch is given, dd of=, what cp, mv, install and ln create
+    (the destination, or each source's name inside it), and a config file in
+    the directory tar -C or unzip -d extracts into."""
+    out = [seg[n + 1] for n, t in enumerate(seg[:-1])
+           if t and set(t) <= set("<>&|") and ">" in t]
+    seg = drop_redirects(seg)
+    for n, t in enumerate(seg):
+        if not runs_at(seg, n):
+            continue
+        base, after = os.path.basename(t), seg[n + 1:]
+        args = [a for a in after if not a.startswith("-")]
+        if base in ("tee", "truncate", "ed", "ex", "vi", "vim", "nvim", "patch"):
+            out += args
+        elif base in ("awk", "gawk") and any(
+                a == "inplace" or a.endswith("=inplace") for a in after):
+            out += args
+        elif base in ("tar", "bsdtar", "gtar", "unzip"):
+            flag = "-d" if base == "unzip" else "-C"
+            out += [os.path.join(after[k + 1], "config") for k, a in enumerate(after[:-1])
+                    if a == flag]
+            out += [os.path.join(a.partition("=")[2], "config") for a in after
+                    if a.startswith("--directory=")]
+        elif base in ("sed", "gsed", "perl", "ruby") and any(
+                a.startswith("--in-place") or "i" in short_flags(a, "efs") for a in after):
+            out += args
+        elif base == "dd":
+            out += [a[3:] for a in after if a.startswith("of=")]
+        elif base in ("cp", "mv", "install", "ln", "rsync") and args:
+            target = next((after[k + 1] for k, a in enumerate(after[:-1]) if a == "-t"),
+                          next((a.partition("=")[2] for a in after
+                                if a.startswith("--target-directory=")), None))
+            dest, srcs = (target, args) if target else (args[-1], args[:-1])
+            out += [dest] + [os.path.join(dest, os.path.basename(s.rstrip("/"))) for s in srcs]
+    return out
+
+
+def git_config_file(path, here):
+    """Whether `path` is a file git reads config from: ~/.gitconfig,
+    .git/config, a worktree's config.worktree, ~/.config/git/config, a bare
+    repo's config. A path the shell expands, or a cd this cannot follow,
+    counts when the file is named config."""
+    path = os.path.expanduser(path)
+    base = os.path.basename(path.rstrip("/"))
+    if base in (".gitconfig", "gitconfig"):
+        return True
+    if base not in ("config", "config.worktree"):
+        return False
+    if here == UNKNOWN or re.search(r"[$`*?\[{~]", path):
+        return True
+    parent = os.path.dirname(os.path.normpath(os.path.join(here or os.getcwd(), path)))
+    return bool(re.search(r"\.git(/|$)|/git$", parent)) or os.path.isfile(
+        os.path.join(parent, "HEAD"))
 
 
 def segment_dirs(toks, start):
@@ -1077,6 +1174,10 @@ def check(cmd, depth=0):
         block("decoded or transformed text piped into a shell cannot be checked")
     for raw, here in zip(raw_segs, segment_dirs(toks, start)):
         CWD[0] = here
+        # An alias or core.hooksPath written into a config file by hand (printf
+        # ... >> .git/config) is never seen by the `git config` checks.
+        if any(git_config_file(f, here) for f in written_files(raw)):
+            block("writing a git config file by hand cannot be checked; use git config")
         seg = drop_redirects(raw)
         find_exec = False
         for n, t in enumerate(seg):
@@ -1185,7 +1286,7 @@ POLICY = load_policy()
 
 try:
     payload = json.load(sys.stdin)
-    command = payload.get("tool_input", {}).get("command", "")
+    command = payload["tool_input"]["command"]  # no command: refused, like any unreadable input
     # git reads aliases from where the command runs, which is the
     # payload's cwd, not necessarily the hook's.
     if isinstance(payload.get("cwd"), str) and os.path.isdir(payload["cwd"]):
