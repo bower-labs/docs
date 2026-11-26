@@ -11,7 +11,7 @@
 - This repo is **public** — treat every file as publicly visible. Never commit API keys, internal URLs, secrets, or system architecture details.
 - Run `python3 scripts/validate-docs.py` before opening a PR — it is what CI runs
 - Turn on the pre-commit hook once per clone: `git config core.hooksPath .githooks`. It runs CI's checks in a few seconds; fix a failure rather than skipping the hook.
-- `.claude/settings.json` wires `.claude/hooks/guard-git.sh` into every agent's Bash calls. It blocks git commands that discard work, push to `main` or skip hooks; the hook's docstring lists them. Commit a WIP instead of discarding work. Its tests are `python3 .claude/hooks/test-guard-git.py`.
+- `.claude/settings.json` wires `.claude/hooks/guard-git.sh` into every agent's Bash calls. It blocks git commands that discard work, push to `main` or skip hooks; the hook's docstring lists them. Commit a WIP instead of discarding work. Its tests are `python3 .claude/hooks/test-guard-git.py`. `guard-git.py`, `guard-git.cases.json` and the test runner are copied whole from the sibling repos and pinned by hash, so never edit them here; this repo's own cases go in `guard-git.cases.local.json`.
 
 ## Brand and assets
 

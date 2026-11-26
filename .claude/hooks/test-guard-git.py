@@ -1,172 +1,157 @@
-"""Feeds guard-git.sh the payload Claude Code sends and checks its verdict.
+"""Feeds guard-git.sh the payload Claude Code sends and checks every verdict.
 
-Run: python3 .claude/hooks/test-guard-git.py (CI and the pre-commit hook run it).
+Run: python3 .claude/hooks/test-guard-git.py (CI runs it through pnpm test).
+Cases come from two files next to this one:
+- guard-git.cases.json: shared by every repo that runs this guard, byte for
+  byte, never edited in one repo. It pins guard-git.py by SHA-256.
+- guard-git.cases.local.json: this repo's own. `overrides` (command -> "allow"
+  or "block") replace a shared verdict, for a repo whose guard-git.policy.json
+  is stricter; extra `cases`; and `shared_sha256`, the hash of the shared file
+  it was copied at. An override for a command the shared file lacks, or has
+  more than once (on a branch and on main), is an error.
+Each case runs in a scratch repo holding the shared file's scratch_files and
+scratch_config, on branch claude/test ("branch") or main ("main", which also
+gets scratch_config_main), with HOME pointed at an empty directory so the
+developer's own git config cannot change a verdict. A case's optional `cwd`
+is sent as the payload's cwd. `policy_cases` run against a copy of the guard
+with that policy file beside it (or none), so both the default and a stricter
+policy are tested in every repo. Exit 1 on any mismatch.
+Standard library only, so every repo can copy this runner unchanged.
 """
 
+import hashlib
 import json
+import os
+import shutil
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
-HOOK = Path(__file__).resolve().with_name("guard-git.sh")
-ROOT = HOOK.parents[2]  # path cases such as `git checkout AGENTS.md` need the repo root
-
-BLOCK = [
-    # force push, +refspec, --mirror
-    "git push --force origin x",
-    'git push "--force" origin x',
-    "git push '-f' origin x",
-    "git push --forc origin x",
-    "git push -uf origin x",
-    "git push origin +main",
-    "git push origin +HEAD:main",
-    "git push --mirror",
-    # pushes to main
-    "git push origin main",
-    "git push origin claude/x:main",
-    "git push origin claude/x main",
-    "git push origin claude/x HEAD:refs/heads/main",
-    "git push --all origin",
-    # running an arbitrary program
-    "git fetch --upload-pack='touch X; false' .",
-    "git push --receive-pack=evil origin claude/x",
-    # destructive local commands
-    "git reset --hard origin/main",
-    "git reset --ha",
-    "git clean -fd",
-    "git clean --force",
-    "git checkout -- .",
-    "git checkout .",
-    "git checkout -- index.mdx",
-    "git checkout -f main",
-    "git checkout HEAD AGENTS.md",
-    "git switch -f main",
-    "git switch --discard-changes main",
-    "git checkout AGENTS.md",
-    "git checkout docs.json 2>/dev/null",
-    "git checkout -B main",
-    "git switch -C main",
-    "git restore .",
-    "git restore index.mdx",
-    "git restore --staged --worktree .",
-    "git stash clear",
-    "git branch -D old",
-    "git branch -Dq old",
-    "git branch --delete --force old",
-    "git branch -df old",
-    # skipping hooks
-    "git commit --no-verify -m x",
-    "git commit --no-verif -m x",
-    "git commit -n -m x",
-    "git commit -nm x",
-    "git push --no-verify",
-    "git -c core.hooksPath=/dev/null commit -m x",
-    "git config core.hooksPath /dev/null",
-    "git config --unset core.hooksPath",
-    "X=/nonexistent git --config-env=core.hooksPath=X commit -m y",
-    "git --config-env core.hooksPath=X commit -m y",
-    "GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=core.hooksPath GIT_CONFIG_VALUE_0=/x git commit -m z",
-    "GIT_CONFIG_PARAMETERS=\"'core.hooksPath'='/x'\" git commit -m z",
-    "git merge --no-verify x",
-    "git rebase --no-verify x",
-    # wrapped forms
-    "cd /tmp && git push --force",
-    "git status; git reset --hard",
-    "git status\ngit push --force",
-    'bash -c "git push --force"',
-    "sh -c 'git clean -fdx'",
-    "eval git reset --hard",
-    'eval "git stash clear"',
-    "env git push -f",
-    "env GIT_TRACE=1 git push --force",
-    "command git branch -D x",
-    "/usr/bin/git reset --hard",
-    "GIT_DIR=.git git push --force",
-    "git -C ../other push --force",
-    "git commit -F - <<'EOF'\nmsg\nEOF\ngit push origin +main",
-    "echo `git reset --hard`",
-    'echo "$(git reset --hard)"',
-    "xargs git branch -D <<< x",
-    "echo 'git reset --hard' | bash",
-    "printf 'git push -f\\n' | sh",
-    "cat <<END-MSG\nhi\nEND-MSG\ngit reset --hard",
-    'echo "<<X"\ngit reset --hard',
-    "cat <<<EOF\ngit reset --hard",
-    "GIT_CONFIG_GLOBAL=/tmp/c git commit -m x",
-    "export GIT_CONFIG_SYSTEM=/tmp/c; git push origin claude/x",
-]
-
-ALLOW = [
-    "git status",
-    "git diff --stat",
-    "git push -u origin feat/x",
-    "git push --force-with-lease origin feat/x",
-    "git push -n origin feat/x",
-    "git log -n 3 && git commit -m x",
-    "git push origin x && rm -f build.log",
-    'git commit -m "block -f and -n in the guard"',
-    'git commit -m "never git reset --hard or git push --force"',
-    "git commit -mn",
-    "git commit -F - <<'EOF'\nfix: block git push --force, -n and git branch -D\nEOF",
-    "git commit -F - <<'M'\ndon't push to main\nM",
-    "git commit -F - <<M\nBower's guard: git push --force is blocked\nM\ngit push -u origin claude/x",
-    'gh pr create --body "never git push --force"',
-    "gh pr comment 261 --body 'git checkout -- . discards work'",
-    'echo "git reset --hard"',
-    'grep -n "git push --force" AGENTS.md',
-    "python3 -c \"print('git push --force')\"",
-    "git push -u origin claude/x",
-    "git push origin HEAD",
-    "git fetch origin",
-    "git switch -c claude/x origin/main",
-    "git switch main",
-    "git checkout --track origin/claude/x",
-    "git merge --ff-only origin/main",
-    "git reset --soft HEAD~1",
-    "git reset HEAD index.mdx",
-    "git clean -n",
-    "git checkout main",
-    "git checkout main 2>/dev/null",
-    "git checkout main >/dev/null 2>&1",
-    "git checkout -b claude/x origin/main 2>&1",
-    "git log -n 3 > log.txt",
-    "git commit -F - <<'END-MSG'\ndon't git reset --hard\nEND-MSG",
-    "git commit -F - <<EOF\nmsg\nEOF\ngit push -u origin claude/x 2>&1 | tail -1",
-    "xargs git log",
-    "git diff main -- AGENTS.md",
-    "git checkout -b feat/x origin/main",
-    "git restore --staged index.mdx",
-    "git stash list",
-    "git stash push -u -m wip-tag",
-    "git branch -d merged",
-    "git branch --format=%(refname)",
-    "git worktree list",
-    "python3 scripts/validate-docs.py",
-    'echo "unbalanced',
-    "",
-]
+HERE = Path(__file__).resolve().parent
+EXIT = {"block": 2, "allow": 0}
 
 
-def verdict(command, raw=None):
-    payload = raw if raw is not None else json.dumps(
-        {"tool_name": "Bash", "tool_input": {"command": command}}
-    )
-    return subprocess.run(
-        ["bash", str(HOOK)], input=payload, capture_output=True, text=True, cwd=ROOT
-    ).returncode
+def sha256(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-failures = []
-for cmd in BLOCK:
-    if verdict(cmd) != 2:
-        failures.append(f"should block: {cmd!r}")
-for cmd in ALLOW:
-    if verdict(cmd) != 0:
-        failures.append(f"should allow: {cmd!r}")
-if verdict("", raw="{not json") != 2:
-    failures.append("should block unreadable hook input")
+def load(name):
+    with open(HERE / name, encoding="utf-8") as f:
+        return json.load(f)
 
-for f in failures:
-    print(f, file=sys.stderr)
-print(f"guard-git: {len(BLOCK) + len(ALLOW) + 1 - len(failures)} passed, {len(failures)} failed")
-sys.exit(1 if failures else 0)
+
+def isolated_env(home):
+    """No GIT_* from an outer git hook (GIT_INDEX_FILE would aim the scratch
+    repos at the outer commit's index), no system or user git config."""
+    env = {k: v for k, v in os.environ.items()
+           if not k.startswith("GIT_") and k != "XDG_CONFIG_HOME"}
+    env.update({"HOME": str(home), "GIT_CONFIG_NOSYSTEM": "1"})
+    return env
+
+
+def scratch_repo(path, branch, files, refs, config, env):
+    """A repo with known files, refs and config on a known branch, so the verdicts
+    do not depend on which branch CI or a developer happens to have checked out."""
+    def git(*args):
+        subprocess.run(["git", "-C", str(path), *args], check=True, capture_output=True, env=env)
+    path.mkdir(parents=True)
+    git("init", "-q", "-b", branch)
+    for name in files:
+        (path / name).parent.mkdir(parents=True, exist_ok=True)
+        (path / name).write_text("x\n")
+    git("add", ".")
+    git("-c", "user.name=t", "-c", "user.email=t@example.com", "-c", "core.hooksPath=/dev/null",
+        "-c", "commit.gpgsign=false", "commit", "-qm", "init")
+    for ref in refs:
+        git("update-ref", ref, "HEAD")
+    for key, value in config.items():
+        git("config", key, value)
+    return path
+
+
+def verdict(hook, payload, cwd, env):
+    return subprocess.run(["bash", str(hook)], input=payload, capture_output=True, text=True,
+                          cwd=cwd, env=env).returncode
+
+
+def payload_for(command, cwd):
+    return json.dumps({"tool_name": "Bash", "tool_input": {"command": command}, "cwd": str(cwd)})
+
+
+def main():
+    shared, local = load("guard-git.cases.json"), load("guard-git.cases.local.json")
+    overrides = local.get("overrides", {})
+    failures = []
+    # The pins: the guard is the one the shared cases were written for, and the
+    # shared file is the one this repo last copied (not edited in place).
+    if sha256(HERE / "guard-git.py") != shared["guard_sha256"]:
+        failures.append("guard-git.py differs from the guard_sha256 the shared cases pin; "
+                        "change the guard and guard-git.cases.json together")
+    if sha256(HERE / "guard-git.cases.json") != local.get("shared_sha256"):
+        failures.append("guard-git.cases.json differs from the shared_sha256 in "
+                        "guard-git.cases.local.json; copy the shared file whole, then update the pin")
+    counts = {}
+    for c in shared["cases"]:
+        counts[c["command"]] = counts.get(c["command"], 0) + 1
+    for cmd, expect in overrides.items():
+        if cmd not in counts:
+            failures.append(f"override for a command the shared file does not have: {cmd!r}")
+        elif counts[cmd] > 1:
+            failures.append(f"override for a command the shared file has more than once: {cmd!r}; "
+                            "add a local case instead")
+        if expect not in EXIT:
+            failures.append(f"override must be allow or block: {cmd!r}")
+    cases = [{**c, "expect": overrides.get(c["command"], c["expect"])} for c in shared["cases"]]
+    cases += local.get("cases", [])
+    files = sorted(set(shared["scratch_files"]) | set(local.get("scratch_files", [])))
+    config = shared.get("scratch_config", {})
+    with tempfile.TemporaryDirectory() as tmp:
+        home = Path(tmp, "home")
+        home.mkdir()
+        env = isolated_env(home)
+        repos = {
+            "branch": scratch_repo(Path(tmp, "branch"), "claude/test", files, shared["scratch_refs"],
+                                   config, env),
+            "main": scratch_repo(Path(tmp, "main"), "main", files, shared["scratch_refs"],
+                                 {**config, **shared.get("scratch_config_main", {})}, env),
+        }
+
+        def fill(text):
+            return text.replace("{branch_repo}", str(repos["branch"])).replace(
+                "{main_repo}", str(repos["main"]))
+
+        def run(hook, c, label=""):
+            on = c.get("on", "branch")
+            cwd = fill(c["cwd"]) if "cwd" in c else repos[on]
+            got = verdict(hook, payload_for(fill(c["command"]), cwd), repos[on], env)
+            if got != EXIT.get(c["expect"]):
+                failures.append(f"should {c['expect']} (on {on}{label}): {c['command']!r}")
+
+        for c in cases:
+            run(HERE / "guard-git.sh", c)
+        # A copy of the guard with only the case's policy beside it (none if null).
+        for n, c in enumerate(shared.get("policy_cases", [])):
+            hooks = Path(tmp, f"policy-{n}")
+            hooks.mkdir()
+            for name in ("guard-git.sh", "guard-git.py"):
+                shutil.copy2(HERE / name, hooks / name)
+            if c["policy"] is not None:
+                text = c["policy"] if isinstance(c["policy"], str) else json.dumps(c["policy"])
+                (hooks / "guard-git.policy.json").write_text(text)
+            run(hooks / "guard-git.sh", c, f", policy {json.dumps(c['policy'])}")
+        for raw in ("{not json", '{"tool_name":"Bash","tool_input":{"command":42}}'):
+            if verdict(HERE / "guard-git.sh", raw, repos["branch"], env) != 2:
+                failures.append(f"should block unreadable hook input: {raw!r}")
+    for f in failures:
+        print(f, file=sys.stderr)
+    total = len(cases) + len(shared.get("policy_cases", [])) + 2
+    print(f"guard-git: {total - len(failures)} passed, {len(failures)} failed "
+          f"({len(shared['cases'])} shared, {len(shared.get('policy_cases', []))} policy, "
+          f"{len(overrides)} overridden, {len(local.get('cases', []))} local; "
+          f"shared source: {shared['source']})")
+    return 1 if failures else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

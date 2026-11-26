@@ -1,0 +1,89 @@
+{
+  "_header": [
+    "docs' own git guard cases, beside the shared guard-git.cases.json (never edit that one here).",
+    "cases: docs paths (index.mdx, docs.json) and commands an agent runs in this repo, from the earlier suite (PR #261)",
+    "that the shared file lacks, plus allow pins for ordinary commands (cd then git, GIT_PAGER, git add .).",
+    "overrides: command -> allow|block, replacing that shared case's verdict (none today).",
+    "shared_sha256: the hash of guard-git.cases.json as last copied; update it with each copy."
+  ],
+  "shared_sha256": "4363152fc811b8419ed71c35ce709d2a32d009e7ea59a160f348794177575d4c",
+  "scratch_files": [
+    "docs.json",
+    "index.mdx"
+  ],
+  "overrides": {},
+  "cases": [
+    {
+      "command": "git checkout -- index.mdx",
+      "expect": "block"
+    },
+    {
+      "command": "git checkout docs.json 2>/dev/null",
+      "expect": "block"
+    },
+    {
+      "command": "git restore index.mdx",
+      "expect": "block"
+    },
+    {
+      "command": "git rebase --no-verify x",
+      "expect": "block"
+    },
+    {
+      "command": "GIT_DIR=.git git push --force",
+      "expect": "block"
+    },
+    {
+      "command": "gh pr create --body \"never git push --force\"",
+      "expect": "allow"
+    },
+    {
+      "command": "gh pr comment 261 --body 'git checkout -- . discards work'",
+      "expect": "allow"
+    },
+    {
+      "command": "git push -u origin claude/x",
+      "expect": "allow"
+    },
+    {
+      "command": "git reset HEAD index.mdx",
+      "expect": "allow"
+    },
+    {
+      "command": "git checkout -b feat/x origin/main",
+      "expect": "allow"
+    },
+    {
+      "command": "git restore --staged index.mdx",
+      "expect": "allow"
+    },
+    {
+      "command": "python3 scripts/validate-docs.py",
+      "expect": "allow"
+    },
+    {
+      "command": "cd {main_repo} && git status",
+      "expect": "allow"
+    },
+    {
+      "command": "GIT_DIR=.git git log -1",
+      "expect": "allow"
+    },
+    {
+      "command": "git add . && git log -1",
+      "expect": "allow"
+    },
+    {
+      "command": "GIT_PAGER=cat git log -1",
+      "expect": "allow"
+    },
+    {
+      "command": "git add . && git status",
+      "expect": "allow"
+    },
+    {
+      "command": "git log -1",
+      "expect": "allow"
+    }
+  ]
+}
