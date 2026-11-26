@@ -8,7 +8,9 @@ reset a branch with -B/-C, stash clear, branch -D, update-ref -d, worktree
 remove --force, rm -f, reflog expire/delete). A push of the refspec `:`, or
 a bare push whose config pushes more than the branch (push.default=matching,
 remote.*.push, an upstream of main), counts as pushing main. A git config
-file written by hand (printf >> .git/config) is blocked: use git config.
+file written by hand (printf >> .git/config) is blocked: use git config. A
+file named only inside the input (a diff's header for patch, an archive's
+member, an editor script on stdin) is out of reach, like python3 -c.
 
 The command is split the way the shell splits it (quotes, &&, ;, |, newlines,
 redirects), so a quoted flag is still a flag, a commit message is never read
@@ -561,7 +563,8 @@ def is_rev(arg, cwd=None):
 
 def config_key_is_dangerous(key):
     """Config that skips the hooks, runs a program, lets clean delete files,
-    changes what a push does or lets gc expire the reflog that recovers work. One list for -c, `git config` and GIT_CONFIG_*."""
+    changes what a push does or lets gc expire the reflog that recovers work.
+    One list for -c, --config-env, `git config` and GIT_CONFIG_*."""
     key = key.lower()
     return (key.startswith(("core.hookspath", "include", "core.sshcommand", "clean.requireforce"))
             or key.startswith(PROGRAM_KEYS)
@@ -694,6 +697,9 @@ def check_git(args, ctx, depth=0, via_xargs=False):
             env = a.partition("=")[2] if "=" in a else (args[i + 1] if i + 1 < len(args) else "")
             if "hookspath" in env.lower() or env.lower().startswith("alias."):
                 block("--config-env for core.hooksPath or an alias cannot be checked")
+            if config_key_is_dangerous(env.partition("=")[0]):
+                block(f"--config-env {env.partition('=')[0]} can run a program, change what push "
+                      "does or let clean/gc delete work")
         if a in GIT_VALUE_OPTS and i + 1 < len(args):
             if a == "-c":
                 configs.append(args[i + 1])
@@ -764,6 +770,12 @@ def check_git(args, ctx, depth=0, via_xargs=False):
         if sub != "commit" and any(is_prefix(a, "--no-verify", "--no-veri") for a in rest):
             block(NO_VERIFY)
     if sub == "config":
+        # Only a plain write saves an alias where `git x` reads it: not a read
+        # (--get, get, list), another file (--file, --blob), a type that may
+        # refuse the value, or a repo elsewhere (-C).
+        plain_write = not repo_dir and rest[:1] != ["get"] and rest[:1] != ["list"] and all(
+            r in ("--global", "--system", "--local", "--worktree", "--add", "--replace-all")
+            for r in rest if r.startswith("-"))
         for n, a in enumerate(rest):
             # Reading it (`git config core.hooksPath`, --get) is fine; a value or --unset is not.
             if a.lower() == "core.hookspath" and (
@@ -783,7 +795,8 @@ def check_git(args, ctx, depth=0, via_xargs=False):
                     block("an alias for a shell command or for git " + value.split()[0].lstrip("!")
                           + " hides what later runs; spell the command out")
                 check_alias(value, [], ctx, depth)
-                DEFINED[a.lower().removeprefix("alias.")] = value
+                if plain_write:
+                    DEFINED[a.lower().removeprefix("alias.")] = value
     if sub == "push":
         for a in rest:
             if a in SAFE_EXPANSIONS:
@@ -1005,6 +1018,20 @@ def assignments(toks):
     return found
 
 
+def option_values(args, short, long):
+    """The values an option is given, in every spelling: -Xv, -X v,
+    --long=v and --long v."""
+    out = []
+    for k, a in enumerate(args):
+        if a in (short, long) and k + 1 < len(args):
+            out.append(args[k + 1])
+        elif a.startswith(long + "="):
+            out.append(a[len(long) + 1:])
+        elif short and a.startswith(short) and not a.startswith("--") and len(a) > len(short):
+            out.append(a[len(short):])
+    return out
+
+
 def written_files(seg):
     """The files a segment writes: redirect targets, tee and truncate's files,
     sed/perl/ruby -i's and awk -i inplace's files, the files an editor (ed, ex,
@@ -1022,23 +1049,20 @@ def written_files(seg):
         if base in ("tee", "truncate", "ed", "ex", "vi", "vim", "nvim", "patch"):
             out += args
         elif base in ("awk", "gawk") and any(
-                a == "inplace" or a.endswith("=inplace") for a in after):
+                os.path.basename(v) in ("inplace", "inplace.awk")
+                for v in option_values(after, "-i", "--include")):
             out += args
         elif base in ("tar", "bsdtar", "gtar", "unzip"):
-            flag = "-d" if base == "unzip" else "-C"
-            out += [os.path.join(after[k + 1], "config") for k, a in enumerate(after[:-1])
-                    if a == flag]
-            out += [os.path.join(a.partition("=")[2], "config") for a in after
-                    if a.startswith("--directory=")]
+            dirs = (option_values(after, "-d", "--exdir") if base == "unzip"
+                    else option_values(after, "-C", "--directory"))
+            out += [os.path.join(d, "config") for d in dirs]
         elif base in ("sed", "gsed", "perl", "ruby") and any(
                 a.startswith("--in-place") or "i" in short_flags(a, "efs") for a in after):
             out += args
         elif base == "dd":
             out += [a[3:] for a in after if a.startswith("of=")]
         elif base in ("cp", "mv", "install", "ln", "rsync") and args:
-            target = next((after[k + 1] for k, a in enumerate(after[:-1]) if a == "-t"),
-                          next((a.partition("=")[2] for a in after
-                                if a.startswith("--target-directory=")), None))
+            target = next(iter(option_values(after, "-t", "--target-directory")), None)
             dest, srcs = (target, args) if target else (args[-1], args[:-1])
             out += [dest] + [os.path.join(dest, os.path.basename(s.rstrip("/"))) for s in srcs]
     return out
