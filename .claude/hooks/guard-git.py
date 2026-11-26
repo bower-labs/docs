@@ -316,6 +316,10 @@ def check_alias(value, rest, ctx, depth, configs=(), repo_dir=None):
     """An alias is a command in disguise: check what it expands to, with the
     same one-off config (-c core.hooksPath=...) the outer command set."""
     if value.startswith("!"):
+        # The shell command's own git runs under this -C and these -c values,
+        # which this cannot follow into it, so its aliases count as moved.
+        if repo_dir or any(c.lower().startswith("alias.") for c in configs):
+            MOVED[0] = True
         check(value[1:], depth + 1)
     else:
         # Docs change: alias.* configs carry through, so `-c alias.a=b -c "alias.b=push
@@ -596,7 +600,9 @@ def check(cmd, depth=0):
             t in ("cd", "pushd", "popd", "eval", "source") or t.startswith(("--git-dir", "--work-tree"))
                      or re.match(r"^(GIT_[A-Z_]+|HOME|XDG_CONFIG_HOME)=", t) for t in toks),
     }
-    if ctx["moved"]:
+    # `. ./env.sh`: a dot in command position is `source`.
+    if ctx["moved"] or any(t == "." and (n == 0 or toks[n - 1] in OPERATORS)
+                           for n, t in enumerate(toks)):
         MOVED[0] = True
     for t in toks:
         m = re.match(r"^GIT_CONFIG_(KEY_\d+|VALUE_\d+|PARAMETERS)=(.*)$", t, re.S)

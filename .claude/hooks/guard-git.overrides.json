@@ -205,6 +205,26 @@
       "expect": "deny",
       "branch": "claude/test",
       "cwd": "{main_repo}"
+    },
+    {
+      "command": "git -C {main_repo} shmainfp",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git -c 'alias.b=push --force' -c 'alias.a=!git b' a",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": ". ./env.sh && git mainfp",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git add . && git status",
+      "expect": "allow",
+      "branch": "claude/test"
     }
   ],
   "fixture_config": {
@@ -217,6 +237,7 @@
   },
   "fixture_config_main": {
     "alias.mainfp": "push --force",
-    "alias.mainfp2": "mainfp"
+    "alias.mainfp2": "mainfp",
+    "alias.shmainfp": "!git mainfp"
   }
 }
