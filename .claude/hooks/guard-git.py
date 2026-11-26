@@ -271,6 +271,14 @@ def run_git(args):
 
 
 _COMMANDS = []
+# Set once any part of the command changes where git reads config, so a nested
+# `bash -c "git fp"` after `cd ../b &&` is judged as moved too.
+MOVED = [False]
+
+
+def past_deadline():
+    if time.monotonic() > DEADLINE:
+        block("checking this command took too long; refusing rather than guessing")
 
 
 def git_commands():
@@ -290,18 +298,21 @@ def saved_alias(sub, repo_dir, ctx):
     shell expands), the alias cannot be read from here, so it is blocked."""
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]*", sub):
         return None
-    if ctx["moved"] or (repo_dir and re.search(r"[$~`]", repo_dir)):
-        if sub not in git_commands():
-            block(f"git {sub} may be an alias in a repo or config this cannot read; "
+    unreadable = (f"git {sub} may be an alias in a repo or config this cannot read; "
                   "spell the git command out")
+    if MOVED[0] or ctx["moved"] or (repo_dir and re.search(r"[$~`*?\[{]", repo_dir)):
+        if sub not in git_commands():
+            block(unreadable)
         return None
     found = run_git((["-C", repo_dir] if repo_dir else []) + ["config", "--get", "alias." + sub])
-    if found.returncode != 0 or sub in git_commands():
+    if sub in git_commands():
         return None
-    return found.stdout.strip()
+    if found.returncode not in (0, 1):  # 128: a -C or repo git cannot open
+        block(unreadable)
+    return found.stdout.strip() if found.returncode == 0 else None
 
 
-def check_alias(value, rest, ctx, depth, configs=()):
+def check_alias(value, rest, ctx, depth, configs=(), repo_dir=None):
     """An alias is a command in disguise: check what it expands to, with the
     same one-off config (-c core.hooksPath=...) the outer command set."""
     if value.startswith("!"):
@@ -309,7 +320,8 @@ def check_alias(value, rest, ctx, depth, configs=()):
     else:
         # Docs change: alias.* configs carry through, so `-c alias.a=b -c "alias.b=push
         # --force" a` is followed to the end (check() caps the depth).
-        outer = [x for c in configs for x in ("-c", c)]
+        # The expansion runs where the alias was found, so a chain keeps the -C.
+        outer = [x for c in configs for x in ("-c", c)] + (["-C", repo_dir] if repo_dir else [])
         try:
             check_git(outer + tokens(value) + rest, ctx, depth + 1)
         except ValueError:
@@ -320,6 +332,7 @@ def check_git(args, ctx, depth=0, via_xargs=False):
     """args: everything after the `git` token. ctx: flags set for the whole command."""
     if depth > 4:
         block("an alias expands to another alias too many times")
+    past_deadline()
     configs, i, repo_dir = [], 0, None
     while i < len(args) and args[i].startswith("-"):
         a = args[i]
@@ -358,12 +371,15 @@ def check_git(args, ctx, depth=0, via_xargs=False):
             if "$" in a or "`" in a or BRACE_RE.search(a):
                 block(f"git {sub} with a shell expansion ($..., {{a,b}}) cannot be checked; "
                       "spell the arguments out")
+    # git uses the last value of a key, so one inline alias is checked once (a
+    # repeated -c alias.a=... cannot fan the check out past the hook's timeout).
+    configs = list({c.partition("=")[0].lower(): c for c in configs}.values())
     inline_alias = False
     for c in configs:
         key, _, value = c.partition("=")
         if key.lower() == "alias." + sub.lower():
             inline_alias = True
-            check_alias(value, rest, ctx, depth, configs)
+            check_alias(value, rest, ctx, depth, configs, repo_dir)
         if config_key_is_dangerous(key) and not key.lower().startswith("core.hookspath"):
             block(f"-c {key} can run a program, let clean delete files or change what push does")
     if not inline_alias:
@@ -371,7 +387,7 @@ def check_git(args, ctx, depth=0, via_xargs=False):
         if value is not None:
             if depth > 4:
                 block("an alias expands to another alias too many times")
-            check_alias(value, rest, ctx, depth, configs)
+            check_alias(value, rest, ctx, depth, configs, repo_dir)
     for a in rest:
         opt = a.partition("=")[0]
         if (is_prefix(opt, "--upload-pack", "--up") or is_prefix(opt, "--receive-pack", "--rece")
@@ -559,6 +575,7 @@ def command_word(seg):
 def check(cmd, depth=0):
     if depth > 4:
         block("the command nests too deeply to check")
+    past_deadline()
     if HIDDEN_GIT_RE.search(cmd):
         block("git found through a substitution ($(which git)) cannot be checked; call git")
     for m in BUILT_GIT_RE.finditer(cmd):
@@ -574,9 +591,13 @@ def check(cmd, depth=0):
         "husky_off": "HUSKY=0" in toks,
         "config_file": any(t.startswith(CONFIG_FILE_ENV) for t in toks),
         # Docs addition: the command may change where git reads aliases from.
-        "moved": any(t in ("cd", "pushd", "popd") or t.startswith(("--git-dir", "--work-tree"))
+        "moved": ("env" in toks and any(t in ("-C", "--chdir") or t.startswith("--chdir=")
+                                        for t in toks)) or any(
+            t in ("cd", "pushd", "popd", "eval", "source") or t.startswith(("--git-dir", "--work-tree"))
                      or re.match(r"^(GIT_[A-Z_]+|HOME|XDG_CONFIG_HOME)=", t) for t in toks),
     }
+    if ctx["moved"]:
+        MOVED[0] = True
     for t in toks:
         m = re.match(r"^GIT_CONFIG_(KEY_\d+|VALUE_\d+|PARAMETERS)=(.*)$", t, re.S)
         if m:

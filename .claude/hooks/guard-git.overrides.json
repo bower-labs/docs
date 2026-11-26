@@ -1,5 +1,5 @@
 {
-  "about": "Docs-only git guard cases, run after guard-git.cases.json (shared: do not edit it here). A case with the same command and branch as a shared one replaces it. fixture_files are added to the shared ones; fixture_config is set in both scratch repos and fixture_config_main only in the main one (saved aliases, for the alias cases).",
+  "about": "Docs-only git guard cases, run after guard-git.cases.json (shared: do not edit it here). A case with the same command and branch as a shared one replaces it. fixture_files are added to the shared ones; fixture_config is set in both scratch repos and fixture_config_main only in the main one (saved aliases, for the alias cases). A case's optional `cwd` is sent as the payload's cwd.",
   "fixture_files": [
     "index.mdx",
     "docs.json"
@@ -149,6 +149,62 @@
       "command": "GIT_DIR=.git git log -1",
       "expect": "allow",
       "branch": "claude/test"
+    },
+    {
+      "command": "git -C {main_repo} mainfp2 origin claude/x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "cd {main_repo} && bash -c \"git mainfp\"",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "GIT_DIR={main_repo}/.git bash -c \"git mainfp\"",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "cd {main_repo} && echo \"git mainfp\" | bash",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "eval 'cd {main_repo}' && git mainfp",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git -C {main_repo}* mainfp",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git -C ../no-such-repo mainfp",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ -c alias.a=b -c alias.b=c -c alias.c=d -c alias.d=_ a; git push --force origin main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git add . && git log -1",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "GIT_PAGER=cat git log -1",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git mainfp origin claude/x",
+      "expect": "deny",
+      "branch": "claude/test",
+      "cwd": "{main_repo}"
     }
   ],
   "fixture_config": {
@@ -160,6 +216,7 @@
     "alias.loop": "loop"
   },
   "fixture_config_main": {
-    "alias.mainfp": "push --force"
+    "alias.mainfp": "push --force",
+    "alias.mainfp2": "mainfp"
   }
 }

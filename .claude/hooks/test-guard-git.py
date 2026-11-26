@@ -20,7 +20,8 @@ HERE = Path(__file__).resolve().parent
 HOOK = HERE / "guard-git.sh"
 # Run from a git hook (pre-commit), git exports GIT_INDEX_FILE and friends; the
 # scratch repos and the guard must not write into the outer commit's index.
-ENV = {k: v for k, v in os.environ.items() if not k.startswith("GIT_")}
+ENV = {k: v for k, v in os.environ.items()
+       if not k.startswith("GIT_") and k != "XDG_CONFIG_HOME"}
 # A developer's own ~/.gitconfig and system config (aliases, hooksPath) must not
 # reach the guard, so verdicts match CI's. HOME is set to the scratch dir below.
 ENV["GIT_CONFIG_NOSYSTEM"] = "1"
@@ -66,7 +67,10 @@ def run(case, repos):
     else:
         label = case["command"].replace("{branch_repo}", str(repos["claude/test"]))
         label = label.replace("{main_repo}", str(repos["main"]))
-        payload = json.dumps({"tool_name": "Bash", "tool_input": {"command": label}})
+        body = {"tool_name": "Bash", "tool_input": {"command": label}}
+        if "cwd" in case:  # the payload's cwd, which the guard moves into
+            body["cwd"] = case["cwd"].replace("{main_repo}", str(repos["main"]))
+        payload = json.dumps(body)
     got = subprocess.run(["bash", str(HOOK)], input=payload, capture_output=True, text=True,
                          cwd=repos[case["branch"]], env=ENV).returncode
     want = 2 if case["expect"] == "deny" else 0
