@@ -21,16 +21,25 @@ HOOK = HERE / "guard-git.sh"
 # Run from a git hook (pre-commit), git exports GIT_INDEX_FILE and friends; the
 # scratch repos and the guard must not write into the outer commit's index.
 ENV = {k: v for k, v in os.environ.items() if not k.startswith("GIT_")}
+# A developer's own ~/.gitconfig and system config (aliases, hooksPath) must not
+# reach the guard, so verdicts match CI's. HOME is set to the scratch dir below.
+ENV["GIT_CONFIG_NOSYSTEM"] = "1"
 
 shared = json.loads((HERE / "guard-git.cases.json").read_text(encoding="utf-8"))
 overrides = json.loads((HERE / "guard-git.overrides.json").read_text(encoding="utf-8"))
 FILES = shared["fixture_files"] + overrides.get("fixture_files", [])
 REFS = shared["fixture_refs"]
 CONFIG = overrides.get("fixture_config", {})
+CONFIG_MAIN = overrides.get("fixture_config_main", {})  # only in the main scratch repo
 # An override replaces the shared case with the same command and branch.
 key = lambda c: (c.get("command", c.get("raw")), c["branch"])
 replaced = {key(c) for c in overrides["cases"]}
 CASES = [c for c in shared["cases"] if key(c) not in replaced] + overrides["cases"]
+bad = [c for c in CASES if c.get("expect") not in ("allow", "deny")
+       or c.get("branch") not in ("claude/test", "main") or ("command" in c) == ("raw" in c)]
+if bad:
+    sys.exit(f"guard-git: malformed cases (expect allow|deny, branch claude/test|main, "
+             f"one of command/raw): {bad[:3]}")
 
 
 def scratch_repo(path, branch):
@@ -46,7 +55,7 @@ def scratch_repo(path, branch):
         "-c", "commit.gpgsign=false", "commit", "-qm", "init")
     for ref in REFS:
         git("update-ref", ref, "HEAD")
-    for name, value in CONFIG.items():
+    for name, value in {**CONFIG, **(CONFIG_MAIN if branch == "main" else {})}.items():
         git("config", name, value)
     return path
 
@@ -65,6 +74,7 @@ def run(case, repos):
 
 
 with tempfile.TemporaryDirectory() as tmp:
+    ENV["HOME"] = tmp
     repos = {"claude/test": scratch_repo(Path(tmp, "branch"), "claude/test"),
              "main": scratch_repo(Path(tmp, "main"), "main")}
     # The guard only reads the scratch repos, so the cases can run side by side.

@@ -20,7 +20,7 @@ Exit 2 blocks the call; anything this cannot parse is blocked, never waved
 through.
 
 Merged from a sibling repo's guard and this repo's (#261), taking the
-stricter rule wherever they differed. This copy is bower-labs/website's at
+stricter rule wherever they differed. This copy is the website repo's at
 1e1548d plus one docs addition, saved_alias(): an alias saved in a config file
 (`alias.fp = push --force`) is checked as what it expands to. Self-contained (python3 standard library
 only) so other repos can copy it. Tests: .claude/hooks/test-guard-git.py.
@@ -32,6 +32,11 @@ import re
 import shlex
 import subprocess
 import sys
+import time
+
+# Claude Code kills a hook at its timeout (10 s in settings.json) and a killed
+# hook does not block, so the guard stops itself first and blocks.
+DEADLINE = time.monotonic() + 8
 
 OPERATORS = {";", "&&", "||", "|", "&", "(", ")", "|&", ";;", "\n", "`"}
 SHELLS = {"sh", "bash", "zsh", "dash", "ksh", "fish"}
@@ -253,25 +258,47 @@ def substitutions(tok):
         yield inner
 
 
-def saved_alias(sub, repo_dir):
+def run_git(args):
+    left = DEADLINE - time.monotonic()
+    if left <= 0:
+        block("checking this command took too long; refusing rather than guessing")
+    try:
+        return subprocess.run(["git", *args], capture_output=True, text=True, timeout=left)
+    except subprocess.TimeoutExpired:
+        block("checking this command took too long; refusing rather than guessing")
+    except OSError:
+        block("could not run git to read its aliases; refusing rather than guessing")
+
+
+_COMMANDS = []
+
+
+def git_commands():
+    if not _COMMANDS:
+        found = run_git(["--list-cmds=main,others,nohelpers"])
+        if found.returncode != 0:
+            block("could not list git's commands; refusing rather than guessing")
+        _COMMANDS.append(set(found.stdout.split()))
+    return _COMMANDS[0]
+
+
+def saved_alias(sub, repo_dir, ctx):
     """Docs addition: an alias saved in a config file (`alias.fp = push --force`
     in ~/.gitconfig) is what `git fp` runs. git ignores an alias that shares a
-    command's name, so only a name git does not know as a command counts."""
+    command's name, so only a name git does not know as a command counts. When
+    the command changes where git looks (cd, --git-dir, GIT_DIR, HOME, a -C the
+    shell expands), the alias cannot be read from here, so it is blocked."""
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]*", sub):
         return None
-    git = ["git"] + (["-C", repo_dir] if repo_dir else [])
-    try:
-        found = subprocess.run(git + ["config", "--get", "alias." + sub],
-                               capture_output=True, text=True, timeout=5)
-        if found.returncode != 0:
-            return None
-        cmds = subprocess.run(["git", "--list-cmds=main,others,nohelpers"],
-                              capture_output=True, text=True, timeout=5)
-    except (OSError, subprocess.TimeoutExpired):
-        block("could not read git's aliases; refusing rather than guessing")
-    if cmds.returncode != 0:
-        block("could not list git's commands; refusing rather than guessing")
-    return None if sub in cmds.stdout.split() else found.stdout.strip()
+    if ctx["moved"] or (repo_dir and re.search(r"[$~`]", repo_dir)):
+        if sub not in git_commands():
+            block(f"git {sub} may be an alias in a repo or config this cannot read; "
+                  "spell the git command out")
+        return None
+    found = run_git((["-C", repo_dir] if repo_dir else []) + ["config", "--get", "alias." + sub])
+    if found.returncode != 0 or sub in git_commands():
+        return None
+    return found.stdout.strip()
 
 
 def check_alias(value, rest, ctx, depth, configs=()):
@@ -280,7 +307,9 @@ def check_alias(value, rest, ctx, depth, configs=()):
     if value.startswith("!"):
         check(value[1:], depth + 1)
     else:
-        outer = [x for c in configs if not c.lower().startswith("alias.") for x in ("-c", c)]
+        # Docs change: alias.* configs carry through, so `-c alias.a=b -c "alias.b=push
+        # --force" a` is followed to the end (check() caps the depth).
+        outer = [x for c in configs for x in ("-c", c)]
         try:
             check_git(outer + tokens(value) + rest, ctx, depth + 1)
         except ValueError:
@@ -289,6 +318,8 @@ def check_alias(value, rest, ctx, depth, configs=()):
 
 def check_git(args, ctx, depth=0, via_xargs=False):
     """args: everything after the `git` token. ctx: flags set for the whole command."""
+    if depth > 4:
+        block("an alias expands to another alias too many times")
     configs, i, repo_dir = [], 0, None
     while i < len(args) and args[i].startswith("-"):
         a = args[i]
@@ -336,7 +367,7 @@ def check_git(args, ctx, depth=0, via_xargs=False):
         if config_key_is_dangerous(key) and not key.lower().startswith("core.hookspath"):
             block(f"-c {key} can run a program, let clean delete files or change what push does")
     if not inline_alias:
-        value = saved_alias(sub, repo_dir)
+        value = saved_alias(sub, repo_dir, ctx)
         if value is not None:
             if depth > 4:
                 block("an alias expands to another alias too many times")
@@ -542,6 +573,9 @@ def check(cmd, depth=0):
     ctx = {
         "husky_off": "HUSKY=0" in toks,
         "config_file": any(t.startswith(CONFIG_FILE_ENV) for t in toks),
+        # Docs addition: the command may change where git reads aliases from.
+        "moved": any(t in ("cd", "pushd", "popd") or t.startswith(("--git-dir", "--work-tree"))
+                     or re.match(r"^(GIT_[A-Z_]+|HOME|XDG_CONFIG_HOME)=", t) for t in toks),
     }
     for t in toks:
         m = re.match(r"^GIT_CONFIG_(KEY_\d+|VALUE_\d+|PARAMETERS)=(.*)$", t, re.S)
@@ -624,6 +658,10 @@ def check(cmd, depth=0):
 try:
     payload = json.load(sys.stdin)
     command = payload.get("tool_input", {}).get("command", "")
+    # Docs addition: git reads aliases from where the command runs, which is the
+    # payload's cwd, not necessarily the hook's.
+    if isinstance(payload.get("cwd"), str) and os.path.isdir(payload["cwd"]):
+        os.chdir(payload["cwd"])
 except Exception:
     block("could not read the hook input; refusing rather than guessing")
 if not isinstance(command, str):

@@ -1,5 +1,5 @@
 {
-  "source": "bower-labs/website .claude/hooks/test-guard-git.py at 1e1548d785196683cca8ba821d25bbcc44401f3e",
+  "source": "the website repo's .claude/hooks/test-guard-git.py at 1e1548d785196683cca8ba821d25bbcc44401f3e",
   "about": "Shared git guard cases. Keep this file byte-identical in every repo that copies the guard; put repo-specific cases in guard-git.overrides.json. Each case runs in a scratch repo holding fixture_files and fixture_refs, checked out on `branch`. {branch_repo} and {main_repo} are the scratch repos' paths. `raw` is sent as the hook's stdin instead of a payload built from `command`.",
   "fixture_files": [
     "AGENTS.md",

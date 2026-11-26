@@ -1,5 +1,5 @@
 {
-  "about": "Docs-only git guard cases, run after guard-git.cases.json (shared: do not edit it here). A case with the same command and branch as a shared one replaces it. fixture_files are added to the shared ones; fixture_config is set in both scratch repos (saved aliases, for the alias cases).",
+  "about": "Docs-only git guard cases, run after guard-git.cases.json (shared: do not edit it here). A case with the same command and branch as a shared one replaces it. fixture_files are added to the shared ones; fixture_config is set in both scratch repos and fixture_config_main only in the main one (saved aliases, for the alias cases).",
   "fixture_files": [
     "index.mdx",
     "docs.json"
@@ -86,11 +86,6 @@
       "branch": "claude/test"
     },
     {
-      "command": "git -C {main_repo} fp origin claude/x",
-      "expect": "deny",
-      "branch": "claude/test"
-    },
-    {
       "command": "git st",
       "expect": "allow",
       "branch": "claude/test"
@@ -104,6 +99,56 @@
       "command": "git log -1",
       "expect": "allow",
       "branch": "claude/test"
+    },
+    {
+      "command": "git -C {main_repo} mainfp origin claude/x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git mainfp origin claude/x",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "cd {main_repo} && git mainfp origin claude/x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git --git-dir={main_repo}/.git mainfp",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "GIT_DIR={main_repo}/.git git mainfp",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git -C \"$PWD\" fp",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git -c alias.a=b -c 'alias.b=push --force' a",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git -c alias.a=a a",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "cd {main_repo} && git status",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "GIT_DIR=.git git log -1",
+      "expect": "allow",
+      "branch": "claude/test"
     }
   ],
   "fixture_config": {
@@ -113,5 +158,8 @@
     "alias.st": "status",
     "alias.status": "reset --hard",
     "alias.loop": "loop"
+  },
+  "fixture_config_main": {
+    "alias.mainfp": "push --force"
   }
 }
