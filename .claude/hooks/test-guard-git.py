@@ -8,7 +8,8 @@ import subprocess
 import sys
 from pathlib import Path
 
-HOOK = Path(__file__).with_name("guard-git.sh")
+HOOK = Path(__file__).resolve().with_name("guard-git.sh")
+ROOT = HOOK.parents[2]  # path cases such as `git checkout AGENTS.md` need the repo root
 
 BLOCK = [
     # force push, +refspec, --mirror
@@ -41,6 +42,10 @@ BLOCK = [
     "git checkout HEAD AGENTS.md",
     "git switch -f main",
     "git switch --discard-changes main",
+    "git checkout AGENTS.md",
+    "git checkout docs.json 2>/dev/null",
+    "git checkout -B main",
+    "git switch -C main",
     "git restore .",
     "git restore index.mdx",
     "git restore --staged --worktree .",
@@ -82,6 +87,13 @@ BLOCK = [
     "echo `git reset --hard`",
     'echo "$(git reset --hard)"',
     "xargs git branch -D <<< x",
+    "echo 'git reset --hard' | bash",
+    "printf 'git push -f\\n' | sh",
+    "cat <<END-MSG\nhi\nEND-MSG\ngit reset --hard",
+    'echo "<<X"\ngit reset --hard',
+    "cat <<<EOF\ngit reset --hard",
+    "GIT_CONFIG_GLOBAL=/tmp/c git commit -m x",
+    "export GIT_CONFIG_SYSTEM=/tmp/c; git push origin claude/x",
 ]
 
 ALLOW = [
@@ -114,6 +126,14 @@ ALLOW = [
     "git reset HEAD index.mdx",
     "git clean -n",
     "git checkout main",
+    "git checkout main 2>/dev/null",
+    "git checkout main >/dev/null 2>&1",
+    "git checkout -b claude/x origin/main 2>&1",
+    "git log -n 3 > log.txt",
+    "git commit -F - <<'END-MSG'\ndon't git reset --hard\nEND-MSG",
+    "git commit -F - <<EOF\nmsg\nEOF\ngit push -u origin claude/x 2>&1 | tail -1",
+    "xargs git log",
+    "git diff main -- AGENTS.md",
     "git checkout -b feat/x origin/main",
     "git restore --staged index.mdx",
     "git stash list",
@@ -132,7 +152,7 @@ def verdict(command, raw=None):
         {"tool_name": "Bash", "tool_input": {"command": command}}
     )
     return subprocess.run(
-        ["bash", str(HOOK)], input=payload, capture_output=True, text=True
+        ["bash", str(HOOK)], input=payload, capture_output=True, text=True, cwd=ROOT
     ).returncode
 
 

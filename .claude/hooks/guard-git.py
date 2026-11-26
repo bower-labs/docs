@@ -1,8 +1,9 @@
 """PreToolUse guard for Bash: blocks the git commands this repo forbids
 (AGENTS.md): force-push (--force-with-lease is allowed), skipping hooks
 (--no-verify, HUSKY=0, core.hooksPath), reset --hard, clean -f, and (added in
-this repo) checkout/switch/restore that discards edits, stash clear, branch -D,
-pushes to main and --upload-pack/--receive-pack.
+this repo) checkout/switch/restore that discards edits or resets a branch
+(-B/-C), stash clear, branch -D, pushes to main, --upload-pack/--receive-pack
+and GIT_CONFIG_GLOBAL/SYSTEM on a hooked command.
 
 The command is split the way the shell splits it (quotes, &&, ;, |), so a
 quoted flag is still a flag, a commit message is never read as flags, and one
@@ -15,6 +16,7 @@ import json
 import os
 import re
 import shlex
+import subprocess
 import sys
 
 OPERATORS = {";", "&&", "||", "|", "&", "(", ")", "|&", ";;", "\n", "`"}
@@ -24,7 +26,10 @@ SHELLS = {"bash", "sh", "zsh", "dash", "ksh", "eval", "xargs"}
 # Subcommands that run hooks, so --no-verify skips them.
 HOOKED = ("commit", "push", "merge", "rebase", "am", "cherry-pick", "revert")
 PROTECTED = {"main", "master"}
-HEREDOC_RE = re.compile(r"<<-?[ \t]*(['\"]?)([A-Za-z_][A-Za-z0-9_]*)\1")
+# `<<EOF`, `<<-'END-MSG'`; not a `<<<` here-string.
+HEREDOC_RE = re.compile(r"(?<!<)<<(?!<)-?[ \t]*(['\"]?)([^\s'\"<>;|&()]+)\1")
+# Env assignments that point git at another config file, which may set core.hooksPath.
+CONFIG_ENV = ("GIT_CONFIG_GLOBAL=", "GIT_CONFIG_SYSTEM=", "GIT_CONFIG=")
 # git's own options that take the next token as their value.
 GIT_VALUE_OPTS = {"-c", "-C", "--git-dir", "--work-tree", "--namespace", "--exec-path",
                   "--config-env"}
@@ -55,7 +60,32 @@ def strip_heredocs(cmd):
             continue
         out.append(line)
         ends = [m.group(2) for m in HEREDOC_RE.finditer(line)]
+    if ends and "git" in cmd:
+        block("a heredoc never closes; refusing rather than guessing where commands resume")
     return "\n".join(out)
+
+
+def drop_redirects(seg):
+    """`git checkout main 2>/dev/null`: a redirect and its target are not arguments."""
+    out, skip = [], False
+    for t in seg:
+        if skip:
+            skip = False
+        elif t and set(t) <= set("<>&") and ("<" in t or ">" in t):
+            skip = True
+            if out and out[-1].isdigit():
+                out.pop()
+        else:
+            out.append(t)
+    return out
+
+
+def is_rev(arg):
+    try:
+        return subprocess.run(["git", "rev-parse", "--verify", "--quiet", arg + "^{commit}"],
+                              capture_output=True).returncode == 0
+    except OSError:
+        return False
 
 
 def tokens(cmd):
@@ -94,7 +124,7 @@ def segments(toks):
         yield seg
 
 
-def check_git(args, husky_off):
+def check_git(args, husky_off, config_env=False):
     """args: everything after the `git` token."""
     configs, i = [], 0
     while i < len(args) and args[i].startswith("-"):
@@ -112,6 +142,8 @@ def check_git(args, husky_off):
     if any(c.lower().startswith("core.hookspath") for c in configs):
         block("overriding core.hooksPath skips the hooks; fix the failure instead")
     if sub in HOOKED:
+        if config_env:
+            block("pointing git at another config file can skip the hooks")
         if husky_off and sub in ("commit", "push"):
             block("HUSKY=0 skips the hooks; fix the failure instead")
         if sub != "commit" and any(is_prefix(a, "--no-verify", "--no-veri") for a in rest):
@@ -168,7 +200,9 @@ def check_git(args, husky_off):
         for a in rest:
             if skip:
                 skip = False
-            elif a in ("-b", "-B", "-c", "-C", "--orphan"):
+            elif a in ("-B", "-C"):
+                block(f"git {sub} {a} resets an existing branch; use -b/-c for a new one")
+            elif a in ("-b", "-c", "--orphan"):
                 skip = True
             elif not a.startswith("-"):
                 positional.append(a)
@@ -176,6 +210,8 @@ def check_git(args, husky_off):
             any(is_prefix(a, "--force", "--fo") or a == "-f" for a in rest)
             or any(is_prefix(a, "--discard-changes", "--di") for a in rest)
             or (sub == "checkout" and ("--" in rest[:-1] or "." in rest or len(positional) > 1))
+            or (sub == "checkout" and len(positional) == 1
+                and os.path.exists(positional[0]) and not is_rev(positional[0]))
         ):
             block(f"git {sub} of paths (or -f) discards uncommitted edits; commit a WIP instead")
     if sub == "restore":
@@ -204,18 +240,22 @@ def check(cmd, depth=0):
     for t in toks:
         if t.startswith("GIT_CONFIG") and "=" in t and "hookspath" in t.lower():
             block("overriding core.hooksPath skips the hooks; fix the failure instead")
-    for seg in segments(toks):
+    config_env = any(t.startswith(CONFIG_ENV) for t in toks)
+    segs = [drop_redirects(seg) for seg in segments(toks)]
+    # `echo 'git reset --hard' | bash`: a shell anywhere reads the other commands' text.
+    piped_shell = any(seg and os.path.basename(seg[0]) in SHELLS for seg in segs)
+    for seg in segs:
         end = len(seg)
         for n, t in enumerate(seg):
             if t == "git" or t.endswith("/git"):
-                check_git(seg[n + 1:], husky_off)
+                check_git(seg[n + 1:], husky_off, config_env)
                 end = n
                 break
         # `bash -c "git push --force"` and `"$(git reset --hard)"`: check the
         # inner command too. Docs addition: only a shell's argument or a command
         # substitution, never other text such as a message or a grep pattern.
         if depth < 3:
-            shell = any(os.path.basename(t) in SHELLS for t in seg[:end])
+            shell = piped_shell or any(os.path.basename(t) in SHELLS for t in seg[:end])
             for t in seg[:end]:
                 if "git" in t and (
                     (shell and any(c.isspace() for c in t)) or "$(" in t or "`" in t
