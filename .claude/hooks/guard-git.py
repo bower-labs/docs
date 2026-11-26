@@ -1,7 +1,8 @@
 """PreToolUse guard for Bash: blocks the git commands this repo forbids
 (AGENTS.md): force-push (--force-with-lease is allowed), skipping hooks
 (--no-verify, HUSKY=0, core.hooksPath), reset --hard, clean -f, and (added in
-this repo) checkout/restore of paths, stash clear and branch -D.
+this repo) checkout/switch/restore that discards edits, stash clear, branch -D,
+pushes to main and --upload-pack/--receive-pack.
 
 The command is split the way the shell splits it (quotes, &&, ;, |), so a
 quoted flag is still a flag, a commit message is never read as flags, and one
@@ -11,12 +12,22 @@ blocks the call; anything this cannot parse is blocked, never waved through.
 """
 
 import json
+import os
+import re
 import shlex
 import sys
 
-OPERATORS = {";", "&&", "||", "|", "&", "(", ")", "|&", ";;", "\n"}
+OPERATORS = {";", "&&", "||", "|", "&", "(", ")", "|&", ";;", "\n", "`"}
+# Commands that run their argument as shell code: only their quoted arguments
+# are checked as nested commands, so `echo "git reset --hard"` is text.
+SHELLS = {"bash", "sh", "zsh", "dash", "ksh", "eval", "xargs"}
+# Subcommands that run hooks, so --no-verify skips them.
+HOOKED = ("commit", "push", "merge", "rebase", "am", "cherry-pick", "revert")
+PROTECTED = {"main", "master"}
+HEREDOC_RE = re.compile(r"<<-?[ \t]*(['\"]?)([A-Za-z_][A-Za-z0-9_]*)\1")
 # git's own options that take the next token as their value.
-GIT_VALUE_OPTS = {"-c", "-C", "--git-dir", "--work-tree", "--namespace", "--exec-path"}
+GIT_VALUE_OPTS = {"-c", "-C", "--git-dir", "--work-tree", "--namespace", "--exec-path",
+                  "--config-env"}
 # commit options whose value is the next token (a message must not read as flags).
 COMMIT_VALUE_OPTS = {"-m", "-F", "-c", "-C", "-t", "--message", "--file", "--template",
                      "--reuse-message", "--reedit-message", "--author", "--date",
@@ -33,9 +44,24 @@ def is_prefix(arg, option, shortest):
     return len(arg) >= len(shortest) and option.startswith(arg)
 
 
+def strip_heredocs(cmd):
+    """Drop heredoc bodies: they are text (a commit message, usually), and an
+    apostrophe in one ("don't") must not make the whole command unparseable."""
+    lines, out, ends = cmd.split("\n"), [], []
+    for line in lines:
+        if ends:
+            if line.strip() == ends[0]:
+                ends.pop(0)
+            continue
+        out.append(line)
+        ends = [m.group(2) for m in HEREDOC_RE.finditer(line)]
+    return "\n".join(out)
+
+
 def tokens(cmd):
-    # A newline ends a command just as `;` does, so it is punctuation here.
-    lex = shlex.shlex(cmd, posix=True, punctuation_chars="();<>|&\n")
+    # A newline ends a command just as `;` does, so it is punctuation here;
+    # a backtick opens a command substitution just as `$(` does.
+    lex = shlex.shlex(strip_heredocs(cmd), posix=True, punctuation_chars="();<>|&`\n")
     lex.whitespace = " \t\r"
     lex.whitespace_split = True
     return list(lex)
@@ -73,19 +99,25 @@ def check_git(args, husky_off):
     configs, i = [], 0
     while i < len(args) and args[i].startswith("-"):
         if args[i] in GIT_VALUE_OPTS and i + 1 < len(args):
-            if args[i] == "-c":
+            if args[i] in ("-c", "--config-env"):
                 configs.append(args[i + 1])
             i += 2
         else:
+            if args[i].startswith("--config-env="):
+                configs.append(args[i].split("=", 1)[1])
             i += 1
     if i >= len(args):
         return
     sub, rest = args[i], args[i + 1:]
-    if sub in ("commit", "push", "merge", "rebase", "am", "cherry-pick", "revert"):
-        if any(c.lower().startswith("core.hookspath") for c in configs):
-            block("overriding core.hooksPath skips the hooks; fix the failure instead")
+    if any(c.lower().startswith("core.hookspath") for c in configs):
+        block("overriding core.hooksPath skips the hooks; fix the failure instead")
+    if sub in HOOKED:
         if husky_off and sub in ("commit", "push"):
             block("HUSKY=0 skips the hooks; fix the failure instead")
+        if sub != "commit" and any(is_prefix(a, "--no-verify", "--no-veri") for a in rest):
+            block("--no-verify skips the hooks; fix the failure instead")
+    if any(a.startswith(("--upload-pack", "--receive-pack", "--exec=")) for a in rest):
+        block("--upload-pack/--receive-pack/--exec run an arbitrary program")
     if sub == "config" and any(a.lower() == "core.hookspath" for a in rest):
         block("changing core.hooksPath skips the hooks")
     if sub == "push":
@@ -96,8 +128,13 @@ def check_git(args, husky_off):
                 block("force-push is not allowed; use --force-with-lease only if you must")
             if a.startswith("+"):
                 block("a +refspec force-pushes; use --force-with-lease only if you must")
-            if is_prefix(a, "--no-verify", "--no-veri"):
-                block("--no-verify skips the hooks; fix the failure instead")
+            if a == "--all" or a == "--branches":
+                block("git push --all pushes main too; push your branch by name")
+        refspecs = [a for a in rest if not a.startswith("-")][1:]  # after the remote
+        for r in refspecs:
+            dst = r.rsplit(":", 1)[-1].removeprefix("refs/heads/")
+            if dst in PROTECTED:
+                block("pushing to main is not allowed; push a branch and open a PR")
     if sub == "commit":
         skip = False
         for a in rest:
@@ -126,11 +163,21 @@ def check_git(args, husky_off):
                 block("git clean -f deletes untracked files")
     # Docs addition (re-sync with the reference when its hardening lands):
     # the other ways git throws away uncommitted or unmerged work.
-    if sub == "checkout":
-        if "--" in rest[:-1] or "." in rest or any(
-            is_prefix(a, "--force", "--fo") or a == "-f" for a in rest
+    if sub in ("checkout", "switch"):
+        positional, skip = [], False
+        for a in rest:
+            if skip:
+                skip = False
+            elif a in ("-b", "-B", "-c", "-C", "--orphan"):
+                skip = True
+            elif not a.startswith("-"):
+                positional.append(a)
+        if (
+            any(is_prefix(a, "--force", "--fo") or a == "-f" for a in rest)
+            or any(is_prefix(a, "--discard-changes", "--di") for a in rest)
+            or (sub == "checkout" and ("--" in rest[:-1] or "." in rest or len(positional) > 1))
         ):
-            block("git checkout of paths (or -f) discards uncommitted edits; commit a WIP instead")
+            block(f"git {sub} of paths (or -f) discards uncommitted edits; commit a WIP instead")
     if sub == "restore":
         staged = any(a in ("--staged", "-S") for a in rest)
         worktree = any(a in ("--worktree", "-W") for a in rest)
@@ -154,6 +201,9 @@ def check(cmd, depth=0):
             block("could not parse the command (unbalanced quotes?); refusing rather than guessing")
         return
     husky_off = any(t == "HUSKY=0" for t in toks)
+    for t in toks:
+        if t.startswith("GIT_CONFIG") and "=" in t and "hookspath" in t.lower():
+            block("overriding core.hooksPath skips the hooks; fix the failure instead")
     for seg in segments(toks):
         end = len(seg)
         for n, t in enumerate(seg):
@@ -161,12 +211,15 @@ def check(cmd, depth=0):
                 check_git(seg[n + 1:], husky_off)
                 end = n
                 break
-        # `bash -c "git push --force"` and the like: check the inner command too.
-        # Only tokens before `git` (docs addition): git's own arguments, such as a
-        # commit message that names a git command, are text, not commands.
+        # `bash -c "git push --force"` and `"$(git reset --hard)"`: check the
+        # inner command too. Docs addition: only a shell's argument or a command
+        # substitution, never other text such as a message or a grep pattern.
         if depth < 3:
+            shell = any(os.path.basename(t) in SHELLS for t in seg[:end])
             for t in seg[:end]:
-                if "git" in t and any(c.isspace() for c in t):
+                if "git" in t and (
+                    (shell and any(c.isspace() for c in t)) or "$(" in t or "`" in t
+                ):
                     check(t, depth + 1)
 
 

@@ -6,12 +6,12 @@
 - Pages are MDX files with YAML frontmatter
 - Configuration lives in `docs.json`
 - Run `npx mint@4.3.22 dev` to preview locally (auto-selects an available port if 3000 is in use). Call it through `npx` with the version pinned: a globally installed `mint` may not start.
-- Run `npx mint@4.3.22 broken-links` to check links. CI does not run it; `scripts/validate-docs.py` is the gate.
+- Run `npx mint@4.3.22 broken-links` to check links. CI does not run it.
 - Hosted at `docs.bowerlabs.ai`
 - This repo is **public** — treat every file as publicly visible. Never commit API keys, internal URLs, secrets, or system architecture details.
 - Run `python3 scripts/validate-docs.py` before opening a PR — it is what CI runs
 - Turn on the pre-commit hook once per clone: `git config core.hooksPath .githooks`. It runs CI's checks in a few seconds; fix a failure rather than skipping the hook.
-- `.claude/settings.json` wires `.claude/hooks/guard-git.sh` into every agent's Bash calls. It blocks force-push, `reset --hard`, `clean -f`, `checkout`/`restore` of paths, `stash clear`, `branch -D` and skipped hooks. Commit a WIP instead of discarding work. Its tests are `python3 .claude/hooks/test-guard-git.py`.
+- `.claude/settings.json` wires `.claude/hooks/guard-git.sh` into every agent's Bash calls. It blocks git commands that discard work, push to `main` or skip hooks; the hook's docstring lists them. Commit a WIP instead of discarding work. Its tests are `python3 .claude/hooks/test-guard-git.py`.
 
 ## Brand and assets
 
@@ -77,9 +77,9 @@ someone updates only one copy. So:
   Mintlify component before writing a new page or a custom component. Add no
   npm package, script or `.js`/`.css` file for what a built-in component or a
   few lines of MDX does; Mintlify loads every `.js` and `.css` on every page.
-- **When you change a fact, a heading or a page, find everything that points at
-  it**: grep for the page path, the `#anchor` and the old wording, here and in
-  the app repo, and update each hit in the same PR.
+- **When you change a fact or move a page**, grep for the page path and the
+  old wording and update every hit in the same PR. Headings have their own rule
+  under Style preferences.
 - **Say it once on the page too.** No intro that previews the sections, no
   closing summary, no "as mentioned above". A table or a list replaces a
   paragraph that walks through cases.
