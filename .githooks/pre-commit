@@ -6,4 +6,7 @@ cd "$(git rev-parse --show-toplevel)"
 python3 scripts/test-validate-docs.py >/dev/null
 python3 scripts/validate-docs.py
 python3 scripts/check-house-spelling.py
-python3 .claude/hooks/test-guard-git.py >/dev/null
+# The agent git guard's tests (about 350 cases), only when the guard is changing.
+if git diff --cached --name-only | grep -q '^\.claude/hooks/'; then
+  python3 .claude/hooks/test-guard-git.py >/dev/null
+fi

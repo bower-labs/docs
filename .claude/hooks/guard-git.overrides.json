@@ -1,0 +1,117 @@
+{
+  "about": "Docs-only git guard cases, run after guard-git.cases.json (shared: do not edit it here). A case with the same command and branch as a shared one replaces it. fixture_files are added to the shared ones; fixture_config is set in both scratch repos (saved aliases, for the alias cases).",
+  "fixture_files": [
+    "index.mdx",
+    "docs.json"
+  ],
+  "cases": [
+    {
+      "command": "git checkout -- index.mdx",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git checkout docs.json 2>/dev/null",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git restore index.mdx",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git rebase --no-verify x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "GIT_DIR=.git git push --force",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "gh pr create --body \"never git push --force\"",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "gh pr comment 261 --body 'git checkout -- . discards work'",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push -u origin claude/x",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git reset HEAD index.mdx",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git checkout -b feat/x origin/main",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git restore --staged index.mdx",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "python3 scripts/validate-docs.py",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git fp origin claude/x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git rh",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git sh",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git loop",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git -C {main_repo} fp origin claude/x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git st",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git status",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git log -1",
+      "expect": "allow",
+      "branch": "claude/test"
+    }
+  ],
+  "fixture_config": {
+    "alias.fp": "push --force",
+    "alias.rh": "reset --hard",
+    "alias.sh": "!git push -f",
+    "alias.st": "status",
+    "alias.status": "reset --hard",
+    "alias.loop": "loop"
+  }
+}

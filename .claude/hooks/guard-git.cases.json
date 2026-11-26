@@ -1,0 +1,1706 @@
+{
+  "source": "bower-labs/website .claude/hooks/test-guard-git.py at 1e1548d785196683cca8ba821d25bbcc44401f3e",
+  "about": "Shared git guard cases. Keep this file byte-identical in every repo that copies the guard; put repo-specific cases in guard-git.overrides.json. Each case runs in a scratch repo holding fixture_files and fixture_refs, checked out on `branch`. {branch_repo} and {main_repo} are the scratch repos' paths. `raw` is sent as the hook's stdin instead of a payload built from `command`.",
+  "fixture_files": [
+    "AGENTS.md",
+    "package.json",
+    "src/pages/index.astro"
+  ],
+  "fixture_refs": [
+    "refs/heads/main",
+    "refs/heads/feat/x",
+    "refs/remotes/origin/claude/remote-only"
+  ],
+  "cases": [
+    {
+      "command": "git push --force origin x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push \"--force\" origin x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push '-f' origin x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push --forc origin x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push -uf origin x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push origin +main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push origin +HEAD:main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push origin main:+main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push --mirror",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push origin main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push -u origin main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push origin claude/x:main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push origin claude/x main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push origin claude/x HEAD:refs/heads/main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push --all origin",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push --branches origin",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "F=--force; git push $F",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push origin \"$BRANCH\"",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git $SUB --force",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "G=git; $G push --force",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "$(which git) push --force",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "`command -v git` reset --hard",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push origin \"$(git rev-parse --abbrev-ref HEAD)\" --force",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git fetch --upload-pack='touch X; false' .",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push --receive-pack=evil origin claude/x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git -c alias.p=\"push --force\" p",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git -c 'alias.p=!git push -f' p",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git -c alias.P='push --force' p",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git config alias.fp \"push --force\"",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git config alias.x '!sh -c true'",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git config alias.p push && git p --force origin claude/x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git -c core.hooksPath=/dev/null -c alias.c=commit c -m x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=alias.p GIT_CONFIG_VALUE_0=\"push -f\" git p",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git -c 'alias.p=push \"unbalanced' p",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git -c clean.requireForce=false clean -dx",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "X='push --force' git --config-env=alias.p=X p",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "echo \"push --force\" | xargs git",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "echo x | xargs git push origin",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "xargs git branch -D <<< x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push origin --delete feat/x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push origin -d feat/x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push origin :feat/x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git commit --no-verify -m x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git commit --no-verif -m x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git commit -n -m x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git commit -nm x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push --no-verify",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git merge --no-verify x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git rebase --no-verify main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git am --no-verify x.patch",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git cherry-pick --no-verify abc",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git revert --no-verify abc",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "HUSKY=0 git commit -m x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "HUSKY=0 git push",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "bash -c \"HUSKY=0 git commit -m x\"",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git -c core.hooksPath=/dev/null commit -m x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git config core.hooksPath /dev/null",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git config --unset core.hooksPath",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "X=/nonexistent git --config-env=core.hooksPath=X commit -m y",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git --config-env core.hooksPath=X commit -m y",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=core.hooksPath GIT_CONFIG_VALUE_0=/x git commit -m z",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "GIT_CONFIG_PARAMETERS=\"'core.hooksPath'='/x'\" git commit -m z",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "GIT_CONFIG_GLOBAL=/tmp/c git commit -m x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "export GIT_CONFIG_SYSTEM=/tmp/c; git push origin claude/x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git reset --hard origin/main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git reset --ha",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git reset \\\n  --hard",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git clean -fd",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git clean --force",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git clean --force -d",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git checkout -- .",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git checkout .",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git checkout HEAD -- :/",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git checkout -- :/*",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git checkout -- AGENTS.md",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git checkout -f main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git checkout --force main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git checkout HEAD AGENTS.md",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git checkout main -- src/pages/index.astro",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git checkout AGENTS.md",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git checkout package.json 2>/dev/null",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git checkout -B main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git switch -C main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git switch -f main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git switch --discard-changes main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git restore .",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git restore AGENTS.md",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git restore --staged --worktree .",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git restore -W --staged .",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git stash clear",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git branch -D old",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git branch -Dq old",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git branch -d --force old",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git branch --delete --force old",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git branch -df old",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git update-ref -d refs/heads/x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git update-ref --delete refs/heads/x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git worktree remove --force .claude/worktrees/x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git worktree remove -f .claude/worktrees/x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "cd /tmp && git push --force",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git status; git reset --hard",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git status\ngit push --force",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "bash -c \"git push --force\"",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "sh -c 'git clean -fdx'",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "sudo sh -ec 'git reset --hard'",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "eval git reset --hard",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "eval \"git stash clear\"",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "env git push -f",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "env GIT_TRACE=1 git push --force",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "env GIT_DIR=.git git push --force",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "command git branch -D x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "/usr/bin/git reset --hard",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "FOO=1 git push --force",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git -C ../other push --force",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "echo `git reset --hard`",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "echo \"$(git reset --hard)\"",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "echo \"`git clean -fdx`\"",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "ssh host \"git push -f\"",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "watch -t 'git push --force'",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "echo 'git reset --hard' | bash",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "printf 'git push -f\\n' | sh",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "echo git reset --hard | sh",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "bash <<'EOF'\ngit push --force\nEOF",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "cat <<'EOF' | sh\ngit status; git reset --hard\nEOF",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "bash <<< \"git push --force\"",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git commit -F - <<'EOF'\nmsg\nEOF\ngit push origin +main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "cat <<END-MSG\nhi\nEND-MSG\ngit reset --hard",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "echo \"<<X\"\ngit reset --hard",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "cat <<<EOF\ngit reset --hard",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git status # check\ngit push --force origin x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git add . # stage\ngit commit --no-verify -m x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git fetch origin  # update\ngit reset --hard origin/main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git config unset core.hooksPath",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git config --remove-section core",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git config clean.requireForce false && git clean -dx",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git config include.path /tmp/evil.cfg && git commit -m x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git -c include.path=/tmp/evil.cfg commit -m x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git -c core.sshCommand='touch X' fetch origin",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git switch --force-create feature origin/main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git branch -f feature origin/feature",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git branch --force feature HEAD~3",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git branch -M main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push --repo=origin main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push origin '*:*'",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push --prune origin 'refs/heads/*:refs/heads/*'",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git submodule foreach git reset --hard",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push --exec evil origin claude/x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git fetch --upload=evil origin",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push --rece=evil origin claude/x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git clone -u 'touch X' https://example.com/r.git",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "cd src && git checkout pages/index.astro",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git -C src/pages checkout index.astro",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git checkout '*.astro'",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git checkout src/*.astro",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git pull --no-verify",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "$(echo git) reset --hard",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "`echo git` push --force",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "eval $(echo git reset --hard)",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "bash -c \"$(echo git reset --hard)\"",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "bash <(echo git push --force)",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "source <(printf 'git reset --hard')",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "grhh",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "gpf!",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "gpristine",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "cd x && gpf!",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "gpristine && gpf origin x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push origin HEAD:heads/main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push origin claude/x:refs/heads/main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "H=--hard; git reset $H",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git reset $'--hard'",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git reset --{hard,hard}",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git commit --no-verif{y,y} -m x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "{git,push,--force,origin,x}",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git${IFS}push${IFS}--force origin x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push origin {x,main}",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "ggf",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "gp -f origin x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "gp origin main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "gco .",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "grs .",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "gc -n -m x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "echo git reset --hard | env bash",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "echo git reset --hard | sudo sh",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git -c core.pager='git reset --hard' log",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git checkout HEAD --pathspec-from-file=list.txt",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push --mirro origin",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push --al origin",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push --branche origin",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git restore --staged --worktre .",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git reset --har{d..d}",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "g{i..i}t reset --hard",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "/usr/bin/gi? reset --hard",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "{ grhh; }",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "true && { gp -f origin x; }",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "if true; then grhh; fi",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "for i in 1; do gco .; done",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "! grhh",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "time grhh",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git -c remote.foo.url=. -c remote.foo.uploadpack='touch X; false' fetch foo",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git -c core.askPass=/tmp/x fetch origin",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "GIT_CONFIG_GLOBAL=/tmp/c gc -m x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "G=git; $G commit --no-verify -m x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "G=git; $G commit -n",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "G=git; $G -c core.hooksPath=/dev/null commit",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "G=git; $G config core.hooksPath /dev/null",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git rebase --exec=\"git push --force origin x\" main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git rebase --exe \"git reset --hard\" main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git rebase '-xgit reset --hard' main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git filter-branch --tree-filter \"rm -rf src\" HEAD",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "GIT_EDITOR=\"git reset --hard\" git commit",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "GIT_SEQUENCE_EDITOR=\"git push --force\" git rebase -i main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git -c remote.origin.mirror=true push origin",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git -c 'remote.origin.push=+refs/heads/*:refs/heads/*' push origin",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git config remote.origin.mirror true",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git config core.fsmonitor 'git push --force origin x'",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git config core.pager 'git reset --hard'",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=core.fsmonitor GIT_CONFIG_VALUE_0=x git status",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git -c gpg.ssh.program=/tmp/x commit -m x",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git -c merge.x.driver=/tmp/x merge main",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git read-tree -u --reset HEAD",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git checkout-index -f -a",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git stash drop",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "echo Z2l0IHJlc2V0IC0taGFyZA== | base64 -d | bash",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push origin claude/x \\\n  --force",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push origin claude/x \\\n--force",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "bash -c \"bash -c 'bash -c \\\"bash -c \\\\\\\"bash -c git\\\\\\\"\\\"'\"",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git status",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git diff --stat",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push -u origin feat/x",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push -u origin HEAD",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push origin HEAD",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push -u origin \"$(git branch --show-current)\"",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push -u origin \"$(git rev-parse --abbrev-ref HEAD)\"",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push -u origin \\\n  claude/x",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push --force-with-lease origin feat/x",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push -n origin feat/x",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git log -n 3 && git commit -m x",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push origin x && rm -f build.log",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git commit -m \"block -f and -n in the guard\"",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git commit -m \"never git reset --hard or git push --force\"",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git commit -am \"$MSG\"",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git commit -mn",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git commit -F - <<'EOF'\nfix: block git push --force, -n and git branch -D\nEOF",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git commit -F - <<'M'\ndon't push to main\nM",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git commit -F - <<M\nBower's guard: git push --force is blocked\nM\ngit push -u origin claude/x",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git commit -F - <<'END-MSG'\ndon't git reset --hard\nEND-MSG",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git commit -F - <<EOF\nmsg\nEOF\ngit push -u origin claude/x 2>&1 | tail -1",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git commit -F - <<'EOF'\nfix: guard bash -c and git reset --hard\nEOF\npnpm check",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git commit -m \"$(cat <<'EOF'\nfix: block git reset --hard, git push -f\nEOF\n)\"",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "gh pr create --title \"guard git push --force\" --body \"blocks git checkout .\"",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "gh pr comment 40 --body 'git checkout -- . discards work'",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "echo \"git reset --hard\"",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "grep -n \"git push --force\" AGENTS.md",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "python3 -c \"print('git push --force')\"",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git fetch origin",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git switch -c claude/x origin/main",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git switch main",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git checkout --track origin/claude/x",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git merge --ff-only origin/main",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git reset --soft HEAD~1",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git reset HEAD AGENTS.md",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git clean -n",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git checkout main",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git checkout -",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git checkout main 2>/dev/null",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git checkout main >/dev/null 2>&1",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git checkout -b claude/x origin/main 2>&1",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git checkout -b feat/x",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git log -n 3 > log.txt",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "xargs git log",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "ls | xargs git add",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "find . -name '*.py' | xargs grep -l git",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "echo git push --force",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git diff main -- AGENTS.md",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git restore --staged AGENTS.md",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git restore --staged .",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git stash list",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git stash push -u -m wip-tag",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git branch -d merged",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git branch --format=%(refname)",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git worktree list",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git worktree remove .claude/worktrees/x",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git config user.name",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git config alias.st status",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git config core.hooksPath",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git config --get core.hooksPath",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "pnpm check && pnpm build",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "astro dev --background",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "echo \"unbalanced",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git commit -am \"git push -f is now blocked\"",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git commit -qm \"git reset --hard is now blocked\"",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "gh pr merge 39 --squash --subject \"git push -f guard\"",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git log --grep \"git push -f\"",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git log -S \"git reset --hard\" --oneline",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git grep -n \"git push --force\"",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "find . -name '*.md' -exec grep -l \"git push --force\" {} +",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "bash scripts/x.sh && grep -rn \"git push --force\" docs",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "echo '{\"tool_input\": {\"command\": \"git push -f\"}}' | bash .claude/hooks/guard-git.sh",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git commit -m \"Skip <<EOF message bodies in the guard\"",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git log --format='%h <<%an>>' -n 3",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git restore --stage AGENTS.md",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git checkout claude/remote-only",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git status # what changed\ngit diff",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git commit -m \"$(printf 'git push -f is blocked now')\"",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "gh pr create --title x --body \"$(cat <<'EOF'\nDon't git push --force\nEOF\n)\"",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "echo grhh",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git commit -m \"$MSG\"",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git stash push -m \"$TAG\"",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "gst",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "gco main",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "gcb claude/y",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "gp -u origin claude/x",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "gc -m x",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "gl --ff-only",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "if git diff --quiet; then echo clean; fi",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "for f in a b; do git log -1 -- \"$f\"; done",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "time pnpm check",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git checkout --orphan gh-pages",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git rebase --exec 'pnpm check' main",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "GIT_EDITOR=true git commit --amend",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git config user.email t@example.com",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git config pull.rebase true",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "echo aGk= | base64 -d",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git log --format='%h {a,b}' -n 1",
+      "expect": "allow",
+      "branch": "claude/test"
+    },
+    {
+      "command": "git push --repo origin",
+      "expect": "deny",
+      "branch": "main"
+    },
+    {
+      "command": "git push -o ci.skip origin",
+      "expect": "deny",
+      "branch": "main"
+    },
+    {
+      "command": "ggp",
+      "expect": "deny",
+      "branch": "main"
+    },
+    {
+      "command": "git push",
+      "expect": "deny",
+      "branch": "main"
+    },
+    {
+      "command": "git push origin",
+      "expect": "deny",
+      "branch": "main"
+    },
+    {
+      "command": "git push origin HEAD",
+      "expect": "deny",
+      "branch": "main"
+    },
+    {
+      "command": "git push -u origin @",
+      "expect": "deny",
+      "branch": "main"
+    },
+    {
+      "command": "git -C {branch_repo} push origin HEAD",
+      "expect": "allow",
+      "branch": "main"
+    },
+    {
+      "command": "git push -u origin claude/x",
+      "expect": "allow",
+      "branch": "main"
+    },
+    {
+      "command": "git push origin HEAD:claude/x",
+      "expect": "allow",
+      "branch": "main"
+    },
+    {
+      "command": "git -C {main_repo} push origin HEAD",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "raw": "{not json",
+      "expect": "deny",
+      "branch": "claude/test"
+    },
+    {
+      "raw": "{\"tool_name\":\"Bash\",\"tool_input\":{\"command\":42}}",
+      "expect": "deny",
+      "branch": "claude/test"
+    }
+  ]
+}
