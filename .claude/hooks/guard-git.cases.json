@@ -10,10 +10,12 @@
     "{branch_repo} and {main_repo} are replaced by those repos' paths; an optional cwd is sent as the",
     "payload's cwd. expect: block = exit 2, allow = exit 0. policy_cases run against a copy of the",
     "guard with that guard-git.policy.json beside it (null: none; a string: the file's raw text).",
-    "scratch_repos: more scratch repos (branch, extra refs, config) a case's 'on' can name."
+    "scratch_repos: more scratch repos (branch, extra refs, config) a case's 'on' can name.",
+    "A file named only inside a command's input (a diff header, an archive member, an editor script on",
+    "stdin) is out of the guard's reach, so an allow case such as `patch -p1 < x` is no guarantee."
   ],
-  "source": "shared guard cases v3",
-  "guard_sha256": "73585459ad04902605a58770d1c817e8d0488eeed34ea1524d4c7e5be3571dac",
+  "source": "shared guard cases v4",
+  "guard_sha256": "f7e9221d93245188247732a395ad1a3b61d008a8e59656bf498b56a2b84491f9",
   "scratch_files": [
     "AGENTS.md",
     "package.json",
@@ -2915,6 +2917,131 @@
     {
       "command": "git rm --cached -- -f",
       "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git config --get alias.newx status; git newx",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git config get alias.newx status; git newx",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git config --file /tmp/x alias.newx status; git newx",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git config --type=bool alias.newx status; git newx",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -C /tmp config alias.newx status; git newx",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git config --global alias.newx status && git newx",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git config set alias.newx status && git newx",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "tar -xf /tmp/a.tar -C.git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "tar -xf /tmp/a.tar --directory .git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "unzip -o /tmp/a.zip -d.git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "gawk -iinplace '{print}' .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "gawk -i inplace.awk '{print}' .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp -t.git /tmp/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp --target-directory .git /tmp/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "gawk -i /tmp/lib.awk '{print}' .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "X=now git --config-env=gc.reflogExpireUnreachable=X gc --prune=now",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "X=now git --config-env=core.sshCommand=X fetch",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "X=t git --config-env=user.name=X commit -m x",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "ex -sc '%d|x' .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "vi .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "nvim .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "gawk --include=inplace '{print}' .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "tar -xf /tmp/a.tar --directory=.git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "bsdtar -xf /tmp/a.tar -C .git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "gtar -xf /tmp/a.tar -C .git",
+      "expect": "block",
       "on": "branch"
     }
   ],
