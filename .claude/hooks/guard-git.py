@@ -8,9 +8,27 @@ reset a branch with -B/-C, stash clear, branch -D, update-ref -d, worktree
 remove --force, rm -f, reflog expire/delete). A push of the refspec `:`, or
 a bare push whose config pushes more than the branch (push.default=matching,
 remote.*.push, an upstream of main), counts as pushing main. A git config
-file written by hand (printf >> .git/config) is blocked: use git config. A
+file written by hand (printf >> .git/config) is blocked: use git config;
+a writer's options are read the way getopt reads them (clusters such as
+-xvC dir, long-option prefixes such as --dir=), and any command that is not
+a known reader and names a config file is taken to write it. Config keys that run a
+program are refused by every route (-c, --config-env, git config,
+GIT_CONFIG_*, an alias, clone -c, gh repo clone -- -c), and so is a key the
+shell builds ($K=..) and a whole config file named by GIT_CONFIG_GLOBAL or
+GIT_CONFIG_SYSTEM. A
 file named only inside the input (a diff's header for patch, an archive's
-member, an editor script on stdin) is out of reach, like python3 -c.
+member, a config nested inside a copied directory, an editor script on
+stdin, tar --transform, bsdtar -s) is out of reach, like python3 -c. So is a config loaded from a place written
+earlier: HOME or XDG_CONFIG_HOME pointed at a directory, or GIT_DIR at one
+whose config was written before its HEAD. Known gaps, for v7: the words a `!` alias
+or git bisect run hands to its program (git -c alias.y='!eval' y git push
+--force; git bisect run eval git push --force), macOS
+base64 -o (base64 is a reader here), patch -d DIR, a loose writer after a
+cd this cannot follow into git's directory (cd "$(git rev-parse
+--git-dir)" && curl -o config ...), git archive -o; and blocks that fail
+closed: xargs input that mentions config (tsconfig, *.config.ts),
+timeout as a wrapper, and the shapes that run out of time (thousands of
+heredoc openers, assignments, -m words or <(cat openers in one command).
 
 The command is split the way the shell splits it (quotes, &&, ;, |, newlines,
 redirects), so a quoted flag is still a flag, a commit message is never read
@@ -22,11 +40,17 @@ and GIT_CONFIG_* variables. A heredoc that only feeds a message (git commit
 long option (--no-verif), so prefixes are matched. A `git push` whose
 arguments the shell would expand ($F) cannot be checked, so it is blocked.
 Exit 2 blocks the call; anything this cannot parse is blocked, never waved
-through.
+through. So is anything too long to check: a sed or awk word over
+PROGRAM_WORD_MAX characters, rsync with more than 100 operands, and any
+command still being checked after SECONDS.
 
 The command is read in one pass the way the shell reads it (see Reader):
 quotes, $'...' (decoded), $(...) and backticks nested in each other, comments,
-heredocs and arithmetic. Every $(...) the shell would run is checked, in
+heredocs and arithmetic. A quoted or escaped operator word (';', '>', "&&", \\;)
+is an argument, not an operator or a redirect. Where it may be read as one
+again (eval, watch, ssh, find's -exec, a piped echo, git submodule foreach,
+any program not known to run its words directly), the words are also checked
+joined, the way v5 read them. Every $(...) the shell would run is checked, in
 double quotes and unquoted heredocs too. A variable the command sets is read
 as its value when it is run (C='git push -f'; $C). A push of HEAD is judged
 by the branch where it runs, following a literal cd; after a cd this cannot
@@ -43,17 +67,30 @@ pins its SHA-256 in guard-git.cases.json. Self-contained (python3 standard
 library only). Tests: .claude/hooks/test-guard-git.py.
 """
 
+import fnmatch
 import json
 import os
 import re
 import shlex
+import signal
 import subprocess
 import sys
 import time
 
 # Claude Code kills a hook at its timeout (10 s in settings.json) and a killed
-# hook does not block, so the guard stops itself first and blocks.
-DEADLINE = time.monotonic() + 8
+# hook does not block, so the guard stops itself first and blocks. The timer
+# stops it wherever it is (a long regex, a long loop), not only where it checks.
+SECONDS = 8
+DEADLINE = time.monotonic() + SECONDS
+
+
+def out_of_time(signum, frame):
+    print(f"Blocked by .claude/hooks/guard-git.sh: {TOO_LONG}", file=sys.stderr, flush=True)
+    os._exit(2)
+
+
+signal.signal(signal.SIGALRM, out_of_time)
+signal.setitimer(signal.ITIMER_REAL, SECONDS)
 
 OPERATORS = {";", "&&", "||", "|", "&", "(", ")", "|&", ";;", "\n", "`"}
 SHELLS = {"sh", "bash", "zsh", "dash", "ksh", "fish"}
@@ -134,11 +171,20 @@ OMZ_GIT = {
 }
 # Wrappers that run the next word as the command (`| env bash`, `| sudo sh`).
 WRAPPERS = {"env", "sudo", "command", "exec", "nice", "nohup", "time", "doas"}
+# Programs that run their words directly, without a shell reading them again
+# (watch, ssh and unknown programs may join them for one; so may git, through
+# bisect run, submodule foreach, -x/--exec and a `!` alias, saved or inline).
+DIRECT_PROGRAMS = TEXT_CMDS | WRAPPERS | {"xargs"}
 # -c keys whose value git runs as a program.
 PROGRAM_KEYS = ("core.pager", "core.editor", "core.fsmonitor", "core.askpass", "sequence.editor",
-                "diff.external", "gpg.program", "credential.helper", "pager.")
+                "diff.external", "gpg.program", "credential.helper", "pager.", "core.gitproxy",
+                "filter.", "interactive.difffilter", "core.alternaterefscommand",
+                "gpg.ssh.defaultkeycommand", "sendemail.", "uploadpack.packobjectshook", "imap.tunnel",
+                "init.templatedir")
 # A bash brace list (`--{hard,hard}`) expands before git sees it.
 BRACE_RE = re.compile(r"\{[^{}]*(,|\.\.)[^{}]*\}")
+# Text the shell still expands: $K, $(...), backticks, a brace list, a glob.
+EXPANDS_RE = re.compile(r"[$`*?\[]|\{[^{}]*(,|\.\.)[^{}]*\}")
 # Words that open a command position, where zsh still expands an alias.
 RESERVED = {"{", "then", "do", "else", "elif", "!", "time", "if", "while", "until"}
 # Words in assignment position (`HOME=/x git commit`); `echo HOME=/x` is text.
@@ -188,6 +234,12 @@ LITERAL = {"$": LIT_DOLLAR, "`": LIT_TICK}
 ANSI_ESCAPES = {"a": "\a", "b": "\b", "e": "\x1b", "E": "\x1b", "f": "\f", "n": "\n", "r": "\r",
                 "t": "\t", "v": "\v", "\\": "\\", "'": "'", '"': '"', "?": "?"}
 METACHARS = ";&|()<>"
+# Stand-ins for an operator character the shell keeps as text (';', "&&",
+# \;), so a quoted `;` or `>` word is an argument, not an operator or a
+# redirect. A word with other text in it gets its characters back.
+QUOTED_OPS = {c: chr(0xE010 + n) for n, c in enumerate(METACHARS)}
+UNQUOTE_OPS = str.maketrans({v: k for k, v in QUOTED_OPS.items()})
+STAND_INS = set(QUOTED_OPS.values())
 SPLIT_OPS = sorted([";;", "&&", "||", "|&", ";", "&", "|", "(", ")", "`", "\n", "<<<", "<<-",
                     "<<", ">>", "<&", ">&", "&>", ">|", "<", ">"], key=len, reverse=True)
 
@@ -472,6 +524,41 @@ def split_punctuation(tok):
     return out
 
 
+def protect_quoted(text):
+    """Swap each operator character that shlex will read as quoted or
+    escaped (as shlex reads quotes: '...' literal, "..." with backslash
+    escapes, a backslash outside quotes) for its stand-in."""
+    out, quote, i = [], None, 0
+    while i < len(text):
+        c = text[i]
+        if c == "\\" and quote != "'" and i + 1 < len(text):
+            out += [c, QUOTED_OPS.get(text[i + 1], text[i + 1])]
+            i += 2
+            continue
+        if quote and c == quote:
+            quote = None
+        elif not quote and c in "'\"":
+            quote = c
+        elif quote:
+            c = QUOTED_OPS.get(c, c)
+        out.append(c)
+        i += 1
+    return "".join(out)
+
+
+def quoted_words(toks):
+    """A word that is only quoted operator characters (';', '>', "&&") stays
+    a stand-in: text, never an operator. Where a shell reads the words again,
+    check() reads them joined (reparsed)."""
+    return [t if set(t) <= STAND_INS else t.translate(UNQUOTE_OPS) for t in toks]
+
+
+def reparsed(words):
+    """Words a program may join for a shell to read again (eval, watch,
+    ssh, git bisect run): a quoted `;` among them is an operator there."""
+    return " ".join(words).translate(UNQUOTE_OPS)
+
+
 def tokens(cmd, subs=None, read=None):
     # A backslash before a newline joins the lines where the shell joins them
     # (not in single quotes, a comment or a quoted heredoc). A plain newline
@@ -487,11 +574,11 @@ def tokens(cmd, subs=None, read=None):
     text = text.replace("\n", "\n ;")
     if subs is not None:
         subs.extend(reader.subs)
-    lex = shlex.shlex(text, posix=True, punctuation_chars="();<>|&`\n")
+    lex = shlex.shlex(protect_quoted(text), posix=True, punctuation_chars="();<>|&`\n")
     lex.whitespace = " \t\r"
     lex.whitespace_split = True
     lex.commenters = ""
-    return [part for tok in lex for part in split_punctuation(tok)]
+    return quoted_words([part for tok in lex for part in split_punctuation(tok)])
 
 
 def segments(toks, with_ops=False):
@@ -510,20 +597,42 @@ def segments(toks, with_ops=False):
         yield (op, seg) if with_ops else seg
 
 
+# Script names that read the piped text: `bash -`, `bash /dev/stdin`.
+STDIN_NAMES = {"-", "/dev/stdin", "/dev/fd/0"}
+
+
 def reads_stdin_as_code(op, seg):
-    """`... | bash`, `| sh -s`, `| eval`: a shell fed by a pipe with no script
-    operand. `bash scripts/x.sh` runs a file and does not read the other text."""
+    """A program the piped segment runs reads the piped text as code: a shell
+    with no script operand, with -s, or with `-` or /dev/stdin as its script
+    (`| sudo -u u bash`, `| bash /dev/stdin`); eval; source or . of stdin; or
+    a shell xargs runs (`| xargs -I{} sh -c {}`), which gets the text as its
+    words. `bash scripts/x.sh` runs a file and does not read the other text."""
     if op not in ("|", "|&"):
         return False
-    n = 0
-    while n < len(seg) and (os.path.basename(seg[n]) in WRAPPERS or seg[n].startswith("-")
-                            or re.match(r"^[A-Za-z_][A-Za-z0-9_]*=", seg[n])):
-        n += 1
-    word = seg[n] if n < len(seg) else ""
-    if os.path.basename(word) not in SHELLS | {"eval", "source", "."}:
-        return False
-    args = seg[n + 1:]
-    return not any(not a.startswith("-") or "c" in short_flags(a) for a in args)
+    # v5's reading too: past every wrapper, option and assignment, the first
+    # word (`| sudo -E bash`: -E takes no value, which runs_at cannot know).
+    k = 0
+    while k < len(seg) and (os.path.basename(seg[k]) in WRAPPERS or seg[k].startswith("-")
+                            or ASSIGN_RE.match(seg[k])):
+        k += 1
+    if k < len(seg) and os.path.basename(seg[k]) in SHELLS | {"eval", "source", "."} and not any(
+            not a.startswith("-") or "c" in short_flags(a) for a in seg[k + 1:]):
+        return True
+    xargs = False
+    for n, t in enumerate(seg):
+        base = os.path.basename(t)
+        if not runs_at(seg, n):
+            continue
+        if base == "xargs":
+            xargs = True
+        elif base in SHELLS | {"eval", "source", "."}:
+            args = seg[n + 1:]
+            ops = [a for a in args if not a.startswith("-") or a == "-"]
+            flags = "".join(short_flags(a) for a in args)
+            if "c" in flags:  # sh -c TEXT runs TEXT, unless xargs supplies it
+                return xargs
+            return xargs or not ops or ops[0] in STDIN_NAMES or "s" in flags
+    return False
 
 
 def drop_redirects(seg):
@@ -570,7 +679,12 @@ def config_key_is_dangerous(key):
             or key.startswith(PROGRAM_KEYS)
             or key.endswith((".textconv", ".command", ".uploadpack", ".receivepack", ".driver",
                              ".program", ".helper", ".cmd"))
-            or bool(re.match(r"^remote\..+\.(mirror|push)$", key))
+            or bool(re.match(r"^remote\..+\.(mirror|push|vcs)$", key))
+            # ext:: remotes run a command; protocol.allow=always turns them on
+            or key in ("protocol.allow", "protocol.ext.allow")
+            # submodule.<name>.update = !cmd; a difftool, mergetool, man or browser path
+            or bool(re.match(r"^submodule\..+\.update$", key))
+            or bool(re.match(r"^(difftool|mergetool|man|browser)\..+\.path$", key))
             or bool(re.match(r"^gc\..*(reflogexpire|reflogexpireunreachable|pruneexpire)$", key))
             or key.startswith("push.default"))
 
@@ -693,8 +807,14 @@ def check_git(args, ctx, depth=0, via_xargs=False):
         git_dir = git_dir or a.startswith(("--git-dir", "--work-tree"))
         if a == "-C" and i + 1 < len(args):
             repo_dir = os.path.join(repo_dir or "", args[i + 1])  # where git will run
+        if a == "-c" and i + 1 < len(args) and EXPANDS_RE.search(args[i + 1].partition("=")[0]):
+            block("a -c key the shell builds ($K=..., $(...)) cannot be checked; spell the key out")
+        if a.startswith("--exec-path="):  # bare --exec-path only prints it
+            block("--exec-path makes git run its commands from another directory")
         if a.startswith("--config-env"):
             env = a.partition("=")[2] if "=" in a else (args[i + 1] if i + 1 < len(args) else "")
+            if EXPANDS_RE.search(env.partition("=")[0]):
+                block("a --config-env key the shell builds cannot be checked; spell the key out")
             if "hookspath" in env.lower() or env.lower().startswith("alias."):
                 block("--config-env for core.hooksPath or an alias cannot be checked")
             if config_key_is_dangerous(env.partition("=")[0]):
@@ -749,8 +869,12 @@ def check_git(args, ctx, depth=0, via_xargs=False):
             check_alias(value, rest, ctx, depth, configs, repo_dir)
     for a in rest:
         opt = a.partition("=")[0]
-        if (is_prefix(opt, "--upload-pack", "--up") or is_prefix(opt, "--receive-pack", "--rece")
+        # the shortest spellings git 2.54 accepts: --u under clone and ls-remote
+        # (fetch and pull have --update-*), --e under archive
+        if (is_prefix(opt, "--upload-pack", "--u" if sub in ("clone", "ls-remote") else "--up")
+                or is_prefix(opt, "--receive-pack", "--rece")
                 or (sub in ("push", "send-pack") and is_prefix(opt, "--exec", "--exe"))
+                or (sub == "archive" and is_prefix(opt, "--exec", "--e"))
                 or (sub in ("clone", "ls-remote") and "u" in short_flags(a, "u"))):
             block("--upload-pack/--receive-pack/--exec run an arbitrary program")
         if sub == "grep" and (is_prefix(opt, "--open-files-in-pager", "--op")
@@ -758,6 +882,17 @@ def check_git(args, ctx, depth=0, via_xargs=False):
             block("git grep -O runs a program")
         if sub == "difftool" and (is_prefix(opt, "--extcmd", "--ex") or "x" in short_flags(a, "tx")):
             block("git difftool -x runs a program")
+    # init takes --t for --template; clone has --tags too, so needs --te
+    if sub in ("clone", "init") and any(is_prefix(a.partition("=")[0], "--template",
+                                                  "--t" if sub == "init" else "--te")
+                                        for a in rest):
+        block(f"git {sub} --template copies in hooks that run unchecked")
+    # clone -c writes the key into the new repo's config, as git config would
+    for c in option_values(rest, "-c", "--config", "--co", "objuj") if sub == "clone" else []:
+        key = c.partition("=")[0]
+        if EXPANDS_RE.search(key) or key.lower().startswith(("core.hookspath", "alias.")) or (
+                config_key_is_dangerous(key)):
+            block(f"git clone -c {key} saves a key that skips the hooks or runs a program")
     if sub == "send-pack":
         block("git send-pack pushes without the push rules; use git push")
     if sub in HOOKED:
@@ -1018,69 +1153,305 @@ def assignments(toks):
     return found
 
 
-def option_values(args, short, long):
-    """The values an option is given, in every spelling: -Xv, -X v,
-    --long=v and --long v."""
-    out = []
+def option_values(args, short, long, shortest, values=""):
+    """The values an option may be given, read the way getopt does: -Xv,
+    -X v, X inside a cluster (-xvC dir, -rt dir, -od dir), --long=v and
+    --long v, with --long matched by any prefix down to `shortest` (--dir,
+    --incl, --target). In a cluster, as in getopt, X takes the rest of the
+    word, or the next word when X ends it. `values` are the tool's other
+    letters that take a value: one before X ends the cluster (mv -S.tmp is
+    not -t)."""
+    out, letter = [], short[1:]
     for k, a in enumerate(args):
-        if a in (short, long) and k + 1 < len(args):
-            out.append(args[k + 1])
-        elif a.startswith(long + "="):
-            out.append(a[len(long) + 1:])
-        elif short and a.startswith(short) and not a.startswith("--") and len(a) > len(short):
-            out.append(a[len(short):])
+        nxt = [args[k + 1]] if k + 1 < len(args) else []
+        if a.startswith("--"):
+            opt, eq, val = a.partition("=")
+            if long and is_prefix(opt, long, shortest):
+                out += [val] if eq else nxt
+        elif letter and a.startswith("-") and short_flags(a, values + letter).endswith(letter):
+            rest = a[len(short_flags(a, values + letter)) + 1:]
+            out += [rest] if rest else nxt
     return out
 
 
-def written_files(seg):
-    """The files a segment writes: redirect targets, tee and truncate's files,
-    sed/perl/ruby -i's and awk -i inplace's files, the files an editor (ed, ex,
-    vi, vim, nvim) or patch is given, dd of=, what cp, mv, install and ln create
-    (the destination, or each source's name inside it), and a config file in
-    the directory tar -C or unzip -d extracts into."""
-    out = [seg[n + 1] for n, t in enumerate(seg[:-1])
+# Commands that only read the files they are given: a config path in their
+# arguments is not a write. Any other command that names one (sort -o, curl
+# -o, scp, sponge, a script) is taken to write it, unless modeled below.
+READERS = TEXT_CMDS | {
+    "cat", "less", "more", "head", "tail", "wc", "diff", "cmp", "file", "stat", "ls", "bat",
+    "od", "hexdump", "strings", "md5", "md5sum", "shasum", "sha1sum", "sha256sum",
+    "test", "[", "[[", "realpath", "readlink", "dirname", "basename", "cd", "pushd", "jq",
+    "git", "gh", "true", "false", ":", "type", "which", "xargs", "find", "xxd",
+    "zip", "chmod", "chown", "chgrp", "cut", "tac", "nl", "du", "base64", "sha224sum",
+    "sha384sum", "sha512sum", "b2sum", "cksum", "sum"}
+# git, gh, find and xxd can write; written_files models how.
+# Value-taking options of the copy commands, so a value after the operands
+# (cp a .git/config -S bak) is not read as the destination.
+COPY_VALUES = {
+    "cp": ("St", ["--suffix", "--target-directory"]),
+    "mv": ("St", ["--suffix", "--target-directory"]),
+    "ln": ("St", ["--suffix", "--target-directory"]),
+    "install": ("Stmog", ["--suffix", "--target-directory", "--mode", "--owner", "--group"]),
+    "ditto": ("", []),
+    "scp": ("cDFiJloPSX", []),
+}
+# sed, perl and ruby: the letters that take a value, so -si is -s -i.
+IN_PLACE_VALUES = {"sed": "efl", "gsed": "efl", "perl": "eEIMmx", "ruby": "eFIrCx"}
+# A file named in a sed or awk program (sed 'w .git/config', awk print >).
+# It starts only where a name can start, so a long word is read once.
+PROGRAM_FILE_RE = re.compile(r"""(?<![^\s'"<>;])[^\s'"<>;]*(?:\.git/config|\.gitconfig)\b""")
+# A sed or awk word longer than this is refused rather than read.
+PROGRAM_WORD_MAX = 16384
+# rsync: every operand is a source and may be the destination; more pairs
+# than this are refused rather than checked one by one.
+COPY_PAIRS_MAX = 10000
+
+
+def in_place_flags(base, arg):
+    """The letters of one option word, for sed, perl or ruby. perl's -0
+    takes only digits (-0777, -0x0A) and then keeps reading, so -0777pi is
+    -i; -l is not a value letter, so -lpi is -i too."""
+    if base == "perl" and arg.startswith("-") and not arg.startswith("--"):
+        arg = "-" + re.sub(r"0(x[0-9A-Fa-f]*|[0-7]*)", "", arg[1:])
+    return short_flags(arg, IN_PLACE_VALUES[base])
+
+
+def program_files(base, after):
+    """Files a sed or awk program names inside its text: in the program
+    (-e values, else the first operand: sed 'w.git/config') or in any word
+    with a space or > in it. A plain input file (sed -n p .git/config) is
+    not one."""
+    if any(len(a) > PROGRAM_WORD_MAX for a in after):
+        block(f"a {base} word over {PROGRAM_WORD_MAX} characters is too long to check")
+    sed = base in ("sed", "gsed")
+    progs = option_values(after, "-e", "--expression" if sed else "--source", "--e" if sed else "--so")
+    if not progs and not option_values(after, "-f", "--file", "--fil"):
+        progs = operands(after, "efl" if sed else "fvFeiEl", [])[:1]
+    words = progs + [a for a in after if re.search(r"[\s>]", a)]
+    return [m for a in words for m in PROGRAM_FILE_RE.findall(a)]
+
+
+def operands(after, letters, longs):
+    """The operands among a command's words: not options and not the values
+    of the options that take one (-S bak, --suffix bak). `--` ends options."""
+    out, skip, ended = [], False, False
+    for a in after:
+        if skip:
+            skip = False
+        elif ended or not a.startswith("-") or a == "-":
+            out.append(a)
+        elif a == "--":
+            ended = True
+        elif a.startswith("--"):
+            skip = "=" not in a and any(is_prefix(a, lo, lo[:4]) for lo in longs)
+        else:
+            flags = short_flags(a, letters)
+            skip = bool(flags) and flags[-1] in letters and len(flags) == len(a) - 1
+    return out
+
+
+def written_files(seg, words=()):
+    """The files a segment may write, as (path, loose) pairs: redirect
+    targets; tee, truncate and editor files; sed/perl/ruby -i and awk
+    inplace files; patch's files and -o; dd of=; tar -C/--cd/--directory/
+    --one-top-level and unzip -d directories; what cp, mv, install, ln,
+    ditto, scp and rsync create (rsync: every operand, since it takes
+    options after them); files a sed or awk program names; git --output, gh
+    download -O/-D, find -fprint/-fls, xxd's outfile, 7z -o; and, loose, every argument of a command that is not a known
+    reader. A loose path counts only when it names a git config file outright
+    (not through a cd or an expansion this cannot follow)."""
+    out = [(seg[n + 1], False) for n, t in enumerate(seg[:-1])
            if t and set(t) <= set("<>&|") and ">" in t]
     seg = drop_redirects(seg)
+    found = []
     for n, t in enumerate(seg):
         if not runs_at(seg, n):
             continue
         base, after = os.path.basename(t), seg[n + 1:]
+        xargs = [k for k, x in enumerate(seg[:n]) if os.path.basename(x) == "xargs"]
+        if xargs and "{}" not in after:  # xargs supplies operands, last: count them as {}
+            after = after + ["{}"]
         args = [a for a in after if not a.startswith("-")]
-        if base in ("tee", "truncate", "ed", "ex", "vi", "vim", "nvim", "patch"):
-            out += args
-        elif base in ("awk", "gawk") and any(
-                os.path.basename(v) in ("inplace", "inplace.awk")
-                for v in option_values(after, "-i", "--include")):
-            out += args
+        if base in ("tee", "truncate", "ed", "ex", "vi", "vim", "nvim"):
+            found += args
+        elif base in ("awk", "gawk"):
+            # gawk loads inplace(.awk) by -i, -f, -E, -l or @include in the
+            # program; every one of those words names inplace
+            if any("inplace" in a for a in after):
+                found += args
+            found += program_files(base, after)
         elif base in ("tar", "bsdtar", "gtar", "unzip"):
-            dirs = (option_values(after, "-d", "--exdir") if base == "unzip"
-                    else option_values(after, "-C", "--directory"))
-            out += [os.path.join(d, "config") for d in dirs]
-        elif base in ("sed", "gsed", "perl", "ruby") and any(
-                a.startswith("--in-place") or "i" in short_flags(a, "efs") for a in after):
-            out += args
+            dirs = (option_values(after, "-d", None, None) if base == "unzip"
+                    else option_values(after, "-C", "--directory", "--dir")
+                    + option_values(after, "", "--cd", "--cd")
+                    + option_values(after, "", "--one-top-level", "--on"))
+            if base != "unzip" and after and re.fullmatch(r"[A-Za-z]+", after[0]) and "C" in after[0]:
+                dirs += after[1:]  # old style (tar xCf DIR a.tar): its values follow in order
+            found += [os.path.join(d, "config") for d in dirs]
+        elif base in ("7z", "7za", "7zz", "7zr"):
+            found += [os.path.join(a[2:], "config") for a in after if a.startswith("-o")]
+        elif base in IN_PLACE_VALUES:
+            if any(is_prefix(a.partition("=")[0], "--in-place", "--i")
+                   or "i" in in_place_flags(base, a) for a in after):
+                found += args
+            if base in ("sed", "gsed"):
+                found += program_files(base, after)
+        elif base == "git":
+            found += option_values(after, "", "--output", "--outp")
+            at = next((k for k, a in enumerate(after) if a in ("merge-file", "checkout-index")), None)
+            rest = after[at + 1:] if at is not None else []
+            if at is not None and after[at] == "merge-file":  # writes its first file, unless -p
+                if not any(a == "-p" or is_prefix(a, "--stdout", "--std") for a in rest):
+                    found += operands(rest, "L", [])[:1]
+            elif at is not None:  # checkout-index writes <work tree>/<prefix><path>
+                # (GIT_WORK_TREE= already makes the directory unknown, so config counts)
+                trees = option_values(after[:at], "", "--work-tree", "--work")
+                trees += [c.partition("=")[2] for c in option_values(after[:at], "-c", None, None)
+                          if c.lower().startswith("core.worktree=")]
+                paths = operands(rest, "", [])
+                every = any("a" in short_flags(a) or is_prefix(a, "--all", "--a") or a == "--stdin"
+                            for a in rest)  # any path: config, or .gitconfig landing in ~
+                for tree in trees or [""]:
+                    for p in option_values(rest, "", "--prefix", "--pr") or [""]:
+                        out_of = lambda x: os.path.join(tree, p + x) if tree else p + x  # noqa: E731
+                        found += [out_of(x) for x in paths + (["config"] if every else [])]
+                        found += [out_of(x) for x in (".gitconfig", "gitconfig")
+                                  if every and in_home(os.path.dirname(out_of(x)) or ".")]
+        elif base == "gh":
+            if "download" in after:
+                found += option_values(after, "-O", "--output", "--o")
+                found += [os.path.join(d, "config") for d in option_values(after, "-D", "--dir", "--d")]
+        elif base == "find":
+            found += [after[k + 1] for k, a in enumerate(after[:-1])
+                      if a in ("-fprint", "-fprint0", "-fprintf", "-fls")]
+        elif base == "sort":  # reads, except -o
+            found += option_values(after, "-o", "--output", "--o", "ktTS")
+        elif base == "xxd":  # xxd [-r] infile outfile writes outfile
+            found += operands(after, "cglosn", [])[1:2]
+        elif base == "patch":
+            found += args + option_values(after, "-o", "--output", "--ou")
         elif base == "dd":
-            out += [a[3:] for a in after if a.startswith("of=")]
-        elif base in ("cp", "mv", "install", "ln", "rsync") and args:
-            target = next(iter(option_values(after, "-t", "--target-directory")), None)
-            dest, srcs = (target, args) if target else (args[-1], args[:-1])
-            out += [dest] + [os.path.join(dest, os.path.basename(s.rstrip("/"))) for s in srcs]
-    return out
+            found += [a[3:] for a in after if a.startswith("of=")]
+        elif base in COPY_VALUES or base == "rsync":
+            letters, longs = COPY_VALUES.get(base, ("", []))
+            ops = operands(after, letters, longs)
+            if not ops:
+                continue
+            # rsync's -t is --times, and it takes options after the operands
+            # with values this does not list: every operand may be the
+            # destination.
+            targets = [] if base in ("rsync", "ditto") else option_values(
+                after, "-t", "--target-directory", "--t", letters.replace("t", ""))
+            dests, srcs = ((ops, ops) if base == "rsync" else (targets, ops) if targets
+                           else (["."], ops) if base == "ln" and len(ops) == 1
+                           else ([ops[-1]], ops[:-1]))
+            if base == "rsync" and len(ops) ** 2 > COPY_PAIRS_MAX:
+                block("rsync with this many operands is too long to check; split it")
+            if base == "scp":  # only a local destination is written here
+                dests = [d for d in dests if not re.match(r"[^/]*:", d)]
+            # --parents keeps the source's path under dest; -T copies a
+            # directory onto dest itself, as its contents
+            parents = any(is_prefix(a, "--parents", "--pa") for a in after)
+            onto = base != "rsync" and any(re.fullmatch(r"-[A-Za-z]*T[A-Za-z]*", a)
+                       or is_prefix(a, "--no-target-directory", "--no-t") for a in after)
+            # A directory moved, linked or copied recursively lands as
+            # dest/<its name>, so payload/.git makes dest/.git/config; one copied
+            # by its contents (src/, src/.) or a glob (payload/*) can put config
+            # or .gitconfig straight into dest. A config nested deeper inside a
+            # source is out of reach, like an archive member.
+            whole = base in ("mv", "ln", "ditto") or any(
+                re.fullmatch(r"-[A-Za-z]*[rRa][A-Za-z]*", a) or is_prefix(a, "--recursive", "--rec")
+                or is_prefix(a, "--archive", "--ar") for a in after)
+            # scp host:config and rsync host:.gitconfig land under the name
+            name = lambda x: os.path.basename(re.sub(r"^[^/]*:", "", x).rstrip("/") if base in (  # noqa: E731
+                "scp", "rsync") else x.rstrip("/"))
+            for dest in dests:
+                found += [dest] + [os.path.join(dest, name(x)) for x in srcs]
+                if parents:
+                    found += [os.path.join(dest, x.lstrip("/")) for x in srcs]
+                    found += [os.path.join(dest, x.lstrip("/"), "config") for x in srcs]
+                for x in srcs:
+                    # {} is what find -exec or xargs -I puts there: any name
+                    if x.endswith(("/", "/.")) or onto or re.search(r"[*?\[]|\{\}", x):
+                        found.append(os.path.join(dest, "config"))
+                        if in_home(dest):
+                            found.append(os.path.join(dest, ".gitconfig"))
+                    # mv, ln and GNU cp -r ignore a trailing slash: payload/.git/
+                    # still lands as dest/.git
+                    if whole:
+                        found.append(os.path.join(dest, name(x), "config"))
+        elif base not in READERS and base not in WRAPPERS and base not in SHELLS:
+            out += [(a, True) for a in args]
+            out += [(a.partition("=")[2], True) for a in after if a.startswith("--") and "=" in a]
+            vals = args + [a.partition("=")[2] for a in after if a.startswith("--") and "=" in a] + [
+                a[2:] for a in after if a.startswith("-") and not a.startswith("--") and len(a) > 2]
+            out += [(a[2:], True) for a in after
+                    if a.startswith("-") and not a.startswith("--") and len(a) > 2]
+            # a writer given a directory (curl --output-dir .git, wget -P .git,
+            # cpio -p .git, gsutil cp ... .git/) and a config name (an argument,
+            # a URL's last part, or for cpio and pax a name piped in)
+            dirs = [v for v in vals if re.search(r"(^|/)\.git/?$", v)]
+            names = {os.path.basename(v.rstrip("/").split("?")[0]) for v in (
+                vals + (list(words) if base in ("cpio", "pax") else []))} & set(CONFIG_NAMES)
+            out += [(os.path.join(d, nm), True) for d in dirs for nm in names]
+    # {} (find -exec, xargs -I) or a lone $var as the file written: what it
+    # stands for is unknown here, so it counts when the command names a git
+    # config (find .git -name config -exec cp x {} \;, f=$(git rev-parse
+    # --git-path config); cp x "$f").
+    for f, _ in out + [(f, False) for f in found]:
+        var = re.fullmatch(r"\$\{?([A-Za-z_][A-Za-z0-9_]*)\}?", f)
+        sub = re.fullmatch(r"\$\((.*)\)|`(.*)`", f, re.S)  # cp x "$(git rev-parse --git-path config)"
+        said = (words if f == "{}" else [VARS.get(var.group(1), "")] if var
+                else [sub.group(1) or sub.group(2) or ""] if sub else [])
+        if any(re.search(r"\.git(/|\b)|config", w) for w in said):
+            found.append(".git/config")
+    return out + [(f, False) for f in found]
 
 
-def git_config_file(path, here):
+CONFIG_NAMES = ("config", "config.worktree", ".gitconfig", "gitconfig")
+
+
+def in_home(path):
+    """Whether `path` (a directory) is the home directory, from where the
+    segment runs (cd ~ && cp -a dotfiles/ .). After a cd this cannot follow,
+    or into a $dir, dest/config already counts, so the process's own
+    directory stands in."""
+    here = CWD[0]
+    full = os.path.join(here if here not in (None, UNKNOWN) else os.getcwd(), os.path.expanduser(path))
+    return os.path.normpath(full) == os.path.expanduser("~")
+
+
+def brace_words(word):
+    """The words a brace list makes: .git/{config,x} is .git/config .git/x."""
+    m = re.search(r"\{([^{}]*)\}", word)
+    if not m or "," not in m.group(1):
+        return [word]
+    return [w for part in m.group(1).split(",")
+            for w in brace_words(word[:m.start()] + part + word[m.end():])]
+
+
+def git_config_file(path, here, loose=False):
     """Whether `path` is a file git reads config from: ~/.gitconfig,
     .git/config, a worktree's config.worktree, ~/.config/git/config, a bare
     repo's config. A path the shell expands, or a cd this cannot follow,
-    counts when the file is named config."""
+    counts when the file is named config, unless `loose` (a command that may
+    only read it), where an expansion counts only if it mentions git."""
     path = os.path.expanduser(path)
     base = os.path.basename(path.rstrip("/"))
+    if re.search(r"[*?\[{]", base):  # .git/conf?g, ~/.gitconfi*, .git/{config,x}
+        head = os.path.dirname(path.rstrip("/"))
+        names = {n for w in brace_words(base) for n in CONFIG_NAMES if fnmatch.fnmatchcase(n, w)}
+        return any(git_config_file(os.path.join(head, n), here, loose) for n in names)
     if base in (".gitconfig", "gitconfig"):
         return True
     if base not in ("config", "config.worktree"):
         return False
-    if here == UNKNOWN or re.search(r"[$`*?\[{~]", path):
-        return True
+    if re.search(r"[$`*?\[{~]", path):  # $G/config: G was set to .git here
+        known = re.sub(r"\$\{?([A-Za-z_][A-Za-z0-9_]*)\}?", lambda m: VARS.get(m.group(1), m.group(0)), path)
+        return not loose or "git" in known.lower()
+    if here == UNKNOWN:  # a loose path still counts when it names git outright
+        return not loose or bool(re.search(r"(^|/)\.?git(/|$)",
+                                           os.path.dirname(os.path.normpath(path))))
     parent = os.path.dirname(os.path.normpath(os.path.join(here or os.getcwd(), path)))
     return bool(re.search(r"\.git(/|$)|/git$", parent)) or os.path.isfile(
         os.path.join(parent, "HEAD"))
@@ -1181,13 +1552,29 @@ def check(cmd, depth=0):
         if m:
             keys = ([m.group(2)] if m.group(1).startswith("KEY")
                     else re.findall(r"'([^'=]+)'=", m.group(2)) if m.group(1) == "PARAMETERS" else [])
+            if not m.group(1).startswith("VALUE") and EXPANDS_RE.search(m.group(2)):
+                block("a GIT_CONFIG_* key the shell builds cannot be checked; spell the key out")
             if ("hookspath" in m.group(2).lower() or "alias." in m.group(2).lower()
                     or any(config_key_is_dangerous(k) for k in keys)):
                 block("setting core.hooksPath, an alias or a program through GIT_CONFIG_* "
                       "is not allowed")
+        # a whole config file of the command's choosing: no key in it is checked
+        if t in assigns and re.match(r"^GIT_CONFIG(_GLOBAL|_SYSTEM)?=", t) and (
+                t.partition("=")[2] != "/dev/null"):
+            block("GIT_CONFIG_GLOBAL or GIT_CONFIG_SYSTEM loads a config file whose keys cannot "
+                  "be checked")
+        if t.startswith("GIT_EXEC_PATH=") and t in assigns:
+            block("GIT_EXEC_PATH makes git run its commands from another directory")
+        if t.startswith("GIT_TEMPLATE_DIR=") and t in assigns:
+            block("GIT_TEMPLATE_DIR copies in hooks that run unchecked")
+        # GIT_ALLOW_PROTOCOL=ext turns on ext:: remotes, as protocol.allow does.
+        m = re.match(r"^GIT_ALLOW_PROTOCOL=(.*)$", t, re.S)
+        if m and ("ext" in m.group(1) or EXPANDS_RE.search(m.group(1))):
+            block("GIT_ALLOW_PROTOCOL with ext lets a remote run a command")
         # GIT_EDITOR=..., GIT_SEQUENCE_EDITOR=...: git runs the value as a command.
         m = re.match(r"^(GIT_EDITOR|GIT_SEQUENCE_EDITOR|GIT_EXTERNAL_DIFF|GIT_PAGER|GIT_SSH_COMMAND"
-                     r"|GIT_ASKPASS|GIT_SSH|EDITOR|VISUAL|PAGER)=(.*)$", t, re.S)
+                     r"|GIT_ASKPASS|GIT_SSH|GIT_PROXY_COMMAND|SSH_ASKPASS|EDITOR|VISUAL|PAGER)=(.*)$",
+                     t, re.S)
         if m and "git" in m.group(2):
             check(m.group(2), depth + 1)
     raw_segs = list(segments(toks))
@@ -1200,7 +1587,7 @@ def check(cmd, depth=0):
         CWD[0] = here
         # An alias or core.hooksPath written into a config file by hand (printf
         # ... >> .git/config) is never seen by the `git config` checks.
-        if any(git_config_file(f, here) for f in written_files(raw)):
+        if any(git_config_file(f, here, loose) for f, loose in written_files(raw, toks)):
             block("writing a git config file by hand cannot be checked; use git config")
         seg = drop_redirects(raw)
         find_exec = False
@@ -1213,6 +1600,10 @@ def check(cmd, depth=0):
                     find_exec = True
                     continue
                 break  # `xargs grep git`, `echo git push`: git is an argument here
+            if (os.path.basename(t) == "gh" and runs_at(seg, n) and seg[n + 1:n + 3] == ["repo", "clone"]
+                    and "--" in seg[n + 3:]):  # gh repo clone r d -- <git clone options>
+                check_git(["clone"] + seg[seg.index("--", n + 3) + 1:], ctx, depth)
+                break
             if t in ("git", "=git") or t.endswith("/git"):  # zsh: =git is git's path
                 via_xargs = any(os.path.basename(x) == "xargs" for x in seg[:n])
                 check_git(seg[n + 1:], ctx, depth, via_xargs)
@@ -1224,6 +1615,12 @@ def check(cmd, depth=0):
             check(" ".join([VARS[var.group(1)], *map(shlex.quote, seg[at + 1:])]), depth + 1)
         if word == "eval":  # eval "$C": the words, joined, are a command
             check(" ".join(seg[at + 1:]), depth + 1)
+        # eval, find -exec ... ';', watch, ssh and unknown programs may join
+        # their words for a shell or end a list at a quoted `;`: unless each
+        # program here runs its words directly, check them joined too.
+        if any(t and set(t) <= STAND_INS for t in seg) and any(
+                runs_at(seg, n) and os.path.basename(t) not in DIRECT_PROGRAMS for n, t in enumerate(seg)):
+            check(reparsed(seg), depth + 1)
         if word in OMZ_GIT:
             lead = [t for t in seg[:at] if ASSIGN_RE.match(t)]
             check(" ".join([*map(shlex.quote, lead), OMZ_GIT[word],

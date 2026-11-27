@@ -11,11 +11,15 @@
     "payload's cwd. expect: block = exit 2, allow = exit 0. policy_cases run against a copy of the",
     "guard with that guard-git.policy.json beside it (null: none; a string: the file's raw text).",
     "scratch_repos: more scratch repos (branch, extra refs, config) a case's 'on' can name.",
-    "A file named only inside a command's input (a diff header, an archive member, an editor script on",
-    "stdin) is out of the guard's reach, so an allow case such as `patch -p1 < x` is no guarantee."
+    "within_seconds: the most a case's verdict may take; {repeat:TEXT:N} in a command is TEXT written N times.",
+    "A file named only inside a command's input (a diff header, an archive member, a config nested inside a",
+    "copied directory, an editor script on stdin, tar --transform, bsdtar -s) is out of the guard's reach,",
+    "and so is a config loaded from a place written earlier (HOME or XDG_CONFIG_HOME pointed at a directory, GIT_DIR at one whose config was written before its HEAD),",
+    "and the known gaps the guard's docstring lists for v7 (the words a `!` alias or git bisect run hands on, macOS base64 -o, patch -d DIR, a loose writer after an unfollowed cd into git's directory, git archive -o),",
+    "so an allow case such as `patch -p1 < x` is no guarantee."
   ],
-  "source": "shared guard cases v4",
-  "guard_sha256": "f7e9221d93245188247732a395ad1a3b61d008a8e59656bf498b56a2b84491f9",
+  "source": "shared guard cases v6",
+  "guard_sha256": "ccbb02fa6bc8232ba1d35747e44e87e6597fb7fe5d2ef961bab4a5cae9f89c3b",
   "scratch_files": [
     "AGENTS.md",
     "package.json",
@@ -605,6 +609,391 @@
     {
       "command": "eval \"git stash clear\"",
       "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git push -o ';' --force origin x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git commit -m ';' --no-verify",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git clean -e ';' -f",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo x | tee ';' .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git commit -m '>' --no-verify",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "sed -i -e 's/^/[core]\\n\\thooksPath=\\/tmp\\/h\\n/' -e ';' .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git commit -m '<' --no-verify",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git commit -m '&&' --no-verify",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git commit -m '|' --no-verify",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git commit -m \";\" --no-verify",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git push -o \\; --force origin x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "eval git status ';' git push --force origin x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo git status ';' git push --force origin x | sh",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git submodule foreach git status ';' git push --force origin x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "find . -name x -exec rm {} \\; -exec git push --force origin x \\;",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "find .git -name config -exec cp /tmp/evil {} ';'",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "find . -exec rm {} + ; git commit -m ';' --no-verify",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git commit -m ';'",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "echo ';'",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "echo '>' x",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git commit -m '&&'",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "echo 'a;b' && git status",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "find . -name '*.bak' -exec rm {} ';'",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "find . -name '*.md' -exec grep -l git {} \\; -print",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "echo ';' | sh",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git submodule foreach 'git status'",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git commit -m -exec -m ';' --no-verify",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git commit -m '-exec' -m ';' --no-verify",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git commit -m -okdir -m \";\" --no-verify",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git commit -m -execdir -m ';' --no-verify",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git push -o -exec -o ';' --force origin x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git clean -e -exec -e ';' -f",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "find . -name x ; git commit -m -exec -m ';' --no-verify",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "watch git status ';' git push --force origin x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "watch -n 1 git status ';' git commit -m x --no-verify",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "ssh localhost git status ';' git push --force origin x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "nohup watch git status ';' git push --force origin x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo x '>' .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git commit -m -exec -m ';'",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "watch git status",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "node build.js ';'",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "echo git status ';' git push --force origin x",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "nohup echo ';' git push --force origin x",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git commit -m x ';' git push --force origin x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo | xargs echo ';' git push --force origin x",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git bisect run eval git status ';' git push --force origin x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git bisect run watch git status ';' git push --force origin x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c alias.y='!watch' y git status ';' git push --force origin x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo '\\' ; git push --force origin x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git commit -m '(' --no-verify",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git clean -e ')' -f",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git commit -m $';' --no-verify",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git commit -m $'\\x3b' --no-verify",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git bisect run make test ';'",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git commit -m '('",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "echo x ';' git push --force origin x | xargs -I{} sh -c {}",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo x ';' git push --force origin x | sudo -u root sh",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo x ';' git push --force origin x | bash /dev/stdin",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo x ';' git push --force origin x | source /dev/stdin",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo x ';' git commit -m x --no-verify | xargs -I{} bash -c {}",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo git push --force origin x | sudo -u root sh",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo git push --force origin x | bash -s arg",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo git push --force origin x | bash - arg",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "printf '%s\\n' 'git push --force origin x' | . /dev/stdin",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo x | sudo -u root cat",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "echo ';' | xargs -I{} echo {}",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "echo git push --force origin x | bash scripts/x.sh",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "echo git push --force origin x | bash -c 'cat'",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "echo git push --force origin x | grep sh",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "echo 'git push --force origin x' | sudo -E bash",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "printf '%s\\n' 'git commit -m x --no-verify' | sudo -E sh",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo 'git push --force origin x' | sudo -s bash",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo 'git push --force origin x' | command -p bash",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo 'git push --force origin x' | time -p bash",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo 'git push --force origin x' | env -S bash",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo 'git push --force origin x' | sudo -h bash",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo x | sudo -E cat",
+      "expect": "allow",
       "on": "branch"
     },
     {
@@ -3041,6 +3430,1953 @@
     },
     {
       "command": "gtar -xf /tmp/a.tar -C .git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "rsync -tv evil.cfg .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "rsync -t config .git/",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "rsync -tr src/ .git/",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "rsync -a src/ .git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "gawk --incl=inplace '{print}' .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "gawk --incl inplace '{print}' .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "gawk -f inplace -e '{print}' .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "gawk -E inplace.awk .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "gawk --file=inplace -e '{print}' .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "tar -xvC .git -f a.tar",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "tar -xzC .git -f a.tgz",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "tar --dir=.git -xf a.tar",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "tar -xf a.tar --direc .git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp --target=.git config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp -rt .git config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp -vt .git config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp -r src/ .git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "mv --targ .git config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "install -vt .git config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "unzip -od .git a.zip",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "sed --in-pl 's/a/b/' .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "patch --output=.git/config x.diff",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "patch -o.git/config x.diff",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c core.gitProxy=/tmp/p fetch",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c filter.x.smudge=/tmp/p checkout feat/x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c filter.x.clean=/tmp/p add AGENTS.md",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c filter.x.process=/tmp/p status",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c interactive.diffFilter=/tmp/p add -p",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c core.alternateRefsCommand=/tmp/p fetch",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c protocol.ext.allow=always fetch",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c protocol.allow=always fetch",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git config core.gitProxy /tmp/p",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git config filter.x.smudge /tmp/p",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "X=/tmp/p git --config-env=core.gitProxy=X fetch",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git config alias.f '-c core.gitProxy=/tmp/p fetch' && git f",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "K=core.hooksPath; git -c \"$K=/dev/null\" commit -m x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "K=core.hooksPath; git --config-env=\"$K=E\" commit -m x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c \"$(printf core.hooksPath)=/dev/null\" commit -m x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c `echo core.pager`=x log",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c core.{pager,editor}=x log",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=$K GIT_CONFIG_VALUE_0=/dev/null git commit -m x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "rsync -av src/ /tmp/out/",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "rsync -tv a.txt b.txt",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "gawk --include=/tmp/lib.awk '{print}' x",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "gawk -f prog.awk .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "tar -xvC /tmp/out -f a.tar",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "tar --dir=/tmp/out -xf a.tar",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cp --target=/tmp/out config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cp -rt /tmp/out src",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cp -r src/ /tmp/out",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cp -v a.txt b.txt",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "unzip -od /tmp/out a.zip",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "sed -n 1p .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "patch -o /tmp/out.txt x.diff",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git -c core.quotePath=false status",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git -c protocol.version=2 fetch",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git -c color.ui=always log",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git config core.autocrlf false",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git -c user.name=\"$NAME\" commit -m x",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "X=t git --config-env=user.email=X commit -m x",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=user.name GIT_CONFIG_VALUE_0=\"$NAME\" git commit -m x",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "tar xCf .git a.tar",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "tar xfC a.tar .git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "tar xvf a.tar",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "tar xCf /tmp/out a.tar",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git -c gpg.format=ssh -c commit.gpgsign=true -c gpg.ssh.defaultKeyCommand=/tmp/x commit -m x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c difftool.vimdiff.path=/tmp/x difftool --tool=vimdiff",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c mergetool.vimdiff.path=/tmp/x mergetool",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c submodule.foo.update='!sh /tmp/x' submodule update",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c sendemail.sendmailCmd=/tmp/x send-email x.patch",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c sendemail.smtpServer=/tmp/x send-email x.patch",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c uploadpack.packObjectsHook=/tmp/x fetch",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git config man.foo.path /tmp/x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git config browser.foo.path /tmp/x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "GIT_ALLOW_PROTOCOL=ext git fetch",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "GIT_ALLOW_PROTOCOL=file:ext git fetch",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp -r payload/.git ./",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "rsync -a payload/.git .",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "mv payload/.git .",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp -a dotfiles/ ~/",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp payload/* .git/",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp -r src .git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp -R src .git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "rsync --archive src .git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "rsync src/. .git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "gawk --fil=inplace -e '{print}' .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "gawk --e inplace.awk .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "gawk -l inplace -e '{print}' .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "gawk --load=inplace -e '{print}' .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "tar -xf a.tar --one-top-level=.git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "tar -xf a.tar --one .git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c gpg.format=ssh commit -m x",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git -c difftool.prompt=false difftool",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git -c submodule.recurse=true status",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git config man.viewer woman",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "GIT_ALLOW_PROTOCOL=https:ssh git fetch",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cp -r payload/docs /tmp/out",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "rsync -a src /tmp/out",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "mv notes.txt /tmp/out",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cp -a dotfiles/ /tmp/out/",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cp payload/*.md /tmp/out/",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "gawk -l ordchr '{print}' x",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "tar -xf a.tar --one-top-level=/tmp/out",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "unzip -o a.zip -d /tmp/out",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "tar -xf a.tar --cd .git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "rsync -t evil.cfg .git/config --exclude foo",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "rsync evil.cfg .git/ -e ssh",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp evil.cfg .git/config -S bak",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "mv evil.cfg .git/config -S x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "install x .git/config -m 644",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "sed -si s/a/b/ .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "perl -spi -e 's/a/b/' .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "ruby -pi -e 'x' .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "gawk '@include \"inplace\"; {sub(/a/,\"b\")} 1' .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "gawk -e '@include \"inplace\"' -e 1 .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c init.templateDir=/tmp/t clone https://x.test/r.git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git clone --template=/tmp/t https://x.test/r.git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git init --templ /tmp/t r",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "GIT_TEMPLATE_DIR=/tmp/t git clone https://x.test/r.git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git config --global init.templateDir /tmp/t",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "GIT_ALLOW_PROTOCOL=$P git fetch",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "GIT_CONFIG_PARAMETERS=\"'$K'='x'\" git log",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "ln -s /tmp/payload/.git sub",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c core.pag?r=x log",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c 'core.pag*'=x log",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "sort -o .git/config x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "shuf -o .git/config x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "uniq x .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "curl -o .git/config https://x.test/c",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "wget -O .git/config https://x.test/c",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "wget -O.git/config https://x.test/c",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "curl --output=.git/config https://x.test/c",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "scp host:x .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "sponge .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "ditto payload .git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "python3 w.py ~/.gitconfig",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "sort -o \"$(git rev-parse --git-dir)/config\" x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "tar -xf a.tar --cd /tmp/out",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "sed -s -n p .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "perl -ne print .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cp .git/config /tmp/bak",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cp a.txt b.txt -S bak",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "install x /tmp/out/x -m 644",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git clone https://x.test/r.git",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git init r",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git -c color.ui=auto log",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "sort -o /tmp/sorted x",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "curl -o /tmp/c https://x.test/c",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "ditto payload /tmp/out",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "pnpm test",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "npm run build",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "node scripts/x.js config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "python3 scripts/check.py src/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cd \"$D\" && make config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cat .git/config | sort",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "head -5 ~/.gitconfig",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "diff ~/.gitconfig /tmp/x",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "jq . apps/config.json",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "ls -la .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "wc -l .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "stat .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cp evil.cfg .git/config --suffix bak",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "install x .git/config --mode 644",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "node scripts/gen.js \"$OUT/config\"",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "make -C \"$D\" config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "perl -lpi -e 's/^/x/' .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "perl -0pi -e 's/a/b/' .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "perl -0777pi -e 's/a/b/' .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "perl -0x0Api -e 's/a/b/' .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git log -1 --format=x --output=.git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git show --output .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "xxd -r -p payload.hex .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "gh release download v1 --output .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "gh release download v1 -p config -D .git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "find . -maxdepth 0 -fprintf .git/config x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "find . -fls .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cd \"$D\" && sort -o .git/config x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cd \"$D\" && curl -o .git/config https://x.test/c",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cd \"$(git rev-parse --show-toplevel)\" && wget -O .git/config https://x.test/c",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git init --t=/tmp/tpl r",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cd .git && ln -sf /tmp/evil/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cd sub && ln -s /tmp/payload/.git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "ls /tmp/x/config | xargs -I{} cp {} .git/",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cd /tmp/evil && cp --parents .git/config /tmp/repo",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp --parents payload/.git/config .",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp -rT dotfiles ~",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "7z x payload.7z -o.git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "sed -n 'w .git/config' evil.cfg",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "awk '{print > \".git/config\"}' evil.cfg",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "sed 's/a/{repeat:x:80000}/ w .git/config' evil.cfg",
+      "expect": "block",
+      "on": "branch",
+      "within_seconds": 3
+    },
+    {
+      "command": "awk '{print \"{repeat:x:80000}\" > \".git/config\"}' evil.cfg",
+      "expect": "block",
+      "on": "branch",
+      "within_seconds": 3
+    },
+    {
+      "command": "sed 's/a/{repeat:x:80000}/' f.txt",
+      "expect": "block",
+      "on": "branch",
+      "within_seconds": 3
+    },
+    {
+      "command": "gawk '{print \"{repeat:x:80000}\"}' f.txt",
+      "expect": "block",
+      "on": "branch",
+      "within_seconds": 3
+    },
+    {
+      "command": "sed 's/a/{repeat:x:16379}/' f.txt",
+      "expect": "allow",
+      "on": "branch",
+      "within_seconds": 3
+    },
+    {
+      "command": "sed -e 's/a/{repeat:x:16000} /' -e 's/a/{repeat:x:16000} /' -e 's/a/{repeat:x:16000} /' -e 's/a/{repeat:x:16000} /' -e 's/a/{repeat:x:16000} /' -e 's/a/{repeat:x:16000} /' f.txt",
+      "expect": "allow",
+      "on": "branch",
+      "within_seconds": 3
+    },
+    {
+      "command": "awk '{print \"{repeat:x:16000} \"}' '{repeat:x:16000} ' '{repeat:x:16000} ' '{repeat:x:16000} ' '{repeat:x:16000} ' '{repeat:x:16000} '",
+      "expect": "allow",
+      "on": "branch",
+      "within_seconds": 3
+    },
+    {
+      "command": "cp {repeat:src/a :200}/tmp/out",
+      "expect": "allow",
+      "on": "branch",
+      "within_seconds": 3
+    },
+    {
+      "command": "rsync -a {repeat:src/ :99}/tmp/out",
+      "expect": "allow",
+      "on": "branch",
+      "within_seconds": 3
+    },
+    {
+      "command": "rsync -a {repeat:src/ :100}/tmp/out",
+      "expect": "block",
+      "on": "branch",
+      "within_seconds": 3
+    },
+    {
+      "command": "rsync {repeat:a/ :40000}b",
+      "expect": "block",
+      "on": "branch",
+      "within_seconds": 3
+    },
+    {
+      "command": "{repeat:a=b :20000}true",
+      "expect": "block",
+      "on": "branch",
+      "within_seconds": 9.5
+    },
+    {
+      "command": "git -c remote.origin.vcs=evil fetch",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "sed -n 'w ~/.gitconfig' evil.cfg",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "find /tmp/x -name config -exec cp {} .git/ \\;",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "find /tmp/x -name config -exec cp {} .git/ ';'",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "perl -lne print .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "perl -Ilib -ne print .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "perl -Mstrict -ne print .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "sed -n p .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git log --oneline -5",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git log -1 --output=/tmp/out.txt",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "xxd .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "xxd -r -p payload.hex /tmp/out.bin",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "gh release download v1 -D /tmp/out",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "gh pr view 100 --json body",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "find . -name config -print",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "find . -fprint /tmp/list",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cd \"$D\" && sort -o out.txt x",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git clone --tags https://x.test/r.git",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "ln -s /tmp/a b",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "ln -s /tmp/tool",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cp --parents src/a.ts /tmp/out",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cp -rT dotfiles /tmp/out",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "7z x payload.7z -o/tmp/out",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "sed -n 'w /tmp/out' x",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "awk '{print > \"/tmp/out\"}' .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "zip b.zip .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "scp .git/config host:/tmp/",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "chmod 600 ~/.gitconfig",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git -c remote.origin.url=https://x.test/r fetch",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "scp host:/tmp/x /tmp/y",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "rsync -T /tmp/t a /tmp/b",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "sed -fi x .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "find . -name \"*.md\" -exec cp {} /tmp/out/ \\;",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "xxd x .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "xxd -c 16 x .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "find /tmp/x -name config -exec cp -t .git/ {} +",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "xxd .git/config /tmp/dump",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "xxd -c 16 .git/config /tmp/dump",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "scp evil.cfg host:repo/.git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "rsync -T /tmp/t notes.md .git/hooks",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "mv -S.tmp evil.cfg .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "install -gstaff evil.cfg .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "install -otom evil.cfg .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp -bS.t evil.cfg .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "ln -S.t -f evil.cfg .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "scp -oStrictHostKeyChecking=no evil.cfg .git/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "sed -n 'w.git/config' evil.cfg",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "sed -n '$w.git/config' evil.cfg",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "sed 's/x/x/w.git/config' evil.cfg",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "sed -e 'w.git/config' evil.cfg",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "gawk --source='{print > \".git/config\"}' evil.cfg",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "GIT_CONFIG_GLOBAL=/tmp/evil.cfg git status",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "GIT_CONFIG_SYSTEM=/tmp/evil.cfg git log",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "export GIT_CONFIG_GLOBAL=/tmp/evil.cfg; git status",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git clone -c core.hooksPath=/dev/null https://x.test/r.git d",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git clone --config core.fsmonitor=evil https://x.test/r.git d",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git clone --config=alias.st=!evil https://x.test/r.git d",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git clone -c \"$K=x\" https://x.test/r.git d",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "gh repo clone o/r d -- --template=/tmp/tpl",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "gh repo clone o/r d -- -c core.fsmonitor=evil",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp -a dotfiles/ \"$HOME\"",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c imap.tunnel=evil imap-send",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp -vt .git payload/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "mv -S.t -t .git payload/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "mv -S.tmp a b",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "install -m 644 a /tmp/out",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "scp -oStrictHostKeyChecking=no evil.cfg /tmp/out",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "sed -e p .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "sed -n '/x/w /tmp/out' .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "sed -f prog.sed .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "GIT_CONFIG_GLOBAL=/dev/null git status",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "GIT_CONFIG_NOSYSTEM=1 git status",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git clone -c user.name=x https://x.test/r.git d",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git clone --config core.autocrlf=false https://x.test/r.git d",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "gh repo clone o/r d -- --depth 1",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "gh repo clone o/r d",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cp -a dotfiles/ /tmp/out",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git -c imap.folder=x imap-send",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cp -t /tmp/out a b",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "printf '[core]\\n\\thooksPath = /dev/null\\n' >> .git/conf?g",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp evil .git/conf*",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "sed -i s/a/b/ .git/conf[i]g",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp evil .git/{config,x}",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "tee .git/co*g < evil",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp evil ~/.gitconfi?",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp evil ~/.config/git/c*",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp .git/config /tmp/base && git merge-file .git/config /tmp/base /tmp/evil.cfg",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git merge-file -L a .git/config /tmp/base /tmp/evil.cfg",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git add config && git checkout-index --prefix=~/.config/git/ config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git checkout-index --prefix=~/. gitconfig",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git checkout-index --prefix=.git/ -a",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git --work-tree=.git checkout-index config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "GIT_WORK_TREE=.git git checkout-index config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git clone --co=core.fsmonitor=sh https://x.test/r.git d",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "gh repo clone o/r d -- --co=core.fsmonitor=sh",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git ls-remote --u=sh origin",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git clone --u=sh https://x.test/r.git d",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git archive --remote=../repo --exec=/usr/bin/false HEAD",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git archive --remote=../repo --ex=sh HEAD",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "find .git -name config -exec cp /tmp/evil {} \\;",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo .git/config | xargs -I{} cp /tmp/evil {}",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "find .git -name config -exec sed -i s/x/y/ {} +",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "f=$(git rev-parse --git-path config); cp evil \"$f\"",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git checkout-index --prefix=$HOME/ -a",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp x /tmp/conf*",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cp x /tmp/{a,b}",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "ls .git/conf*",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cat .git/conf?g",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git merge-file -p .git/config /tmp/base /tmp/o",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git merge-file src/a.ts /tmp/base /tmp/o",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git checkout-index --prefix=/tmp/out/ -a",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git checkout-index -- src/a.ts",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git clone --depth 1 https://x.test/r.git d",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git ls-remote origin",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git archive -o /tmp/a.tar HEAD",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "find . -name '*.bak' -exec cp tpl {} \\;",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "find .git -name '*.sample' -exec cp {} /tmp/out/ \\;",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "echo a.txt | xargs -I{} cp /tmp/x {}",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "f=/tmp/out; cp evil \"$f\"",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git -c core.worktree=.git checkout-index config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git checkout-index --prefix=~/. -a",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git checkout-index --prefix=$HOME/. -a",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git -c core.worktree=/tmp/wt checkout-index config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "GIT_WORK_TREE=.git git checkout-index src",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git checkout-index config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "mv payload/.git/ .",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "ln -s /tmp/payload/.git/ .",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "ln -s /tmp/payload/.git/ sub",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp -r payload/.git/ .",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp evil \"$(git rev-parse --git-path config)\"",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "tee \"$(git rev-parse --git-path config)\" < evil",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "sort -o \"$(git rev-parse --git-path config)\" x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cp evil \"`git rev-parse --git-path config`\"",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo .git/config | xargs cp evil.cfg",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo .git/config | xargs -n1 cp evil.cfg",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo .git/config | xargs tee",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo .git/config | xargs sort -o",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "ls | xargs cp -t .git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "ls | xargs -J % cp % .git/",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "scp host:config .git/",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "scp host:.gitconfig ~",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "scp host:.gitconfig ~/",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "rsync host:.gitconfig ~",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "curl --output-dir .git -O https://x.test/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "wget -P .git https://x.test/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "wget --directory-prefix=.git https://x.test/config",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "find config | cpio -pdm .git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "pax -rw config .git",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "gsutil cp gs://b/config .git/",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "aws s3 cp s3://b/config .git/",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "gcloud storage cp gs://b/config .git/",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "GIT_PROXY_COMMAND='git push --force' git fetch git://x.test/r",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "GIT_EXEC_PATH=/tmp/evil git ls-remote https://x.test/r",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "git --exec-path=/tmp/evil ls-remote https://x.test/r",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "G=.git; curl -o $G/config https://x.test/c",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "D=.git; sort -o \"$D/config\" x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "f=$(git rev-parse --git-dir); sort -o \"$f/config\" x",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cd ~ && cp -a dotfiles/ .",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cd ~ && git --git-dir=/tmp/r/.git checkout-index --prefix=./ -a",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "mv src/ /tmp/out",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "ln -s /tmp/payload/ sub",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cp evil \"$(mktemp)\"",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "tee \"$(date +%F).log\" < x",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git ls-files | xargs prettier --write",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "ls | xargs cp -t /tmp/out",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "find . -name '*.md' | xargs wc -l",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "scp host:config /tmp/out/",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "curl --output-dir /tmp -O https://x.test/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "wget -P /tmp https://x.test/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "find src | cpio -pdm /tmp/out",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "gsutil cp gs://b/config /tmp/out/",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "GIT_PROXY_COMMAND=/usr/bin/nc git fetch git://x.test/r",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "git --exec-path",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "G=/tmp; curl -o $G/config https://x.test/c",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cd /tmp && cp -a dotfiles/ .",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "sort .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "cut -d= -f1 .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "tac .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "nl .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "du -sh .git",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "base64 .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "sha512sum .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "sort -o /tmp/s .git/config",
+      "expect": "allow",
+      "on": "branch"
+    },
+    {
+      "command": "wget -P .git 'https://x.test/config?raw=1'",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "echo config | xargs -I % cp % .git/",
+      "expect": "block",
+      "on": "branch"
+    },
+    {
+      "command": "cd \"$D\" && cp -a dotfiles/ .",
       "expect": "block",
       "on": "branch"
     }
