@@ -14,19 +14,23 @@ scratch_config, on branch claude/test ("branch") or main ("main", which also
 gets scratch_config_main), with HOME pointed at an empty directory so the
 developer's own git config cannot change a verdict. `scratch_repos` adds more
 (name -> branch, extra refs and config), for a case's `on` to name. A case's optional `cwd`
-is sent as the payload's cwd. `policy_cases` run against a copy of the guard
-with that policy file beside it (or none), so both the default and a stricter
-policy are tested in every repo. Exit 1 on any mismatch.
+is sent as the payload's cwd. A case's optional `within_seconds` is the most
+its verdict may take, and `{repeat:TEXT:N}` in its command stands for TEXT
+written N times, for the long commands the guard must still answer in time.
+`policy_cases` run against a copy of the guard with that policy file beside it
+(or none), so both the default and a stricter policy are tested in every repo. Exit 1 on any mismatch.
 Standard library only, so every repo can copy this runner unchanged.
 """
 
 import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
 import tempfile
+import time
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -74,9 +78,13 @@ def scratch_repo(path, branch, files, refs, config, env):
     return path
 
 
-def verdict(hook, payload, cwd, env):
+def verdict(hook, payload, cwd, env, timeout=None):
     return subprocess.run(["bash", str(hook)], input=payload, capture_output=True, text=True,
-                          cwd=cwd, env=env).returncode
+                          cwd=cwd, env=env, timeout=timeout).returncode
+
+
+def repeat(text):
+    return re.sub(r"\{repeat:(.*?):(\d+)\}", lambda m: m.group(1) * int(m.group(2)), text)
 
 
 def payload_for(command, cwd):
@@ -126,15 +134,24 @@ def main():
                                        {**config, **spec.get("config", {})}, env)
 
         def fill(text):
-            return text.replace("{branch_repo}", str(repos["branch"])).replace(
+            return repeat(text).replace("{branch_repo}", str(repos["branch"])).replace(
                 "{main_repo}", str(repos["main"]))
 
         def run(hook, c, label=""):
             on = c.get("on", "branch")
             cwd = fill(c["cwd"]) if "cwd" in c else repos[on]
-            got = verdict(hook, payload_for(fill(c["command"]), cwd), repos[on], env)
+            limit = c.get("within_seconds")
+            start = time.monotonic()
+            try:
+                got = verdict(hook, payload_for(fill(c["command"]), cwd), repos[on], env,
+                              limit and limit + 5)
+            except subprocess.TimeoutExpired:
+                got = "timeout"
+            took = time.monotonic() - start
             if got != EXIT.get(c["expect"]):
                 failures.append(f"should {c['expect']} (on {on}{label}): {c['command']!r}")
+            elif limit and took > limit:
+                failures.append(f"took {took:.1f}s, over {limit}s (on {on}{label}): {c['command']!r}")
 
         for c in cases:
             run(HERE / "guard-git.sh", c)
