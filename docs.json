@@ -43,6 +43,7 @@
               "capture/batch-import",
               "capture/editor",
               "capture/annotations-and-diagrams",
+              "capture/viewing-attachments",
               "capture/version-history",
               "capture/keyboard-shortcuts"
             ]
